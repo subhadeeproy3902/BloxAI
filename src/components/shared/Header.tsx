@@ -1,7 +1,9 @@
+"use client"
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { MenuIcon } from "lucide-react";
+import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs";
 
 const Header = () => {
   return (
@@ -77,13 +79,13 @@ const Header = () => {
 
           <div className="flex items-center gap-4">
             <div className="sm:flex sm:gap-4">
-              <Button>
-                <Link href="/">Login</Link>
+              <Button asChild>
+                <LoginLink>Login</LoginLink>
               </Button>
 
               <div className="hidden sm:flex">
-                <Button variant="secondary">
-                  <Link href="/">Sign Up</Link>
+                <Button variant="secondary" asChild>
+                  <RegisterLink>Sign up</RegisterLink>
                 </Button>
               </div>
             </div>
