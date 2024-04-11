@@ -35,7 +35,7 @@ function FileList() {
   return (
     <div className="mt-10">
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+        <table className="min-w-full divide-y-2 overflow-hidden divide-gray-200 bg-white text-sm">
           <thead className="ltr:text-left rtl:text-right">
             <tr>
               <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
