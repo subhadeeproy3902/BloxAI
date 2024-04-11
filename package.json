@@ -15,6 +15,8 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "convex": "^1.11.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
     "framer-motion": "^11.0.25",
     "lucide-react": "^0.365.0",
     "moment": "^2.30.1",
