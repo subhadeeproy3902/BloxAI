@@ -1,5 +1,5 @@
 "use client";
-import { api } from "../../../convex/_generated/api";
+import { api } from "@/convex/_generated/api";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useConvex, useMutation, useQuery } from "convex/react";
 import { useEffect } from "react";
@@ -12,11 +12,6 @@ function Dashboard() {
   const getUser = useQuery(api.user.getUser, { email: user?.email });
 
   const createUser = useMutation(api.user.createUser);
-  useEffect(() => {
-    if (user) {
-      checkUser();
-    }
-  }, [user]);
 
   const checkUser = async () => {
     const result = await convex.query(api.user.getUser, { email: user?.email });
@@ -30,6 +25,13 @@ function Dashboard() {
       });
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      checkUser();
+    }
+  }, [user]);
+
   return (
     <div className="p-8">
       <Header />
