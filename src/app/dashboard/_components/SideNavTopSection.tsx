@@ -9,7 +9,7 @@ import {
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs";
 import { Separator } from "@/components/ui/separator";
 import { useConvex } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { api } from "../../../../convex/_generated/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
