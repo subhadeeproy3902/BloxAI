@@ -54,7 +54,7 @@ function Editor({
   }, [fileData]);
 
   useEffect(() => {
-    console.log("triiger Value:", onSaveTrigger);
+    console.log("triger Value:", onSaveTrigger);
     onSaveTrigger && onSaveDocument();
   }, [onSaveTrigger]);
 

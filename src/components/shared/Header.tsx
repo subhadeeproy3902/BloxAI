@@ -1,9 +1,10 @@
-"use client"
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { MenuIcon } from "lucide-react";
 import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs";
+import ThemeTogglebutton from "../ui/ThemeToggle";
 
 const Header = () => {
   return (
@@ -79,6 +80,7 @@ const Header = () => {
 
           <div className="flex items-center gap-4">
             <div className="sm:flex sm:gap-4">
+              <ThemeTogglebutton />
               <Button asChild>
                 <LoginLink>Login</LoginLink>
               </Button>
