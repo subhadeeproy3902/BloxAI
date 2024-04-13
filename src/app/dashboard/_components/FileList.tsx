@@ -1,4 +1,4 @@
-// import { FileListContext } from "@/app/_context/FilesListContext";
+import { FileListContext } from "@/app/_context/FilesListContext";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { Archive, MoreHorizontal } from "lucide-react";
 import moment from "moment";
@@ -23,14 +23,14 @@ export interface FILE {
   _creationTime: number;
 }
 function FileList() {
-  // const { fileList_, setFileList_ } = useContext(FileListContext);
+const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>();
   const { user }: any = useKindeBrowserClient();
   const router = useRouter();
-  // useEffect(() => {
-  //   fileList_ && setFileList(fileList_);
-  //   console.log(fileList_);
-  // }, [fileList_]);
+   useEffect(() => {
+     fileList_ && setFileList(fileList_);
+     console.log(fileList_);
+   }, [fileList_]);
 
   return (
     <div className="mt-10">
