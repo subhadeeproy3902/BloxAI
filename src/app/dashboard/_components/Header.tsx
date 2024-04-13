@@ -13,7 +13,7 @@ function Header() {
       </div>
       <div>
         <Image
-          src={user?.picture}
+          src={user?.picture|| "https://picsum.photos/50"}
           alt="user"
           width={30}
           height={30}

@@ -1,5 +1,5 @@
 "use client";
-import { api } from "@/convex/_generated/api";
+import { api } from "../../../convex/_generated/api";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useConvex, useMutation, useQuery } from "convex/react";
 import { useEffect } from "react";

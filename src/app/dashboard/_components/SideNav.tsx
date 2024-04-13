@@ -5,7 +5,7 @@ import SideNavTopSection, { TEAM } from './SideNavTopSection'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import SideNavBottomSection from './SideNavBottomSection'
 import { useConvex, useMutation } from 'convex/react'
-import { api } from '@/convex/_generated/api'
+import { api } from '../../../../convex/_generated/api'
 import { toast } from 'sonner'
 import { FileListContext } from '@/app/_context/FilesListContext'
 
