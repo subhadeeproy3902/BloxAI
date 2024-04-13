@@ -29,7 +29,6 @@ const { fileList_, setFileList_ } = useContext(FileListContext);
   const router = useRouter();
    useEffect(() => {
      fileList_ && setFileList(fileList_);
-     console.log(fileList_);
    }, [fileList_]);
 
   return (
