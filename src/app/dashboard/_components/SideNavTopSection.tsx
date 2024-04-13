@@ -68,7 +68,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
       cursor-pointer
       "
           >
-            <Image src="/logo-1.png" alt="logo" width={40} height={40} />
+            <Image src="/logo.webp" alt="logo" width={40} height={40} />
             <h2
               className="flex gap-2 
                     items-center
