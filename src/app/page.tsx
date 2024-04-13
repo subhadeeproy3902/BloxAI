@@ -1,3 +1,4 @@
+import { FollowingPointerDemo } from "@/components/shared/FolowingCard";
 import Header from "@/components/shared/Header";
 import { Hero } from "@/components/shared/Hero";
 import StartNow from "@/components/shared/StartNow";
@@ -10,6 +11,7 @@ export default function Home() {
       <Hero />
       <StartNow />
       <AnimatedTooltipPreview />
+      <FollowingPointerDemo />
     </div>
   );
 }
