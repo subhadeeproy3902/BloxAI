@@ -118,7 +118,7 @@ function Editor({
   };
   return (
     <div>
-      <div id="editorjs" className="ml-20"></div>
+      <div id="editorjs" className="ml-20" />
     </div>
   );
 }
