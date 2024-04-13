@@ -9,7 +9,7 @@ import FileList from "./_components/FileList";
 function Dashboard() {
   const convex = useConvex();
   const { user }: any = useKindeBrowserClient();
-  const getUser = useQuery(api.user.getUser, { email: user?.email });
+  
 
   const createUser = useMutation(api.user.createUser);
 
