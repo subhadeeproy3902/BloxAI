@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FollowerPointerCard } from "../ui/following-pointer";
+import { Button } from "../ui/button";
 
 export function FollowingPointerDemo() {
   return (
@@ -13,8 +14,8 @@ export function FollowingPointerDemo() {
             />
           }
         >
-          <div className="relative overflow-hidden h-full rounded-2xl transition duration-200 group bg-white hover:shadow-xl border border-zinc-100">
-            <div className="w-full aspect-w-16 aspect-h-10 bg-gray-100 rounded-tr-lg rounded-tl-lg overflow-hidden xl:aspect-w-16 xl:aspect-h-10 relative min-h-40">
+          <div className="relative overflow-hidden h-full rounded-2xl transition duration-200 group bg-background hover:shadow-xl border">
+            <div className="w-full aspect-w-16 aspect-h-10 bg-secondary rounded-tr-lg rounded-tl-lg overflow-hidden xl:aspect-w-16 xl:aspect-h-10 relative min-h-40">
               <Image
                 src={blogContent.image}
                 alt="thumbnail"
@@ -24,19 +25,19 @@ export function FollowingPointerDemo() {
               />
             </div>
             <div className=" p-4">
-              <h2 className="font-bold my-4 text-lg text-zinc-700">
+              <h2 className="font-bold my-4 text-lg text-foreground">
                 {blogContent.title}
               </h2>
-              <h2 className="font-normal my-4 text-sm text-zinc-500">
+              <h2 className="font-normal my-4 text-sm text-muted-foreground">
                 {blogContent.description}
               </h2>
               <div className="flex flex-row justify-between items-center mt-10">
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-muted-foreground">
                   {blogContent.date}
                 </span>
-                <div className="relative z-10 px-6 py-2 bg-black text-white font-bold rounded-xl block text-xs">
+                <Button>
                   Read More
-                </div>
+                </Button>
               </div>
             </div>
           </div>
@@ -46,7 +47,7 @@ export function FollowingPointerDemo() {
         <h2 className="text-4xl font-bold">
           For All types of <br /> Flowcharts
         </h2>
-        <p className="max-w-80">
+        <p className="max-w-80 opacity-80">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. In deleniti
           laboriosam debitis iure necessitatibus incidunt, quaerat commodi nobis
           vitae enim voluptatibus porro. Error commodi adipisci odio itaque
@@ -62,8 +63,8 @@ export function FollowingPointerDemo() {
             />
           }
         >
-          <div className="relative overflow-hidden h-full rounded-2xl transition duration-200 group bg-white hover:shadow-xl border border-zinc-100">
-            <div className="w-full aspect-w-16 aspect-h-10 bg-gray-100 rounded-tr-lg rounded-tl-lg overflow-hidden xl:aspect-w-16 xl:aspect-h-10 relative  min-h-40">
+          <div className="relative overflow-hidden h-full rounded-2xl transition duration-200 group bg-background hover:shadow-xl border">
+            <div className="w-full aspect-w-16 aspect-h-10 bg-secondary rounded-tr-lg rounded-tl-lg overflow-hidden xl:aspect-w-16 xl:aspect-h-10 relative min-h-40">
               <Image
                 src={blogContent.image}
                 alt="thumbnail"
@@ -73,19 +74,19 @@ export function FollowingPointerDemo() {
               />
             </div>
             <div className=" p-4">
-              <h2 className="font-bold my-4 text-lg text-zinc-700">
+              <h2 className="font-bold my-4 text-lg text-foreground">
                 {blogContent.title}
               </h2>
-              <h2 className="font-normal my-4 text-sm text-zinc-500">
+              <h2 className="font-normal my-4 text-sm text-muted-foreground">
                 {blogContent.description}
               </h2>
               <div className="flex flex-row justify-between items-center mt-10">
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-muted-foreground">
                   {blogContent.date}
                 </span>
-                <div className="relative z-10 px-6 py-2 bg-black text-white font-bold rounded-xl block text-xs">
+                <Button>
                   Read More
-                </div>
+                </Button>
               </div>
             </div>
           </div>

@@ -13,14 +13,14 @@ function Header() {
       </div>
       <div>
         <Image
-          src={user?.picture|| "https://picsum.photos/50"}
+          src={user?.picture || "https://picsum.photos/50"}
           alt="user"
           width={30}
           height={30}
           className="rounded-full"
         />
       </div>
-      <Button className="gap-2 flex text-sm h-8 hover:bg-blue-700 bg-blue-600">
+      <Button className="gap-2 flex text-sm h-8 hover:bg-blue-700 bg-primary">
         <Send className="h-4 w-4" /> Invite
       </Button>
     </div>
