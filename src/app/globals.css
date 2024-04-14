@@ -57,7 +57,14 @@
     @apply bg-background text-foreground;
   }
 }
-
+@layer utilities {
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
 ::selection {
-  @apply bg-primary text-accent;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  @apply bg-primary text-white;
 }

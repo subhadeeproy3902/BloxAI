@@ -23,31 +23,30 @@ export interface FILE {
   _creationTime: number;
 }
 function FileList() {
-const { fileList_, setFileList_ } = useContext(FileListContext);
+  const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>();
   const { user }: any = useKindeBrowserClient();
   const router = useRouter();
-   useEffect(() => {
-     fileList_ && setFileList(fileList_);
-     console.log(fileList_);
-   }, [fileList_]);
+  useEffect(() => {
+    fileList_ && setFileList(fileList_);
+  }, [fileList_]);
 
   return (
     <div className="mt-10">
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y-2 overflow-hidden divide-gray-200 bg-white text-sm">
-          <thead className="ltr:text-left rtl:text-right">
+        <table className="min-w-full divide-y-2 overflow-hidden text-sm">
+          <thead className="ltr:text-left rtl:text-right text-primary-foreground">
             <tr>
-              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <td className="whitespace-nowrap px-4 py-2 font-medium">
                 File Name
               </td>
-              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <td className="whitespace-nowrap px-4 py-2 font-medium">
                 Created At
               </td>
-              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <td className="whitespace-nowrap px-4 py-2 font-medium">
                 Edited
               </td>
-              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <td className="whitespace-nowrap px-4 py-2 font-medium">
                 Author
               </td>
             </tr>
@@ -58,19 +57,19 @@ const { fileList_, setFileList_ } = useContext(FileListContext);
               fileList.map((file: FILE, index: number) => (
                 <tr
                   key={index}
-                  className="odd:bg-gray-50 cursor-pointer"
+                  className="odd:bg-muted cursor-pointer"
                   onClick={() => router.push("/workspace/" + file._id)}
                 >
-                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-primary-foreground">
                     {file.fileName}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                  <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
                     {moment(file._creationTime).format("DD MMM YYYY")}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                  <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
                     {moment(file._creationTime).format("DD MMM YYYY")}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                  <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
                     {user && (
                       <Image
                         src={user?.picture}
@@ -81,7 +80,7 @@ const { fileList_, setFileList_ } = useContext(FileListContext);
                       />
                     )}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                  <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
                     <DropdownMenu>
                       <DropdownMenuTrigger>
                         <MoreHorizontal />

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  Excalidraw,
-  MainMenu,
-  WelcomeScreen,
-} from "@excalidraw/excalidraw";
+import { Excalidraw, MainMenu, WelcomeScreen } from "@excalidraw/excalidraw";
 import { FILE } from "../../dashboard/_components/FileList";
 import { useMutation } from "convex/react";
+import { useTheme } from "next-themes";
 import { api } from "../../../../convex/_generated/api";
+
 function Canvas({
   onSaveTrigger,
   fileId,
@@ -17,6 +15,8 @@ function Canvas({
   fileData: FILE;
 }) {
   const [whiteBoardData, setWhiteBoardData] = useState<any>();
+  const { theme } = useTheme();
+  console.log(theme);
 
   const updateWhiteboard = useMutation(api.files.updateWhiteboard);
   useEffect(() => {
@@ -32,7 +32,7 @@ function Canvas({
     <div style={{ height: "670px" }}>
       {fileData && (
         <Excalidraw
-          theme="light"
+          theme={theme === "dark" ? "dark" : "light"}
           initialData={{
             elements: fileData?.whiteboard && JSON.parse(fileData?.whiteboard),
           }}
@@ -41,10 +41,12 @@ function Canvas({
           }
           UIOptions={{
             canvasActions: {
+              changeViewBackgroundColor: true,
               saveToActiveFile: false,
-              loadScene: false,
+              loadScene: true,
               export: { saveFileToDisk: true },
               toggleTheme: true,
+              saveAsImage: true,
             },
           }}
         >
