@@ -54,7 +54,7 @@ function Editor({
   }, [fileData]);
 
   useEffect(() => {
-    console.log("triiger Value:", onSaveTrigger);
+    console.log("triger Value:", onSaveTrigger);
     onSaveTrigger && onSaveDocument();
   }, [onSaveTrigger]);
 
@@ -118,7 +118,7 @@ function Editor({
   };
   return (
     <div>
-      <div id="editorjs" className="ml-20"></div>
+      <div id="editorjs" className="ml-20" />
     </div>
   );
 }
