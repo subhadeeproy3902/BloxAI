@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import ThemeTogglebutton from "@/components/ui/ThemeToggle";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { Search, Send } from "lucide-react";
 import Image from "next/image";
@@ -7,11 +9,12 @@ function Header() {
   const { user }: any = useKindeBrowserClient();
   return (
     <div className="flex justify-end w-full gap-2 items-center">
-      <div className="flex gap-2 items-center border rounded-md p-1">
-        <Search className="h-4 w-4" />
-        <input type="text" placeholder="Search" />
+      <div className="flex gap-2 items-center border rounded-lg p-1">
+        <Search size={24} />
+        <Input type="text" placeholder="Search" className="border-none" />
       </div>
-      <div>
+      <div className="flex gap-2 items-center mx-2" >
+        <ThemeTogglebutton />
         <Image
           src={user?.picture || "https://picsum.photos/50"}
           alt="user"
@@ -20,7 +23,7 @@ function Header() {
           className="rounded-full"
         />
       </div>
-      <Button className="gap-2 flex text-sm h-8 hover:bg-blue-700 bg-primary">
+      <Button>
         <Send className="h-4 w-4" /> Invite
       </Button>
     </div>

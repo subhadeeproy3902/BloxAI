@@ -12,7 +12,6 @@ function Workspace({ params }: any) {
   const convex = useConvex();
   const [fileData, setFileData] = useState<FILE | any>();
   useEffect(() => {
-    console.log("FILEID", params.fileId);
     params.fileId && getFileData();
   }, []);
 
@@ -24,14 +23,12 @@ function Workspace({ params }: any) {
   };
   return (
     <div>
-      <WorkspaceHeader onSave={() => setTriggerSave(!triggerSave)} />
+      <WorkspaceHeader
+        onSave={() => setTriggerSave(!triggerSave)}
+        name={fileData?.fileName || "New Document"}
+      />
 
-      {/* Workspace Layout  */}
-      <div
-        className="grid grid-cols-1
-      md:grid-cols-5"
-      >
-        {/* Document  */}
+      <div className="grid grid-cols-1 md:grid-cols-5">
         <div className="h-screen col-span-2">
           <Editor
             onSaveTrigger={triggerSave}
@@ -39,7 +36,7 @@ function Workspace({ params }: any) {
             fileData={fileData}
           />
         </div>
-        {/* Whiteboard/canvas  */}
+
         <div className=" h-screen border-l col-span-3">
           <Canvas
             onSaveTrigger={triggerSave}

@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import ConvexClientProvider from "./ConvexClientProvider";
 import { ThemeProvider } from "next-themes";
+import { Toaster } from "sonner";
 const poppins = Poppins({ weight: ["400", "700", "600"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,7 +21,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={poppins.className}>
         <ConvexClientProvider>
-          <ThemeProvider attribute="class"> {children}</ThemeProvider>
+          <ThemeProvider attribute="class">
+            {children}
+            <Toaster richColors theme="system" />
+          </ThemeProvider>
         </ConvexClientProvider>
       </body>
     </html>

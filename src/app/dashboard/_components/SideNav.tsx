@@ -30,11 +30,11 @@ function SideNav() {
       (resp) => {
         if (resp) {
           getFiles();
-          toast("File created successfully!");
+          toast.success("File created successfully!");
         }
       },
       (e) => {
-        toast("Error while creating file");
+        toast.error("Error while creating file");
       }
     );
   };
