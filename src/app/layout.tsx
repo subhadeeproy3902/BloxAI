@@ -10,6 +10,19 @@ export const metadata: Metadata = {
   title: "Blox AI",
   description:
     "Blox AI: Draw anything, receive explanations, and choose automatic or personalized documentation. Explore, learn, and document ideas effortlessly on our platform.",
+  openGraph: {
+    type: "website",
+    title: "Blox AI",
+    description:
+      "Draw anything, receive explanations, and choose automatic or personalized documentation. Explore, learn, and document ideas effortlessly on our platform.",
+    images: [
+      {
+        url: "https://i.postimg.cc/rzXzkRgz/opengraph-image.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
