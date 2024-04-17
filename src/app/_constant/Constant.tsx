@@ -1,3 +1,3 @@
-export default{
-  MAX_FREE_FILE:10,
-}
+export default {
+  MAX_FREE_FILE: 69,
+};

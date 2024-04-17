@@ -35,7 +35,7 @@ function FileList() {
     <div className="mt-10">
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y-2 overflow-hidden text-sm">
-          <thead className="ltr:text-left rtl:text-right text-primary-foreground">
+          <thead className="ltr:text-left rtl:text-right">
             <tr>
               <td className="whitespace-nowrap px-4 py-2 font-medium">
                 File Name
@@ -52,15 +52,15 @@ function FileList() {
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-stone-600">
             {fileList &&
               fileList.map((file: FILE, index: number) => (
                 <tr
                   key={index}
-                  className="odd:bg-muted cursor-pointer"
+                  className="odd:bg-muted/50 cursor-pointer"
                   onClick={() => router.push("/workspace/" + file._id)}
                 >
-                  <td className="whitespace-nowrap px-4 py-2 font-medium text-primary-foreground">
+                  <td className="whitespace-nowrap px-4 py-2 font-medium">
                     {file.fileName}
                   </td>
                   <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">

@@ -4,6 +4,7 @@ import { FILE } from "../../dashboard/_components/FileList";
 import { useMutation } from "convex/react";
 import { useTheme } from "next-themes";
 import { api } from "../../../../convex/_generated/api";
+import { toast } from "sonner";
 
 function Canvas({
   onSaveTrigger,
@@ -26,7 +27,10 @@ function Canvas({
     updateWhiteboard({
       _id: fileId,
       whiteboard: JSON.stringify(whiteBoardData),
-    }).then((resp) => console.log(resp));
+    })
+      .catch((e) => {
+        toast.error("Failed to save whiteboard!");
+      });
   };
   return (
     <div style={{ height: "670px" }}>
@@ -42,7 +46,7 @@ function Canvas({
           UIOptions={{
             canvasActions: {
               changeViewBackgroundColor: true,
-              saveToActiveFile: false,
+              saveToActiveFile: true,
               loadScene: true,
               export: { saveFileToDisk: true },
               toggleTheme: true,

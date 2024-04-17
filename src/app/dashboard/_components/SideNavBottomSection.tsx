@@ -52,7 +52,9 @@ function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
       {/* Add New File Button  */}
       <Dialog>
         <DialogTrigger className="w-full" asChild>
-          <Button className="my-2">New File <File size={20}/></Button>
+          <Button className="my-2">
+            New File <File size={20} />
+          </Button>
         </DialogTrigger>
         {totalFiles < Constant.MAX_FREE_FILE ? (
           <DialogContent>
@@ -69,9 +71,6 @@ function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
             <DialogFooter className="">
               <DialogClose asChild>
                 <Button
-                  type="button"
-                  className="bg-primary
-            hover:bg-blue-700"
                   disabled={!(fileInput && fileInput.length > 3)}
                   onClick={() => onFileCreate(fileInput)}
                 >
@@ -86,11 +85,11 @@ function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
       </Dialog>
 
       {/* Progress Bar  */}
-      <div className="h-4 w-full bg-gray-200 rounded-full mt-5">
+      <div className="h-4 w-full bg-accent rounded-full mt-5">
         <div
-          className={`h-4  bg-primary rounded-full`}
-          style={{ width: `${(totalFiles / 5) * 100}%` }}
-        ></div>
+          className={`h-4 bg-primary rounded-full`}
+          style={{ width: `${(totalFiles / Constant.MAX_FREE_FILE) * 100}%` }}
+        />
       </div>
 
       <h2 className="text-[12px] mt-3">

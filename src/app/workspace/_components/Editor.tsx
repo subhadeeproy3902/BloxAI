@@ -54,16 +54,11 @@ function Editor({
   }, [fileData]);
 
   useEffect(() => {
-    console.log("triger Value:", onSaveTrigger);
     onSaveTrigger && onSaveDocument();
   }, [onSaveTrigger]);
 
   const initEditor = () => {
     const editor = new EditorJS({
-      /**
-       * Id of Element that should contain Editor instance
-       */
-
       tools: {
         header: {
           class: Header,
@@ -98,16 +93,15 @@ function Editor({
       ref.current
         .save()
         .then((outputData) => {
-          console.log("Article data: ", outputData);
           updateDocument({
             _id: fileId,
             document: JSON.stringify(outputData),
           }).then(
             (resp) => {
-              toast("Document Updated!");
+              toast.success("Document Saved!");
             },
             (e) => {
-              toast("Server Error!");
+              toast.error("Server Error!");
             }
           );
         })
