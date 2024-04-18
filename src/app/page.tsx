@@ -6,7 +6,7 @@ import { AnimatedTooltipPreview } from "@/components/shared/TooltipSection";
 
 export default function Home() {
   return (
-    <div className="">
+    <div className="relative">
       <Header />
       <Hero />
       <StartNow />
