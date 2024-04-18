@@ -14,7 +14,7 @@ const Header = () => {
           <div className="md:flex md:items-center md:gap-12">
             <Link className="block text-primary" href="/">
               <span className="sr-only">Home</span>
-              <Image src="/blox.webp" alt="" width={30} height={30} />
+              <Image src="/blox.webp" className="w-8 h-8" alt="" width={50} height={50} />
             </Link>
           </div>
 

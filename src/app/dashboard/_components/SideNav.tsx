@@ -18,7 +18,6 @@ function SideNav() {
     activeTeam && getFiles();
   }, [activeTeam]);
   const onFileCreate = (fileName: string) => {
-    console.log(fileName);
     createFile({
       fileName: fileName,
       teamId: activeTeam?._id,
@@ -43,7 +42,6 @@ function SideNav() {
     const result = await convex.query(api.files.getFiles, {
       teamId: activeTeam?._id,
     });
-    console.log(result);
     setFileList_(result);
     setTotalFiles(result?.length);
   };
