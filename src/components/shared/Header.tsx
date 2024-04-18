@@ -14,7 +14,12 @@ const Header = () => {
           <div className="md:flex md:items-center md:gap-12">
             <Link className="block text-primary" href="/">
               <span className="sr-only">Home</span>
-              <Image src="/blox.webp" className="w-8 h-8" alt="" width={50} height={50} />
+              <Image
+                src="/android-chrome-192x192.png"
+                alt=""
+                width={50}
+                height={50}
+              />
             </Link>
           </div>
 
@@ -44,15 +49,6 @@ const Header = () => {
                     className="transition text-foreground hover:text-foreground/75"
                     href="/"
                   >
-                    History
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className="transition text-foreground hover:text-foreground/75"
-                    href="/"
-                  >
                     Services
                   </Link>
                 </li>
@@ -63,15 +59,6 @@ const Header = () => {
                     href="/"
                   >
                     Projects
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className="transition text-foreground hover:text-foreground/75"
-                    href="/"
-                  >
-                    Blog
                   </Link>
                 </li>
               </ul>

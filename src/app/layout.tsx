@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import ConvexClientProvider from "./ConvexClientProvider";
@@ -7,10 +7,22 @@ import { Toaster } from "sonner";
 
 const poppins = Poppins({ weight: ["400", "700", "600"], subsets: ["latin"] });
 
+export const viewport: Viewport = {
+  themeColor: "black",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: true,
+};
+
 export const metadata: Metadata = {
   title: "Blox AI",
   description:
     "Blox AI: Draw anything, receive explanations, and choose automatic or personalized documentation. Explore, learn, and document ideas effortlessly on our platform.",
+  manifest: "/manifest.json",
+  icons: {
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     type: "website",
     title: "Blox AI",
