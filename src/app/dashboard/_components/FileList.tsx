@@ -1,9 +1,6 @@
-import { FileListContext } from "@/app/_context/FilesListContext";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { Archive, MoreHorizontal } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
-import React, { useContext, useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,14 +19,18 @@ export interface FILE {
   _id: string;
   _creationTime: number;
 }
-function FileList() {
-  const { fileList_, setFileList_ } = useContext(FileListContext);
-  const [fileList, setFileList] = useState<any>();
-  const { user }: any = useKindeBrowserClient();
+
+function FileList({
+  fileList,
+  picture,
+}: {
+  fileList: FILE[];
+  picture: string;
+}) {
   const router = useRouter();
-  useEffect(() => {
-    fileList_ && setFileList(fileList_);
-  }, [fileList_]);
+
+  // Ensure fileList is always an array
+  const safeFileList = Array.isArray(fileList) ? fileList : [];
 
   return (
     <div className="mt-10">
@@ -51,49 +52,55 @@ function FileList() {
               </td>
             </tr>
           </thead>
-
           <tbody className="divide-y divide-stone-600">
-            {fileList &&
-              fileList.map((file: FILE, index: number) => (
-                <tr
-                  key={index}
-                  className="odd:bg-muted/50 cursor-pointer"
-                  onClick={() => router.push("/workspace/" + file._id)}
-                >
-                  <td className="whitespace-nowrap px-4 py-2 font-medium">
-                    {file.fileName}
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
-                    {moment(file._creationTime).format("DD MMM YYYY")}
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
-                    {moment(file._creationTime).format("DD MMM YYYY")}
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
-                    {user && (
-                      <Image
-                        src={user?.picture}
-                        alt="user"
-                        width={30}
-                        height={30}
-                        className="rounded-full"
-                      />
-                    )}
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger>
-                        <MoreHorizontal />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem className="gap-3">
-                          <Archive className="h-4 w-4" /> Archive
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+            {
+              // Add a message if there are no files
+              !safeFileList.length && (
+                <tr className="relative h-16">
+                  <td className="whitespace-nowrap text-gray-400 w-full absolute px-4 py-2 mt-5 text-center font-medium">
+                    No files found
                   </td>
                 </tr>
-              ))}
+              )
+            }
+            {safeFileList.map((file: FILE, index: number) => (
+              <tr
+                key={index}
+                className="odd:bg-muted/50 cursor-pointer"
+                onClick={() => router.push("/workspace/" + file._id)}
+              >
+                <td className="whitespace-nowrap px-4 py-2 font-medium">
+                  {file.fileName}
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
+                  {moment(file._creationTime).format("DD MMM YYYY")}
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
+                  {moment(file._creationTime).format("DD MMM YYYY")}
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
+                  <Image
+                    src={picture}
+                    alt="user"
+                    width={30}
+                    height={30}
+                    className="rounded-full"
+                  />
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <MoreHorizontal />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem className="gap-3">
+                        <Archive className="h-4 w-4" /> Archive
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
