@@ -28,7 +28,7 @@ function CreateTeam() {
   };
   return (
     <div className=" px-6 md:px-16 my-16">
-      <Image src="/blox.webp" alt="logo" width={50} height={50} />
+      <Image src="/android-chrome-512x512.png" alt="logo" width={50} height={50} />
       <div className="flex flex-col items-center mt-8 gap-4">
         <h2 className="font-bold text-[40px] py-3">
           What should we call your team?

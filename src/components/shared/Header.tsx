@@ -15,7 +15,7 @@ const Header = () => {
             <Link className="block text-primary" href="/">
               <span className="sr-only">Home</span>
               <Image
-                src="/android-chrome-192x192.png"
+                src="/android-chrome-512x512.png"
                 alt=""
                 width={50}
                 height={50}
