@@ -1,4 +1,4 @@
-import { Archive, MoreHorizontal } from "lucide-react";
+import { Archive, MoreHorizontal, Trash2 } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
 import {
@@ -8,6 +8,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import { useMutation } from "convex/react";
+import { api } from "../../../../convex/_generated/api";
+import { Id } from "../../../../convex/_generated/dataModel";
+
 
 export interface FILE {
   archive: boolean;
@@ -31,6 +35,13 @@ function FileList({
 
   // Ensure fileList is always an array
   const safeFileList = Array.isArray(fileList) ? fileList : [];
+
+  const deleteFile = useMutation(api.files.deleteFile);
+  const deleteFunc = async (id: string) => {
+    await deleteFile({ _id: id as Id<"files">});
+    // Refresh the page
+    window.location.reload();
+  };
 
   return (
     <div className="mt-10">
@@ -64,12 +75,11 @@ function FileList({
               )
             }
             {safeFileList.map((file: FILE, index: number) => (
-              <tr
-                key={index}
-                className="odd:bg-muted/50 cursor-pointer"
-                onClick={() => router.push("/workspace/" + file._id)}
-              >
-                <td className="whitespace-nowrap px-4 py-2 font-medium">
+              <tr key={index} className="odd:bg-muted/50 cursor-pointer">
+                <td
+                  className="whitespace-nowrap px-4 py-2 font-medium"
+                  onClick={() => router.push("/workspace/" + file._id)}
+                >
                   {file.fileName}
                 </td>
                 <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
@@ -95,6 +105,12 @@ function FileList({
                     <DropdownMenuContent>
                       <DropdownMenuItem className="gap-3">
                         <Archive className="h-4 w-4" /> Archive
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="gap-3 text-red-500"
+                        onClick={() => deleteFunc(file._id)}
+                      >
+                        <Trash2 className="h-4 w-4" /> Delete
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
