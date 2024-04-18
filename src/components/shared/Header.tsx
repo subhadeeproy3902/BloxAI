@@ -5,8 +5,15 @@ import { Button } from "../ui/button";
 import { MenuIcon } from "lucide-react";
 import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs";
 import ThemeTogglebutton from "../ui/ThemeToggle";
+import { useState } from "react";
 
 const Header = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleMenuOpen = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
     <header className="dark:bg-background border-b sticky">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -23,7 +30,7 @@ const Header = () => {
             </Link>
           </div>
 
-          <div className="hidden md:block">
+          <div className="hidden md:block sm:pl-40">
             <nav aria-label="Global">
               <ul className="flex items-center gap-6 text-sm">
                 <li>
@@ -32,15 +39,6 @@ const Header = () => {
                     href="/"
                   >
                     About
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className="transition text-foreground hover:text-foreground/75"
-                    href="/"
-                  >
-                    Careers
                   </Link>
                 </li>
 
@@ -58,7 +56,25 @@ const Header = () => {
                     className="transition text-foreground hover:text-foreground/75"
                     href="/"
                   >
-                    Projects
+                    Testimonials
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    className="transition text-foreground hover:text-foreground/75"
+                    href="/"
+                  >
+                    Blog
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    className="transition text-foreground hover:text-foreground/75"
+                    href="/"
+                  >
+                    Contact
                   </Link>
                 </li>
               </ul>
@@ -66,7 +82,7 @@ const Header = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="sm:flex sm:gap-4">
+            <div className="flex gap-4">
               <ThemeTogglebutton />
               <Button asChild>
                 <LoginLink>Login</LoginLink>
