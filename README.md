@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![](https://i.postimg.cc/FF6TxJdC/home.jpg)
 
-## Getting Started
+# Blox AI
 
-First, run the development server:
+Welcome to Blox AI, where crafting flowcharts and diagrams is a breeze! Seamlessly create stunning visuals and rich documentation with our intuitive tools. Collaborate effortlessly with your team, from basic flowcharts to intricate diagrams. Enjoy secure workspaces and easy sharing. Start visualizing your ideas today!
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Visit the site here - [Blox AI](https://blox-ai.vercel.app/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Effortless Flowchart and Diagram Creation**: Easily create flowcharts and diagrams with our intuitive tools.
+   
+- **Rich Text Editor**: Craft beautiful documentation with our powerful rich text editor.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Collaborative Sharing**: Share your creations effortlessly with your entire team.
 
-## Learn More
+- **Versatile Visualizations**: From simple flowcharts to complex diagrams, Blox AI covers all your visualization needs.
 
-To learn more about Next.js, take a look at the following resources:
+- **Wide Range of Use Cases**: Whether it's wireframes, mind maps, or algorithms, Blox AI has you covered.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Secure Workspaces**: Enjoy peace of mind with our secured workspaces for your projects.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- **Limited Files Allotment**: Get a set number of files allotted, ensuring efficient usage of resources.
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tech Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Next.Js 14
+- Typescript
+- ShadCN UI
+- TailwindCSS
+- Convex
+- Kinde
+- EditorJS
+- Excalidraw
+
+## Authors
+
+- Subhadeep Roy - [@subhadeeproy3902](https://git.new/Subha)
+- Anish Biswas - [@xeven777](https://github.com/Xeven777)
+
+## Licence
+
+[MIT]()
