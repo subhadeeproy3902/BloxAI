@@ -5,8 +5,7 @@ import { api } from "../../../convex/_generated/api";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useConvex, useMutation } from "convex/react";
 import FileList from "./_components/FileList";
-import { useState, useContext, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useContext, useEffect, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ThemeTogglebutton from "@/components/ui/ThemeToggle";
@@ -45,18 +44,15 @@ function Dashboard() {
     if (user) {
       checkUser();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>();
-  const router = useRouter();
 
   useEffect(() => {
     fileList_ && setFileList(fileList_);
   }, [fileList_]);
-
-  //Implement search functionality here
-  //Take ref to the search input then filter the file list based on the search term and update the file list state always even if the search term is empty (show all the files)
 
   const searchFile = (searchTerm: string) => {
     const filteredFileList = fileList_.filter((file: any) =>
@@ -64,8 +60,6 @@ function Dashboard() {
     );
     setFileList(filteredFileList);
   };
-
-
 
   return (
     <div className="p-8">
@@ -93,11 +87,10 @@ function Dashboard() {
           <Send className="h-4 w-4" /> Invite
         </Button>
       </div>
-
-      <FileList
-        fileList={fileList}
-        picture={user?.picture || "https://picsum.photos/50"}
-      />
+        <FileList
+          fileList={fileList||null}
+          picture={user?.picture || "https://picsum.photos/50"}
+        />
     </div>
   );
 }

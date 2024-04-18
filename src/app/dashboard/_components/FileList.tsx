@@ -1,17 +1,11 @@
-import { Archive, MoreHorizontal, Trash2 } from "lucide-react";
+import { Loader2, Trash2 } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
-
+import { Button } from "@/components/ui/button";
 
 export interface FILE {
   archive: boolean;
@@ -28,18 +22,16 @@ function FileList({
   fileList,
   picture,
 }: {
-  fileList: FILE[];
+  fileList?: FILE[];
   picture: string;
 }) {
   const router = useRouter();
 
-  // Ensure fileList is always an array
   const safeFileList = Array.isArray(fileList) ? fileList : [];
 
   const deleteFile = useMutation(api.files.deleteFile);
   const deleteFunc = async (id: string) => {
-    await deleteFile({ _id: id as Id<"files">});
-    // Refresh the page
+    await deleteFile({ _id: id as Id<"files"> });
     window.location.reload();
   };
 
@@ -64,16 +56,20 @@ function FileList({
             </tr>
           </thead>
           <tbody className="divide-y divide-stone-600">
-            {
-              // Add a message if there are no files
-              !safeFileList.length && (
-                <tr className="relative h-16">
-                  <td className="whitespace-nowrap text-gray-400 w-full absolute px-4 py-2 mt-5 text-center font-medium">
-                    No files found
-                  </td>
-                </tr>
-              )
-            }
+            {!fileList && (
+              <tr className="relative h-16">
+                <td className="whitespace-nowrap w-full absolute px-4 py-2 mt-5 text-center font-medium flex-center">
+                 <Loader2 className="animate-spin mr-3" size={20}/> Loading... Please wait
+                </td>
+              </tr>
+            )}
+            {fileList && !safeFileList.length && (
+              <tr className="relative h-16">
+                <td className="whitespace-nowrap text-secondary-foreground w-full absolute px-4 py-2 mt-5 text-center font-medium">
+                  No files found
+                </td>
+              </tr>
+            )}
             {safeFileList.map((file: FILE, index: number) => (
               <tr key={index} className="odd:bg-muted/50 cursor-pointer">
                 <td
@@ -98,22 +94,13 @@ function FileList({
                   />
                 </td>
                 <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger>
-                      <MoreHorizontal />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem className="gap-3">
-                        <Archive className="h-4 w-4" /> Archive
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className="gap-3 text-red-500"
-                        onClick={() => deleteFunc(file._id)}
-                      >
-                        <Trash2 className="h-4 w-4" /> Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <Button
+                    variant={"destructive"}
+                    size={"icon"}
+                    onClick={() => deleteFunc(file._id)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
                 </td>
               </tr>
             ))}

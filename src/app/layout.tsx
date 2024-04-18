@@ -4,6 +4,7 @@ import "./globals.css";
 import ConvexClientProvider from "./ConvexClientProvider";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
+
 const poppins = Poppins({ weight: ["400", "700", "600"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
