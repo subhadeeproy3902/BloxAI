@@ -16,6 +16,7 @@
     "@editorjs/paragraph": "^2.11.4",
     "@editorjs/warning": "^1.4.0",
     "@excalidraw/excalidraw": "^0.17.5",
+    "@excalidraw/mermaid-to-excalidraw": "^0.3.0",
     "@kinde-oss/kinde-auth-nextjs": "^2.2.3",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
