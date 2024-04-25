@@ -6,6 +6,7 @@ import { useConvex } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { FILE } from "../../dashboard/_components/FileList";
 import Canvas from "../_components/Canvas";
+import { Button } from "@/components/ui/button";
 
 function Workspace({ params }: any) {
   const [triggerSave, setTriggerSave] = useState(false);
@@ -21,6 +22,7 @@ function Workspace({ params }: any) {
     });
     setFileData(result);
   };
+
   return (
     <div>
       <WorkspaceHeader
@@ -38,6 +40,9 @@ function Workspace({ params }: any) {
         </div>
 
         <div className=" h-screen border-l col-span-3">
+          {/*Render the 
+          Canvas component here.
+          */}
           <Canvas
             onSaveTrigger={triggerSave}
             fileId={params.fileId}
