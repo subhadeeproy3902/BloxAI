@@ -14,6 +14,7 @@ function SideNav() {
   const convex = useConvex();
   const [totalFiles, setTotalFiles] = useState<Number>();
   const { fileList_, setFileList_ } = useContext(FileListContext);
+  const { isAuthenticated } = useKindeBrowserClient();
   useEffect(() => {
     activeTeam && getFiles();
   }, [activeTeam]);
@@ -46,7 +47,7 @@ function SideNav() {
     setTotalFiles(result?.length);
   };
 
-  return (
+  return isAuthenticated ? (
     <div
       className=" h-screen 
     fixed w-72 borde-r border-[1px] p-6
@@ -67,6 +68,8 @@ function SideNav() {
         />
       </div>
     </div>
+  ) : (
+    <div className="hidden"></div>
   );
 }
 
