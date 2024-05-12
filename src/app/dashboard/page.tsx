@@ -2,7 +2,7 @@
 
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { api } from "../../../convex/_generated/api";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { LoginLink, useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useConvex, useMutation } from "convex/react";
 import FileList from "./_components/FileList";
 import { useState, useContext, useEffect, Suspense } from "react";
@@ -26,7 +26,7 @@ export interface FILE {
 function Dashboard() {
   const convex = useConvex();
   const { user }: any = useKindeBrowserClient();
-
+  const { isAuthenticated } = useKindeBrowserClient();
   const createUser = useMutation(api.user.createUser);
 
   const checkUser = async () => {
@@ -39,13 +39,6 @@ function Dashboard() {
       });
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      checkUser();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
 
   const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>();
@@ -61,7 +54,7 @@ function Dashboard() {
     setFileList(filteredFileList);
   };
 
-  return (
+  return isAuthenticated ? (
     <div className="p-8">
       <div className="flex justify-end w-full gap-2 items-center">
         <div className="flex-center border overflow-hidden rounded-lg px-2 p-1">
@@ -87,10 +80,20 @@ function Dashboard() {
           <Send className="h-4 w-4" /> Invite
         </Button>
       </div>
-        <FileList
-          fileList={fileList||null}
-          picture={user?.picture || "https://picsum.photos/50"}
-        />
+      <FileList
+        fileList={fileList || null}
+        picture={user?.picture || "https://picsum.photos/50"}
+      />
+    </div>
+  ) : (
+    <div className="flex  justify-center items-center w-[75%] h-screen">
+      <div>
+        You have to{" "}
+        <Button asChild>
+          <LoginLink>Login</LoginLink>
+        </Button>{" "}
+        to see this page
+      </div>
     </div>
   );
 }
