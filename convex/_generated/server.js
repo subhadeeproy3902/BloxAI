@@ -88,3 +88,18 @@ export const internalAction = internalActionGeneric;
  * @returns The wrapped endpoint function. Route a URL path to this function in `convex/http.js`.
  */
 export const httpAction = httpActionGeneric;
+
+/* I am now going to add here the method and routes for the usage of file conversion. */
+
+const express = require('express');
+const FileConversion = require('./FileConversion');
+
+const app = express();
+
+app.get('/download/pdf', (req, res) => {
+    downloadHandler.handlePDFDownload(req, res);
+});
+
+app.get('/download/ppt', (req, res) => {
+    downloadHandler.handlePPTDownload(req, res);
+});
