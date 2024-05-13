@@ -9,7 +9,7 @@ package-lock.json
 yarn.lock
 # testing
 /coverage
-
+./convex/_generated
 public/sw.js
 public/workbox-*.js
 
