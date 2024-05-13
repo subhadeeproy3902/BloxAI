@@ -61,6 +61,15 @@ const Header = () => {
                 </li>
 
                 <li>
+                  <Link
+                    className="transition text-foreground hover:text-foreground/75"
+                    href="/review"
+                  >
+                    Reviews
+                  </Link>
+                </li>
+
+                <li>
                   <a
                     rel="no-referrer noopener"
                     className="transition text-foreground hover:text-foreground/75"
