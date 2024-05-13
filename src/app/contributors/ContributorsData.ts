@@ -16,4 +16,9 @@ export const ContributorsData = [
     imageUrl:
       "https://github.com/subhadeeproy3902/BloxAI/assets/115932772/8032d384-06d2-44fb-beb4-1227ee035466",
   },
+  {
+    name: "Vanshika Bisht",
+    github: "https://github.com/vanshikab52",
+    imageUrl: "https://avatars.githubusercontent.com/u/148718670?v=4",
+  },
 ];
