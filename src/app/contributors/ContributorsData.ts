@@ -11,9 +11,15 @@ export const ContributorsData = [
       "https://media.licdn.com/dms/image/D4D03AQFalsSBySqQCA/profile-displayphoto-shrink_400_400/0/1680632903861?e=1721260800&v=beta&t=EYuh7f1xzFJv4JerrXg9ho_tTaczzkrDik7KuTOMbTE",
   },
   {
-    name: "Example Name",
-    github: "https://github.com",
+    name: "Daksh Singh Rathore",
+    github: "https://github.com/dakshsinghrathore",
     imageUrl:
-      "https://assets.lummi.ai/assets/QmU7JUkgkzJuJBFrUkr9phf2biFRV8kR5PLvm3yHZH7GDn?auto=format&w=1500",
+      "https://github.com/subhadeeproy3902/BloxAI/assets/115932772/8032d384-06d2-44fb-beb4-1227ee035466",
+  },
+  {
+    name: "Sarthak Mishra",
+    github: "https://github.com/sarthakmishra459",
+    imageUrl:
+      "https://gcdnb.pbrd.co/images/OHXTn7dGYViJ.jpg?o=1",
   },
 ];
