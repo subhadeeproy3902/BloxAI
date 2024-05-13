@@ -49,6 +49,9 @@ Interested contributors and issue raisers are also requested to join [WhatsApp G
 
 To ensure transparency and recognition for your contributions, we've established a straightforward process. When resolving issues or submitting PRs, please remember to fill out your details in `src/app/contributors/ContributorsData.ts`. This file serves as a repository of the individuals who are actively involved in improving our platform.
 
+Add your Name, Image URL and Github link in this file as an object ->  
+[File-Location](https://postimg.cc/fk0rPV3H)
+
 However, it's important to adhere to strict regulations to maintain the integrity of our contributor records:
 
 1. Only Add Your Details: You are allowed to add your own details to the ContributorsData.ts file. This helps us accurately attribute contributions to the right individuals.
