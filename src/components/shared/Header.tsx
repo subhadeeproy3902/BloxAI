@@ -54,7 +54,7 @@ const Header = () => {
                 <li>
                   <Link
                     className="transition text-foreground hover:text-foreground/75"
-                    href="/"
+                    href="/contact"
                   >
                     Contact
                   </Link>
