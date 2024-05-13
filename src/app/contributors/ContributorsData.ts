@@ -22,4 +22,9 @@ export const ContributorsData = [
     imageUrl:
       "https://gcdnb.pbrd.co/images/OHXTn7dGYViJ.jpg?o=1",
   },
+  {
+    name: "Vanshika Bisht",
+    github: "https://github.com/vanshikab52",
+    imageUrl: "https://avatars.githubusercontent.com/u/148718670?v=4",
+  },
 ];
