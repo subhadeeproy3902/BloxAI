@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import { Button } from "../ui/button";
 
 const World = dynamic(() => import("../ui/globe").then((m) => m.World), {
   ssr: false,
@@ -10,27 +11,27 @@ const World = dynamic(() => import("../ui/globe").then((m) => m.World), {
 export function GlobeDemo() {
   const globeConfig = {
     pointSize: 4,
-    globeColor: "#062056",
+    globeColor: "#442905",
     showAtmosphere: true,
     atmosphereColor: "#FFFFFF",
     atmosphereAltitude: 0.1,
-    emissive: "#062056",
-    emissiveIntensity: 0.1,
+    emissive: "#5b4607",
+    emissiveIntensity: 0.11,
     shininess: 0.9,
     polygonColor: "rgba(255,255,255,0.7)",
-    ambientLight: "#38bdf8",
+    ambientLight: "#e1f738",
     directionalLeftLight: "#ffffff",
     directionalTopLight: "#ffffff",
     pointLight: "#ffffff",
     arcTime: 1000,
     arcLength: 0.9,
-    rings: 1,
-    maxRings: 3,
+    rings: 2,
+    maxRings: 4,
     initialPosition: { lat: 22.3193, lng: 114.1694 },
     autoRotate: true,
     autoRotateSpeed: 0.5,
   };
-  const colors = ["#06b6d4", "#3b82f6", "#6366f1"];
+  const colors = ["#dbba00", "#e55b00", "#e53100"];
   const sampleArcs = [
     {
       order: 1,
@@ -395,7 +396,7 @@ export function GlobeDemo() {
   ];
 
   return (
-    <div className="flex flex-row items-center justify-center py-20 h-screen md:h-auto dark:bg-black bg-white relative w-full">
+    <div className="flex shadow-inner flex-col rounded-3xl items-center justify-center py-20 h-screen md:h-auto border relative bg-stone-900 max-w-screen-xl mx-auto">
       <div className="max-w-7xl mx-auto w-full relative overflow-hidden h-full md:h-[40rem] px-4">
         <motion.div
           initial={{
@@ -407,22 +408,42 @@ export function GlobeDemo() {
             y: 0,
           }}
           transition={{
-            duration: 1,
+            duration: 1.3,
           }}
           className="div"
         >
-          <h2 className="text-center text-xl md:text-4xl font-bold text-black dark:text-white">
-            We sell soap worldwide
+          <h2 className="text-center text-xl md:text-6xl font-bold bg-gradient-to-r bg-clip-text text-transparent from-muted via-primary-foreground to-muted">
+            Totally Open source
           </h2>
-          <p className="text-center text-base md:text-lg font-normal text-neutral-700 dark:text-neutral-200 max-w-md mt-2 mx-auto">
-            This globe is interactive and customizable. Have fun with it, and
-            don&apos;t forget to share it. :)
+          <p className=" text-center text-base md:text-lg font-normal text-muted-foreground max-w-md mt-2 mx-auto">
+            Contributors from around the world have helped us build Blox AI!
+            Partnering with GSSoC&apos;24 !
           </p>
         </motion.div>
-        <div className="absolute w-full bottom-0 inset-x-0 h-40 bg-gradient-to-b pointer-events-none select-none from-transparent dark:to-black to-white z-40" />
+        <div className="absolute w-full bottom-0 inset-x-0 h-40 bg-gradient-to-b pointer-events-none select-none from-transparent to-stone-900 z-40" />
         <div className="absolute w-full -bottom-20 h-72 md:h-full z-10">
           <World data={sampleArcs} globeConfig={globeConfig} />;
         </div>
+      </div>
+      <div className="flex mx-auto gap-6 items-center justify-center">
+        <Button asChild>
+          <a
+            href="https://github.com/subhadeeproy3902/BloxAI"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Github
+          </a>
+        </Button>
+        <Button asChild variant={"secondary"}>
+          <a
+            href="http://https://chat.whatsapp.com/E5oRd1VG1Ov4HoNPq4QcRU"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Whatsapp Group
+          </a>
+        </Button>
       </div>
     </div>
   );

@@ -68,3 +68,11 @@
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
   @apply bg-primary text-white;
 }
+
+::-webkit-scrollbar{
+  @apply bg-muted w-2;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary rounded-md;
+}

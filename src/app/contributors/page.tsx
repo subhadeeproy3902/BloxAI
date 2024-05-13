@@ -3,6 +3,7 @@ import { ContributorsData } from "./ContributorsData";
 import type { Metadata } from "next";
 import ThemeTogglebutton from "@/components/ui/ThemeToggle";
 import { Creators } from "@/components/shared/Creators";
+import { GlobeDemo } from "@/components/shared/GlobeCard";
 
 export const metadata: Metadata = {
   title: "Blox AI | Contributors",
@@ -53,6 +54,8 @@ const page = () => {
           ))}
         </div>
       </div>
+
+      <GlobeDemo />
     </section>
   );
 };

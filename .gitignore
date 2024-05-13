@@ -1,11 +1,12 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# See https://help.Creators.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 /node_modules
 /.pnp
 .pnp.js
 .yarn/install-state.gz
-
+package-lock.json
+yarn.lock
 # testing
 /coverage
 
