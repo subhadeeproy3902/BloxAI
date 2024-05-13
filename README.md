@@ -43,6 +43,18 @@ Visit the site here - [Blox AI](https://blox-ai.vercel.app/)
 - Subhadeep Roy - [@subhadeeproy3902](https://git.new/Subha)
 - Anish Biswas - [@xeven777](https://github.com/Xeven777)
 
+## Contributors
+
+To ensure transparency and recognition for your contributions, we've established a straightforward process. When resolving issues or submitting PRs, please remember to fill out your details in 'src/app/contributors/ContributorsData.ts'. This file serves as a repository of the individuals who are actively involved in improving our platform.
+
+However, it's important to adhere to strict regulations to maintain the integrity of our contributor records:
+
+1. Only Add Your Details: You are allowed to add your own details to the ContributorsData.ts file. This helps us accurately attribute contributions to the right individuals.
+
+2. Respect Others' Details: Modifying or tampering with existing contributor details is strictly prohibited. Any unauthorized changes may result in your PR not being merged or accepted.
+
+We understand that open source collaboration is filled with excitement and fulfillment. Your contributions are invaluable, and we're committed to ensuring that your efforts are duly recognized and appreciated.
+
 ## Licence
 
 [MIT](https://github.com/subhadeeproy3902/BloxAI/blob/main/LICENSE)
