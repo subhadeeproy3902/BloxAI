@@ -54,7 +54,6 @@ function Canvas({
         fontSize: 16, // Example font size
       });
 
-      console.log("Success:", elements);
 
       // Set the converted elements to the state
       setWhiteBoardData(elements);
@@ -63,7 +62,6 @@ function Canvas({
     }
   };
 
-  console.log("Whiteboard data", whiteBoardData);
 
   return (
     <>
