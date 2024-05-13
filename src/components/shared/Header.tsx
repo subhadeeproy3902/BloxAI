@@ -45,27 +45,9 @@ const Header = () => {
                 <li>
                   <Link
                     className="transition text-foreground hover:text-foreground/75"
-                    href="/"
+                    href="/contributors"
                   >
-                    Services
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className="transition text-foreground hover:text-foreground/75"
-                    href="/"
-                  >
-                    Testimonials
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className="transition text-foreground hover:text-foreground/75"
-                    href="/"
-                  >
-                    Blog
+                    Contributors
                   </Link>
                 </li>
 
@@ -76,6 +58,17 @@ const Header = () => {
                   >
                     Contact
                   </Link>
+                </li>
+
+                <li>
+                  <a
+                    rel="no-referrer noopener"
+                    className="transition text-foreground hover:text-foreground/75"
+                    href="https://github.com/subhadeeproy3902/BloxAI"
+                    target="_blank"
+                  >
+                    Github
+                  </a>
                 </li>
               </ul>
             </nav>
