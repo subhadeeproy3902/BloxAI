@@ -45,7 +45,12 @@ Visit the site here - [Blox AI](https://blox-ai.vercel.app/)
 
 ## Contributors
 
+Interested contributors and issue raisers are also requested to join [WhatsApp Group](https://chat.whatsapp.com/E5oRd1VG1Ov4HoNPq4QcRU). For more discussions and faster PR merging
+
 To ensure transparency and recognition for your contributions, we've established a straightforward process. When resolving issues or submitting PRs, please remember to fill out your details in `src/app/contributors/ContributorsData.ts`. This file serves as a repository of the individuals who are actively involved in improving our platform.
+
+Add your Name, Image URL and Github link in this file as an object ->  
+[![FileLocation](https://i.postimg.cc/pV0Mp8Pt/Screenshot-2024-05-13-200754.png)](https://postimg.cc/fk0rPV3H)
 
 However, it's important to adhere to strict regulations to maintain the integrity of our contributor records:
 
