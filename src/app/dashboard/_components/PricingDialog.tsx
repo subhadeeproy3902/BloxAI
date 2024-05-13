@@ -12,7 +12,7 @@ import {
 import Link from "next/link";
 function PricingDialog() {
   return (
-    <DialogContent className="max-w-4xl">
+    <DialogContent className="max-w-4xl mt-24 md:mt-0 md:overflow-y-hidden overflow-y-scroll">
       <DialogHeader>
         <DialogTitle>Upgrade Plan</DialogTitle>
         <DialogDescription>
