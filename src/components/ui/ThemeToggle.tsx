@@ -1,12 +1,15 @@
+"use client";
+
 import { useTheme } from "next-themes";
 import { Button } from "./button";
 import { Moon, Sun } from "lucide-react";
-export default function ThemeTogglebutton() {
+import { cn } from "@/lib/utils";
+export default function ThemeTogglebutton({ className = "" }) {
   const { theme, setTheme } = useTheme();
   return (
     <Button
       size="icon"
-      className="rounded-full"
+      className={cn("rounded-full", className)}
       variant="outline"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
