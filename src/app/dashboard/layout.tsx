@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import SideNav from "./_components/SideNav";
 import { FileListContext } from "@/app/_context/FilesListContext";
-
+import { useSelector } from "react-redux";
+import type { RootState } from "../store";
 function DashboardLayout({
   children,
 }: Readonly<{
@@ -16,6 +17,7 @@ function DashboardLayout({
   const { user }: any = useKindeBrowserClient();
   const [fileList_, setFileList_] = useState();
   const router = useRouter();
+  const count = useSelector((state: RootState) => state.counter.value);
   useEffect(() => {
     user && checkTeam();
   }, [user]);
@@ -33,11 +35,13 @@ function DashboardLayout({
   return (
     <div>
       <FileListContext.Provider value={{ fileList_, setFileList_ }}>
-        <div className="grid grid-cols-4">
-          <div className="bg-background h-screen w-72 fixed">
+        <div className="md:grid md:grid-cols-4">
+          <div
+            className={`bg-background z-99  h-screen md:w-72 w-36 fixed ${count ? "" : "md:relative hidden"}`}
+          >
             <SideNav />
           </div>
-          <div className="col-span-4 ml-72">{children}</div>
+          <div className="col-span-4 md:ml-72">{children}</div>
         </div>
       </FileListContext.Provider>
     </div>
