@@ -62,8 +62,13 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
       <Popover>
         <PopoverTrigger>
           <div className="flex items-center gap-3 hover:bg-secondary p-3 rounded-lg cursor-pointer">
-            <Image src="/android-chrome-192x192.png" alt="logo" width={40} height={40} />
-            <h2 className="flex gap-2 items-centerfont-bold text-[17px]">
+            <Image
+              src="/android-chrome-192x192.png"
+              alt="logo"
+              width={40}
+              height={40}
+            />
+            <h2 className="flex gap-2 items-centerfont-bold text-[13px] md:text-[17px]">
               {activeTeam?.teamName || "Team"}
               <ChevronDown />
             </h2>
