@@ -16,4 +16,9 @@ export const ContributorsData = [
     github: "https://github.com/vanshikab52",
     imageUrl: "https://avatars.githubusercontent.com/u/148718670?v=4",
   },
+  {
+    name: "Pradnya Gaitonde",
+    github: "https://github.com/PradnyaGaitonde",
+    imageurl: "https://avatars.githubusercontent.com/u/116059908?v=4",
+  },
 ];
