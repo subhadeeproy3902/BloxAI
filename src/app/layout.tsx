@@ -7,6 +7,7 @@ import { Toaster } from "sonner";
 import { store } from "./store";
 import { Provider } from "react-redux";
 import { Providers } from "./Provider";
+import Header from "@/components/shared/Header";
 const poppins = Poppins({ weight: ["400", "700", "600"], subsets: ["latin"] });
 
 export const viewport: Viewport = {
@@ -51,6 +52,7 @@ export default function RootLayout({
         <body className={poppins.className}>
           <ConvexClientProvider>
             <ThemeProvider attribute="class">
+              <Header/>
               {children}
               <Toaster richColors theme="system" />
             </ThemeProvider>
