@@ -50,8 +50,8 @@ const Header = () => {
             <nav aria-label="Global">
               <ul className="flex items-center gap-6 text-sm">
                 <li className=" space-x-6">
-              {links.map((link) => (
-              <Link className="transition text-foreground hover:text-foreground/75" href={link.path}>{link.title}</Link>
+              {links.map((link, index) => (
+              <Link key={index} className="transition text-foreground hover:text-foreground/75" href={link.path}>{link.title}</Link>
             
             ))}
             </li>
