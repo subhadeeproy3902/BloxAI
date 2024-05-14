@@ -76,7 +76,7 @@ export function Creators() {
           <CardItem
             as="p"
             translateZ="60"
-            className="text-sm max-w-sm mt-2 text-gray-700 dark:text-zinc-30 text-left"
+            className="text-sm max-w-sm mt-2 text-gray-700 dark:text-zinc-300 text-left"
           >
             Highly frank ,fueled with enthusiam and a connoisseur of greatness.
             Loves anime and playing chess.
