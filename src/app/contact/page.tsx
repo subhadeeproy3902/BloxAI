@@ -8,11 +8,22 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 
+import Image from "next/image";
+import type { Metadata } from "next";
+import ThemeTogglebutton from "@/components/ui/ThemeToggle";
+import { Creators } from "@/components/shared/Creators";
+import { GlobeDemo } from "@/components/shared/GlobeCard";
+
 import { FollowingPointerDemo } from "@/components/shared/FolowingCard";
 import Header from "@/components/shared/Header";
 import { Hero } from "@/components/shared/Hero";
 import StartNow from "@/components/shared/StartNow";
 import { AnimatedTooltipPreview } from "@/components/shared/TooltipSection";
+
+export const metadata: Metadata = {
+  title: "Blox AI | Contact Us",
+  description: "Fill in the form if you are facing an issue or have any query.",
+};
 
 const formSchema = z.object({
   name: z.string(),
