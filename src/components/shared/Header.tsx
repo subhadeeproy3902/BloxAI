@@ -93,8 +93,8 @@ const Header = () => {
       </div>
       {menuOpen && (
         <div className="md:absolute w-full h-screen flex flex-col items-center justify-center gap-10">
-          {links.map((link) => (
-            <NavLink item={link} key={link.title}  handleMenuOpen={handleMenuOpen} />
+          {links.map((link, index) => (
+            <NavLink item={link} key={index}  handleMenuOpen={handleMenuOpen} />
           ))}
         </div>
       )}
