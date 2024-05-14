@@ -396,8 +396,8 @@ export function GlobeDemo() {
   ];
 
   return (
-    <div className="flex shadow-inner flex-col rounded-3xl items-center justify-center py-20 h-screen md:h-auto border relative bg-stone-900 max-w-screen-xl mx-auto">
-      <div className="max-w-7xl mx-auto w-full relative overflow-hidden h-full md:h-[40rem] px-4">
+    <div className="flex shadow-inner flex-col rounded-3xl items-center justify-center py-20  md:h-screen border relative bg-stone-900 max-w-screen-xl mx-auto">
+      <div className="max-w-7xl mx-auto w-full relative overflow-hidden h-80 md:h-[40rem] px-4">
         <motion.div
           initial={{
             opacity: 0,
@@ -421,7 +421,7 @@ export function GlobeDemo() {
           </p>
         </motion.div>
         <div className="absolute w-full bottom-0 inset-x-0 h-40 bg-gradient-to-b pointer-events-none select-none from-transparent to-stone-900 z-40" />
-        <div className="absolute w-full -bottom-20 h-72 md:h-full z-10">
+        <div className="w-full -bottom-20 h-72 md:h-full z-10">
           <World data={sampleArcs} globeConfig={globeConfig} />;
         </div>
       </div>
