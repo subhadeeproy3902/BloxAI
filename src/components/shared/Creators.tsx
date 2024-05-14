@@ -27,9 +27,9 @@ export function Creators() {
           <CardItem translateZ="100" className="w-full mt-4">
             <Image
               src="https://lazor.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fanish.webp&w=750&q=75"
-              height="1000"
-              width="1000"
-              className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
+              height="800"
+              width="800"
+              className="h-72 w-full object-cover rounded-xl group-hover/card:shadow-xl"
               alt="thumbnail"
             />
           </CardItem>
@@ -39,7 +39,7 @@ export function Creators() {
               as={Link}
               href="https://git.new/anish"
               target="__blank"
-              className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
+              className="px-4 py-2 rounded-xl bg-primary font-normal dark:text-white"
             >
               Github
             </CardItem>
@@ -66,9 +66,9 @@ export function Creators() {
           <CardItem translateZ="100" className="w-full mt-4">
             <Image
               src="https://lazor.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fsubha.webp&w=750&q=75"
-              height="1000"
-              width="1000"
-              className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
+              height="800"
+              width="800"
+              className="h-72 w-full object-cover rounded-xl group-hover/card:shadow-xl"
               alt="thumbnail"
             />
           </CardItem>
@@ -78,7 +78,7 @@ export function Creators() {
               as={Link}
               href="https://git.new/subha"
               target="__blank"
-              className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
+              className="px-4 py-2 rounded-xl font-normal bg-primary dark:text-white"
             >
               Github
             </CardItem>
