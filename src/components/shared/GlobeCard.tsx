@@ -437,7 +437,7 @@ export function GlobeDemo() {
         </Button>
         <Button asChild variant={"secondary"}>
           <a
-            href="http://https://chat.whatsapp.com/E5oRd1VG1Ov4HoNPq4QcRU"
+            href="https://chat.whatsapp.com/E5oRd1VG1Ov4HoNPq4QcRU"
             target="_blank"
             rel="noopener noreferrer"
           >
