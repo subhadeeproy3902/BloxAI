@@ -4,12 +4,14 @@ import { Link2, Save } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-function WorkspaceHeader({ onSave, name }: any) {
+
+function WorkspaceHeader({ onSave, name,setFullScreen}: any) {
   return (
     <div className="p-3 border-b flex justify-between items-center">
       <div className="flex gap-2 items-center">
-        <Link href={"/"}>
+        <Link href={"/dashboard"}>
           <Image
             src={"/android-chrome-192x192.png"}
             alt="logo"
@@ -20,6 +22,16 @@ function WorkspaceHeader({ onSave, name }: any) {
 
         <h2>{name}</h2>
       </div>
+
+      <div>
+        <Tabs defaultValue="False" className="w-[400px]" onValueChange={(val)=>{val==="True" ? setFullScreen(true) : setFullScreen(false)}}>
+          <TabsList>
+            <TabsTrigger value="False">With Editor</TabsTrigger>
+            <TabsTrigger value="True">FullScreen</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
       <div className="flex items-center gap-4">
         <ThemeTogglebutton />
         <Button onClick={() => onSave()}>

@@ -12,6 +12,8 @@ function Workspace({ params }: any) {
   const [triggerSave, setTriggerSave] = useState(false);
   const convex = useConvex();
   const [fileData, setFileData] = useState<FILE | any>();
+  const [fullScreen,setFullScreen] = useState(false);
+
   useEffect(() => {
     params.fileId && getFileData();
   }, []);
@@ -28,18 +30,22 @@ function Workspace({ params }: any) {
       <WorkspaceHeader
         onSave={() => setTriggerSave(!triggerSave)}
         name={fileData?.fileName || "New Document"}
+        setFullScreen = {setFullScreen}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-5">
-        <div className="h-screen col-span-2">
-          <Editor
-            onSaveTrigger={triggerSave}
-            fileId={params.fileId}
-            fileData={fileData}
-          />
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-5 overflow-x-none">
 
-        <div className=" h-screen border-l col-span-3">
+      {!fullScreen && 
+        <div className="col-span-2 overflow">
+                <Editor
+                  onSaveTrigger={triggerSave}
+                  fileId={params.fileId}
+                  fileData={fileData}
+                />
+        </div>
+      }
+
+        <div className={`${fullScreen ? "w-screen" : "w-full"} h-screen border-l col-span-3`}>
           {/*Render the 
           Canvas component here.
           */}

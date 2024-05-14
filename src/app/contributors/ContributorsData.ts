@@ -21,4 +21,9 @@ export const ContributorsData = [
     github: "https://github.com/PradnyaGaitonde",
     imageUrl: "https://avatars.githubusercontent.com/u/116059908?v=4",
   },
+  {
+    name: "Dilpreet Grover",
+    github: "https://github.com/dfordp",
+    imageUrl: "https://avatars.githubusercontent.com/u/92905896?v=4",
+  }
 ];
