@@ -13,7 +13,6 @@ export const metadata: Metadata = {
 const page = () => {
   return (
     <section className="py-12 relative">
-      <ThemeTogglebutton className="absolute top-2 right-10 md:right-32" />
       <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[510px] rounded-full bg-primary opacity-20 blur-[100px]" />
       <div className="container px-4 md:px-6 max-w-screen-xl mb-10">
         <div className="my-8 text-center">

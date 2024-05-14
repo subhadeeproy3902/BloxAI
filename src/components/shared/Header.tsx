@@ -6,14 +6,30 @@ import { MenuIcon } from "lucide-react";
 import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs";
 import ThemeTogglebutton from "../ui/ThemeToggle";
 import { useState } from "react";
+import NavLink from "./NavLink";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleMenuOpen = () => {
-    setMenuOpen(!menuOpen);
+    
+     setMenuOpen(!menuOpen);
+     console.log(menuOpen)
   };
-
+  const links = [
+    {
+      title: "About",
+      path: "/",
+    },
+    {
+      title: "Contributor",
+      path: "/contributors",
+    },
+    {
+      title: "Contacts",
+      path: "/contact",
+    },
+  ];
   return (
     <header className="dark:bg-background border-b sticky">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -33,33 +49,12 @@ const Header = () => {
           <div className="hidden md:block sm:pl-40">
             <nav aria-label="Global">
               <ul className="flex items-center gap-6 text-sm">
-                <li>
-                  <Link
-                    className="transition text-foreground hover:text-foreground/75"
-                    href="/"
-                  >
-                    About
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className="transition text-foreground hover:text-foreground/75"
-                    href="/contributors"
-                  >
-                    Contributors
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className="transition text-foreground hover:text-foreground/75"
-                    href="/"
-                  >
-                    Contact
-                  </Link>
-                </li>
-
+                <li className=" space-x-6">
+              {links.map((link, index) => (
+              <Link key={index} className="transition text-foreground hover:text-foreground/75" href={link.path}>{link.title}</Link>
+            
+            ))}
+            </li>
                 <li>
                   <a
                     rel="no-referrer noopener"
@@ -89,13 +84,21 @@ const Header = () => {
             </div>
 
             <div className="block md:hidden">
-              <Button variant="secondary" className="p-2">
+              <Button onClick={handleMenuOpen} variant="secondary" className="p-2">
                 <MenuIcon size={24} />
               </Button>
             </div>
           </div>
         </div>
       </div>
+      {menuOpen && (
+        <div className="md:absolute w-full h-screen flex flex-col items-center justify-center gap-10">
+          {links.map((link, index) => (
+            <NavLink item={link} key={index}  handleMenuOpen={handleMenuOpen} />
+          ))}
+        </div>
+      )}
+
     </header>
   );
 };
