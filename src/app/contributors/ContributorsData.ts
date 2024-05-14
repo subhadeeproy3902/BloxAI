@@ -21,4 +21,9 @@ export const ContributorsData = [
     github: "https://github.com/PradnyaGaitonde",
     imageUrl: "https://avatars.githubusercontent.com/u/116059908?v=4",
   },
+  {
+    name: "Tenzin Delek",
+    github: "https://github.com/TenzDelek",
+    imageUrl: "https://avatars.githubusercontent.com/u/122612557?v=4",
+  },
 ];
