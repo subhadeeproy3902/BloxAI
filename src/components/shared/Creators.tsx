@@ -12,13 +12,13 @@ export function Creators() {
     <div className="container grid px-1 md:grid-cols-2 md:px-6">
       <CardContainer>
         <CardBody className="relative group/card  hover:shadow-2xl hover:shadow-emerald-500/[0.1] bg-zinc-800 backdrop-blur bg-opacity-20 border-black/[0.3] w-auto sm:w-[30rem] h-auto rounded-lg p-6 ">
-          <CardItem translateZ="50" className="text-xl font-bold text-zinc-100">
+          <CardItem translateZ="50" className="text-xl font-bold text-neutral-900 dark:text-zinc-100">
             Anish Biswas
           </CardItem>
           <CardItem
             as="p"
             translateZ="60"
-            className="text-sm max-w-sm mt-2 text-zinc-300"
+            className="text-sm text-left max-w-sm mt-2 text-gray-700 dark:text-zinc-300"
           >
             Loves football, Music production and making the darkest jokes.
             He&apos;s him. Literally.
@@ -70,13 +70,13 @@ export function Creators() {
       </CardContainer>
       <CardContainer>
         <CardBody className="relative group/card  hover:shadow-2xl hover:shadow-emerald-500/[0.1] bg-zinc-800 backdrop-blur bg-opacity-20 border-black/[0.3] w-auto sm:w-[30rem] h-auto rounded-lg p-6 ">
-          <CardItem translateZ="50" className="text-xl font-bold text-zinc-100">
+          <CardItem translateZ="50" className="text-xl font-bold text-neutral-900 dark:text-zinc-100">
             Subhadeep Roy
           </CardItem>
           <CardItem
             as="p"
             translateZ="60"
-            className="text-sm max-w-sm mt-2 text-zinc-300"
+            className="text-sm max-w-sm mt-2 text-gray-700 dark:text-zinc-30 text-left"
           >
             Highly frank ,fueled with enthusiam and a connoisseur of greatness.
             Loves anime and playing chess.
