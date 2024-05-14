@@ -32,8 +32,8 @@ export const ContributorsData = [
     imageUrl: "https://avatars.githubusercontent.com/u/92905896?v=4",
   },
   {
-    name: "Suhani Singh Paliwal",
-    github: "https://github.com/suhanipaliwal",
-    imageUrl: "https://avatars.githubusercontent.com/u/161575955?v=4",
+    name: "Sanmarg Sandeep Paranjpe",
+    github: "https://github.com/sanmarg",
+    imageUrl: "https://avatars.githubusercontent.com/u/50082154?v=4",
   },
 ];
