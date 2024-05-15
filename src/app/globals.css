@@ -95,3 +95,14 @@
 .ce-toolbar__content {
   @apply dark:invert;
 }
+
+.ce-popover .ce-popover--opened {
+  right: 1.5rem !important;
+}
+
+.ce-popover{
+  top: 2.5rem;
+  left: 0;
+  right: 0;
+  bottom: unset;
+}
