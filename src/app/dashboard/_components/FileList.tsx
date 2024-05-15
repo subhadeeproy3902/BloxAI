@@ -6,6 +6,15 @@ import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
+import { AlertDialog, 
+  AlertDialogAction, 
+  AlertDialogCancel, 
+  AlertDialogContent, 
+  AlertDialogDescription, 
+  AlertDialogFooter, 
+  AlertDialogHeader, 
+  AlertDialogTitle, 
+  AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 export interface FILE {
   archive: boolean;
@@ -26,7 +35,6 @@ function FileList({
   picture: string;
 }) {
   const router = useRouter();
-
   const safeFileList = Array.isArray(fileList) ? fileList : [];
 
   const deleteFile = useMutation(api.files.deleteFile);
@@ -95,11 +103,32 @@ function FileList({
                   />
                 </td>
                 <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
+                  <AlertDialog>
+                  <AlertDialogTrigger>
+                    <Button
+                      variant={"destructive"}
+                      size={"icon"}>
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently delete your
+                        file and remove your data from our servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={() => deleteFunc(file._id)}>Continue</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                  </AlertDialog>
                   <Button
                     variant={"destructive"}
                     size={"icon"}
-                    onClick={(e) => deleteFunc(e,file._id)}
-                  >
+                    onClick={(e) => deleteFunc(e,file._id)}>
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </td>
