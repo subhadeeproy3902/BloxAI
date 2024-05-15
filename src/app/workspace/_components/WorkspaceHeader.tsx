@@ -4,39 +4,44 @@ import { Link2, Save } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-
-function WorkspaceHeader({ onSave, name,setFullScreen}: any) {
+function WorkspaceHeader({ onSave, name, setFullScreen }: any) {
   return (
-    <div className="p-3 border-b flex justify-between items-center">
-      <div className="flex gap-2 items-center">
-        <Link href={"/dashboard"}>
-          <Image
-            src={"/android-chrome-192x192.png"}
-            alt="logo"
-            height={40}
-            width={40}
-          />
-        </Link>
+    <>
+      <div className="p-3 border-b flex justify-between items-center">
+        <div className="flex gap-2 items-center">
+          <Link href={"/dashboard"}>
+            <Image
+              src={"/android-chrome-192x192.png"}
+              alt="logo"
+              height={40}
+              width={40}
+            />
+          </Link>
 
-        <h2>{name}</h2>
+          <h2>{name}</h2>
+        </div>
+        <div className="flex items-center gap-4">
+          <ThemeTogglebutton />
+          <Button onClick={() => onSave()}>
+            <Save className="h-4 w-4 mr-2" /> Save{" "}
+          </Button>
+        </div>
       </div>
 
-      <div>
-        <Tabs defaultValue="False" className="w-[400px]" onValueChange={(val)=>{val==="True" ? setFullScreen(true) : setFullScreen(false)}}>
+      <div className="m-2 flex gap-4">
+        <Tabs
+          defaultValue="False"
+          onValueChange={(val) => {
+            val === "True" ? setFullScreen(true) : setFullScreen(false);
+          }}
+        >
           <TabsList>
             <TabsTrigger value="False">With Editor</TabsTrigger>
             <TabsTrigger value="True">FullScreen</TabsTrigger>
           </TabsList>
         </Tabs>
-      </div>
-
-      <div className="flex items-center gap-4">
-        <ThemeTogglebutton />
-        <Button onClick={() => onSave()}>
-          <Save className="h-4 w-4 mr-2" /> Save{" "}
-        </Button>
         <Button
           className="bg-green-500 hover:bg-green-600"
           onClick={() => {
@@ -47,7 +52,7 @@ function WorkspaceHeader({ onSave, name,setFullScreen}: any) {
           Share <Link2 className="h-4 w-4 ml-2" />{" "}
         </Button>
       </div>
-    </div>
+    </>
   );
 }
 

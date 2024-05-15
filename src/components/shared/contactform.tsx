@@ -42,7 +42,7 @@ export default function Contact() {
     <main>
       <div className="flex w-full flex-col items-center p-10">
           <p style={{ paddingTop: '20px', fontSize: '2rem' }}>Facing an Issue? Fill up the form below 👇</p>
-        <div className="flex min-h-screen w-full flex-col items-center justify-between" style={{paddingTop: '20px', paddingLeft: '25px', paddingRight: '25px', paddingBottom: '25px'}}>
+        <div className="flex w-full flex-col items-center justify-between" style={{paddingTop: '20px', paddingLeft: '25px', paddingRight: '25px', paddingBottom: '25px'}}>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)} className="max-w-md  w-full flex flex-col gap-4">
               <FormField control={form.control} 

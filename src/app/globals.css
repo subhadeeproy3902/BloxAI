@@ -76,3 +76,22 @@
 ::-webkit-scrollbar-thumb {
   @apply bg-primary rounded-md;
 }
+
+.codex-editor {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.codex-editor--narrow .codex-editor__redactor {
+  padding-bottom: 50px !important;
+  margin-right: 30px !important;
+}
+
+::selection {
+  background: #ea580ce6;
+}
+
+.ce-toolbar__content {
+  @apply dark:invert;
+}

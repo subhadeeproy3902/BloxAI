@@ -6,13 +6,12 @@ import { useConvex } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { FILE } from "../../dashboard/_components/FileList";
 import Canvas from "../_components/Canvas";
-import { Button } from "@/components/ui/button";
 
 function Workspace({ params }: any) {
   const [triggerSave, setTriggerSave] = useState(false);
   const convex = useConvex();
   const [fileData, setFileData] = useState<FILE | any>();
-  const [fullScreen,setFullScreen] = useState(false);
+  const [fullScreen, setFullScreen] = useState(false);
 
   useEffect(() => {
     params.fileId && getFileData();
@@ -26,26 +25,25 @@ function Workspace({ params }: any) {
   };
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <WorkspaceHeader
         onSave={() => setTriggerSave(!triggerSave)}
         name={fileData?.fileName || "New Document"}
-        setFullScreen = {setFullScreen}
+        setFullScreen={setFullScreen}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-5 overflow-x-none">
-
-      {!fullScreen && 
         <div className="col-span-2 overflow">
-                <Editor
-                  onSaveTrigger={triggerSave}
-                  fileId={params.fileId}
-                  fileData={fileData}
-                />
+          <Editor
+            onSaveTrigger={triggerSave}
+            fileId={params.fileId}
+            fileData={fileData}
+          />
         </div>
-      }
 
-        <div className={`${fullScreen ? "w-screen" : "w-full"} h-screen border-l col-span-3`}>
+        <div
+          className={`${fullScreen ? "w-screen" : "w-full"} h-screen border-l col-span-3`}
+        >
           {/*Render the 
           Canvas component here.
           */}

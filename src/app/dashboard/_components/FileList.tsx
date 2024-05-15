@@ -121,16 +121,11 @@ function FileList({
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={() => deleteFunc(file._id)}>Continue</AlertDialogAction>
+                      <AlertDialogAction onClick={(e) => deleteFunc(e,file._id)}>Continue</AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                   </AlertDialog>
-                  <Button
-                    variant={"destructive"}
-                    size={"icon"}
-                    onClick={(e) => deleteFunc(e,file._id)}>
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  
                 </td>
               </tr>
             ))}
