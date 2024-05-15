@@ -30,7 +30,8 @@ function FileList({
   const safeFileList = Array.isArray(fileList) ? fileList : [];
 
   const deleteFile = useMutation(api.files.deleteFile);
-  const deleteFunc = async (id: string) => {
+  const deleteFunc = async (e : any, id: string) => {
+    e.stopPropagation();
     await deleteFile({ _id: id as Id<"files"> });
     window.location.reload();
   };
@@ -71,10 +72,10 @@ function FileList({
               </tr>
             )}
             {safeFileList.map((file: FILE, index: number) => (
-              <tr key={index} className="odd:bg-muted/50 cursor-pointer">
+              <tr key={index} className="odd:bg-muted/50 cursor-pointer"
+              onClick={() => router.push("/workspace/" + file._id)}>
                 <td
                   className="whitespace-nowrap px-4 py-2 font-medium"
-                  onClick={() => router.push("/workspace/" + file._id)}
                 >
                   {file.fileName}
                 </td>
@@ -97,7 +98,7 @@ function FileList({
                   <Button
                     variant={"destructive"}
                     size={"icon"}
-                    onClick={() => deleteFunc(file._id)}
+                    onClick={(e) => deleteFunc(e,file._id)}
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
