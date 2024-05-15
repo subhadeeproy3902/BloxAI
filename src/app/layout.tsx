@@ -5,6 +5,7 @@ import ConvexClientProvider from "./ConvexClientProvider";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
 import { Providers } from "./Provider";
+import Footer from "@/components/shared/Footer";
 const poppins = Poppins({ weight: ["400", "700", "600"], subsets: ["latin"] });
 
 export const viewport: Viewport = {
@@ -53,6 +54,7 @@ export default function RootLayout({
               <Toaster richColors theme="system" />
             </ThemeProvider>
           </ConvexClientProvider>
+          <Footer />
         </body>
       </html>
     </Providers>
