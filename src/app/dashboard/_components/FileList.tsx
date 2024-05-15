@@ -80,20 +80,20 @@ function FileList({
               </tr>
             )}
             {safeFileList.map((file: FILE, index: number) => (
-              <tr key={index} className="odd:bg-muted/50 cursor-pointer"
-              onClick={() => router.push("/workspace/" + file._id)}>
+              <tr key={index} className="odd:bg-muted/50 cursor-pointer">
                 <td
                   className="whitespace-nowrap px-4 py-2 font-medium"
+                  onClick={() => router.push("/workspace/" + file._id)}
                 >
                   {file.fileName}
                 </td>
-                <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
+                <td className="whitespace-nowrap px-4 py-2 text-muted-foreground" onClick={() => router.push("/workspace/" + file._id)}>
                   {moment(file._creationTime).format("DD MMM YYYY")}
                 </td>
-                <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
+                <td className="whitespace-nowrap px-4 py-2 text-muted-foreground" onClick={() => router.push("/workspace/" + file._id)}>
                   {moment(file._creationTime).format("DD MMM YYYY")}
                 </td>
-                <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
+                <td className="whitespace-nowrap px-4 py-2 text-muted-foreground" onClick={() => router.push("/workspace/" + file._id)}>
                   <Image
                     src={picture}
                     alt="user"

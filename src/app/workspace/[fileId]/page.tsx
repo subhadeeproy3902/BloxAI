@@ -24,6 +24,9 @@ function Workspace({ params }: any) {
     setFileData(result);
   };
 
+
+  console.log(fullScreen)
+
   return (
     <div className="overflow-x-hidden">
       <WorkspaceHeader
@@ -32,17 +35,18 @@ function Workspace({ params }: any) {
         setFullScreen={setFullScreen}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-5 overflow-x-none">
-        <div className="col-span-2 overflow">
-          <Editor
-            onSaveTrigger={triggerSave}
-            fileId={params.fileId}
-            fileData={fileData}
-          />
+      <div className={`grid grid-cols-1 ${fullScreen ? "": "md:grid-cols-2"} overflow-x-none`}>
+        <div className={`${fullScreen ? "hidden" : "block"}
+        `}>
+            <Editor
+              onSaveTrigger={triggerSave}
+              fileId={params.fileId}
+              fileData={fileData}
+            />
         </div>
 
         <div
-          className={`${fullScreen ? "w-screen" : "w-full"} h-screen border-l col-span-3`}
+          className={`h-screen border-l`}
         >
           {/*Render the 
           Canvas component here.
