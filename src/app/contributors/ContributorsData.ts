@@ -17,6 +17,11 @@ export const ContributorsData = [
     imageUrl: "https://avatars.githubusercontent.com/u/78533174?v=4",
   },
   {
+    name: "Manav Malhotra",
+    github: "https://github.com/manav173",
+    imageUrl: "https://avatars.githubusercontent.com/u/117214680?v=4",
+  },
+  {
     name: "Vanshika Bisht",
     github: "https://github.com/vanshikab52",
     imageUrl: "https://avatars.githubusercontent.com/u/148718670?v=4",

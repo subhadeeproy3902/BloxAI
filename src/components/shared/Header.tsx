@@ -29,6 +29,10 @@ const Header = () => {
       title: "Contact",
       path: "/contact",
     },
+    {
+      title: "Review Us",
+      path: "/review",
+    },
   ];
   return (
     <header className="dark:bg-background border-b sticky">
