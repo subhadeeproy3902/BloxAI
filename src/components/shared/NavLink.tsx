@@ -11,7 +11,7 @@ const NavLink = ({ item, handleMenuOpen }:any) => {
     <Link
     onClick={handleClick}
     href={item.path}
-    className={` min-w-[100px] p-2 rounded-md font-medium items-center  ${
+    className={` min-w-[100px] p-2 hover:bg-secondary md:hover:bg-none rounded-md font-medium items-center  ${
       pathName === item.path && " text-white  bg-orange-500"
     }`}
   >

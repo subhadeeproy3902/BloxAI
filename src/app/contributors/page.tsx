@@ -15,7 +15,7 @@ const page = () => {
     <>
       <Header />
 
-      <section className="py-12 relative -z-10 overflow-x-hidden">
+      <section className="py-12 relative overflow-x-hidden">
         <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[510px] rounded-full bg-primary opacity-20 blur-[100px]" />
         <div className="container px-4 md:px-6 max-w-screen-xl mb-10">
           <div className="my-8 text-center">
