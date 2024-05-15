@@ -6,12 +6,13 @@ import { useConvex } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { FILE } from "../../dashboard/_components/FileList";
 import Canvas from "../_components/Canvas";
-import { Button } from "@/components/ui/button";
 
 function Workspace({ params }: any) {
   const [triggerSave, setTriggerSave] = useState(false);
   const convex = useConvex();
   const [fileData, setFileData] = useState<FILE | any>();
+  const [fullScreen, setFullScreen] = useState(false);
+
   useEffect(() => {
     params.fileId && getFileData();
   }, []);
@@ -23,23 +24,30 @@ function Workspace({ params }: any) {
     setFileData(result);
   };
 
+
+  console.log(fullScreen)
+
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <WorkspaceHeader
         onSave={() => setTriggerSave(!triggerSave)}
         name={fileData?.fileName || "New Document"}
+        setFullScreen={setFullScreen}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-5">
-        <div className="h-screen col-span-2">
-          <Editor
-            onSaveTrigger={triggerSave}
-            fileId={params.fileId}
-            fileData={fileData}
-          />
+      <div className={`grid grid-cols-1 ${fullScreen ? "": "md:grid-cols-2"} overflow-x-none`}>
+        <div className={`${fullScreen ? "hidden" : "block"}
+        `}>
+            <Editor
+              onSaveTrigger={triggerSave}
+              fileId={params.fileId}
+              fileData={fileData}
+            />
         </div>
 
-        <div className=" h-screen border-l col-span-3">
+        <div
+          className={`h-screen border-l`}
+        >
           {/*Render the 
           Canvas component here.
           */}

@@ -6,14 +6,34 @@ import { MenuIcon } from "lucide-react";
 import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs";
 import ThemeTogglebutton from "../ui/ThemeToggle";
 import { useState } from "react";
+import NavLink from "./NavLink";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleMenuOpen = () => {
-    setMenuOpen(!menuOpen);
+    
+     setMenuOpen(!menuOpen);
+     console.log(menuOpen)
   };
-
+  const links = [
+    {
+      title: "About",
+      path: "/",
+    },
+    {
+      title: "Contributor",
+      path: "/contributors",
+    },
+    {
+      title: "Contact",
+      path: "/contact",
+    },
+    {
+      title: "Review Us",
+      path: "/review",
+    },
+  ];
   return (
     <header className="dark:bg-background border-b sticky">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -33,49 +53,21 @@ const Header = () => {
           <div className="hidden md:block sm:pl-40">
             <nav aria-label="Global">
               <ul className="flex items-center gap-6 text-sm">
+                <li className=" space-x-6">
+              {links.map((link, index) => (
+              <Link key={index} className="transition text-foreground hover:text-foreground/75" href={link.path}>{link.title}</Link>
+            
+            ))}
+            </li>
                 <li>
-                  <Link
+                  <a
+                    rel="no-referrer noopener"
                     className="transition text-foreground hover:text-foreground/75"
-                    href="/"
+                    href="https://github.com/subhadeeproy3902/BloxAI"
+                    target="_blank"
                   >
-                    About
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className="transition text-foreground hover:text-foreground/75"
-                    href="/"
-                  >
-                    Services
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className="transition text-foreground hover:text-foreground/75"
-                    href="/"
-                  >
-                    Testimonials
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className="transition text-foreground hover:text-foreground/75"
-                    href="/"
-                  >
-                    Blog
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    className="transition text-foreground hover:text-foreground/75"
-                    href="/"
-                  >
-                    Contact
-                  </Link>
+                    Github
+                  </a>
                 </li>
               </ul>
             </nav>
@@ -96,13 +88,21 @@ const Header = () => {
             </div>
 
             <div className="block md:hidden">
-              <Button variant="secondary" className="p-2">
+              <Button onClick={handleMenuOpen} variant="secondary" className="p-2">
                 <MenuIcon size={24} />
               </Button>
             </div>
           </div>
         </div>
       </div>
+      {menuOpen && (
+        <div className="md:absolute w-full h-screen flex flex-col items-center justify-center gap-10">
+          {links.map((link, index) => (
+            <NavLink item={link} key={index}  handleMenuOpen={handleMenuOpen} />
+          ))}
+        </div>
+      )}
+
     </header>
   );
 };

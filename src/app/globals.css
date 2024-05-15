@@ -68,3 +68,41 @@
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
   @apply bg-primary text-white;
 }
+
+::-webkit-scrollbar{
+  @apply bg-muted w-2;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary rounded-md;
+}
+
+.codex-editor {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.codex-editor--narrow .codex-editor__redactor {
+  padding-bottom: 50px !important;
+  margin-right: 30px !important;
+}
+
+::selection {
+  background: #ea580ce6;
+}
+
+.ce-toolbar__content {
+  @apply dark:invert;
+}
+
+.ce-popover .ce-popover--opened {
+  right: 1.5rem !important;
+}
+
+.ce-popover{
+  top: 2.5rem;
+  left: 0;
+  right: 0;
+  bottom: unset;
+}

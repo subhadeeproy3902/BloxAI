@@ -54,7 +54,6 @@ function Canvas({
         fontSize: 16, // Example font size
       });
 
-      console.log("Success:", elements);
 
       // Set the converted elements to the state
       setWhiteBoardData(elements);
@@ -63,12 +62,11 @@ function Canvas({
     }
   };
 
-  console.log("Whiteboard data", whiteBoardData);
 
   return (
     <>
-      <Button onClick={handleMermaidToExcalidraw}>Prompt</Button>
-      <div style={{ height: "670px" }}>
+      {/* <Button onClick={handleMermaidToExcalidraw}>Prompt</Button> */}
+      <div className="h-full">
         {fileData && (
           <>
             {/*Render the whiteboard data too if the mermaid code is converted to excalidraw elements*/}
