@@ -26,7 +26,7 @@ const Header = () => {
       path: "/contributors",
     },
     {
-      title: "Contacts",
+      title: "Contact",
       path: "/contact",
     },
   ];
