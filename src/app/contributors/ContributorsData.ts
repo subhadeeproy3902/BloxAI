@@ -1,5 +1,11 @@
 export const ContributorsData = [
   {
+    name: "Komal Agarwal",
+    github: "https://github.com/komal-agarwal5",
+    imageUrl:
+      "https://avatars.githubusercontent.com/u/122633300?v=4",
+  },
+  {
     name: "Daksh Singh Rathore",
     github: "https://github.com/dakshsinghrathore",
     imageUrl:
