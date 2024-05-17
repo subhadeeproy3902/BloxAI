@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Header from "@/components/shared/Header";
 import { Creators } from "@/components/shared/Creators";
 import { GlobeDemo } from "@/components/shared/GlobeCard";
+import Footer from "@/components/shared/Footer";
 
 export const metadata: Metadata = {
   title: "Blox AI | Contributors",
@@ -59,6 +60,7 @@ const page = () => {
 
         <GlobeDemo />
       </section>
+      <Footer />
     </>
   );
 };
