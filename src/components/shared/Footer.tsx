@@ -16,37 +16,61 @@ const Footer = () => {
                 Blox AI
               </span>
             </a>
+            <p className="mt-8 text-sm text-muted-foreground">
+              Empowering AI solutions to drive innovation and efficiency.
+            </p>
+            <p className="mt-5 text-sm text-muted-foreground">
+              Innovate with intelligence and stay ahead.
+            </p>
           </div>
-          <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+
+          <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-4">
             <div>
               <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
-                Resources
+                Contact
               </h2>
               <ul className="text-muted-foreground font-medium">
                 <li className="mb-4">
-                  <a href="https://nextjs.org/" className="hover:underline">
-                    Next.Js 14
+                  <a
+                    href="https://www.linkedin.com/in/subhadeep3902/"
+                    className="hover:underline"
+                  >
+                    Subhadeep Roy
                   </a>
                 </li>
                 <li className="mb-4">
                   <a
-                    href="https://tailwindcss.com/"
+                    href="https://www.linkedin.com/in/anishbiswas777/"
                     className="hover:underline"
                   >
-                    Tailwind CSS
+                    Anish Biswas
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+                Quick Links
+              </h2>
+              <ul className="text-muted-foreground font-medium">
+                <li className="mb-4">
+                  <a href="#" className="hover:underline">
+                    About
                   </a>
                 </li>
                 <li className="mb-4">
-                  <a href="https://ui.shadcn.com/" className="hover:underline">
-                    ShadCN UI
+                  <a href="/contributors" className="hover:underline">
+                    Contributor
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a href="/contact" className="hover:underline">
+                    Contact
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="https://www.typescriptlang.org/"
-                    className="hover:underline"
-                  >
-                    Typescript
+                  <a href="/review" className="hover:underline">
+                    Review Us
                   </a>
                 </li>
               </ul>
@@ -66,7 +90,11 @@ const Footer = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:underline" target="_blank">
+                  <a
+                    href="https://chat.whatsapp.com/E5oRd1VG1Ov4HoNPq4QcRU"
+                    className="hover:underline"
+                    target="_blank"
+                  >
                     WhatsApp
                   </a>
                 </li>
@@ -83,13 +111,24 @@ const Footer = () => {
                   </a>
                 </li>
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">
+                  <a
+                    href="https://github.com/subhadeeproy3902/BloxAI/blob/main/LICENSE"
+                    className="hover:underline"
+                  >
                     License
                   </a>
                 </li>
-                <li>
+                <li className="mb-4">
                   <a href="#" className="hover:underline">
                     Terms &amp; Conditions
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/subhadeeproy3902/BloxAI/blob/main/CODE_OF_CONDUCT.md"
+                    className="hover:underline"
+                  >
+                    Code Of Conduct
                   </a>
                 </li>
               </ul>
