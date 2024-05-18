@@ -35,7 +35,7 @@ const Header = () => {
   ];
   return (
     <>
-      <header className="dark:bg-background border-b sticky">
+      <header className="border-b sticky top-0 z-[9999] bg-white">
         <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <div className="md:flex md:items-center md:gap-12">
@@ -96,7 +96,11 @@ const Header = () => {
         </div>
       </header>
       {menuOpen && (
+
+        <div className="md:hidden sm:block sticky top  bg-background  z-50 w-full h-fit flex flex-col items-center justify-start text-center gap-7 pt-5 pb-5 border-b-2 border-gray-500 top-[4rem]">
+=======
         <div className="md:hidden bg-background absolute z-50 w-full h-fit flex flex-col items-center justify-start text-center gap-7 pt-5 pb-5 border-b-2 border-gray-500" style={{boxShadow: "inset 0 -10px 10px -10px #7b7575b3"}}>
+
           {links.map((link: any, index: any) => (
             <NavLink item={link} key={index} handleMenuOpen={handleMenuOpen} />
           ))}
