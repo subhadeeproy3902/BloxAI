@@ -64,16 +64,6 @@ const Header = () => {
                       </Link>
                     ))}
                   </li>
-                  <li>
-                    <a
-                      rel="no-referrer noopener"
-                      className="transition text-foreground hover:text-foreground/75"
-                      href="https://github.com/subhadeeproy3902/BloxAI"
-                      target="_blank"
-                    >
-                      Github
-                    </a>
-                  </li>
                 </ul>
               </nav>
             </div>
@@ -106,7 +96,11 @@ const Header = () => {
         </div>
       </header>
       {menuOpen && (
+
         <div className="md:hidden sm:block sticky top  bg-background  z-50 w-full h-fit flex flex-col items-center justify-start text-center gap-7 pt-5 pb-5 border-b-2 border-gray-500 top-[4rem]">
+=======
+        <div className="md:hidden bg-background absolute z-50 w-full h-fit flex flex-col items-center justify-start text-center gap-7 pt-5 pb-5 border-b-2 border-gray-500" style={{boxShadow: "inset 0 -10px 10px -10px #7b7575b3"}}>
+
           {links.map((link: any, index: any) => (
             <NavLink item={link} key={index} handleMenuOpen={handleMenuOpen} />
           ))}
