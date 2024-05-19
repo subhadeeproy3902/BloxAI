@@ -71,5 +71,10 @@ export const ContributorsData = [
     name: "Chetan karande",
     github: "https://github.com/Che140401",
     imageUrl: "https://avatars.githubusercontent.com/u/161575955?v=4"
+  },
+  {
+    name: "Roni Sarkar",
+    github: "https://github.com/ronisarkarexe",
+    imageUrl: "https://avatars.githubusercontent.com/u/76697055?v=4"
   }
 ];
