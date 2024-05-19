@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import ThemeTogglebutton from "@/components/ui/ThemeToggle";
 import { Search, Send } from "lucide-react";
 import Image from "next/image";
-import { setOpen, setClose, toggleClose } from "../Redux/Menu/menuSlice";
+import { toggleClose } from "../Redux/Menu/menuSlice";
 import { useSelector, useDispatch } from "react-redux";
 export interface FILE {
   archive: boolean;
