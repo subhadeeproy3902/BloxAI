@@ -96,8 +96,7 @@ function FileList({
             {!fileList && (
               <tr className="relative h-16">
                 <td className="whitespace-nowrap w-full absolute px-4 py-2 mt-5 text-center font-medium flex-center">
-                  <Loader2 className="animate-spin mr-3" size={20} /> Loading...
-                  Please wait
+                  <Loader2 className="animate-spin mr-3" size={20} /> Loading... Please wait
                 </td>
               </tr>
             )}
