@@ -4,7 +4,7 @@ import { Link2, Save } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 function WorkspaceHeader({ onSave, name, setFullScreen }: any) {
   return (

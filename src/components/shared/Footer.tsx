@@ -36,7 +36,7 @@ const Footer = () => {
                 </li>
                 <li className="mb-4">
                   <a href="/contributors" className="hover:underline">
-                    Contributor
+                    Contributors
                   </a>
                 </li>
                 <li className="mb-4">

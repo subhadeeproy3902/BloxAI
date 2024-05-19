@@ -3,22 +3,11 @@ import * as React from "react"
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver} from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/use-toast";
-import { Card, CardContent } from "@/components/ui/card"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
-
 import TestimonialSlider from "@/components/ui/testimonials-slider";
-import TestimonialSliderCard from "@/components/ui/testimonials-slider-card";
 
 const testimonials = [
   {
