@@ -112,7 +112,7 @@ function Editor({
   };
   return (
     <div>
-      <div id="editorjs" className="ml-20" />
+      <div id="editorjs" className="h-screen pl-8" />
     </div>
   );
 }

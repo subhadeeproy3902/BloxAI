@@ -2,7 +2,7 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver} from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -41,8 +41,8 @@ export default function Contact() {
   return (
     <main>
       <div className="flex w-full flex-col items-center p-10">
-          <p style={{ paddingTop: '20px', fontSize: '2rem' }}>Facing an Issue? Fill up the form below 👇</p>
-        <div className="flex min-h-screen w-full flex-col items-center justify-between" style={{paddingTop: '20px', paddingLeft: '25px', paddingRight: '25px', paddingBottom: '25px'}}>
+          <p style={{ paddingTop: '20px', fontSize: '2rem' }}>Facing an issue? Fill up the form below 👇</p>
+        <div className="flex w-full flex-col items-center justify-between" style={{paddingTop: '20px', paddingLeft: '25px', paddingRight: '25px', paddingBottom: '25px'}}>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)} className="max-w-md  w-full flex flex-col gap-4">
               <FormField control={form.control} 
