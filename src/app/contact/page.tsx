@@ -9,6 +9,7 @@ import { AnimatedTooltipPreview } from "@/components/shared/TooltipSection";
 import Contact from "@/components/shared/contactform";
 
 import type { Metadata } from "next";
+import Footer from "@/components/shared/Footer";
 
 export const metadata: Metadata = {
   title: "Blox AI | Contact Us",
@@ -18,14 +19,15 @@ export const metadata: Metadata = {
 const page = () => {
 
   return (
-    <main>
+    <>
       <div className="relative">
         <Header />
       </div>
       <div className="flex w-full flex-col items-center justify-between">
         <Contact />
       </div>
-    </main>
+      <Footer />
+    </>
   );
 };
 

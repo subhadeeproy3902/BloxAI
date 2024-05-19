@@ -396,7 +396,7 @@ export function GlobeDemo() {
   ];
 
   return (
-    <div className="flex shadow-inner flex-col rounded-3xl items-center justify-center py-20  md:h-screen border relative bg-stone-900 max-w-screen-xl mx-auto">
+    <div className="flex mx-4 shadow-inner flex-col rounded-3xl items-center justify-center py-20  md:h-screen border relative bg-stone-900 max-w-screen-xl sm:mx-auto">
       <div className="max-w-7xl mx-auto w-full relative overflow-hidden h-80 md:h-[40rem] px-4">
         <motion.div
           initial={{
