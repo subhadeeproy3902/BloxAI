@@ -75,7 +75,6 @@ function FileList({
       direction = "descending";
     }
     setSortConfig({ key, direction });
-    console.log("Sorted Files", sortedFiles);
   };
 
   return (
