@@ -8,8 +8,8 @@ const Footer = () => {
           <div className="mb-6 md:mb-0 flex-1">
             <a href="https://blox-ai.vercel.app/" className="flex items-center">
               <Image
-              width={500}
-              height={500}
+                width={500}
+                height={500}
                 src="/android-chrome-512x512.png"
                 className="h-8 w-8 me-3"
                 alt="Logo"
@@ -19,7 +19,9 @@ const Footer = () => {
               </span>
             </a>
             <p className="mt-8 text-md text-muted-foreground">
-            Effortlessly create and share stunning flowcharts and diagrams. Collaborate seamlessly with your team and enjoy secure workspaces. Start visualizing your ideas today!
+              Effortlessly create and share stunning flowcharts and diagrams.
+              Collaborate seamlessly with your team and enjoy secure workspaces.
+              Start visualizing your ideas today!
             </p>
           </div>
 
@@ -118,7 +120,7 @@ const Footer = () => {
                   </a>
                 </li>
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">
+                  <a href="/terms_conditions" className="hover:underline">
                     Terms &amp; Conditions
                   </a>
                 </li>
