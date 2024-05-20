@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import TestimonialSlider from "@/components/ui/testimonials-slider";
+import { ReviewCarousel } from "../ui/reviewcarousel";
+// import ReviewCarousel from "../ui/reviewcarousel";
 
 const testimonials = [
   {
@@ -89,68 +91,141 @@ const formSchema = z.object({
     });
     const handleSubmit = () => {}
     return (
-      <main>      
+      <main>
         <div className="flex w-full flex-col items-center p-10">
-            <p style={{ paddingTop: '20px', fontSize: '2rem' }}>Read what our customers love about us.</p>
-          
+          <p style={{ paddingTop: "20px", fontSize: "2rem" }}>
+            Read what our customers love about us.
+          </p>
+
           <div className="container">
             <TestimonialSlider testimonials={testimonials} />
-          </div> 
-          <div className="flex w-full flex-col items-center p-10">
-            <p style={{ paddingTop: '20px', fontSize: '2.5rem' }}>Loved our product?</p>
-            <p style={{ paddingTop: '20px', fontSize: '2rem' }}>Leave a Review</p>
           </div>
-          <div className="flex min-h-screen flex-col items-center justify-between" style={{paddingTop: '5px', paddingLeft: '25px', paddingRight: '25px', paddingBottom: '25px'}}>
+          <div className="h-[40rem] rounded-md flex flex-col antialiased dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">
+            <ReviewCarousel
+              items={testimonials2}
+              direction="left"
+              speed="slow"
+            />
+          </div>
+          <div className="flex w-full flex-col items-center p-10">
+            <p style={{ paddingTop: "20px", fontSize: "2.5rem" }}>
+              Loved our product?
+            </p>
+            <p style={{ paddingTop: "20px", fontSize: "2rem" }}>
+              Leave a Review
+            </p>
+          </div>
+          <div
+            className="flex min-h-screen flex-col items-center justify-between"
+            style={{
+              paddingTop: "5px",
+              paddingLeft: "25px",
+              paddingRight: "25px",
+              paddingBottom: "25px",
+            }}
+          >
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(handleSubmit)} className="max-w-md  w-full flex flex-col gap-4">
-                <FormField control={form.control} 
-                name="name" 
-                render={({ field }) => {
-                  return <FormItem>
-                    <FormLabel>Full Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Manav Malhotra" type="text" {...field}/>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                }} 
+              <form
+                onSubmit={form.handleSubmit(handleSubmit)}
+                className="max-w-md  w-full flex flex-col gap-4"
+              >
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormLabel>Full Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Manav Malhotra"
+                            type="text"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
-  
-                <FormField control={form.control} 
-                name="email" 
-                render={({ field }) => {
-                  return <FormItem>
-                    <FormLabel>Email Address</FormLabel>
-                    <FormControl>
-                      <Input placeholder="manav@example.com" type="email" {...field}/>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                }} 
+
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormLabel>Email Address</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="manav@example.com"
+                            type="email"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
-  
-                <FormField control={form.control} 
-                name="feedback" 
-                render={({ field }) => {
-                  return <FormItem>
-                    <FormLabel>Your Feedback</FormLabel>
-                    <FormControl>
-                    <Textarea
-                    placeholder="Tell us what you loved about our product"
-                    className="resize-none"
-                    {...field}
-                  />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                }} 
+
+                <FormField
+                  control={form.control}
+                  name="feedback"
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormLabel>Your Feedback</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Tell us what you loved about our product"
+                            className="resize-none"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
-                <Button type="submit" className="w-full"><b>SUBMIT</b></Button>
+                <Button type="submit" className="w-full">
+                  <b>SUBMIT</b>
+                </Button>
               </form>
             </Form>
           </div>
-        </div>  
+        </div>
       </main>
     );
   }
-  
+  const testimonials2 = [
+    {
+      quote:
+        "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.",
+      name: "Charles Dickens",
+      title: "A Tale of Two Cities",
+    },
+    {
+      quote:
+        "To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer The slings and arrows of outrageous fortune, Or to take Arms against a Sea of troubles, And by opposing end them: to die, to sleep.",
+      name: "William Shakespeare",
+      title: "Hamlet",
+    },
+    {
+      quote: "All that we see or seem is but a dream within a dream.",
+      name: "Edgar Allan Poe",
+      title: "A Dream Within a Dream",
+    },
+    {
+      quote:
+        "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
+      name: "Jane Austen",
+      title: "Pride and Prejudice",
+    },
+    {
+      quote:
+        "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
+      name: "Herman Melville",
+      title: "Moby-Dick",
+    },
+  ];
