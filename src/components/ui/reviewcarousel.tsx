@@ -2,7 +2,9 @@
 
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
-
+import Image from "next/image";
+import { imageLoader } from "@/lib/imageLoader";
+ 
 export const ReviewCarousel = ({
   items,
   direction = "left",
@@ -14,11 +16,13 @@ export const ReviewCarousel = ({
     quote: string;
     name: string;
     title: string;
+    imgSrc: string;
   }[];
   direction?: "left" | "right";
-  speed?: "fast" | "normal" | "slow" ;
+  speed?: "fast" | "normal" | "slow";
   pauseOnHover?: boolean;
   className?: string;
+  customerreviews: any[];
 }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const scrollerRef = React.useRef<HTMLUListElement>(null);
@@ -88,9 +92,9 @@ export const ReviewCarousel = ({
         {items.map((item, idx) => (
           <li
             className="w-[350px] max-w-full relative rounded-2xl border border-b-2 flex-shrink-0 border-slate-700 px-8 py-6 md:w-[450px]"
-            style={{
-              background: "linear-gradient(180deg, #2d3748, #1a202c)",
-            }}
+            // style={{
+            //   background: "linear-gradient(180deg, #2d3748, #1a202c)",
+            // }}
             key={item.name}
           >
             <blockquote>
@@ -102,6 +106,17 @@ export const ReviewCarousel = ({
                 {item.quote}
               </span>
               <div className="relative z-20 mt-6 flex flex-row items-center">
+                <span className="inline-flex rounded-full px-3">
+                  <Image
+                    loader={imageLoader}
+                    className="h-12 w-12 rounded-full"
+                    height={40}
+                    width={40}
+                    alt={item.name}
+                    src={item.imgSrc}
+                    loading="lazy"
+                  />
+                </span>
                 <span className="flex flex-col gap-1">
                   <span className=" text-base leading-[1.6] dark:text-gray-300 text-black font-semibold">
                     {item.name}

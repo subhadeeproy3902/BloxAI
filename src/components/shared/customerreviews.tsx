@@ -7,61 +7,39 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import TestimonialSlider from "@/components/ui/testimonials-slider";
 import { ReviewCarousel } from "../ui/reviewcarousel";
-// import ReviewCarousel from "../ui/reviewcarousel";
 
-const testimonials = [
-  {
-    quote:
-      "Blox AI has completely transformed the way we visualize and share ideas within our organization. The effortless flowchart and diagram creation tools make it simple for even non-technical team members to create professional-looking visuals.",
-    name: "Stacy Stone",
-    role: "CEO at Company",
-    imgSrc: "https://i.pravatar.cc/120?img=1",
-  },
-  {
-    quote:
-      "Blox AI has become an indispensable tool for our team's workflow. Whether we're brainstorming new ideas, mapping out user journeys, or documenting complex algorithms, Blox AI provides us with the versatility and functionality we need.",
-    name: "Andrew Jettpace",
-    role: "CEO at Company",
-    imgSrc: "https://i.pravatar.cc/120?img=10",
-  },
-  {
-    quote:
-      "Blox AI has revolutionized the way I conceptualize and communicate my ideas. As someone who frequently needs to map out processes and systems, I've found their flowchart and diagram creation tools to be incredibly intuitive and user-friendly.",
-    name: "Marnus Stephen",
-    role: "CEO at Company",
-    imgSrc: "https://i.pravatar.cc/120?img=9",
-  },
-  {
-    quote:
-      "As a developer, I've used several visualization tools, but Blox AI stands out with its intuitive interface and powerful features. The rich text editor and versatile visualizations make documenting and sharing concepts a breeze. The AI explanation feature adds an extra layer of understanding to the diagrams created. Plus, being able to install it as an app on mobile makes it convenient for on-the-go brainstorming sessions. A must-have tool for any tech team!",
-    name: "Chace Rodgers",
-    role: "CEO at Company",
-    imgSrc: "https://i.pravatar.cc/120?img=7",
-  },
-  {
-    quote:
-      "Blox AI has exceeded my expectations with its comprehensive set of features and user-friendly interface. Whether I'm creating wireframes, mind maps, or complex algorithms, Blox AI has all the tools I need. The limited files allotment ensures efficient resource usage, while the tech stack including Next.Js and TailwindCSS ensures smooth performance. I appreciate the attention to detail and the seamless collaboration it enables among team members.",
-    name: "Cornelius Sheppard",
-    role: "CEO at Company",
-    imgSrc: "https://i.pravatar.cc/120?img=8",
-  },
-  {
-    quote:
-      "Blox AI has truly impressed me with its versatility and reliability. Whether I'm working on a simple flowchart or a complex diagram, Blox AI provides the tools I need to bring my ideas to life. The integration of the Gemini AI model for explanations adds a layer of intelligence to the diagrams, making them more insightful. The option to install it as an app on mobile devices ensures that I can access my work anytime, anywhere. I highly recommend Blox AI to anyone looking for a robust visualization tool.",
-    name: "Chace Rodgers",
-    role: "CEO at Company",
-    imgSrc: "https://i.pravatar.cc/120?img=2",
-  },
-  {
-    quote:
-      "I've been using Blox AI for a while now, and it has become an integral part of my workflow. The ease of creating flowcharts and diagrams, coupled with the AI explanation feature, has greatly enhanced my productivity. The collaborative sharing option allows me to effortlessly collaborate with my team members, and the secure workspaces ensure the confidentiality of our projects. Overall, Blox AI has simplified the process of visualizing ideas and communicating them effectively.",
-    name: "Cornelius Sheppard",
-    role: "CEO at Company",
-    imgSrc: "https://i.pravatar.cc/120?img=3",
-  },
-];
+
+ const testimonials2 = [
+   {
+     quote:
+       "Blox AI has completely transformed the way we visualize ideas within our organization. The effortless creation tools make it simple for even non-technical team members to create professional-looking visuals and share ideas with ease and efficiency",
+     name: "Stacy Stone",
+     title: "CEO at Company",
+     imgSrc: "https://i.pravatar.cc/120?img=1",
+   },
+   {
+     quote:
+       "Blox AI has become an indispensable tool for our team's workflow. Whether we're brainstorming new ideas, mapping out user journeys, or documenting complex algorithms Blox AI provides us with the versatility and functionality we need.",
+     name: "Andrew Jettpace",
+     title: "CEO at Company",
+     imgSrc: "https://i.pravatar.cc/120?img=2",
+   },
+   {
+     quote:
+       "Blox AI has truly impressed me with its versatility and reliability. Whether I'm working on a simple flowchart or a complex diagram, Blox AI provides the tools I need to bring ideas to life The integration of the Gemini AI model for explanations adds a layer of intelligence to it",
+     name: "Edgar Allan Poe",
+     title: "CEO at Company",
+     imgSrc: "https://i.pravatar.cc/120?img=3",
+   },
+   {
+     quote:
+       "I've been using Blox AI for a while now, and it has become an integral part of my workflow. The ease of creating flowcharts, coupled with the AI explanation feature has greatly enhanced productivity and sharing option allows me to effortlessly collaborate",
+     name: "Cornelius Sheppard",
+     title: "CEO at Company",
+     imgSrc: "https://i.pravatar.cc/120?img=4",
+   },
+ ];
 
 const formSchema = z.object({
     name: z.string(),
@@ -93,20 +71,15 @@ const formSchema = z.object({
     return (
       <main>
         <div className="flex w-full flex-col items-center p-10">
-          <p style={{ paddingTop: "20px", fontSize: "2rem" }}>
+          <p style={{ paddingTop: "20px", paddingBottom:"35px", fontSize: "2rem" }}>
             Read what our customers love about us.
           </p>
-
-          <div className="container">
-            <TestimonialSlider testimonials={testimonials} />
-          </div>
-          <div className="h-[40rem] rounded-md flex flex-col antialiased dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">
-            <ReviewCarousel
-              items={testimonials2}
-              direction="left"
-              speed="slow"
-            />
-          </div>
+          <ReviewCarousel
+            items={testimonials2}
+            direction="left"
+            speed="slow"
+            customerreviews={[]}
+          />
           <div className="flex w-full flex-col items-center p-10">
             <p style={{ paddingTop: "20px", fontSize: "2.5rem" }}>
               Loved our product?
@@ -198,34 +171,3 @@ const formSchema = z.object({
       </main>
     );
   }
-  const testimonials2 = [
-    {
-      quote:
-        "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.",
-      name: "Charles Dickens",
-      title: "A Tale of Two Cities",
-    },
-    {
-      quote:
-        "To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer The slings and arrows of outrageous fortune, Or to take Arms against a Sea of troubles, And by opposing end them: to die, to sleep.",
-      name: "William Shakespeare",
-      title: "Hamlet",
-    },
-    {
-      quote: "All that we see or seem is but a dream within a dream.",
-      name: "Edgar Allan Poe",
-      title: "A Dream Within a Dream",
-    },
-    {
-      quote:
-        "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
-      name: "Jane Austen",
-      title: "Pride and Prejudice",
-    },
-    {
-      quote:
-        "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
-      name: "Herman Melville",
-      title: "Moby-Dick",
-    },
-  ];
