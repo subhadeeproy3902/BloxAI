@@ -71,7 +71,13 @@ const formSchema = z.object({
     return (
       <main>
         <div className="flex w-full flex-col items-center p-10">
-          <p style={{ paddingTop: "20px", paddingBottom:"35px", fontSize: "2rem" }}>
+          <p
+            style={{
+              paddingTop: "20px",
+              paddingBottom: "35px",
+              fontSize: "2rem",
+            }}
+          >
             Read what our customers love about us.
           </p>
           <ReviewCarousel
@@ -84,14 +90,14 @@ const formSchema = z.object({
             <p style={{ paddingTop: "20px", fontSize: "2.5rem" }}>
               Loved our product?
             </p>
-            <p style={{ paddingTop: "20px", fontSize: "2rem" }}>
-              Leave a Review
+            <p style={{ paddingTop: "20px", fontSize: "2.5rem" }}>
+              Leave a Review 👇
             </p>
           </div>
           <div
-            className="flex min-h-screen flex-col items-center justify-between"
+            className="flex w-full flex-col items-center justify-between"
             style={{
-              paddingTop: "5px",
+              paddingTop: "20px",
               paddingLeft: "25px",
               paddingRight: "25px",
               paddingBottom: "25px",
@@ -100,7 +106,7 @@ const formSchema = z.object({
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(handleSubmit)}
-                className="max-w-md  w-full flex flex-col gap-4"
+                className="max-w-md  w-full flex flex-col gap-8"
               >
                 <FormField
                   control={form.control}
