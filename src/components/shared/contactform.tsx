@@ -41,57 +41,85 @@ export default function Contact() {
   return (
     <main>
       <div className="flex w-full flex-col items-center p-10">
-          <p style={{ paddingTop: '20px', fontSize: '2rem' }}>Facing an issue? Fill up the form below 👇</p>
-        <div className="flex w-full flex-col items-center justify-between" style={{paddingTop: '20px', paddingLeft: '25px', paddingRight: '25px', paddingBottom: '25px'}}>
+        <p style={{ paddingTop: "20px", fontSize: "2rem" }}>
+          Facing an issue? Fill up the form below 👇
+        </p>
+        <div
+          className="flex w-full flex-col items-center justify-between"
+          style={{
+            paddingTop: "20px",
+            paddingLeft: "25px",
+            paddingRight: "25px",
+            paddingBottom: "25px",
+          }}
+        >
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="max-w-md  w-full flex flex-col gap-4">
-              <FormField control={form.control} 
-              name="name" 
-              render={({ field }) => {
-                return <FormItem>
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="John Doe" type="text" {...field}/>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              }} 
+            <form
+              onSubmit={form.handleSubmit(handleSubmit)}
+              className="max-w-md  w-full flex flex-col gap-4"
+            >
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>Full Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="John Doe" type="text" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
 
-              <FormField control={form.control} 
-              name="email" 
-              render={({ field }) => {
-                return <FormItem>
-                  <FormLabel>Email Address</FormLabel>
-                  <FormControl>
-                    <Input placeholder="johndoe@example.com" type="email" {...field}/>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              }} 
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>Email Address</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="johndoe@example.com"
+                          type="email"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
 
-              <FormField control={form.control} 
-              name="issue" 
-              render={({ field }) => {
-                return <FormItem>
-                  <FormLabel>Issue</FormLabel>
-                  <FormControl>
-                  <Textarea
-                  placeholder="Tell us a little bit about your issue in details here"
-                  className="resize-none"
-                  {...field}
-                />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              }} 
+              <FormField
+                control={form.control}
+                name="issue"
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>Issue</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Tell us a little bit about your issue in details here"
+                          className="resize-none"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
 
-              <Button type="submit" className="w-full"><b>SUBMIT</b></Button>
+              <Button type="submit" className="w-full">
+                <b>SUBMIT</b>
+              </Button>
             </form>
           </Form>
-          </div>
+        </div>
       </div>
     </main>
   );
