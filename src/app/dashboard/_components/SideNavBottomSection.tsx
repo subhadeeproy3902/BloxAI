@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Archive, File, Flag, Github } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Dialog,
   DialogClose,
@@ -14,6 +14,9 @@ import {
 import { Input } from "@/components/ui/input";
 import Constant from "@/app/_constant/Constant";
 import PricingDialog from "./PricingDialog";
+import { FileListContext } from "@/app/_context/FilesListContext";
+import { ErrorMessage } from "@/components/ui/error";
+
 function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
   const menuList = [
     {
@@ -35,7 +38,26 @@ function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
       path: "",
     },
   ];
-  const [fileInput, setFileInput] = useState("");
+  const { fileList_, setFileList_ } = useContext(FileListContext);
+  const [fileList, setFileList] = useState<any>([]);
+
+  useEffect(() => {
+    fileList_ && setFileList(fileList_);
+  }, [fileList_]);
+
+  const [fileInput, setFileInput] = useState<string>("");
+  const [error, setError] = useState<string>("");
+
+  const handelFileInput = (val: string) => {
+    setFileInput(val);
+    const isExistFile = fileList.find((file: any) => file?.fileName === val);
+    if (isExistFile) {
+      setError("File Name already exist.!");
+    } else {
+      setError("");
+    }
+  };
+
   return (
     <div>
       {menuList.map((menu, index) => (
@@ -64,14 +86,15 @@ function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
                 <Input
                   placeholder="Enter File Name"
                   className="mt-3"
-                  onChange={(e) => setFileInput(e.target.value)}
+                  onChange={(e) => handelFileInput(e.target.value)}
                 />
               </DialogDescription>
+              <ErrorMessage>{error}</ErrorMessage>
             </DialogHeader>
             <DialogFooter className="">
               <DialogClose asChild>
                 <Button
-                  disabled={!(fileInput && fileInput.length > 3)}
+                  disabled={!(fileInput && fileInput.length > 3 && !error)}
                   onClick={() => onFileCreate(fileInput)}
                 >
                   Create
