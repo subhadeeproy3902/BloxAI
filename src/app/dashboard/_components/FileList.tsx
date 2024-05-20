@@ -37,7 +37,7 @@ function FileList({
 }) {
   const router = useRouter();
   const [sortConfig, setSortConfig] = useState<{
-    key: string;
+    key: keyof FILE;
     direction: string;
   } | null>(null);
 
@@ -63,7 +63,7 @@ function FileList({
     window.location.reload();
   };
 
-  const requestSort = (key: string) => {
+  const requestSort = (key: keyof FILE) => {
     let direction = "ascending";
     if (
       sortConfig &&
