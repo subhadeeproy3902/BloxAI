@@ -9,7 +9,7 @@ const TermsConditions = () => {
         </h1>
         <p className="mb-4 text-muted-foreground">
           Please read these terms and conditions carefully before using our
-          website (the "Service") operated by BloxAI
+          website (the &quot;Service&quot;) operated by BloxAI
         </p>
         <h2 className="text-xl font-semibold mb-2 text-foreground/75">
           1. Agreement to Terms
@@ -65,7 +65,7 @@ const TermsConditions = () => {
           We reserve the right to modify or discontinue the service at any time
           without notice. These terms and conditions may be updated
           periodically, with continued use constituting acceptance of the
-          changes. These terms are governed by the laws of our company's
+          changes. These terms are governed by the laws of our company&apos;s
           jurisdiction. Users can contact us for any questions or concerns.
         </p>
       </div>
