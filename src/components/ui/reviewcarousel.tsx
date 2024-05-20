@@ -91,9 +91,9 @@ export const ReviewCarousel = ({
       >
         {items.map((item, idx) => (
           <li
-            className="w-[350px] max-w-full relative rounded-2xl border border-b-2 flex-shrink-0 border-slate-700 px-8 py-6 md:w-[450px] bg-orange-100 dark:bg-transparent"
+            className="w-[350px] max-w-full relative rounded-2xl border border-b-2 flex-shrink-0 border-slate-700 px-8 py-6 md:w-[450px] bg-orange-100 dark:bg-secondary"
             // style={{
-            //   background: "linear-gradient(180deg, #2d3748, #1a202c)",
+            //   // background: "linear-gradient(180deg, #2d3748, #1a202c)",
             // }}
             key={item.name}
           >
