@@ -29,6 +29,7 @@ function Canvas({
   useEffect(() => {
     onSaveTrigger && saveWhiteboard();
   }, [onSaveTrigger]);
+
   const saveWhiteboard = () => {
     updateWhiteboard({
       _id: fileId,
@@ -54,14 +55,12 @@ function Canvas({
         fontSize: 16, // Example font size
       });
 
-
       // Set the converted elements to the state
       setWhiteBoardData(elements);
     } catch (e) {
       console.error("Failed to parse Mermaid syntax:", e);
     }
   };
-
 
   return (
     <>
@@ -80,11 +79,7 @@ function Canvas({
                     : fileData?.whiteboard && JSON.parse(fileData?.whiteboard),
               }}
               onChange={(excalidrawElements, appState, files) => {
-                if (whiteBoardData?.length > 0) {
-                  return;
-                } else {
-                  setWhiteBoardData(excalidrawElements);
-                }
+                setWhiteBoardData(excalidrawElements);
               }}
               UIOptions={{
                 canvasActions: {

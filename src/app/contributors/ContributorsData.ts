@@ -2,13 +2,12 @@ export const ContributorsData = [
   {
     name: "Parna Roy Chowdhury",
     github: "https://github.com/ParnaRoyChowdhury777",
-    imageUrl: "https://avatars.githubusercontent.com/u/123104247?v=4"
+    imageUrl: "https://avatars.githubusercontent.com/u/123104247?v=4",
   },
   {
     name: "Komal Agarwal",
     github: "https://github.com/komal-agarwal5",
-    imageUrl:
-      "https://avatars.githubusercontent.com/u/122633300?v=4",
+    imageUrl: "https://avatars.githubusercontent.com/u/122633300?v=4",
   },
   {
     name: "Daksh Singh Rathore",
@@ -19,8 +18,7 @@ export const ContributorsData = [
   {
     name: "Sarthak Mishra",
     github: "https://github.com/sarthakmishra459",
-    imageUrl:
-      "https://gcdnb.pbrd.co/images/OHXTn7dGYViJ.jpg?o=1",
+    imageUrl: "https://gcdnb.pbrd.co/images/OHXTn7dGYViJ.jpg?o=1",
   },
   {
     name: "Soumyajit Roy",
@@ -65,11 +63,16 @@ export const ContributorsData = [
   {
     name: "Pranoti Durugkar",
     github: "https://github.com/PranotiPD",
-    imageUrl: "https://avatars.githubusercontent.com/u/97724414?s=400&v=4"
+    imageUrl: "https://avatars.githubusercontent.com/u/97724414?s=400&v=4",
   },
   {
     name: "Chetan karande",
     github: "https://github.com/Che140401",
-    imageUrl: "https://avatars.githubusercontent.com/u/161575955?v=4"
-  }
+    imageUrl: "https://avatars.githubusercontent.com/u/161575955?v=4",
+  },
+  {
+    name: "Swarup Bhise",
+    github: "https://github.com/CoderSwarup",
+    imageUrl: "https://avatars.githubusercontent.com/u/128630311?s=96&v=4",
+  },
 ];
