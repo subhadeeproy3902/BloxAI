@@ -79,5 +79,10 @@ export const ContributorsData = [
     name: "Swarup Bhise",
     github: "https://github.com/CoderSwarup",
     imageUrl: "https://avatars.githubusercontent.com/u/128630311?s=96&v=4",
+  },
+  {
+    name: "Siddheya Kulkarni",
+    github: "https://github.com/Asymtode712",
+    imageUrl: "https://avatars.githubusercontent.com/u/115717746?v=4",
   }
 ];
