@@ -1,0 +1,37 @@
+name: Auto Comment on PR Merge  # Name of the GitHub Action workflow
+
+on:
+  pull_request:
+    types: [closed]  # Trigger the workflow when a pull request is closed
+
+permissions:
+  issues: write  # Grant permission to write to issues
+  pull-requests: write  # Grant permission to write to pull requests
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner for the job
+    permissions:
+      pull-requests: write  # Grant permission to write to pull requests for this job specifically
+    if: github.event.pull_request.merged == true  # Only run this job if the pull request was merged
+
+    steps:
+    - name: Checkout Repository  # Step to checkout the repository
+      uses: actions/checkout@v2  # Use the GitHub action to checkout the repository code
+
+    - name: Add Comment to Issue  # Step to add a comment to the merged pull request
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use the GitHub token stored in secrets for authentication
+      run: |
+        COMMENT=$(cat <<EOF  # Create a multi-line comment with a success message
+        {
+          "body": "🎉 Your pull request has been successfully merged! 🎉 Thank you for your valuable contribution to our project. Your efforts are greatly appreciated. Feel free to reach out if you have any more contributions or if there's anything else we can assist you with. Keep up the fantastic work! 🚀"
+        }
+        EOF
+        )
+        # Use curl to post the comment to the GitHub API
+        curl -X POST \
+          -H "Authorization: Bearer $GITHUB_TOKEN" \  # Authenticate with the GitHub token
+          -H "Accept: application/vnd.github.v3+json" \  # Specify the API version
+          https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \  # Construct the URL to post the comment
+          -d "$COMMENT"  # Send the comment data
