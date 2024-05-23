@@ -1,0 +1,31 @@
+name: Comment on Issue Close  # Name of the GitHub Action workflow
+
+on:
+  issues:
+    types: [closed]  # Trigger the workflow when an issue is closed
+
+jobs:
+  greet-on-close:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner for the job
+    permissions:
+      issues: write  # Grant permission to write to issues
+
+    steps:
+      - name: Greet User  # Step to greet the user when the issue is closed
+        uses: actions/github-script@v5  # Use the GitHub script action to run a custom script
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}  # Use the GitHub token stored in secrets for authentication
+          script: |
+            const issue = context.payload.issue;  # Get the issue details from the context payload
+            const issueCreator = issue.user.login;  # Get the username of the issue creator
+            const issueNumber = issue.number;  # Get the issue number
+
+            const greetingMessage = `Hello @${issueCreator}! Your issue #${issueNumber} has been closed. Thank you for your contribution!`;  # Create a greeting message
+
+            // Use the GitHub API to create a comment on the closed issue
+            github.rest.issues.createComment({
+              owner: context.repo.owner,  # Repository owner
+              repo: context.repo.repo,  # Repository name
+              issue_number: issueNumber,  # Issue number
+              body: greetingMessage  # Comment body with the greeting message
+            });
