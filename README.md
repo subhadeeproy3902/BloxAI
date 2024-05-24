@@ -68,7 +68,9 @@ We understand that open source collaboration is filled with excitement and fulfi
 
 Thanks to all contributors for helping this project grow! 🍻
 
-<a href="https://github.com/Recode-Hive/Stackoverflow-Analysis/graphs/contributors"></a>
+<a href="https://github.com/sanjay-kv/Stackoverflow-Analysis/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=subhadeeproy3902/BloxAI" width=800 />
+</a>
  
 ## 🙏 Support
 
