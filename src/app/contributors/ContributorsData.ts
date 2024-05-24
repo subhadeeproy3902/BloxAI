@@ -76,5 +76,10 @@ export const ContributorsData = [
     name: "Roni Sarkar",
     github: "https://github.com/ronisarkarexe",
     imageUrl: "https://avatars.githubusercontent.com/u/76697055?v=4"
-  }
+  },
+  {
+    name: "Aniket Dhaygude",
+    github: "https://github.com/Aniket-2504",
+    imageUrl: "https://avatars.githubusercontent.com/u/145179532?v=4"
+  },
 ];
