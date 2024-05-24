@@ -77,20 +77,19 @@ export default function Review() {
   return (
     <main className="flex flex-col items-center p-4 md:p-10 w-full">
       <div className="w-full flex flex-col items-center">
-        <p className="text-2xl md:text-3xl py-5">
+        <p className="text-2xl md:text-4xl font-semibold py-5">
           Read what our customers love about us.
         </p>
         <ReviewCarousel items={testimonials2} direction="left" speed="slow" />
       </div>
-      {/* <div className="w-full flex flex-col items-center py-10">
-        <p className="text-2xl md:text-3xl">Loved our product?</p>
-        <p className="text-2xl md:text-3xl">Leave a Review 👇</p>
-      </div> */}
       <div className="flex w-full text-2xl flex-col items-center p-10 md:text-sm">
-        <p className="text-2xl md:text-3xl py-5">Loved our product?</p>
-        <p className="text-2xl md:text-3xl py-5">Leave a Review 👇</p>
+        <p className="text-xl md:text-2xl py-5 opacity-75">
+          Loved our product?
+        </p>
+        <p className="text-3xl md:text-5xl font-bold py-2 bg-gradient-to-r bg-clip-text text-transparent from-muted-foreground via-primary-foreground to-muted-foreground">
+          Leave a Review 👇
+        </p>
       </div>
-      {/* <div className="w-full max-w-md p-4 md:p-10 "> */}
       <div className="w-full max-w-lg p-4 md:p-10">
         <Form {...form}>
           <form
