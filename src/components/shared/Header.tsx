@@ -29,6 +29,10 @@ const Header = () => {
       path: "/contact",
     },
     {
+      title: "AboutUs",
+      path: "/aboutus",
+    },
+    {
       title: "Review Us",
       path: "/review",
     },
