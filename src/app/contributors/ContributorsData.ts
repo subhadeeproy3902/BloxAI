@@ -80,6 +80,6 @@ export const ContributorsData = [
   {
     name: "Aniket Dhaygude",
     github: "https://github.com/Aniket-2504",
-    imageUrl: "https://avatars.githubusercontent.com/u/145179532?v=4"
-  },
+    imageUrl: "https://avatars.githubusercontent.com/u/145179532?v=4",
+  }
 ];
