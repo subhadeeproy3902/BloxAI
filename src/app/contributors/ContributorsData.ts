@@ -10,6 +10,11 @@ export const ContributorsData = [
     imageUrl: "https://avatars.githubusercontent.com/u/122633300?v=4",
   },
   {
+    name: "Abhishikta Ray",
+    github: "https://github.com/AbhishiktaRay03",
+    imageUrl: "https://avatars.githubusercontent.com/u/127621443?v=4",
+  },
+  {
     name: "Daksh Singh Rathore",
     github: "https://github.com/dakshsinghrathore",
     imageUrl:

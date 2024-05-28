@@ -106,7 +106,7 @@ const Footer = () => {
               </h2>
               <ul className="text-muted-foreground font-medium">
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">
+                  <a href="/privacy" className="hover:underline">
                     Privacy Policy
                   </a>
                 </li>
