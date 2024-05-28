@@ -33,7 +33,7 @@ function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
       id: 2,
       name: "Github",
       icon: Github,
-      path: `/dashboard/Github`,
+      path: `https://github.com/subhadeeproy3902/BloxAI`,
     },
     {
       id: 3,
@@ -65,7 +65,7 @@ function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
   return (
     <div>
       {menuList.map((menu, index) => (
-        <Link href={menu.path} >
+        <Link key={index} href={menu.path} >
           <h2
             key={index}
             className={`flex gap-2 p-1 ${pathname == menu.path ? "bg-muted" : ""} px-2 text-[14px] hover:bg-muted rounded-md cursor-pointer`}
