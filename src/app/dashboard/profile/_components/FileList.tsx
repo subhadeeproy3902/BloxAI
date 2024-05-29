@@ -1,9 +1,8 @@
 "use client";
 import { FILE } from "../../page";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Loader2, Trash2, ChevronsUpDown } from "lucide-react";
 import moment from "moment";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMutation } from "convex/react";
 import { Button } from "@/components/ui/button";
@@ -26,7 +25,7 @@ export interface Team {
   teamName: string;
   _creationTime: number;
   _id: string;
-  fileCount?:number;
+  fileCount?: number;
 }
 
 export default function FileList({
@@ -41,6 +40,7 @@ export default function FileList({
     key: keyof FILE;
     direction: string;
   } | null>(null);
+  const [teamLookup, setTeamLookup] = useState<Record<string, string>>({});
 
   const safeFileList = Array.isArray(fileList) ? fileList : [];
 
@@ -75,6 +75,17 @@ export default function FileList({
     }
     setSortConfig({ key, direction });
   };
+
+  useEffect(() => {
+    const lookup = teamList.reduce(
+      (acc: any, team: any) => {
+        acc[team._id] = team.teamName;
+        return acc;
+      },
+      {} as Record<string, string>
+    );
+    setTeamLookup(lookup);
+  }, [teamList]);
 
   return (
     <div className="overflow-x-auto w-full">
@@ -135,9 +146,7 @@ export default function FileList({
                   {moment(file._creationTime).format("DD MMM YYYY")}
                 </td>
                 <td className="whitespace-nowrap px-8 py-2 text-muted-foreground">
-                  {teamList.map((team, index) => (
-                    <p key={index}>{team.teamName}</p>
-                  ))}
+                  {teamLookup[file.teamId] || "Unknown Team"}
                 </td>
                 <td className="whitespace-nowrap px-8 py-2 text-muted-foreground">
                   <AlertDialog>

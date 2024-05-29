@@ -10,9 +10,7 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import moment from "moment";
 
@@ -22,9 +20,9 @@ export default function TeamList({ teamList }: { teamList: Team[] }) {
       <Carousel className="w-full">
         <CarouselPrevious />
         <CarouselContent>
-          <CarouselItem className="basis-1/3">
-            {teamList.map((team, index) => (
-              <Card key={index}>
+          {teamList.map((team, index) => (
+            <CarouselItem key={index} className="basis-1/3">
+              <Card>
                 <CardHeader className="">{team.teamName}</CardHeader>
                 <CardContent>
                   <CardDescription>
@@ -32,15 +30,12 @@ export default function TeamList({ teamList }: { teamList: Team[] }) {
                       Created At :{" "}
                       {moment(team._creationTime).format("DD MMM YYYY")}
                     </h1>
-                    <h1>
-                      Files :{" "}
-                      {team.fileCount}
-                    </h1>
+                    <h1>Files : {team.fileCount}</h1>
                   </CardDescription>
                 </CardContent>
               </Card>
-            ))}
-          </CarouselItem>
+            </CarouselItem>
+          ))}
         </CarouselContent>
         <CarouselNext />
       </Carousel>
