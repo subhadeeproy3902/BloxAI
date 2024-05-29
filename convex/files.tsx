@@ -74,3 +74,27 @@ export const deleteFile = mutation({
     return result;
   },
 });
+
+export const addToArchive = mutation({
+  args:{
+    _id: v.id("files"),
+  },
+  handler: async (ctx,args) => {
+    const { _id } = args;
+    const res = await ctx.db.replace(_id,{archive:true})
+    console.log(res)
+    return res;
+  }
+})
+
+export const removeFromArchive = mutation({
+  args:{
+    _id: v.id("files"),
+  },
+  handler: async (ctx,args) => {
+    const { _id } = args;
+    const res = await ctx.db.replace(_id,{archive:false})
+    console.log(res)
+    return res;
+  }
+})

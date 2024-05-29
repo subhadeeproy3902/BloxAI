@@ -94,5 +94,10 @@ export const ContributorsData = [
     name: "Suryadevara Rithika",
     github: "https://github.com/rithika212k3",
     imageUrl: "https://avatars.githubusercontent.com/u/158501895?v=4",
-  }
+  },
+  {
+    name: "Siddharth Bramhecha",
+    github: "https://github.com/Sid-80",
+    imageUrl: "https://avatars.githubusercontent.com/u/101277141?v=4",
+  }
 ];

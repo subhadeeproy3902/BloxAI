@@ -47,7 +47,10 @@ function Dashboard() {
   const [fileList, setFileList] = useState<any>();
 
   useEffect(() => {
-    fileList_ && setFileList(fileList_);
+    if(fileList_){
+      const nonArchivedFiles = fileList_.filter((file: { archived: boolean; }) => !file.archived);
+      setFileList(nonArchivedFiles);
+    }
   }, [fileList_]);
 
   const searchFile = (searchTerm: string) => {

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Loader2, Trash2, ChevronsUpDown } from "lucide-react";
+import { Loader2, Trash2, ChevronsUpDown,ArchiveIcon,ArchiveRestore } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
@@ -44,6 +44,7 @@ function FileList({
   } | null>(null);
 
   const safeFileList = Array.isArray(fileList) ? fileList : [];
+  const pathname = usePathname();
 
   const sortedFiles = [...safeFileList];
   if (sortConfig !== null) {
@@ -64,6 +65,20 @@ function FileList({
     await deleteFile({ _id: id as Id<"files"> });
     window.location.reload();
   };
+
+  const archiveFile = useMutation(api.files.addToArchive);
+  const archiveFunc = async (e:any, id:string) => {
+    e.stopPropagation();
+    await archiveFile({ _id: id as Id<"files"> });
+    window.location.reload();
+  }
+  
+  const unArchiveFile = useMutation(api.files.removeFromArchive);
+  const unarchiveFunc = async(e:any, id:string) => {
+    e.stopPropagation();
+    await unArchiveFile({ _id: id as Id<"files"> });
+    window.location.reload();
+  }
 
   const requestSort = (key: keyof FILE) => {
     let direction = "ascending";
@@ -151,7 +166,7 @@ function FileList({
                     className="rounded-full"
                   />
                 </td>
-                <td className="whitespace-nowrap px-4 py-2 text-muted-foreground">
+                <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
                   <AlertDialog>
                     <AlertDialogTrigger>
                       <Button variant={"destructive"} size={"icon"}>
@@ -179,6 +194,65 @@ function FileList({
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
+                  {
+                    pathname === "/dashboard" && (
+                      <AlertDialog>
+                        <AlertDialogTrigger>
+                          <Button variant={"destructive"} size={"icon"}>
+                            <ArchiveIcon className="h-4 w-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Are you absolutely sure?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This will add your file to the archive section.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={(e) => archiveFunc(e, file._id)}
+                            >
+                              Continue
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    )
+                  }
+                  {
+                    pathname === "/dashboard/archive" && (
+                      <AlertDialog>
+                        <AlertDialogTrigger>
+                          <Button variant={"destructive"} size={"icon"}>
+                            <ArchiveRestore className="h-4 w-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Are you absolutely sure?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This will add your file to the archive section.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={(e) => unarchiveFunc(e, file._id)}
+                            >
+                              Continue
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    )
+                  }
+                  
                 </td>
               </tr>
             ))}
