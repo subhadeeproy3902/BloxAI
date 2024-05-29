@@ -89,5 +89,9 @@ export const ContributorsData = [
     name: "Suryadevara Rithika",
     github: "https://github.com/rithika212k3",
     imageUrl: "https://avatars.githubusercontent.com/u/158501895?v=4",
-  }
+  },{
+  name: "Chitra Jain",
+  github: "https://github.com/chitraa-cj",
+  imageUrl: "https://avatars.githubusercontent.com/u/164042739?s=400&u=24e8aacec012fae8b1ddee6c12d824cc067ab7c1&v=4",
+}
 ];
