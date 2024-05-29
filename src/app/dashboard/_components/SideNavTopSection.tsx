@@ -57,11 +57,13 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
       router.push(item.path);
     }
   };
+  const handleClick = () => {
+    router.push('/dashboad/profile');
+  };
   return (
     <div>
       <Popover>
-        <PopoverTrigger>
-          <div className="flex items-center gap-3 hover:bg-secondary p-3 rounded-lg cursor-pointer">
+          <div className="flex items-center gap-3 hover:bg-secondary p-3 rounded-lg cursor-pointer" onClick={handleClick}>
             <Image
               src="/android-chrome-192x192.png"
               alt="logo"
@@ -73,7 +75,6 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
               <ChevronDown />
             </h2>
           </div>
-        </PopoverTrigger>
         <PopoverContent className="ml-7 p-4">
           {/* Team Section  */}
           <div>
