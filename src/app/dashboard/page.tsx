@@ -13,6 +13,7 @@ import { Search, Send } from "lucide-react";
 import Image from "next/image";
 import { toggleClose } from "../Redux/Menu/menuSlice";
 import { useSelector, useDispatch } from "react-redux";
+import Link from "next/link";
 export interface FILE {
   archive: boolean;
   createdBt: string;
@@ -89,13 +90,15 @@ function Dashboard() {
         </div>
         <div className="flex gap-2 items-center mx-2">
           <ThemeTogglebutton />
+          <Link href={`/dashboard/profile`}>
           <Image
             src={user?.picture || "https://picsum.photos/50"}
             alt="user"
             width={30}
             height={30}
             className="rounded-full"
-          />
+            />
+            </Link>
         </div>
         <Button>
           <Send className="h-4 w-4" /> Invite
