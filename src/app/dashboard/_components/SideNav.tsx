@@ -20,7 +20,7 @@ function SideNav() {
   const { isAuthenticated } = useKindeBrowserClient();
   const dispatch = useDispatch();
   const { theme } = useTheme();
-  const[background, setBackground] = useState('dark');
+  const [background, setBackground] = useState("dark");
 
   useEffect(() => {
     activeTeam && getFiles();
@@ -54,13 +54,17 @@ function SideNav() {
     setTotalFiles(result?.length);
   };
 
-  useEffect(() =>{
-    setBackground(theme === "dark" ? "dark" : "light")
-  },[theme])
+  useEffect(() => {
+    setBackground(theme === "dark" ? "dark" : "light");
+  }, [theme]);
 
   return isAuthenticated ? (
-    <div className={`h-screen fixed md:w-72 w-[22vh] borde-r border-[1px] p-6 flex flex-col ` 
-    + (`${background}` === "dark" ? "bg-black" : "bg-white")}>
+    <div
+      className={
+        `h-screen w-full  z-99 fixed sm:w-72 w-[22vh] borde-r border-[1px] p-6 flex flex-col ` +
+        (`${background}` === "dark" ? "bg-background" : "bg-white")
+      }
+    >
       <button
         className="md:hidden absolute top-4 right-4 mb-2"
         onClick={() => dispatch(setClose())}

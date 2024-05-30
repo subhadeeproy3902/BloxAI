@@ -37,7 +37,7 @@ function DashboardLayout({
       <FileListContext.Provider value={{ fileList_, setFileList_ }}>
         <div className="md:grid md:grid-cols-4">
           <div
-            className={`bg-background z-99  h-screen md:w-72 w-36 fixed ${count ? "" : "md:relative hidden"}`}
+            className={`bg-background z-[2]  h-screen md:w-72 w-36 fixed ${count ? "" : "md:relative hidden"}`}
           >
             <SideNav />
           </div>

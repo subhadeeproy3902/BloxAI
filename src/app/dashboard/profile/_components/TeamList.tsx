@@ -21,7 +21,10 @@ export default function TeamList({ teamList }: { teamList: Team[] }) {
         <CarouselPrevious />
         <CarouselContent>
           {teamList.map((team, index) => (
-            <CarouselItem key={index} className="basis-1/3">
+            <CarouselItem
+              key={index}
+              className="w-full sm:basis-1/2 md:basis-1/2"
+            >
               <Card>
                 <CardHeader className="">{team.teamName}</CardHeader>
                 <CardContent>
