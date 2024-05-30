@@ -1,8 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./Redux/Menu/menuSlice";
+import teamReducer from "./Redux/Team/team-slice"
+
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
+    team:teamReducer
   },
 });
 

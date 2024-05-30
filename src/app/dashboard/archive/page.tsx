@@ -4,11 +4,14 @@ import Navbar from './_components/Navbar'
 import FileList from '../_components/FileList'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
 import { FileListContext } from '@/app/_context/FilesListContext';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/store';
 
 export default function Page() {
   const { user }: any = useKindeBrowserClient();
   const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>();
+  const activeTeamId = useSelector((state:RootState)=>state.team.teamId)
 
   useEffect(() => {
     if(fileList_){

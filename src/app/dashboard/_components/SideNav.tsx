@@ -7,13 +7,16 @@ import { api } from "../../../../convex/_generated/api";
 import { toast } from "sonner";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { setClose } from "@/app/Redux/Menu/menuSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "next-themes";
+import { RootState } from "@/app/store";
 
 function SideNav() {
   const { user }: any = useKindeBrowserClient();
   const createFile = useMutation(api.files.createFile);
   const [activeTeam, setActiveTeam] = useState<TEAM | any>();
+  const activeTeamId = useSelector((state:RootState)=>state.team.teamId)
+  const activeTeamName = useSelector((state:RootState)=>state.team.teamName)
   const convex = useConvex();
   const [totalFiles, setTotalFiles] = useState<Number>();
   const { setFileList_ } = useContext(FileListContext);
