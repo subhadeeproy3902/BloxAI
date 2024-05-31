@@ -57,13 +57,10 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
       router.push(item.path);
     }
   };
-  const handleClick = () => {
-    router.push('/dashboad/profile');
-  };
   return (
     <div>
       <Popover>
-          <div className="flex items-center gap-3 hover:bg-secondary p-3 rounded-lg cursor-pointer" onClick={handleClick}>
+          <div className="flex items-center gap-3 hover:bg-secondary p-3 rounded-lg cursor-pointer">
             <Image
               src="/android-chrome-192x192.png"
               alt="logo"
