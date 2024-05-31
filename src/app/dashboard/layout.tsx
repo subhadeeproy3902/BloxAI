@@ -9,6 +9,7 @@ import { FileListContext } from "@/app/_context/FilesListContext";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store";
 import { Button } from "@/components/ui/button";
+import Loader from "@/components/shared/Loader";
 function DashboardLayout({
   children,
 }: Readonly<{
@@ -35,28 +36,11 @@ function DashboardLayout({
   };
 
   return isAuthenticated ? (
-    <div>
       <FileListContext.Provider value={{ fileList_, setFileList_ }}>
-        <div className="md:grid md:grid-cols-4">
-          <div
-            className={`bg-background z-99  h-screen md:w-72 w-36 fixed ${count ? "" : "md:relative hidden"}`}
-          >
-            <SideNav />
-          </div>
-          <div className="col-span-4 md:ml-72">{children}</div>
-        </div>
+          {children}
       </FileListContext.Provider>
-    </div>
   ) : (
-    <div className="flex  justify-center items-center w-[75%] h-screen">
-      <div>
-        You have to{" "}
-        <Button asChild>
-          <LoginLink>Login</LoginLink>
-        </Button>{" "}
-        to see this page
-      </div>
-    </div>
+    <Loader />
   );
 }
 
