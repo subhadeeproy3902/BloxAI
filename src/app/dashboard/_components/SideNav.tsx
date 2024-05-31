@@ -20,7 +20,6 @@ function SideNav() {
   const convex = useConvex();
   const [totalFiles, setTotalFiles] = useState<Number>();
   const { setFileList_ } = useContext(FileListContext);
-  const { isAuthenticated } = useKindeBrowserClient();
   const dispatch = useDispatch();
   const { theme } = useTheme();
   const[background, setBackground] = useState('dark');
@@ -61,7 +60,7 @@ function SideNav() {
     setBackground(theme === "dark" ? "dark" : "light")
   },[theme])
 
-  return isAuthenticated ? (
+  return (
     <div className={`h-screen fixed md:w-72 w-[22vh] borde-r border-[1px] p-6 flex flex-col ` 
     + (`${background}` === "dark" ? "bg-black" : "bg-white")}>
       <button
@@ -98,9 +97,7 @@ function SideNav() {
         />
       </div>
     </div>
-  ) : (
-    <div className="hidden"></div>
-  );
+  )
 }
 
 export default SideNav;
