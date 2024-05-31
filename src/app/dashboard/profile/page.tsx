@@ -38,7 +38,7 @@ export default function Page() {
   }, [user, fileList]);
 
   useEffect(() => {
-    if (teamList.length > 0 && fileList.length > 0) {
+    if (teamList.length > 0 && fileList?.length > 0) {
       const fileCounts = fileList.reduce(
         (acc: Record<string, number>, file: any) => {
           acc[file.teamId] = (acc[file.teamId] || 0) + 1;
