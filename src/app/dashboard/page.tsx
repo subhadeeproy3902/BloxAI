@@ -68,6 +68,7 @@ function Dashboard() {
       <div className="flex justify-between  w-full md:gap-2 gap-3 items-center md:justify-end">
         {!count && (
           <button
+            title="Close"
             className="md:hidden relative"
             onClick={() => {
               dispatch(toggleClose());

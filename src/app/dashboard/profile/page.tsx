@@ -1,6 +1,6 @@
 "use client";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import { ArrowBigLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import UserImage from "./_components/UserImage";
 import FileList, { Team } from "./_components/FileList";
@@ -41,7 +41,6 @@ export default function Page() {
 
   useEffect(() => {
     if (teamList.length > 0 && fileList?.length > 0) {
-
       const fileCounts = fileList.reduce(
         (acc: Record<string, number>, file: any) => {
           acc[file.teamId] = (acc[file.teamId] || 0) + 1;
@@ -63,6 +62,7 @@ export default function Page() {
     <div className="w-[full] bg-background flex relative flex-col gap-5 px-5 pt-10 flex-1 items-start justify-center overflow-y-auto overflow-x-hidden md:px-8">
       <nav className=" flex items-center p-0 absolute top-2 left-2 gap-4">
         <button
+          title="Close"
           className="md:hidden relative "
           onClick={() => {
             dispatch(toggleClose());
@@ -78,8 +78,8 @@ export default function Page() {
             <path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"></path>
           </svg>
         </button>
-        <Link href={"/dashboard"} className="  ">
-          <ArrowBigLeft className="w-9 h-9" />
+        <Link href={"/dashboard"}>
+          <ArrowLeft />
         </Link>
       </nav>
       <UserImage image={user?.picture} />

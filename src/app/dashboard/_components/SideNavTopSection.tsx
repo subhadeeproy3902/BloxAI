@@ -29,12 +29,12 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
       path: "/teams/create",
       icon: Users,
     },
-    {
-      id: 2,
-      name: "Settings",
-      path: "",
-      icon: Settings,
-    },
+    // {
+    //   id: 2,
+    //   name: "Settings",
+    //   path: "/dashboard/profile",
+    //   icon: Settings,
+    // },
   ];
   const router = useRouter();
   const convex = useConvex();
@@ -89,12 +89,13 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
               <h2
                 key={index}
                 className={`p-2 hover:bg-primary
-                         hover:text-muted-foreground
                          rounded-lg mb-1 cursor-pointer
                          ${activeTeam?._id == team._id && "bg-primary text-white"}`}
                 onClick={() => {
-                  dispatch(setTeamInfo({teamName:team.teamName,teamId:team._id}))
-                  setActiveTeam(team)
+                  dispatch(
+                    setTeamInfo({ teamName: team.teamName, teamId: team._id })
+                  );
+                  setActiveTeam(team);
                 }}
               >
                 {team.teamName}

@@ -25,18 +25,12 @@ function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
   const menuList = [
     {
       id: 1,
-      name: "Getting Started",
-      icon: Flag,
-      path: `/dashboard/getstarted`,
-    },
-    {
-      id: 2,
       name: "Github",
       icon: Github,
       path: `https://github.com/subhadeeproy3902/BloxAI`,
     },
     {
-      id: 3,
+      id: 2,
       name: "Archive",
       icon: Archive,
       path: `/dashboard/archive`,
