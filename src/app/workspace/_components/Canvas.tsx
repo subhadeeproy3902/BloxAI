@@ -63,7 +63,7 @@ function Canvas({
   return (
     <>
       {/* <Button onClick={handleMermaidToExcalidraw}>Prompt</Button> */}
-      <div className="h-full ">
+      <div className="h-full">
         {fileData && (
           <>
             {/*Render the whiteboard data too if the mermaid code is converted to excalidraw elements*/}
