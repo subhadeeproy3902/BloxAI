@@ -1,6 +1,6 @@
 "use client";
 import { api } from "../../../convex/_generated/api";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { LoginLink, useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useConvex } from "convex/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import { FileListContext } from "@/app/_context/FilesListContext";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store";
 import Loader from "@/components/shared/Loader";
+import { Button } from "@/components/ui/button";
 function DashboardLayout({
   children,
 }: Readonly<{
@@ -39,7 +40,18 @@ function DashboardLayout({
     setTimeout(() => setLoading(false), 2000);
   }, []);
 
-  if (!isAuthenticated) return <Loader />;
+  if (!isAuthenticated && !loading)
+    return (
+      <div className="flex  justify-center items-center w-full h-screen">
+        <div>
+          You have to{" "}
+          <Button asChild>
+            <LoginLink>Login</LoginLink>
+          </Button>{" "}
+          to see this page
+        </div>
+      </div>
+    );
 
   return !loading ? (
     <div>
@@ -56,7 +68,7 @@ function DashboardLayout({
     </div>
   ) : (
     <Loader />
-  )
+  );
 }
 
 export default DashboardLayout;
