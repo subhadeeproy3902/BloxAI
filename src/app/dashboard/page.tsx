@@ -47,8 +47,10 @@ function Dashboard() {
   const [fileList, setFileList] = useState<any>();
 
   useEffect(() => {
-    if(fileList_){
-      const nonArchivedFiles = fileList_.filter((file: { archived: boolean; }) => !file.archived);
+    if (fileList_) {
+      const nonArchivedFiles = fileList_.filter(
+        (file: { archived: boolean }) => !file.archived
+      );
       setFileList(nonArchivedFiles);
     }
   }, [fileList_]);
@@ -63,7 +65,7 @@ function Dashboard() {
   return  (
     
     <div className="md:p-8 p-3">
-      <div className="flex justify-end w-full md:gap-2 gap-3 items-center">
+      <div className="flex justify-between  w-full md:gap-2 gap-3 items-center md:justify-end">
         {!count && (
           <button
             className="md:hidden relative"
@@ -83,7 +85,7 @@ function Dashboard() {
             </svg>
           </button>
         )}
-        <div className="flex-center border overflow-hidden rounded-lg px-2 p-1">
+        <div className=" flex-center border overflow-hidden rounded-lg px-2 p-1">
           <Search size={24} />
           <Input
             type="text"
@@ -95,14 +97,14 @@ function Dashboard() {
         <div className="flex gap-2 items-center mx-2">
           <ThemeTogglebutton />
           <Link href={`/dashboard/profile`}>
-          <Image
-            src={user?.picture || "https://picsum.photos/50"}
-            alt="user"
-            width={30}
-            height={30}
-            className="rounded-full"
+            <Image
+              src={user?.picture || "https://picsum.photos/50"}
+              alt="user"
+              width={30}
+              height={30}
+              className="rounded-full"
             />
-            </Link>
+          </Link>
         </div>
         <Button>
           <Send className="h-4 w-4" /> Invite
