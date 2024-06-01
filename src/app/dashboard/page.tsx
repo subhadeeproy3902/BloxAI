@@ -5,7 +5,7 @@ import { api } from "../../../convex/_generated/api";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useConvex, useMutation } from "convex/react";
 import FileList from "./_components/FileList";
-import { useState, useContext, useEffect, Suspense } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ThemeTogglebutton from "@/components/ui/ThemeToggle";

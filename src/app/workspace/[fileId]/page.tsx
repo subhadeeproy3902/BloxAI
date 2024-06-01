@@ -43,8 +43,7 @@ function Workspace({ params }: any) {
               fileId={params.fileId}
               fileData={fileData}
             />
-        </div>
-
+        </div> 
         <div
           className={`h-screen border-l`}
         >

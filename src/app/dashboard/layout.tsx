@@ -10,11 +10,13 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../store";
 import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
+import { useMutation } from "convex/react";
 function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const createTeam = useMutation(api.teams.createTeam);
   const convex = useConvex();
   const { isAuthenticated } = useKindeBrowserClient();
   const { user }: any = useKindeBrowserClient();
@@ -22,17 +24,27 @@ function DashboardLayout({
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const count = useSelector((state: RootState) => state.counter.value);
+  const [teams, setTeams] = useState(false);
+
   useEffect(() => {
     user && checkTeam();
-  }, [user]);
+  }, [user, teams]);
 
   const checkTeam = async () => {
     const result = await convex.query(api.teams.getTeam, {
       email: user?.email,
     });
-
+    
     if (!result?.length) {
-      router.push("teams/create");
+      createTeam({
+        teamName: "My Org",
+        createdBy: user?.email,
+      }).then((resp) => {
+        if (resp) {
+          router.push("/dashboard");
+        }
+      });
+      setTeams(true);
     }
   };
 
