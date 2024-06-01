@@ -12,6 +12,8 @@ import { useConvex } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useDispatch } from "react-redux";
+import { setTeamInfo } from "@/app/Redux/Team/team-slice";
 
 export interface TEAM {
   createdBy: String;
@@ -35,6 +37,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
   ];
   const router = useRouter();
   const convex = useConvex();
+  const dispatch = useDispatch();
   const [activeTeam, setActiveTeam] = useState<TEAM>();
   const [teamList, setTeamList] = useState<TEAM[]>();
   useEffect(() => {
@@ -50,6 +53,9 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
     });
     setTeamList(result);
     setActiveTeam(result[0]);
+    dispatch(
+      setTeamInfo({ teamId: result[0]._id, teamName: result[0].teamName })
+    );
   };
 
   const onMenuClick = (item: any) => {
@@ -60,6 +66,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
   return (
     <div>
       <Popover>
+        <PopoverTrigger>
           <div className="flex items-center gap-3 hover:bg-secondary p-3 rounded-lg cursor-pointer">
             <Image
               src="/android-chrome-192x192.png"
@@ -72,6 +79,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
               <ChevronDown />
             </h2>
           </div>
+        </PopoverTrigger>
         <PopoverContent className="ml-7 p-4">
           {/* Team Section  */}
           <div>
@@ -82,7 +90,10 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
                          hover:text-muted-foreground
                          rounded-lg mb-1 cursor-pointer
                          ${activeTeam?._id == team._id && "bg-primary text-white"}`}
-                onClick={() => setActiveTeam(team)}
+                onClick={() => {
+                  dispatch(setTeamInfo({teamName:team.teamName,teamId:team._id}))
+                  setActiveTeam(team)
+                }}
               >
                 {team.teamName}
               </h2>
