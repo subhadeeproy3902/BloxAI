@@ -104,5 +104,10 @@ export const ContributorsData = [
     name: "Amruta Kothawade",
     github: "https://github.com/Amruta7203",
     imageUrl: "https://avatars.githubusercontent.com/u/116087736?v=4",
-  }
+  },
+  {
+    name: "Chitra Jain",
+    github: "https://github.com/chitraa-cj",
+    imageUrl: "https://avatars.githubusercontent.com/u/164042739?v=4",
+  },
 ];
