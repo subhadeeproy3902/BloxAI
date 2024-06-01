@@ -31,6 +31,7 @@ function Dashboard() {
   const { user }: any = useKindeBrowserClient();
   const createUser = useMutation(api.user.createUser);
   const count = useSelector((state: RootState) => state.counter.value);
+  const activeTeamId = useSelector((state:RootState)=>state.team.teamId)
   const dispatch = useDispatch();
   const checkUser = async () => {
     const result = await convex.query(api.user.getUser, { email: user?.email });
@@ -49,8 +50,9 @@ function Dashboard() {
   useEffect(() => {
     if (fileList_) {
       const nonArchivedFiles = fileList_.filter(
-        (file: { archived: boolean }) => !file.archived
+        (file: { archive: boolean }) => !file.archive
       );
+      console.log(nonArchivedFiles)
       setFileList(nonArchivedFiles);
     }
   }, [fileList_]);
