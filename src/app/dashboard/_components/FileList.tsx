@@ -237,7 +237,7 @@ function FileList({
                               Are you absolutely sure?
                             </AlertDialogTitle>
                             <AlertDialogDescription>
-                              This will add your file to the archive section.
+                              This will unarchive your file.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>

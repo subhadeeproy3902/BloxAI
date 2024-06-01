@@ -28,14 +28,14 @@ export default function Page() {
   const [teamListWithCount, setTeamListCount] = useState<Team[]>([]);
 
   useEffect(() => {
-    const getFileData = async () => {
+    const getTeamData = async () => {
       const result = await convex.query(api.teams.getTeam, {
         email: user.email,
       });
       setTeamList(result);
     };
     if (user) {
-      getFileData();
+      getTeamData();
     }
   }, [user, fileList]);
 
