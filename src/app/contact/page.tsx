@@ -1,7 +1,7 @@
 import Image from "next/image";
 import ThemeTogglebutton from "@/components/ui/ThemeToggle";
 
-import { FollowingPointerDemo } from "@/components/shared/FolowingCard";
+import { FollowingPointerDemo } from "@/components/shared/FollowingCard";
 import Header from "@/components/shared/Header";
 import { Hero } from "@/components/shared/Hero";
 import StartNow from "@/components/shared/StartNow";

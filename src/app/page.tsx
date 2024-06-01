@@ -1,4 +1,4 @@
-import { FollowingPointerDemo } from "@/components/shared/FolowingCard";
+import { FollowingPointerDemo } from "@/components/shared/FollowingCard";
 import { Hero } from "@/components/shared/Hero";
 import StartNow from "@/components/shared/StartNow";
 import { AnimatedTooltipPreview } from "@/components/shared/TooltipSection";
