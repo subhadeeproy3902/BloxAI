@@ -15,7 +15,6 @@ import { toggleClose } from "../Redux/Menu/menuSlice";
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 import Loader from "@/components/shared/Loader";
-import SideNav from "./_components/SideNav";
 export interface FILE {
   archive: boolean;
   createdBt: string;
@@ -45,13 +44,11 @@ function Dashboard() {
   };
 
   const { fileList_, setFileList_ } = useContext(FileListContext);
-  const [fileList, setFileList] = useState<any>(undefined);
+  const [fileList, setFileList] = useState<any>();
 
   useEffect(() => {
-    if (fileList_) {
-      const nonArchivedFiles = fileList_.filter(
-        (file: { archived: boolean }) => !file.archived
-      );
+    if(fileList_){
+      const nonArchivedFiles = fileList_.filter((file: { archived: boolean; }) => !file.archived);
       setFileList(nonArchivedFiles);
     }
   }, [fileList_]);
@@ -63,70 +60,60 @@ function Dashboard() {
     setFileList(filteredFileList);
   };
 
-
-
   return  (
-    <div className="md:grid md:grid-cols-4">
-      <div
-        className={`bg-background z-99  h-screen md:w-72 w-36 fixed ${count ? "" : "md:relative hidden"}`}
-      >
-        <SideNav />
-      </div>
-      <div className="col-span-4 md:ml-72">
-        <div className="md:p-8 p-3">
-          <div className="flex justify-end w-full md:gap-2 gap-3 items-center">
-            {!count && (
-              <button
-                className="md:hidden relative"
-                onClick={() => {
-                  dispatch(toggleClose());
-                  console.log(count);
-                }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  fill="currentColor"
-                >
-                  <path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"></path>
-                </svg>
-              </button>
-            )}
-            <div className="flex-center border overflow-hidden rounded-lg px-2 p-1">
-              <Search size={24} />
-              <Input
-                type="text"
-                placeholder="Search file..."
-                className="border-0 outline-offset-0 placeholder:text-grey-500 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-                onChange={(e) => searchFile(e.target.value)}
-              />
-            </div>
-            <div className="flex gap-2 items-center mx-2">
-              <ThemeTogglebutton />
-              <Link href={`/dashboard/profile`}>
-                <Image
-                  src={user?.picture || "https://picsum.photos/50"}
-                  alt="user"
-                  width={30}
-                  height={30}
-                  className="rounded-full"
-                />
-              </Link>
-            </div>
-            <Button>
-              <Send className="h-4 w-4" /> Invite
-            </Button>
-          </div>
-          <FileList
-            fileList={fileList || null}
-            picture={user?.picture || "https://picsum.photos/50"}
+    
+    <div className="md:p-8 p-3">
+      <div className="flex justify-end w-full md:gap-2 gap-3 items-center">
+        {!count && (
+          <button
+            className="md:hidden relative"
+            onClick={() => {
+              dispatch(toggleClose());
+              console.log(count);
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="currentColor"
+            >
+              <path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"></path>
+            </svg>
+          </button>
+        )}
+        <div className="flex-center border overflow-hidden rounded-lg px-2 p-1">
+          <Search size={24} />
+          <Input
+            type="text"
+            placeholder="Search file..."
+            className="border-0 outline-offset-0 placeholder:text-grey-500 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+            onChange={(e) => searchFile(e.target.value)}
           />
         </div>
+        <div className="flex gap-2 items-center mx-2">
+          <ThemeTogglebutton />
+          <Link href={`/dashboard/profile`}>
+          <Image
+            src={user?.picture || "https://picsum.photos/50"}
+            alt="user"
+            width={30}
+            height={30}
+            className="rounded-full"
+            />
+            </Link>
+        </div>
+        <Button>
+          <Send className="h-4 w-4" /> Invite
+        </Button>
       </div>
+      <FileList
+        fileList={fileList || null}
+        picture={user?.picture || "https://picsum.photos/50"}
+      />
     </div>
-  )
+  ) 
 }
 
 export default Dashboard;

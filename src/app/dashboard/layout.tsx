@@ -1,6 +1,6 @@
 "use client";
 import { api } from "../../../convex/_generated/api";
-import { LoginLink, useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useConvex } from "convex/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -8,7 +8,6 @@ import SideNav from "./_components/SideNav";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store";
-import { Button } from "@/components/ui/button";
 import Loader from "@/components/shared/Loader";
 function DashboardLayout({
   children,
@@ -19,6 +18,7 @@ function DashboardLayout({
   const { isAuthenticated } = useKindeBrowserClient();
   const { user }: any = useKindeBrowserClient();
   const [fileList_, setFileList_] = useState();
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const count = useSelector((state: RootState) => state.counter.value);
   useEffect(() => {
@@ -35,13 +35,28 @@ function DashboardLayout({
     }
   };
 
-  return isAuthenticated ? (
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 2000);
+  }, []);
+
+  if (!isAuthenticated) return <Loader />;
+
+  return !loading ? (
+    <div>
       <FileListContext.Provider value={{ fileList_, setFileList_ }}>
-          {children}
+        <div className="md:grid md:grid-cols-4">
+          <div
+            className={`bg-background z-99  h-screen md:w-72 w-36 fixed ${count ? "" : "md:relative hidden"}`}
+          >
+            <SideNav />
+          </div>
+          <div className="col-span-4 md:ml-72">{children}</div>
+        </div>
       </FileListContext.Provider>
+    </div>
   ) : (
     <Loader />
-  );
+  )
 }
 
 export default DashboardLayout;

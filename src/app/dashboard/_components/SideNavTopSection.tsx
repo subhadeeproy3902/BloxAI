@@ -130,7 +130,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
           {user && (
             <div className="mt-2 flex gap-2 items-center">
               <Image
-                src={user?.picture}
+                src={user?.picture || "https://picsum.photos/50"}
                 alt="user"
                 width={30}
                 height={30}
