@@ -28,14 +28,14 @@ function Workspace({ params }: any) {
   console.log(fullScreen)
 
   return (
-    <div className="overflow-x-hidden">
+    <div className="">
       <WorkspaceHeader
         onSave={() => setTriggerSave(!triggerSave)}
         name={fileData?.fileName || "New Document"}
         setFullScreen={setFullScreen}
       />
 
-      <div className={`grid grid-cols-1 ${fullScreen ? "": "md:grid-cols-2"} overflow-x-none`}>
+      <div className={`grid grid-cols-4 ${fullScreen ? "": "md:grid-cols-2"} `}>
         <div className={`${fullScreen ? "hidden" : "block"}
         `}>
             <Editor
@@ -44,7 +44,6 @@ function Workspace({ params }: any) {
               fileData={fileData}
             />
         </div>
-
         <div
           className={`h-screen border-l`}
         >
@@ -57,6 +56,8 @@ function Workspace({ params }: any) {
             fileData={fileData}
           />
         </div>
+        <div></div>
+        <div></div>
       </div>
     </div>
   );

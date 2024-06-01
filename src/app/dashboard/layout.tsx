@@ -8,27 +8,39 @@ import SideNav from "./_components/SideNav";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store";
+import { useMutation } from "convex/react";
 function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const createTeam = useMutation(api.teams.createTeam);
   const convex = useConvex();
   const { user }: any = useKindeBrowserClient();
   const [fileList_, setFileList_] = useState();
   const router = useRouter();
   const count = useSelector((state: RootState) => state.counter.value);
+  const [teams, setTeams] = useState(false);
+
   useEffect(() => {
     user && checkTeam();
-  }, [user]);
+  }, [user, teams]);
 
   const checkTeam = async () => {
     const result = await convex.query(api.teams.getTeam, {
       email: user?.email,
     });
-
+    
     if (!result?.length) {
-      router.push("teams/create");
+      createTeam({
+        teamName: "My Org",
+        createdBy: user?.email,
+      }).then((resp) => {
+        if (resp) {
+          router.push("/dashboard");
+        }
+      });
+      setTeams(true);
     }
   };
 
