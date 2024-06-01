@@ -10,6 +10,11 @@ export const ContributorsData = [
     imageUrl: "https://avatars.githubusercontent.com/u/122633300?v=4",
   },
   {
+    name: "Vaibhav Gangurde",
+    github: "https://github.com/Vaibhavsg17",
+    imageUrl: "https://avatars.githubusercontent.com/u/66477893?v=4",
+  },
+  {
     name: "Abhishikta Ray",
     github: "https://github.com/AbhishiktaRay03",
     imageUrl: "https://avatars.githubusercontent.com/u/127621443?v=4",
@@ -79,7 +84,7 @@ export const ContributorsData = [
     name: "Roni Sarkar",
     github: "https://github.com/ronisarkarexe",
     imageUrl: "https://avatars.githubusercontent.com/u/76697055?v=4"
-  },  
+  },
   {
     name: "Swarup Bhise",
     github: "https://github.com/CoderSwarup",
@@ -94,7 +99,7 @@ export const ContributorsData = [
     name: "Suryadevara Rithika",
     github: "https://github.com/rithika212k3",
     imageUrl: "https://avatars.githubusercontent.com/u/158501895?v=4",
-  },
+  },
   {
     name: "Siddharth Bramhecha",
     github: "https://github.com/Sid-80",
