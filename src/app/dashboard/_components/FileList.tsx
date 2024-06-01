@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Loader2, Trash2, ChevronsUpDown,ArchiveIcon,ArchiveRestore } from "lucide-react";
+import {
+  Loader2,
+  Trash2,
+  ChevronsUpDown,
+  ArchiveIcon,
+  ArchiveRestore,
+} from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -67,18 +73,18 @@ function FileList({
   };
 
   const archiveFile = useMutation(api.files.addToArchive);
-  const archiveFunc = async (e:any, id:string) => {
+  const archiveFunc = async (e: any, id: string) => {
     e.stopPropagation();
     await archiveFile({ _id: id as Id<"files"> });
     window.location.reload();
-  }
-  
+  };
+
   const unArchiveFile = useMutation(api.files.removeFromArchive);
-  const unarchiveFunc = async(e:any, id:string) => {
+  const unarchiveFunc = async (e: any, id: string) => {
     e.stopPropagation();
     await unArchiveFile({ _id: id as Id<"files"> });
     window.location.reload();
-  }
+  };
 
   const requestSort = (key: keyof FILE) => {
     let direction = "ascending";
@@ -134,71 +140,44 @@ function FileList({
                 </td>
               </tr>
             )}
-            {(sortedFiles.length > 0? sortedFiles : safeFileList).map((file: FILE, index: number) => (
-              <tr key={index} className="odd:bg-muted/50 cursor-pointer">
-                <td
-                  className="whitespace-nowrap px-4 py-2 font-medium"
-                  onClick={() => router.push("/workspace/" + file._id)}
-                >
-                  {file.fileName}
-                </td>
-                <td
-                  className="whitespace-nowrap px-4 py-2 text-muted-foreground"
-                  onClick={() => router.push("/workspace/" + file._id)}
-                >
-                  {moment(file._creationTime).format("DD MMM YYYY")}
-                </td>
-                <td
-                  className="whitespace-nowrap px-4 py-2 text-muted-foreground"
-                  onClick={() => router.push("/workspace/" + file._id)}
-                >
-                  {moment(file._creationTime).format("DD MMM YYYY")}
-                </td>
-                <td
-                  className="whitespace-nowrap px-4 py-2 text-muted-foreground"
-                  onClick={() => router.push("/workspace/" + file._id)}
-                >
-                  <Image
-                    src={picture}
-                    alt="user"
-                    width={30}
-                    height={30}
-                    className="rounded-full"
-                  />
-                </td>
-                <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
-                  <AlertDialog>
-                    <AlertDialogTrigger>
-                      <Button variant={"destructive"} size={"icon"}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>
-                          Are you absolutely sure?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          This action cannot be undone. This will permanently
-                          delete your file and remove your data from our
-                          servers.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                          onClick={(e) => deleteFunc(e, file._id)}
-                        >
-                          Continue
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                  {
-                    pathname === "/dashboard" && (
+            {(sortedFiles.length > 0 ? sortedFiles : safeFileList).map(
+              (file: FILE, index: number) => (
+                <tr key={index} className="odd:bg-muted/50 cursor-pointer">
+                  <td
+                    className="whitespace-nowrap px-4 py-2 font-medium"
+                    onClick={() => router.push("/workspace/" + file._id)}
+                  >
+                    {file.fileName}
+                  </td>
+                  <td
+                    className="whitespace-nowrap px-4 py-2 text-muted-foreground"
+                    onClick={() => router.push("/workspace/" + file._id)}
+                  >
+                    {moment(file._creationTime).format("DD MMM YYYY")}
+                  </td>
+                  <td
+                    className="whitespace-nowrap px-4 py-2 text-muted-foreground"
+                    onClick={() => router.push("/workspace/" + file._id)}
+                  >
+                    {moment(file._creationTime).format("DD MMM YYYY")}
+                  </td>
+                  <td
+                    className="whitespace-nowrap px-4 py-2 text-muted-foreground"
+                    onClick={() => router.push("/workspace/" + file._id)}
+                  >
+                    <Image
+                      src={picture}
+                      alt="user"
+                      width={30}
+                      height={30}
+                      className="rounded-full"
+                    />
+                  </td>
+                  <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
+                    {pathname === "/dashboard" && (
                       <AlertDialog>
                         <AlertDialogTrigger>
-                          <Button variant={"destructive"} size={"icon"}>
+                          <Button variant={"secondary"} size={"icon"}>
                             <ArchiveIcon className="h-4 w-4" />
                           </Button>
                         </AlertDialogTrigger>
@@ -221,10 +200,8 @@ function FileList({
                           </AlertDialogFooter>
                         </AlertDialogContent>
                       </AlertDialog>
-                    )
-                  }
-                  {
-                    pathname === "/dashboard/archive" && (
+                    )}
+                    {pathname === "/dashboard/archive" && (
                       <AlertDialog>
                         <AlertDialogTrigger>
                           <Button variant={"destructive"} size={"icon"}>
@@ -250,12 +227,38 @@ function FileList({
                           </AlertDialogFooter>
                         </AlertDialogContent>
                       </AlertDialog>
-                    )
-                  }
-                  
-                </td>
-              </tr>
-            ))}
+                    )}
+                    <AlertDialog>
+                      <AlertDialogTrigger>
+                        <Button variant={"destructive"} size={"icon"}>
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Are you absolutely sure?
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently
+                            delete your file and remove your data from our
+                            servers.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={(e) => deleteFunc(e, file._id)}
+                          >
+                            Continue
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </td>
+                </tr>
+              )
+            )}
           </tbody>
         </table>
       </div>
