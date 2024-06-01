@@ -8,14 +8,17 @@ import SideNav from "./_components/SideNav";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store";
+import Loader from "@/components/shared/Loader";
 function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const convex = useConvex();
+  const { isAuthenticated } = useKindeBrowserClient();
   const { user }: any = useKindeBrowserClient();
   const [fileList_, setFileList_] = useState();
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const count = useSelector((state: RootState) => state.counter.value);
   useEffect(() => {
@@ -32,7 +35,13 @@ function DashboardLayout({
     }
   };
 
-  return (
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 2000);
+  }, []);
+
+  if (!isAuthenticated) return <Loader />;
+
+  return !loading ? (
     <div>
       <FileListContext.Provider value={{ fileList_, setFileList_ }}>
         <div className="md:grid md:grid-cols-4">
@@ -45,7 +54,9 @@ function DashboardLayout({
         </div>
       </FileListContext.Provider>
     </div>
-  );
+  ) : (
+    <Loader />
+  )
 }
 
 export default DashboardLayout;

@@ -2,7 +2,7 @@
 import type { RootState } from "../store";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { api } from "../../../convex/_generated/api";
-import { LoginLink, useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useConvex, useMutation } from "convex/react";
 import FileList from "./_components/FileList";
 import { useState, useContext, useEffect, Suspense } from "react";
@@ -14,6 +14,7 @@ import Image from "next/image";
 import { toggleClose } from "../Redux/Menu/menuSlice";
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
+import Loader from "@/components/shared/Loader";
 export interface FILE {
   archive: boolean;
   createdBt: string;
@@ -28,7 +29,6 @@ export interface FILE {
 function Dashboard() {
   const convex = useConvex();
   const { user }: any = useKindeBrowserClient();
-  const { isAuthenticated } = useKindeBrowserClient();
   const createUser = useMutation(api.user.createUser);
   const count = useSelector((state: RootState) => state.counter.value);
   const dispatch = useDispatch();
@@ -62,7 +62,8 @@ function Dashboard() {
     setFileList(filteredFileList);
   };
 
-  return isAuthenticated ? (
+  return  (
+    
     <div className="md:p-8 p-3">
       <div className="flex justify-between  w-full md:gap-2 gap-3 items-center md:justify-end">
         {!count && (
@@ -114,17 +115,7 @@ function Dashboard() {
         picture={user?.picture || "https://picsum.photos/50"}
       />
     </div>
-  ) : (
-    <div className="flex  justify-center items-center w-[75%] h-screen">
-      <div>
-        You have to{" "}
-        <Button asChild>
-          <LoginLink>Login</LoginLink>
-        </Button>{" "}
-        to see this page
-      </div>
-    </div>
-  );
+  ) 
 }
 
 export default Dashboard;

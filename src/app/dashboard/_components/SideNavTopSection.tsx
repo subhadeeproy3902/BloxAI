@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useDispatch } from "react-redux";
 import { setTeamInfo } from "@/app/Redux/Team/team-slice";
+import Loader from "@/components/shared/Loader";
 
 export interface TEAM {
   createdBy: String;
@@ -63,6 +64,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
       router.push(item.path);
     }
   };
+
   return (
     <div>
       <Popover>
@@ -128,7 +130,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
           {user && (
             <div className="mt-2 flex gap-2 items-center">
               <Image
-                src={user?.picture}
+                src={user?.picture || "https://picsum.photos/50"}
                 alt="user"
                 width={30}
                 height={30}
