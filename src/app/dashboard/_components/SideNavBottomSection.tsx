@@ -46,7 +46,7 @@ function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
   const [fileInput, setFileInput] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const handelFileInput = (val: string) => {
+  const handleFileInput = (val: string) => {
     setFileInput(val);
     const isExistFile = fileList.find((file: any) => file?.fileName === val);
     if (isExistFile) {
@@ -85,7 +85,7 @@ function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
                 <Input
                   placeholder="Enter File Name"
                   className="mt-3"
-                  onChange={(e) => handelFileInput(e.target.value)}
+                  onChange={(e) => handleFileInput(e.target.value)}
                 />
               </DialogDescription>
               <ErrorMessage>{error}</ErrorMessage>

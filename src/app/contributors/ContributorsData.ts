@@ -110,4 +110,9 @@ export const ContributorsData = [
     github: "https://github.com/chitraa-cj",
     imageUrl: "https://avatars.githubusercontent.com/u/164042739?v=4",
   },
+  {
+    name: "Nikhil Verma",
+    github: "https://github.com/NIKHIL0VERMA",
+    imageUrl: "https://avatars.githubusercontent.com/u/49404370?v=4",
+  },
 ];

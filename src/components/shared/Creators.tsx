@@ -78,7 +78,7 @@ export function Creators() {
             translateZ="60"
             className="text-sm max-w-sm mt-2 text-gray-700 dark:text-zinc-300 text-left"
           >
-            Highly frank ,fueled with enthusiam and a connoisseur of greatness.
+            Highly frank ,fueled with enthusiasm and a connoisseur of greatness.
             Loves anime and playing chess.
           </CardItem>
           <CardItem translateZ="100" rotateX={-5} className="w-full mt-6">
