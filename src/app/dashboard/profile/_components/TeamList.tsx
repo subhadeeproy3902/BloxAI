@@ -13,8 +13,33 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import moment from "moment";
+import { useConvex } from "convex/react";
+import { api } from "../../../../../convex/_generated/api";
+import { useState } from "react";
 
-export default function TeamList({ teamList }: { teamList: Team[] }) {
+type Props = {
+  teamList: Team[];
+  setFileList: React.Dispatch<any>;
+  setfocusedTeam: React.Dispatch<string | null>;
+  focusedTeam: string | null;
+};
+
+export default function TeamList({
+  teamList,
+  setFileList,
+  setfocusedTeam,
+  focusedTeam,
+}: Props) {
+  const convex = useConvex();
+
+  const changeFileList = async (teamId: string) => {
+    setfocusedTeam(teamId);
+    const result = await convex.query(api.files.getFiles, {
+      teamId: teamId,
+    });
+    setFileList(result);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center px-10 w-full">
       <Carousel className="w-full">
@@ -22,10 +47,13 @@ export default function TeamList({ teamList }: { teamList: Team[] }) {
         <CarouselContent>
           {teamList.map((team, index) => (
             <CarouselItem
+              onClick={() => changeFileList(team._id)}
               key={index}
-              className="w-full sm:basis-1/2 md:basis-1/2"
+              className="w-full group cursor-pointer sm:basis-1/2 md:basis-1/2"
             >
-              <Card>
+              <Card
+                className={`${focusedTeam == team._id ? "border-gray-300" : ""} group-hover:border-gray-300`}
+              >
                 <CardHeader className="">{team.teamName}</CardHeader>
                 <CardContent>
                   <CardDescription>

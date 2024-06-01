@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useDispatch } from "react-redux";
 import { setTeamInfo } from "@/app/Redux/Team/team-slice";
-import Loader from "@/components/shared/Loader";
 
 export interface TEAM {
   createdBy: String;
@@ -153,6 +152,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
       <Button
         variant="secondary"
         className="w-full justify-start gap-2 font-bold mt-8"
+        onClick={()=>router.push('/dashboard')}
       >
         <LayoutGrid className="h-5 w-5" />
         All Files
