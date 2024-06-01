@@ -2,7 +2,7 @@
 import type { RootState } from "../store";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { api } from "../../../convex/_generated/api";
-import { LoginLink, useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useConvex, useMutation } from "convex/react";
 import FileList from "./_components/FileList";
 import { useState, useContext, useEffect } from "react";
@@ -13,6 +13,8 @@ import { Search, Send } from "lucide-react";
 import Image from "next/image";
 import { toggleClose } from "../Redux/Menu/menuSlice";
 import { useSelector, useDispatch } from "react-redux";
+import Link from "next/link";
+import Loader from "@/components/shared/Loader";
 export interface FILE {
   archive: boolean;
   createdBt: string;
@@ -27,9 +29,9 @@ export interface FILE {
 function Dashboard() {
   const convex = useConvex();
   const { user }: any = useKindeBrowserClient();
-  const { isAuthenticated } = useKindeBrowserClient();
   const createUser = useMutation(api.user.createUser);
   const count = useSelector((state: RootState) => state.counter.value);
+  const activeTeamId = useSelector((state:RootState)=>state.team.teamId)
   const dispatch = useDispatch();
   const checkUser = async () => {
     const result = await convex.query(api.user.getUser, { email: user?.email });
@@ -46,7 +48,13 @@ function Dashboard() {
   const [fileList, setFileList] = useState<any>();
 
   useEffect(() => {
-    fileList_ && setFileList(fileList_);
+    if (fileList_) {
+      const nonArchivedFiles = fileList_.filter(
+        (file: { archive: boolean }) => !file.archive
+      );
+      console.log(nonArchivedFiles)
+      setFileList(nonArchivedFiles);
+    }
   }, [fileList_]);
 
   const searchFile = (searchTerm: string) => {
@@ -56,11 +64,13 @@ function Dashboard() {
     setFileList(filteredFileList);
   };
 
-  return isAuthenticated ? (
+  return  (
+    
     <div className="md:p-8 p-3">
-      <div className="flex justify-end w-full md:gap-2 gap-3 items-center">
+      <div className="flex justify-between  w-full md:gap-2 gap-3 items-center md:justify-end">
         {!count && (
           <button
+            title="Close"
             className="md:hidden relative"
             onClick={() => {
               dispatch(toggleClose());
@@ -78,7 +88,7 @@ function Dashboard() {
             </svg>
           </button>
         )}
-        <div className="flex-center border overflow-hidden rounded-lg px-2 p-1">
+        <div className=" flex-center border overflow-hidden rounded-lg px-2 p-1">
           <Search size={24} />
           <Input
             type="text"
@@ -89,13 +99,15 @@ function Dashboard() {
         </div>
         <div className="flex gap-2 items-center mx-2">
           <ThemeTogglebutton />
-          <Image
-            src={user?.picture || "https://picsum.photos/50"}
-            alt="user"
-            width={30}
-            height={30}
-            className="rounded-full"
-          />
+          <Link href={`/dashboard/profile`}>
+            <Image
+              src={user?.picture || "https://picsum.photos/50"}
+              alt="user"
+              width={30}
+              height={30}
+              className="rounded-full"
+            />
+          </Link>
         </div>
         <Button>
           <Send className="h-4 w-4" /> Invite
@@ -106,17 +118,7 @@ function Dashboard() {
         picture={user?.picture || "https://picsum.photos/50"}
       />
     </div>
-  ) : (
-    <div className="flex  justify-center items-center w-[75%] h-screen">
-      <div>
-        You have to{" "}
-        <Button asChild>
-          <LoginLink>Login</LoginLink>
-        </Button>{" "}
-        to see this page
-      </div>
-    </div>
-  );
+  ) 
 }
 
 export default Dashboard;

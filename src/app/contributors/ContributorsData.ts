@@ -10,6 +10,11 @@ export const ContributorsData = [
     imageUrl: "https://avatars.githubusercontent.com/u/122633300?v=4",
   },
   {
+    name: "Abhishikta Ray",
+    github: "https://github.com/AbhishiktaRay03",
+    imageUrl: "https://avatars.githubusercontent.com/u/127621443?v=4",
+  },
+  {
     name: "Daksh Singh Rathore",
     github: "https://github.com/dakshsinghrathore",
     imageUrl:
@@ -79,5 +84,30 @@ export const ContributorsData = [
     name: "Swarup Bhise",
     github: "https://github.com/CoderSwarup",
     imageUrl: "https://avatars.githubusercontent.com/u/128630311?s=96&v=4",
-  }
+  },
+  {
+    name: "Siddheya Kulkarni",
+    github: "https://github.com/Asymtode712",
+    imageUrl: "https://avatars.githubusercontent.com/u/115717746?v=4",
+  },
+  {
+    name: "Suryadevara Rithika",
+    github: "https://github.com/rithika212k3",
+    imageUrl: "https://avatars.githubusercontent.com/u/158501895?v=4",
+  },
+  {
+    name: "Siddharth Bramhecha",
+    github: "https://github.com/Sid-80",
+    imageUrl: "https://avatars.githubusercontent.com/u/101277141?v=4",
+  },
+  {
+    name: "Amruta Kothawade",
+    github: "https://github.com/Amruta7203",
+    imageUrl: "https://avatars.githubusercontent.com/u/116087736?v=4",
+  },
+  {
+    name: "Chitra Jain",
+    github: "https://github.com/chitraa-cj",
+    imageUrl: "https://avatars.githubusercontent.com/u/164042739?v=4",
+  },
 ];

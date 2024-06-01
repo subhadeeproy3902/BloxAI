@@ -7,10 +7,11 @@ import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs";
 import ThemeTogglebutton from "../ui/ThemeToggle";
 import { useState } from "react";
 import NavLink from "./NavLink";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const { isAuthenticated } = useKindeBrowserClient();
   const handleMenuOpen = () => {
     setMenuOpen(!menuOpen);
     console.log(menuOpen);
@@ -35,7 +36,7 @@ const Header = () => {
   ];
   return (
     <>
-      <header className="border-b sticky top-0 z-[9999] bg-background">
+      <header className="border-b sticky top-0 z-[99] bg-background/40 backdrop-blur-md">
         <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <div className="md:flex md:items-center md:gap-12">
@@ -43,7 +44,7 @@ const Header = () => {
                 <span className="sr-only">Home</span>
                 <Image
                   src="/android-chrome-512x512.png"
-                  alt=""
+                  alt="Logo"
                   width={50}
                   height={50}
                 />
@@ -71,15 +72,24 @@ const Header = () => {
             <div className="flex items-center gap-4">
               <div className="flex gap-4">
                 <ThemeTogglebutton />
-                <Button asChild>
-                  <LoginLink>Login</LoginLink>
-                </Button>
-
-                <div className="hidden sm:flex">
-                  <Button variant="secondary" asChild>
-                    <RegisterLink>Sign up</RegisterLink>
+                {isAuthenticated ? (
+                  <Button asChild>
+                    <Link href="/dashboard">
+                      Get Started
+                    </Link>
                   </Button>
-                </div>
+                ) : (
+                  <>
+                    <Button asChild>
+                      <LoginLink>Login</LoginLink>
+                    </Button>
+                    <div className="hidden sm:flex">
+                      <Button variant="secondary" asChild>
+                        <RegisterLink>Sign up</RegisterLink>
+                      </Button>
+                    </div>
+                  </>
+                )}
               </div>
 
               <div className="block md:hidden">
@@ -96,9 +106,11 @@ const Header = () => {
         </div>
       </header>
       {menuOpen && (
-        <div className="md:hidden sm:block fixed bg-background z-50 w-full h-fit flex flex-col items-center justify-start text-center gap-7 pt-5 pb-5 border-b-2 border-gray-500 top-[4rem]" style={{boxShadow: "inset 0 -10px 10px -10px #7b7575b3"}}>
-
-          {links.map((link: any, index: any) => (
+        <div
+          className="md:hidden sm:block fixed bg-background z-50 w-full h-fit flex flex-col items-center justify-start text-center gap-7 pt-5 pb-5 border-b-2 border-gray-500 top-[4rem]"
+          style={{ boxShadow: "inset 0 -10px 10px -10px #7b7575b3" }}
+        >
+          {links.map((link, index) => (
             <NavLink item={link} key={index} handleMenuOpen={handleMenuOpen} />
           ))}
         </div>

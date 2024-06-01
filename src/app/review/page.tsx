@@ -15,7 +15,7 @@ const page = () => {
       <div className="relative">
         <Header />
       </div>
-      <div className="flex w-full flex-col items-center justify-between">
+      <div className="flex relative overflow-x-hidden w-full flex-col items-center justify-between">
         <Review />
       </div>
       <Footer />

@@ -63,3 +63,17 @@ We understand that open source collaboration is filled with excitement and fulfi
 ## Licence
 
 [MIT](https://github.com/subhadeeproy3902/BloxAI/blob/main/LICENSE)
+
+## 💪 Thanks to all Contributors
+
+Thanks to all contributors for helping this project grow! 🍻
+
+<a href="https://github.com/sanjay-kv/Stackoverflow-Analysis/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=subhadeeproy3902/BloxAI" width=800 />
+</a>
+ 
+## 🙏 Support
+
+Don't forget to leave a star ⭐ for this project!
+
+Crafted with ♥ by @subhadeeproy3902 & @xeven777.

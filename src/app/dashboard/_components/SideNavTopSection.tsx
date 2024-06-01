@@ -12,6 +12,8 @@ import { useConvex } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useDispatch } from "react-redux";
+import { setTeamInfo } from "@/app/Redux/Team/team-slice";
 
 export interface TEAM {
   createdBy: String;
@@ -26,15 +28,16 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
       path: "/teams/create",
       icon: Users,
     },
-    {
-      id: 2,
-      name: "Settings",
-      path: "",
-      icon: Settings,
-    },
+    // {
+    //   id: 2,
+    //   name: "Settings",
+    //   path: "/dashboard/profile",
+    //   icon: Settings,
+    // },
   ];
   const router = useRouter();
   const convex = useConvex();
+  const dispatch = useDispatch();
   const [activeTeam, setActiveTeam] = useState<TEAM>();
   const [teamList, setTeamList] = useState<TEAM[]>();
   useEffect(() => {
@@ -50,6 +53,9 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
     });
     setTeamList(result);
     setActiveTeam(result[0]);
+    dispatch(
+      setTeamInfo({ teamId: result[0]._id, teamName: result[0].teamName })
+    );
   };
 
   const onMenuClick = (item: any) => {
@@ -57,6 +63,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
       router.push(item.path);
     }
   };
+
   return (
     <div>
       <Popover>
@@ -81,10 +88,14 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
               <h2
                 key={index}
                 className={`p-2 hover:bg-primary
-                         hover:text-muted-foreground
                          rounded-lg mb-1 cursor-pointer
                          ${activeTeam?._id == team._id && "bg-primary text-white"}`}
-                onClick={() => setActiveTeam(team)}
+                onClick={() => {
+                  dispatch(
+                    setTeamInfo({ teamName: team.teamName, teamId: team._id })
+                  );
+                  setActiveTeam(team);
+                }}
               >
                 {team.teamName}
               </h2>
@@ -119,7 +130,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
           {user && (
             <div className="mt-2 flex gap-2 items-center">
               <Image
-                src={user?.picture}
+                src={user?.picture || "https://picsum.photos/50"}
                 alt="user"
                 width={30}
                 height={30}
@@ -142,6 +153,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
       <Button
         variant="secondary"
         className="w-full justify-start gap-2 font-bold mt-8"
+        onClick={()=>router.push('/dashboard')}
       >
         <LayoutGrid className="h-5 w-5" />
         All Files

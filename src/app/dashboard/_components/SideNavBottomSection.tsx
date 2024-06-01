@@ -16,26 +16,24 @@ import Constant from "@/app/_constant/Constant";
 import PricingDialog from "./PricingDialog";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { ErrorMessage } from "@/components/ui/error";
+import Link from "next/link";
+import { usePathname } from 'next/navigation'
 
 function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
+  const pathname = usePathname();
+  console.log(pathname)
   const menuList = [
     {
       id: 1,
-      name: "Getting Started",
-      icon: Flag,
-      path: "",
+      name: "Github",
+      icon: Github,
+      path: `https://github.com/subhadeeproy3902/BloxAI`,
     },
     {
       id: 2,
-      name: "Github",
-      icon: Github,
-      path: "",
-    },
-    {
-      id: 3,
       name: "Archive",
       icon: Archive,
-      path: "",
+      path: `/dashboard/archive`,
     },
   ];
   const { fileList_, setFileList_ } = useContext(FileListContext);
@@ -61,14 +59,15 @@ function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
   return (
     <div>
       {menuList.map((menu, index) => (
-        <h2
-          key={index}
-          className="flex gap-2 p-1 px-2 text-[14px] 
-        hover:bg-muted rounded-md cursor-pointer"
-        >
-          <menu.icon className="h-5 w-5" />
-          {menu.name}
-        </h2>
+        <Link key={index} href={menu.path} >
+          <h2
+            key={index}
+            className={`flex gap-2 p-1 ${pathname == menu.path ? "bg-muted" : ""} px-2 text-[14px] hover:bg-muted rounded-md cursor-pointer`}
+          >
+            <menu.icon className="h-5 w-5" />
+            {menu.name}
+          </h2>
+        </Link>
       ))}
 
       {/* Add New File Button  */}

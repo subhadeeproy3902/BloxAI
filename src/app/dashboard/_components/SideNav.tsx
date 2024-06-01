@@ -9,18 +9,20 @@ import { FileListContext } from "@/app/_context/FilesListContext";
 import { setClose } from "@/app/Redux/Menu/menuSlice";
 import { useDispatch } from "react-redux";
 import { useTheme } from "next-themes";
+// import { RootState } from "@/app/store";
 
 function SideNav() {
   const { user }: any = useKindeBrowserClient();
   const createFile = useMutation(api.files.createFile);
   const [activeTeam, setActiveTeam] = useState<TEAM | any>();
+  // const activeTeamId = useSelector((state: RootState) => state.team.teamId);
+  // const activeTeamName = useSelector((state: RootState) => state.team.teamName);
   const convex = useConvex();
   const [totalFiles, setTotalFiles] = useState<Number>();
   const { setFileList_ } = useContext(FileListContext);
-  const { isAuthenticated } = useKindeBrowserClient();
   const dispatch = useDispatch();
   const { theme } = useTheme();
-  const[background, setBackground] = useState('dark');
+  const [background, setBackground] = useState("dark");
 
   useEffect(() => {
     activeTeam && getFiles();
@@ -54,13 +56,17 @@ function SideNav() {
     setTotalFiles(result?.length);
   };
 
-  useEffect(() =>{
-    setBackground(theme === "dark" ? "dark" : "light")
-  },[theme])
+  useEffect(() => {
+    setBackground(theme === "dark" ? "dark" : "light");
+  }, [theme]);
 
-  return isAuthenticated ? (
-    <div className={`h-screen fixed md:w-72 w-[22vh] borde-r border-[1px] p-6 flex flex-col ` 
-    + (`${background}` === "dark" ? "bg-black" : "bg-white")}>
+  return (
+    <div
+      className={
+        `h-screen fixed md:w-72 w-[22vh] borde-r border-[1px] p-6 flex flex-col ` +
+        (`${background}` === "dark" ? "bg-black" : "bg-white")
+      }
+    >
       <button
         className="md:hidden absolute top-4 right-4 mb-2"
         onClick={() => dispatch(setClose())}
@@ -95,8 +101,6 @@ function SideNav() {
         />
       </div>
     </div>
-  ) : (
-    <div className="hidden"></div>
   );
 }
 

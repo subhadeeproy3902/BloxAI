@@ -412,7 +412,7 @@ export function GlobeDemo() {
           }}
           className="div"
         >
-          <h2 className="text-center text-xl md:text-6xl font-bold bg-gradient-to-r bg-clip-text text-transparent from-muted via-primary-foreground to-muted">
+          <h2 className="text-center text-2xl md:text-6xl font-bold bg-gradient-to-r bg-clip-text text-transparent from-muted via-primary-foreground to-muted">
             Totally Open source
           </h2>
           <p className=" text-center text-base md:text-lg font-normal text-muted-foreground max-w-md mt-2 mx-auto">

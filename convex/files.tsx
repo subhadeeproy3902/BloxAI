@@ -16,6 +16,18 @@ export const createFile = mutation({
   },
 });
 
+export const getAllFiles = query({
+  args: {},
+  handler: async (ctx, args) => {
+    const result = ctx.db
+      .query("files")
+      .order("desc")
+      .collect();
+
+    return result;
+  },
+});
+
 export const getFiles = query({
   args: {
     teamId: v.string(),
@@ -74,3 +86,27 @@ export const deleteFile = mutation({
     return result;
   },
 });
+
+export const addToArchive = mutation({
+  args:{
+    _id: v.id("files"),
+  },
+  handler: async (ctx,args) => {
+    const { _id } = args;
+    const res = await ctx.db.patch(_id,{archive:true})
+    console.log(res)
+    return res;
+  }
+})
+
+export const removeFromArchive = mutation({
+  args:{
+    _id: v.id("files"),
+  },
+  handler: async (ctx,args) => {
+    const { _id } = args;
+    const res = await ctx.db.patch(_id,{archive:false})
+    console.log(res)
+    return res;
+  }
+})
