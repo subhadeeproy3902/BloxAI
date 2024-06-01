@@ -4,26 +4,21 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import UserImage from "./_components/UserImage";
 import FileList, { Team } from "./_components/FileList";
-import { FileListContext } from "@/app/_context/FilesListContext";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useConvex } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import TeamList from "./_components/TeamList";
 import { toggleClose } from "@/app/Redux/Menu/menuSlice";
 import { useDispatch } from "react-redux";
+import { Button } from "@/components/ui/button";
 
 export default function Page() {
   const { user }: any = useKindeBrowserClient();
   const dispatch = useDispatch();
   const convex = useConvex();
 
-  const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>();
-
-  useEffect(() => {
-    fileList_ && setFileList(fileList_);
-  }, [fileList_]);
-
+  const [focusedTeam, setfocusedTeam] = useState<string | null>(null);
   const [teamList, setTeamList] = useState<Team[]>([]);
   const [teamListWithCount, setTeamListCount] = useState<Team[]>([]);
 
@@ -40,7 +35,18 @@ export default function Page() {
   }, [user, fileList]);
 
   useEffect(() => {
-    if (teamList.length > 0 && fileList?.length > 0) {
+    const getAllFiles = async () => {
+      const result = await convex.query(api.files.getAllFiles, {});
+      const getFilesUser = result.filter(
+        (file: { createdBy: string }) => file.createdBy === user.email
+      );
+      setFileList(getFilesUser);
+    };
+    if (user) getAllFiles();
+  }, [user]);
+
+  useEffect(() => {
+    if (teamList.length > 0 && fileList?.length > 0 && !focusedTeam) {
       const fileCounts = fileList.reduce(
         (acc: Record<string, number>, file: any) => {
           acc[file.teamId] = (acc[file.teamId] || 0) + 1;
@@ -58,8 +64,18 @@ export default function Page() {
     }
   }, [fileList, teamList]);
 
+  const allFilesHandler = async () => {
+    setfocusedTeam(null);
+    setFileList(null)
+    const result = await convex.query(api.files.getAllFiles, {});
+    const getFilesUser = result.filter(
+      (file: { createdBy: string }) => file.createdBy === user.email
+    );
+    setFileList(getFilesUser);
+  };
+
   return (
-    <div className="w-[full] bg-background flex relative flex-col gap-5 px-5 pt-10 flex-1 items-start justify-center overflow-y-auto overflow-x-hidden md:px-8">
+    <div className="w-[full] bg-background flex relative flex-col gap-5 px-5 py-10 flex-1 items-start justify-center overflow-y-auto overflow-x-hidden md:px-8">
       <nav className=" flex items-center p-0 absolute top-2 left-2 gap-4">
         <button
           title="Close"
@@ -94,13 +110,23 @@ export default function Page() {
         <h1 className=" px-5 text-start w-full text-xl font-semibold">
           Teams{" "}
         </h1>
-        <TeamList teamList={teamListWithCount} />
+        <TeamList
+          focusedTeam={focusedTeam}
+          setfocusedTeam={setfocusedTeam}
+          setFileList={setFileList}
+          teamList={teamListWithCount}
+        />
       </div>
 
       <div className="flex-1 w-full flex flex-col gap-5 py-2 items-center justify-center">
-        <h1 className=" px-5 text-start w-full text-xl font-semibold">
-          Files{" "}
-        </h1>
+        <div className="flex w-full items-center justify-between">
+          <h1 className=" px-5 text-start w-full text-xl font-semibold">
+            Files{" "}
+          </h1>
+          {focusedTeam && (
+            <Button onClick={() => allFilesHandler()}>All Files</Button>
+          )}
+        </div>
         <FileList fileList={fileList || null} teamList={teamList} />
       </div>
     </div>
