@@ -28,22 +28,6 @@ function CreateTeam() {
       }
     });
   };
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const result = await convex.query(api.teams.getTeam, {
-  //         email: user?.email,
-  //       });
-  //       if(result?.length > 0){
-  //         setCancel(true);
-  //       }
-  //     } catch (e) {
-  //       console.log("request to db failed")
-  //     }
-  //   } )();
-  // },[user?.email,convex, cancel])
-
   return (
     <div className=" px-6 md:px-16 my-16">
       <Image src="/android-chrome-512x512.png" alt="logo" width={50} height={50} />
