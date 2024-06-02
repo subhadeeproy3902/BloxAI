@@ -146,7 +146,7 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
       <div className="flex items-center justify-between mt-4">
             <AlertDialog>
                 <AlertDialogTrigger className="w-full" asChild>
-                <Button className="mb-2 mt-1">
+                <Button variant={"destructive"} className="mb-2 mt-1">
                   Delete Team <Trash2 className="h-4 w-4 rounded-full" />
                 </Button>
                 </AlertDialogTrigger>
