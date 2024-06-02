@@ -44,7 +44,7 @@ export function FollowingPointerDemo() {
           </div>
         </FollowerPointerCard>
       </div>
-      <div className="flex flex-col gap-6 text-center text-balance py-6">
+      <div className="flex flex-col gap-6 text-center text-balance py-8">
         <h2 className="text-4xl font-bold">
           For All types of <br /> Flowcharts
         </h2>

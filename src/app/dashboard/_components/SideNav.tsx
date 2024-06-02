@@ -63,7 +63,7 @@ function SideNav() {
   return (
     <div
       className={
-        `h-screen fixed md:w-72 w-[22vh] borde-r border-[1px] p-6 flex flex-col ` +
+        `h-screen fixed md:w-72 w-60 borde-r border-[1px] p-6 flex flex-col ` +
         (`${background}` === "dark" ? "bg-black" : "bg-white")
       }
     >
