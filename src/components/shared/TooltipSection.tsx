@@ -51,7 +51,7 @@ const people = [
 export function AnimatedTooltipPreview() {
   return (
     <section>
-      <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-12">
+      <div className="mx-auto max-w-screen-xl px-6 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-12">
         <div className="flex-center flex-row flex-wrap">
           <div className="flex-center flex-row my-10 w-full">
             <AnimatedTooltip items={people} />

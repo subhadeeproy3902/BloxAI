@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export function Hero() {
   return (
-    <div className="flex md:pt-0 pt-20 flex-col overflow-hidden text-balance">
+    <div className="flex md:pt-0 pt-28 flex-col overflow-hidden text-balance">
       <ContainerScroll
         titleComponent={
           <>
