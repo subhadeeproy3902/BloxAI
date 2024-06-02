@@ -10,11 +10,6 @@ export const ContributorsData = [
     imageUrl: "https://avatars.githubusercontent.com/u/122633300?v=4",
   },
   {
-    name: "Vaibhav Gangurde",
-    github: "https://github.com/Vaibhavsg17",
-    imageUrl: "https://avatars.githubusercontent.com/u/66477893?v=4",
-  },
-  {
     name: "Abhishikta Ray",
     github: "https://github.com/AbhishiktaRay03",
     imageUrl: "https://avatars.githubusercontent.com/u/127621443?v=4",
@@ -73,7 +68,7 @@ export const ContributorsData = [
   {
     name: "Pranoti Durugkar",
     github: "https://github.com/PranotiPD",
-    imageUrl: "https://avatars.githubusercontent.com/u/97724414?s=400&v=4",
+    imageUrl: "https://avatars.githubusercontent.com/u/97724414?v=4",
   },
   {
     name: "Chetan karande",
@@ -88,7 +83,7 @@ export const ContributorsData = [
   {
     name: "Swarup Bhise",
     github: "https://github.com/CoderSwarup",
-    imageUrl: "https://avatars.githubusercontent.com/u/128630311?s=96&v=4",
+    imageUrl: "https://avatars.githubusercontent.com/u/128630311?v=4",
   },
   {
     name: "Siddheya Kulkarni",
@@ -119,5 +114,10 @@ export const ContributorsData = [
     name: "Nikhil Verma",
     github: "https://github.com/NIKHIL0VERMA",
     imageUrl: "https://avatars.githubusercontent.com/u/49404370?v=4",
+  },
+  {
+    name: "Vaibhav Gangurde",
+    github: "https://github.com/Vaibhavsg17",
+    imageUrl: "https://avatars.githubusercontent.com/u/66477893?v=4",
   },
 ];
