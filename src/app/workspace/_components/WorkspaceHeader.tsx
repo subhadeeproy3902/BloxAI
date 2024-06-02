@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { GenAIModal } from "@/components/shared/AiModal";
+
 
 function WorkspaceHeader({ onSave, name, setFullScreen }: any) {
   return (
@@ -43,14 +45,18 @@ function WorkspaceHeader({ onSave, name, setFullScreen }: any) {
           </TabsList>
         </Tabs>
         <Button
-          className="bg-green-500 hover:bg-green-600"
+          className="bg-green-500 hover:bg-green-600 flex gap-2"
           onClick={() => {
             navigator.clipboard.writeText(window.location.href);
             toast.success("Link copied to clipboard");
           }}
         >
-          Share <Link2 className="h-4 w-4 ml-2" />{" "}
+          <p className="hidden sm:inline">
+          Share
+          </p>
+           <Link2 className="h-4 w-4" />{" "}
         </Button>
+        <GenAIModal />
       </div>
     </>
   );
