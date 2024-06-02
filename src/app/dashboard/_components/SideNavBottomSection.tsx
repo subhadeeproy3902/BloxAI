@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Archive, File, Flag, Github } from "lucide-react";
+import { Archive, File, Github, Trash2 } from "lucide-react";
 import React, { useState, useContext, useEffect } from "react";
 import {
   Dialog,
@@ -17,11 +17,33 @@ import PricingDialog from "./PricingDialog";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { ErrorMessage } from "@/components/ui/error";
 import Link from "next/link";
-import { usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation';
+import { Id } from "../../../../convex/_generated/dataModel";
+import { useMutation } from "convex/react";
+import { api } from "../../../../convex/_generated/api";
+import { useConvex } from "convex/react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
-function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
+interface TEAM {
+  createdBy: String;
+  teamName: String;
+  _id: String;
+}
+
+function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
   const pathname = usePathname();
-  console.log(pathname)
+  console.log(pathname);
+  
   const menuList = [
     {
       id: 1,
@@ -36,33 +58,46 @@ function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
       path: `/dashboard/archive`,
     },
   ];
+
   const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>([]);
-
-  useEffect(() => {
-    fileList_ && setFileList(fileList_);
-  }, [fileList_]);
+  const convex = useConvex();
 
   const [fileInput, setFileInput] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const handelFileInput = (val: string) => {
+  const deleteTeam = useMutation(api.teams.deleteTeam);
+  const deleteFunc = async (e: any, id: String) => {
+    e.stopPropagation();
+    await deleteTeam({ _id: id as Id<"teams"> });
+    window.location.reload();
+  };
+  
+
+  const handleFileInput = (val: string) => {
     setFileInput(val);
     const isExistFile = fileList.find((file: any) => file?.fileName === val);
     if (isExistFile) {
-      setError("File Name already exist.!");
+      setError("File Name already exists!");
     } else {
       setError("");
     }
   };
 
+  useEffect(() => {
+    fileList_ && setFileList(fileList_);
+  }, [fileList_]);
+
+  console.log("active Team", activeTeam)
+
   return (
     <div>
       {menuList.map((menu, index) => (
-        <Link key={index} href={menu.path} >
+        <Link key={index} href={menu.path}>
           <h2
-            key={index}
-            className={`flex gap-2 p-1 ${pathname == menu.path ? "bg-muted" : ""} px-2 text-[14px] hover:bg-muted rounded-md cursor-pointer`}
+            className={`flex gap-2 p-1 ${
+              pathname == menu.path ? "bg-muted" : ""
+            } px-2 text-[14px] hover:bg-muted rounded-md cursor-pointer`}
           >
             <menu.icon className="h-5 w-5" />
             {menu.name}
@@ -70,10 +105,10 @@ function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
         </Link>
       ))}
 
-      {/* Add New File Button  */}
+      {/* Add New File Button */}
       <Dialog>
         <DialogTrigger className="w-full" asChild>
-          <Button className="my-2">
+          <Button className="mt-2">
             New File <File size={20} />
           </Button>
         </DialogTrigger>
@@ -85,7 +120,7 @@ function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
                 <Input
                   placeholder="Enter File Name"
                   className="mt-3"
-                  onChange={(e) => handelFileInput(e.target.value)}
+                  onChange={(e) => handleFileInput(e.target.value)}
                 />
               </DialogDescription>
               <ErrorMessage>{error}</ErrorMessage>
@@ -106,7 +141,39 @@ function SideNavBottomSection({ onFileCreate, totalFiles }: any) {
         )}
       </Dialog>
 
-      {/* Progress Bar  */}
+      {/* Delete Team Button */}
+
+      <div className="flex items-center justify-between mt-4">
+            <AlertDialog>
+                <AlertDialogTrigger className="w-full" asChild>
+                <Button className="mb-2 mt-1">
+                  Delete Team <Trash2 className="h-4 w-4 rounded-full" />
+                </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently
+                      delete your team and remove your data from our
+                      servers.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={(e) => deleteFunc(e, activeTeam._id)}
+                    >
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+      </div>
+
+      {/* Progress Bar */}
       <div className="h-4 w-full bg-accent rounded-full mt-5">
         <div
           className={`h-4 bg-primary rounded-full`}

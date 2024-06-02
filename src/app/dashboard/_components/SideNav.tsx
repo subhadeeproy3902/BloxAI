@@ -98,6 +98,7 @@ function SideNav() {
         <SideNavBottomSection
           totalFiles={totalFiles}
           onFileCreate={onFileCreate}
+          activeTeam={activeTeam}
         />
       </div>
     </div>

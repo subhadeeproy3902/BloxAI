@@ -8,7 +8,16 @@ export const getTeam = query({
       .query("teams")
       .filter((q) => q.eq(q.field("createdBy"), args.email))
       .collect();
+    return result;
+  },
+});
 
+export const deleteTeam = mutation({
+  args: {
+    _id: v.id("teams"),
+  },
+  handler: async (ctx, args) => {
+    const result = await ctx.db.delete(args._id);
     return result;
   },
 });
