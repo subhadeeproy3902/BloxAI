@@ -25,19 +25,24 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import runChat from "@/config/gemini";
+import PromptLoader from "./PromptLoader";
 
 const formSchema = z.object({
   prompt: z
     .string()
-    .min(100, {
-      message: "Description should be atleast 100 characters long",
-    })
+    // .min(100, {
+    //   message: "Description should be atleast 100 characters long",
+    // })
     .max(550),
 });
 
 export function GenAIModal() {
   const [docsCheck, setDocsChecked] = useState<boolean>(false);
   const [flowchartCheck, setFlowchartChecked] = useState<boolean>(false);
+  const [validation, setValidation] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,16 +51,30 @@ export function GenAIModal() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+    try {
+      setLoading(true);
+      if (!docsCheck && !flowchartCheck) setValidation("Select atleast one!");
+      else {
+        const res = await runChat(values.prompt, docsCheck, flowchartCheck);
+        console.log(res);
+        if(res){
+          setLoading(false);
+          setIsDialogOpen(false);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button className="flex gap-2">
+        <Button className="flex gap-2" onClick={() => setIsDialogOpen(true)}>
           <WandSparkles className="w-4 h-4" />
           <p className="hidden sm:inline">Generate AI</p>
         </Button>
@@ -82,49 +101,58 @@ export function GenAIModal() {
                     />
                   </FormControl>
                   <FormDescription className=" text-xs font-semibold text-red-500">
-                      <span className="font-bold">Note : </span>
-                      Give detailed description of your problem statement
+                    <span className="font-bold">Note : </span>
+                    Give detailed description of your problem statement
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                checked={docsCheck}
-                onCheckedChange={() => setDocsChecked(!docsCheck)}
-                id="docs"
-              />
-              <label
-                htmlFor="docs"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Generate Documentation
-              </label>
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  checked={docsCheck}
+                  onCheckedChange={() => setDocsChecked(!docsCheck)}
+                  id="docs"
+                />
+                <label
+                  htmlFor="docs"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Generate Documentation
+                </label>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  checked={flowchartCheck}
+                  onCheckedChange={() => setFlowchartChecked(!flowchartCheck)}
+                  id="flowchart"
+                />
+                <label
+                  htmlFor="flowchart"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Generate Flowchart
+                </label>
+              </div>
+
+              <p className="text-xs font-semibold text-red-500">{validation}</p>
             </div>
 
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                checked={flowchartCheck}
-                onCheckedChange={() => setFlowchartChecked(!flowchartCheck)}
-                id="flowchart"
-              />
-              <label
-                htmlFor="flowchart"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Generate Flowchart
-              </label>
-            </div>
             <DialogFooter>
               <Button className="flex gap-2" type="submit">
-                <p>
-                    Generate 
-                    </p>
-                <Send className="w-[14px] h-[14px]" /> </Button>
+                <p>Generate</p>
+                <Send className="w-[14px] h-[14px]" />{" "}
+              </Button>
             </DialogFooter>
           </form>
         </Form>
+        {loading && (
+          <div className="backdrop-blur-sm absolute flex item-center justify-center w-full h-full top-0 left-0">
+            <PromptLoader />
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
