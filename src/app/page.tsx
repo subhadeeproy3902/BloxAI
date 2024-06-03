@@ -4,6 +4,7 @@ import StartNow from "@/components/shared/StartNow";
 import { AnimatedTooltipPreview } from "@/components/shared/TooltipSection";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
+import ScrollToTopButton from "@/components/shared/ScrollUp";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
         <FollowingPointerDemo />
       </div>
       <Footer />
+      <ScrollToTopButton />
     </>
   );
 }
