@@ -1,3 +1,4 @@
+<a name="top"></a>
 ![](https://i.postimg.cc/FF6TxJdC/home.jpg)
 
 # Blox AI
@@ -77,3 +78,5 @@ Thanks to all contributors for helping this project grow! 🍻
 Don't forget to leave a star ⭐ for this project!
 
 Crafted with ♥ by @subhadeeproy3902 & @xeven777.
+
+<p align="right"><a href="#top">Back to top</a></p>
