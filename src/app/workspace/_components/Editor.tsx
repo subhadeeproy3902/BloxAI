@@ -15,6 +15,7 @@ import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { toast } from "sonner";
 import { FILE } from "../../dashboard/_components/FileList";
+import { useTheme } from "next-themes";
 
 const rawDocument = {
   time: 1550476186479,
@@ -37,6 +38,7 @@ const rawDocument = {
   ],
   version: "2.8.1",
 };
+
 function Editor({
   onSaveTrigger,
   fileId,
@@ -49,6 +51,8 @@ function Editor({
   const ref = useRef<EditorJS>();
   const updateDocument = useMutation(api.files.updateDocument);
   const [document, setDocument] = useState(rawDocument);
+  const { theme } = useTheme();
+
   useEffect(() => {
     fileData && initEditor();
   }, [fileData]);
@@ -81,7 +85,6 @@ function Editor({
         paragraph: Paragraph,
         warning: Warning,
       },
-
       holder: "editorjs",
       data: fileData?.document ? JSON.parse(fileData.document) : rawDocument,
     });
@@ -110,9 +113,14 @@ function Editor({
         });
     }
   };
+
   return (
     <div>
-      <div id="editorjs" className="h-screen pl-8" />
+      <div
+        id="editorjs"
+        className="h-screen pl-8"
+        style={{ backgroundColor: theme === "dark" ? " #333333" : "#f2f2f2" }} // Change background color based on theme
+      />
     </div>
   );
 }

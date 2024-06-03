@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Excalidraw,
-  MainMenu,
-  WelcomeScreen,
-} from "@excalidraw/excalidraw";
+import { Excalidraw, MainMenu, WelcomeScreen } from "@excalidraw/excalidraw";
 import { FILE } from "../../dashboard/_components/FileList";
 import { parseMermaidToExcalidraw } from "@excalidraw/mermaid-to-excalidraw";
 import { useMutation } from "convex/react";
@@ -66,7 +62,7 @@ function Canvas({
       <div className="h-full">
         {fileData && (
           <>
-            {/*Render the whiteboard data too if the mermaid code is converted to excalidraw elements*/}
+            {/* Render the whiteboard data too if the mermaid code is converted to excalidraw elements */}
 
             <Excalidraw
               theme={theme === "dark" ? "dark" : "light"}
@@ -75,6 +71,9 @@ function Canvas({
                   whiteBoardData?.length > 0
                     ? whiteBoardData
                     : fileData?.whiteboard && JSON.parse(fileData?.whiteboard),
+                appState: {
+                  viewBackgroundColor: "#e6e6e6",
+                },
               }}
               onChange={(excalidrawElements, appState, files) => {
                 setWhiteBoardData(excalidrawElements);
