@@ -8,7 +8,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GenAIModal } from "@/components/shared/AiModal";
 
 
-function WorkspaceHeader({ onSave, name, setFullScreen }: any) {
+function WorkspaceHeader({ onSave, name, setFullScreen, setFileData }: any) {
   return (
     <>
       <div className="p-3 border-b flex justify-between items-center">
@@ -56,7 +56,7 @@ function WorkspaceHeader({ onSave, name, setFullScreen }: any) {
           </p>
            <Link2 className="h-4 w-4" />{" "}
         </Button>
-        <GenAIModal />
+        <GenAIModal setFileData={setFileData} />
       </div>
     </>
   );

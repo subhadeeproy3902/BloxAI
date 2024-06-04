@@ -48,13 +48,23 @@ function Editor({
   fileId: any;
   fileData: FILE;
 }) {
-  const ref = useRef<EditorJS>();
+  const ref = useRef<EditorJS | null>(null);
   const updateDocument = useMutation(api.files.updateDocument);
   const [document, setDocument] = useState(rawDocument);
   const { theme } = useTheme();
+  console.log(fileData?.document)
 
   useEffect(() => {
-    fileData && initEditor();
+    if (fileData) {
+      initEditor();
+    }
+
+    return () => {
+      if (ref.current) {
+        ref.current.destroy();
+        ref.current = null;
+      }
+    };
   }, [fileData]);
 
   useEffect(() => {
@@ -62,7 +72,11 @@ function Editor({
   }, [onSaveTrigger]);
 
   const initEditor = () => {
-    const editor = new EditorJS({
+    if (ref.current) {
+      ref.current.destroy();
+    }
+
+    ref.current = new EditorJS({
       tools: {
         header: {
           class: Header,
@@ -88,7 +102,6 @@ function Editor({
       holder: "editorjs",
       data: fileData?.document ? JSON.parse(fileData.document) : rawDocument,
     });
-    ref.current = editor;
   };
 
   const onSaveDocument = () => {

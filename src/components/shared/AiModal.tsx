@@ -25,8 +25,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import runChat from "@/config/gemini";
+import { getDocumentation, getFlowchart } from "@/config/gemini";
 import PromptLoader from "./PromptLoader";
+import { FILE } from "@/app/dashboard/_components/FileList";
 
 const formSchema = z.object({
   prompt: z
@@ -37,12 +38,17 @@ const formSchema = z.object({
     .max(550),
 });
 
-export function GenAIModal() {
+type Props = {
+  setFileData: React.Dispatch<React.SetStateAction<any>>;
+};
+
+export function GenAIModal({ setFileData }: Props) {
   const [docsCheck, setDocsChecked] = useState<boolean>(false);
   const [flowchartCheck, setFlowchartChecked] = useState<boolean>(false);
   const [validation, setValidation] = useState("");
   const [loading, setLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [APIerror,setError] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -59,15 +65,61 @@ export function GenAIModal() {
       setLoading(true);
       if (!docsCheck && !flowchartCheck) setValidation("Select atleast one!");
       else {
-        const res = await runChat(values.prompt, docsCheck, flowchartCheck);
-        console.log(res);
-        if(res){
+        let getData1 = true;
+        let getData2 = true;
+
+
+        if(docsCheck) {
+          const res1 = await getDocumentation(values.prompt);
+
+          
+
+          const editorData = {
+            time: new Date().getTime(),
+            blocks: [
+              {
+                type: "paragraph",
+                data: {
+                  text: res1.replaceAll("\n","<br/>"),
+                },
+              },
+            ],
+          };
+
+          setFileData((prevFileData: any) => ({
+            ...prevFileData,
+            document: JSON.stringify(editorData),
+          }));
+
+          if(res1){
+          getData1 = false;
+          }
+        }else{
+          getData1 = false;
+        }
+
+        if(flowchartCheck){
+          const res2:string = await getFlowchart(values.prompt);
+          const docs = res2.replaceAll("`","").replaceAll("json","").replaceAll("JSON","")
+          const parsedString  = JSON.parse(docs);
+          console.log(parsedString)
+          if(res2){
+            getData2 = false;
+          }
+        }else{
+          getData2 = false;
+        }
+
+        if (!getData1 && !getData2) {
           setLoading(false);
           setIsDialogOpen(false);
         }
       }
     } catch (err) {
       console.log(err);
+      setLoading(false);
+      setError(true)
+      setIsDialogOpen(false);
     }
   }
 
@@ -151,6 +203,14 @@ export function GenAIModal() {
         {loading && (
           <div className="backdrop-blur-sm absolute flex item-center justify-center w-full h-full top-0 left-0">
             <PromptLoader />
+          </div>
+        )}
+        {APIerror && (
+          <div className="backdrop-blur-sm absolute flex item-center justify-center w-full h-full top-0 left-0">
+            <h1>Error Occured! Please Try again</h1>
+            <Button onClick={()=>setIsDialogOpen(false)}>
+              Try Again!
+            </Button>
           </div>
         )}
       </DialogContent>
