@@ -6,7 +6,7 @@ import { useConvex, useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { toast } from "sonner";
 import { FileListContext } from "@/app/_context/FilesListContext";
-import { setClose } from "@/app/Redux/Menu/menuSlice";
+import { setClose, setOpen } from "@/app/Redux/Menu/menuSlice";
 import { useDispatch } from "react-redux";
 import { useTheme } from "next-themes";
 // import { RootState } from "@/app/store";
@@ -23,6 +23,26 @@ function SideNav() {
   const dispatch = useDispatch();
   const { theme } = useTheme();
   const [background, setBackground] = useState("dark");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const dispatch_nav = useDispatch();
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        dispatch(setClose());
+      } else {
+        dispatch(setOpen());
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [dispatch_nav]);
+    
+
 
   useEffect(() => {
     activeTeam && getFiles();
@@ -69,7 +89,10 @@ function SideNav() {
     >
       <button
         className="md:hidden absolute top-4 right-4 mb-2"
-        onClick={() => dispatch(setClose())}
+        onClick={() => {
+          dispatch(setClose());
+          setIsSidebarOpen(false);
+        }}
       >
         {/* Insert your close icon here */}
         <svg
