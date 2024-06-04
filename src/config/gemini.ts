@@ -1,8 +1,8 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const MODEL_NAME = "gemini-1.5-pro";
-const API_KEY1 = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-const API_KEY2 = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+const API_KEY1 = process.env.NEXT_PUBLIC_GEMINI_API_KEY_DOC;
+const API_KEY2 = process.env.NEXT_PUBLIC_GEMINI_API_KEY_FLOWCHART;
 
 const chatFlowchartHistory = [
   {
