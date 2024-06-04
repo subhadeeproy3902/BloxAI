@@ -33,6 +33,7 @@ function Workspace({ params }: any) {
         onSave={() => setTriggerSave(!triggerSave)}
         name={fileData?.fileName || "New Document"}
         setFullScreen={setFullScreen}
+        setFileData={setFileData}
       />
 
       <div className={`grid grid-cols-1 ${fullScreen ? "": "md:grid-cols-2"} overflow-x-none`}>
