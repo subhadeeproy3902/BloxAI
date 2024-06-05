@@ -25,8 +25,6 @@ function Workspace({ params }: any) {
   };
 
 
-  console.log(fullScreen)
-
   return (
     <div className="overflow-x-hidden">
       <WorkspaceHeader

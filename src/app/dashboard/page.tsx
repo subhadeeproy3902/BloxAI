@@ -52,7 +52,6 @@ function Dashboard() {
       const nonArchivedFiles = fileList_.filter(
         (file: { archive: boolean }) => !file.archive
       );
-      console.log(nonArchivedFiles)
       setFileList(nonArchivedFiles);
     }
   }, [fileList_]);
@@ -74,7 +73,6 @@ function Dashboard() {
             className="md:hidden relative"
             onClick={() => {
               dispatch(toggleClose());
-              console.log(count);
             }}
           >
             <svg

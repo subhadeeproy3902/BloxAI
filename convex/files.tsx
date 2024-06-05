@@ -94,7 +94,6 @@ export const addToArchive = mutation({
   handler: async (ctx,args) => {
     const { _id } = args;
     const res = await ctx.db.patch(_id,{archive:true})
-    console.log(res)
     return res;
   }
 })
@@ -106,7 +105,6 @@ export const removeFromArchive = mutation({
   handler: async (ctx,args) => {
     const { _id } = args;
     const res = await ctx.db.patch(_id,{archive:false})
-    console.log(res)
     return res;
   }
 })

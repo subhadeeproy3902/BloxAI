@@ -14,7 +14,6 @@ const Header = () => {
   const { isAuthenticated } = useKindeBrowserClient();
   const handleMenuOpen = () => {
     setMenuOpen(!menuOpen);
-    console.log(menuOpen);
   };
   const links = [
     {

@@ -42,7 +42,6 @@ interface TEAM {
 
 function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
   const pathname = usePathname();
-  console.log(pathname);
   
   const menuList = [
     {
@@ -87,8 +86,6 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
   useEffect(() => {
     fileList_ && setFileList(fileList_);
   }, [fileList_]);
-
-  console.log("active Team", activeTeam)
 
   return (
     <div>

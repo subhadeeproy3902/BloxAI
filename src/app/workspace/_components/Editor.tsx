@@ -52,7 +52,6 @@ function Editor({
   const updateDocument = useMutation(api.files.updateDocument);
   const [document, setDocument] = useState(rawDocument);
   const { theme } = useTheme();
-  console.log(fileData?.document)
 
   useEffect(() => {
     if (fileData) {

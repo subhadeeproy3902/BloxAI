@@ -1,8 +1,8 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const MODEL_NAME = "gemini-1.5-pro";
-const API_KEY1 = process.env.NEXT_PUBLIC_GEMINI_API_KEY_DOC;
-const API_KEY2 = process.env.NEXT_PUBLIC_GEMINI_API_KEY_FLOWCHART;
+const API_KEY1 = process.env.NEXT_PUBLIC_GEMINI_API_KEY_DOC as string;
+const API_KEY2 = process.env.NEXT_PUBLIC_GEMINI_API_KEY_FLOWCHART as string;
 
 const chatFlowchartHistory = [
   {
@@ -38,7 +38,7 @@ const chatDocsHistory = [
 export async function getDocumentation(
   prompt: string
 ) {
-  if (!API_KEY1 || API_KEY1=== "your-gemini-api-key")
+  if (!API_KEY1)
     throw new Error("Invalid Api Key!");
 
   const genAI = new GoogleGenerativeAI(API_KEY1);
@@ -56,14 +56,13 @@ export async function getDocumentation(
 
   const result = await chat.sendMessage(`Problem Statement : ${prompt}.`);
   const response = result.response;
-  console.log(response.text());
   return response.text();
 }
 
 export async function getFlowchart(
   prompt: string
 ) {
-  if (!API_KEY2 || API_KEY2 === "your-gemini-api-key")
+  if (!API_KEY2)
     throw new Error("Invalid Api Key!");
 
   const genAI = new GoogleGenerativeAI(API_KEY2);
@@ -81,6 +80,5 @@ export async function getFlowchart(
 
   const result = await chat.sendMessage(`Problem Statement : ${prompt}. Note: Generate in parse able JSON format.`);
   const response = result.response;
-  console.log(response.text());
   return response.text();
 }

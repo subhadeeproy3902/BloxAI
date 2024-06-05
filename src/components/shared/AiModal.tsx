@@ -142,7 +142,6 @@ export function GenAIModal({ setFileData }: Props) {
         getFlowchartFormHandler(values);
       }
     } catch (err) {
-      console.log(err);
       setLoading(false);
       setError(true);
       setIsDialogOpen(false);
@@ -172,7 +171,6 @@ export function GenAIModal({ setFileData }: Props) {
       setLoading(false);
       setIsDialogOpen(false);
     } catch (err) {
-      console.log(err);
       setLoading(false);
       setIsDialogOpen(false);
     }
@@ -189,12 +187,10 @@ export function GenAIModal({ setFileData }: Props) {
         .replaceAll("json", "")
         .replaceAll("JSON", "");
       const parsedString = JSON.parse(docs);
-      console.log(parsedString.code);
       setMermaidCode(parsedString.code);
       setLoading(false);
       setCopyModal(true);
     } catch (err) {
-      console.log(err);
       setLoading(false);
       setIsDialogOpen(false);
     }
@@ -212,7 +208,7 @@ export function GenAIModal({ setFileData }: Props) {
           <p className="hidden sm:inline">Generate AI</p>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[300px] sm:max-w-[625px]">
+      <DialogContent className="sm:max-w-[625px]">
         <DialogHeader>
           <DialogTitle>AI Assistant!</DialogTitle>
           <DialogDescription>Let me help you!</DialogDescription>

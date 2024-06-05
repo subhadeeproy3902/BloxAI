@@ -80,6 +80,7 @@
 .codex-editor {
   overflow-x: hidden;
   overflow-y: auto;
+  scrollbar-width: none;
   height: 100vh;
 }
 
