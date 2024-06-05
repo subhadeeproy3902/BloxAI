@@ -27,7 +27,52 @@ import {
 } from "@/components/ui/form";
 import { getDocumentation, getFlowchart } from "@/config/gemini";
 import PromptLoader from "./PromptLoader";
-import { FILE } from "@/app/dashboard/_components/FileList";
+import { remark } from "remark";
+import remarkParse from 'remark-parse';
+
+function convertMarkdownToEditorBlocks(markdownAST:any) {
+  const blocks:any = [];
+
+  function visit(node:any) {
+    switch (node.type) {
+      case 'heading':
+        blocks.push({
+          type: 'header',
+          data: {
+            text: node.children.map((child: { value: any; }) => child.value).join(''),
+            level: node.depth,
+          },
+        });
+        break;
+      case 'paragraph':
+        blocks.push({
+          type: 'paragraph',
+          data: {
+            text: node.children.map((child: { value: any; }) => child.value).join(''),
+          },
+        });
+        break;
+      case 'list':
+        blocks.push({
+          type: 'list',
+          data: {
+            style: node.ordered ? 'ordered' : 'unordered',
+            items: node.children.map((listItem: { children: any[]; }) => listItem.children.map(item => item.children.map((child: { value: any; }) => child.value).join('')).join('')),
+          },
+        });
+        break;
+      // Add more cases to handle other Markdown elements like blockquote, code, etc.
+      default:
+        break;
+    }
+    if (node.children) {
+      node.children.forEach(visit);
+    }
+  }
+
+  visit(markdownAST);
+  return blocks;
+}
 
 const formSchema = z.object({
   prompt: z
@@ -48,7 +93,7 @@ export function GenAIModal({ setFileData }: Props) {
   const [validation, setValidation] = useState("");
   const [loading, setLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [APIerror,setError] = useState(false);
+  const [APIerror, setError] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -68,22 +113,16 @@ export function GenAIModal({ setFileData }: Props) {
         let getData1 = true;
         let getData2 = true;
 
-
-        if(docsCheck) {
+        if (docsCheck) {
           const res1 = await getDocumentation(values.prompt);
-
-          
+          // Parse Markdown to AST using remark
+        const parsedMarkdown = remark().use(remarkParse).parse(res1);
+        // Convert AST to Editor.js blocks
+        const editorBlocks = convertMarkdownToEditorBlocks(parsedMarkdown);
 
           const editorData = {
             time: new Date().getTime(),
-            blocks: [
-              {
-                type: "paragraph",
-                data: {
-                  text: res1.replaceAll("\n","<br/>"),
-                },
-              },
-            ],
+            blocks: editorBlocks,
           };
 
           setFileData((prevFileData: any) => ({
@@ -91,22 +130,25 @@ export function GenAIModal({ setFileData }: Props) {
             document: JSON.stringify(editorData),
           }));
 
-          if(res1){
-          getData1 = false;
+          if (res1) {
+            getData1 = false;
           }
-        }else{
+        } else {
           getData1 = false;
         }
 
-        if(flowchartCheck){
-          const res2:string = await getFlowchart(values.prompt);
-          const docs = res2.replaceAll("`","").replaceAll("json","").replaceAll("JSON","")
-          const parsedString  = JSON.parse(docs);
-          console.log(parsedString)
-          if(res2){
+        if (flowchartCheck) {
+          const res2: string = await getFlowchart(values.prompt);
+          const docs = res2
+            .replaceAll("`", "")
+            .replaceAll("json", "")
+            .replaceAll("JSON", "");
+          const parsedString = JSON.parse(docs);
+          console.log(parsedString);
+          if (res2) {
             getData2 = false;
           }
-        }else{
+        } else {
           getData2 = false;
         }
 
@@ -118,7 +160,7 @@ export function GenAIModal({ setFileData }: Props) {
     } catch (err) {
       console.log(err);
       setLoading(false);
-      setError(true)
+      setError(true);
       setIsDialogOpen(false);
     }
   }
@@ -208,9 +250,7 @@ export function GenAIModal({ setFileData }: Props) {
         {APIerror && (
           <div className="backdrop-blur-sm absolute flex item-center justify-center w-full h-full top-0 left-0">
             <h1>Error Occured! Please Try again</h1>
-            <Button onClick={()=>setIsDialogOpen(false)}>
-              Try Again!
-            </Button>
+            <Button onClick={() => setIsDialogOpen(false)}>Try Again!</Button>
           </div>
         )}
       </DialogContent>

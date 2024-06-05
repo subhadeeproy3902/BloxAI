@@ -81,8 +81,10 @@ function Editor({
         header: {
           class: Header,
           shortcut: "CMD+SHIFT+H",
+          inlineToolbar: true,
           config: {
             placeholder: "Enter a Header",
+            levels: [2, 3, 4],
           },
         },
         list: {
@@ -96,7 +98,10 @@ function Editor({
           class: Checklist,
           inlineToolbar: true,
         },
-        paragraph: Paragraph,
+        paragraph:{
+          class:Paragraph,
+          inlineToolbar:true
+        },
         warning: Warning,
       },
       holder: "editorjs",
@@ -126,6 +131,8 @@ function Editor({
         });
     }
   };
+
+
 
   return (
     <div>

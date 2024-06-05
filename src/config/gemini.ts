@@ -24,7 +24,7 @@ const chatDocsHistory = [
     role: "user",
     parts: [
       {
-        text: `You are an expert in generating documentation. Your task is to create a Markdown documentation of given problem statement.`,
+        text: `You are an expert in generating documentation. Your task is to create a markdown documentation of given problem statement. Do not generate tables and diagrams.`,
       },
     ],
   },
@@ -54,7 +54,7 @@ export async function getDocumentation(
     history: chatDocsHistory,
   });
 
-  const result = await chat.sendMessage(`Problem Statement : ${prompt}. Note: Generate in parse able JSON format.`);
+  const result = await chat.sendMessage(`Problem Statement : ${prompt}.`);
   const response = result.response;
   console.log(response.text());
   return response.text();
