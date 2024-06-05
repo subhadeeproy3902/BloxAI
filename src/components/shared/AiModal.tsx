@@ -12,7 +12,7 @@ import {
 import { z } from "zod";
 import { WandSparkles, Send } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -28,36 +28,54 @@ import {
 import { getDocumentation, getFlowchart } from "@/config/gemini";
 import PromptLoader from "./PromptLoader";
 import { remark } from "remark";
-import remarkParse from 'remark-parse';
+import remarkParse from "remark-parse";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-function convertMarkdownToEditorBlocks(markdownAST:any) {
-  const blocks:any = [];
+function convertMarkdownToEditorBlocks(markdownAST: any) {
+  const blocks: any = [];
 
-  function visit(node:any) {
+  function visit(node: any) {
     switch (node.type) {
-      case 'heading':
+      case "heading":
         blocks.push({
-          type: 'header',
+          type: "header",
           data: {
-            text: node.children.map((child: { value: any; }) => child.value).join(''),
+            text: node.children
+              .map((child: { value: any }) => child.value)
+              .join(""),
             level: node.depth,
           },
         });
         break;
-      case 'paragraph':
+      case "paragraph":
         blocks.push({
-          type: 'paragraph',
+          type: "paragraph",
           data: {
-            text: node.children.map((child: { value: any; }) => child.value).join(''),
+            text: node.children
+              .map((child: { value: any }) => child.value)
+              .join(""),
           },
         });
         break;
-      case 'list':
+      case "list":
         blocks.push({
-          type: 'list',
+          type: "list",
           data: {
-            style: node.ordered ? 'ordered' : 'unordered',
-            items: node.children.map((listItem: { children: any[]; }) => listItem.children.map(item => item.children.map((child: { value: any; }) => child.value).join('')).join('')),
+            style: node.ordered ? "ordered" : "unordered",
+            items: node.children.map((listItem: { children: any[] }) =>
+              listItem.children
+                .map((item) =>
+                  item.children
+                    .map((child: { value: any }) => child.value)
+                    .join("")
+                )
+                .join("")
+            ),
           },
         });
         break;
@@ -94,6 +112,8 @@ export function GenAIModal({ setFileData }: Props) {
   const [loading, setLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [APIerror, setError] = useState(false);
+  const [mermaidCode, setMermaidCode] = useState("");
+  const [copyModal, setCopyModal] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -102,60 +122,24 @@ export function GenAIModal({ setFileData }: Props) {
     },
   });
 
+  useEffect(() => {
+    if (!isDialogOpen) {
+      setDocsChecked(false);
+      setFlowchartChecked(false);
+      setCopyModal(false);
+    }
+  }, [isDialogOpen]);
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    if (!docsCheck && !flowchartCheck) {
+      setValidation("Select atleast one!");
+      return;
+    }
     try {
-      setLoading(true);
-      if (!docsCheck && !flowchartCheck) setValidation("Select atleast one!");
-      else {
-        let getData1 = true;
-        let getData2 = true;
-
-        if (docsCheck) {
-          const res1 = await getDocumentation(values.prompt);
-          // Parse Markdown to AST using remark
-        const parsedMarkdown = remark().use(remarkParse).parse(res1);
-        // Convert AST to Editor.js blocks
-        const editorBlocks = convertMarkdownToEditorBlocks(parsedMarkdown);
-
-          const editorData = {
-            time: new Date().getTime(),
-            blocks: editorBlocks,
-          };
-
-          setFileData((prevFileData: any) => ({
-            ...prevFileData,
-            document: JSON.stringify(editorData),
-          }));
-
-          if (res1) {
-            getData1 = false;
-          }
-        } else {
-          getData1 = false;
-        }
-
-        if (flowchartCheck) {
-          const res2: string = await getFlowchart(values.prompt);
-          const docs = res2
-            .replaceAll("`", "")
-            .replaceAll("json", "")
-            .replaceAll("JSON", "");
-          const parsedString = JSON.parse(docs);
-          console.log(parsedString);
-          if (res2) {
-            getData2 = false;
-          }
-        } else {
-          getData2 = false;
-        }
-
-        if (!getData1 && !getData2) {
-          setLoading(false);
-          setIsDialogOpen(false);
-        }
+      if (docsCheck) {
+        getDocumentationFormHandler(values);
+      } else if (flowchartCheck) {
+        getFlowchartFormHandler(values);
       }
     } catch (err) {
       console.log(err);
@@ -164,6 +148,61 @@ export function GenAIModal({ setFileData }: Props) {
       setIsDialogOpen(false);
     }
   }
+
+  const getDocumentationFormHandler = async (
+    values: z.infer<typeof formSchema>
+  ) => {
+    setLoading(true);
+    try {
+      const res1 = await getDocumentation(values.prompt);
+      // Parse Markdown to AST using remark
+      const parsedMarkdown = remark().use(remarkParse).parse(res1);
+      // Convert AST to Editor.js blocks
+      const editorBlocks = convertMarkdownToEditorBlocks(parsedMarkdown);
+
+      const editorData = {
+        time: new Date().getTime(),
+        blocks: editorBlocks,
+      };
+
+      setFileData((prevFileData: any) => ({
+        ...prevFileData,
+        document: JSON.stringify(editorData),
+      }));
+      setLoading(false);
+      setIsDialogOpen(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+      setIsDialogOpen(false);
+    }
+  };
+
+  const getFlowchartFormHandler = async (
+    values: z.infer<typeof formSchema>
+  ) => {
+    setLoading(true);
+    try {
+      const res2: string = await getFlowchart(values.prompt);
+      const docs = res2
+        .replaceAll("`", "")
+        .replaceAll("json", "")
+        .replaceAll("JSON", "");
+      const parsedString = JSON.parse(docs);
+      console.log(parsedString.code);
+      setMermaidCode(parsedString.code);
+      setLoading(false);
+      setCopyModal(true);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+      setIsDialogOpen(false);
+    }
+  };
+
+  const CopyHandler = () => {
+    navigator.clipboard.writeText(mermaidCode);
+  };
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -178,70 +217,76 @@ export function GenAIModal({ setFileData }: Props) {
           <DialogTitle>AI Assistant!</DialogTitle>
           <DialogDescription>Let me help you!</DialogDescription>
         </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="prompt"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Project Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      id="name"
-                      placeholder="Enter your project description..."
-                      className="col-span-3"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription className=" text-xs font-semibold text-red-500">
-                    <span className="font-bold">Note : </span>
-                    Give detailed description of your problem statement
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  checked={docsCheck}
-                  onCheckedChange={() => setDocsChecked(!docsCheck)}
-                  id="docs"
-                />
-                <label
-                  htmlFor="docs"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  Generate Documentation
-                </label>
+        {!copyModal && (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="prompt"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Project Description</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        id="name"
+                        placeholder="Enter your project description..."
+                        className="col-span-3"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription className=" text-xs font-semibold text-red-500">
+                      <span className="font-bold">Note : </span>
+                      Give detailed description of your problem statement
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    checked={docsCheck}
+                    onCheckedChange={() => setDocsChecked(!docsCheck)}
+                    id="docs"
+                    disabled={flowchartCheck}
+                  />
+                  <label
+                    htmlFor="docs"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Generate Documentation
+                  </label>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    disabled={docsCheck}
+                    checked={flowchartCheck}
+                    onCheckedChange={() => setFlowchartChecked(!flowchartCheck)}
+                    id="flowchart"
+                  />
+                  <label
+                    htmlFor="flowchart"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Generate Flowchart
+                  </label>
+                </div>
+
+                <p className="text-xs font-semibold text-red-500">
+                  {validation}
+                </p>
               </div>
 
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  checked={flowchartCheck}
-                  onCheckedChange={() => setFlowchartChecked(!flowchartCheck)}
-                  id="flowchart"
-                />
-                <label
-                  htmlFor="flowchart"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  Generate Flowchart
-                </label>
-              </div>
-
-              <p className="text-xs font-semibold text-red-500">{validation}</p>
-            </div>
-
-            <DialogFooter>
-              <Button className="flex gap-2" type="submit">
-                <p>Generate</p>
-                <Send className="w-[14px] h-[14px]" />{" "}
-              </Button>
-            </DialogFooter>
-          </form>
-        </Form>
+              <DialogFooter>
+                <Button className="flex gap-2" type="submit">
+                  <p>Generate</p>
+                  <Send className="w-[14px] h-[14px]" />{" "}
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        )}
         {loading && (
           <div className="backdrop-blur-sm absolute flex item-center justify-center w-full h-full top-0 left-0">
             <PromptLoader />
@@ -251,6 +296,28 @@ export function GenAIModal({ setFileData }: Props) {
           <div className="backdrop-blur-sm absolute flex item-center justify-center w-full h-full top-0 left-0">
             <h1>Error Occured! Please Try again</h1>
             <Button onClick={() => setIsDialogOpen(false)}>Try Again!</Button>
+          </div>
+        )}
+        {copyModal && (
+          <div className="flex w-full flex-col gap-2">
+            <div className="flex w-full justify-between items-center">
+              <p>Mermaid code</p>
+              <TooltipProvider delayDuration={400}>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Button onClick={() => CopyHandler()}>Copy!</Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="flex flex-col">
+                    <p>1. Go to more tools in canvas.</p>
+                    <p>2. Select <span className=" font-bold">Mermaid to Excalidraw</span>.</p>
+                    <p>3. Paste the code.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+            <Textarea className="bg-[#333333] w-full p-4 rounded-xl resize-none h-[200px]">
+              {mermaidCode}
+            </Textarea>
           </div>
         )}
       </DialogContent>
