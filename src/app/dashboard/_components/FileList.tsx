@@ -93,7 +93,7 @@ const FileRow = ({
   router: ReturnType<typeof useRouter>;
   index: number;
 }) => (
-  <tr key={file._id} className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"} odd:bg-muted/50 cursor-pointer`}>
+  <tr key={file._id} className="odd:bg-muted/50 cursor-pointer">
     <td className="whitespace-nowrap px-4 py-2 font-medium" onClick={() => router.push("/workspace/" + file._id)}>
       {file.fileName}
     </td>
@@ -245,7 +245,7 @@ function FileList({ fileList, picture }: { fileList?: FILE[]; picture: string })
           </table>
         ) : (
           <div>
-            <div className="flex justify-between px-4 py-2 font-medium bg-gray-200">
+            <div className="flex justify-between px-4 py-2 font-medium bg-muted/50">
               <div className="cursor-pointer" onClick={() => requestSort("fileName")}>
                 File Name <ChevronsUpDown className="inline-block ml-2" />
               </div>
@@ -254,7 +254,7 @@ function FileList({ fileList, picture }: { fileList?: FILE[]; picture: string })
               </div>
             </div>
             {sortedFiles.map((file, index) => (
-              <div key={index} className={`border p-4 mb-4 rounded ${index % 2 === 0 ? "bg-gray-100" : "bg-white"}`}>
+              <div key={index} className={`border p-4 mb-4 rounded ${index % 2 === 0 ? "bg-muted/50" : ""}`}>
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-bold text-xl">{file.fileName}</span>
                   <div className="flex gap-2">
