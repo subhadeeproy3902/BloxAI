@@ -38,7 +38,7 @@ import { JoinTeamForm } from "./JoinTeamForm";
       <Dialog>
         <DialogTrigger>
           <Button className="flex w-full gap-3 items-center justify-start ">
-            <Users className="w-5 h-5" /> <p className="font-bold hidden sm:inline">Join</p>
+            <Users className="w-5 h-5" /> <p className="font-bold">Join</p>
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:w-[650px]">

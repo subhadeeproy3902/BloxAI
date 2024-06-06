@@ -11,8 +11,6 @@ import {
   CopyIcon,
   Share2Icon,
   LinkIcon,
-  Instagram,
-  Linkedin,
 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
@@ -38,7 +36,7 @@ export default function InviteModal() {
     <Dialog>
       <DialogTrigger>
         <Button className="flex w-full gap-3 items-center justify-start ">
-          <Share2Icon className="w-4 h-4" /> <p className="font-bold hidden sm:inline">Invite</p>
+          <Share2Icon className="w-5 h-5" /> <p className="font-bold">Invite</p>
         </Button>
       </DialogTrigger>
       <DialogContent className="w-[330px] sm:w-[650px]">
