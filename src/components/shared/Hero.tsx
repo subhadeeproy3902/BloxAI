@@ -1,8 +1,24 @@
+'use client'
 import heroimg from "@/app/assets/65375f2ad14a4d731410f610_Hero New-p-1600.webp";
 import { ContainerScroll } from "@/components/ui/scroll-anim";
 import Image from "next/image";
-
+import smallhero from "@/app/assets/2.png"
+import { useEffect, useState } from "react";
 export function Hero() {
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 768); // Change breakpoint as needed
+    };
+
+    handleResize(); // Check the screen size on initial render
+    window.addEventListener("resize", handleResize); // Listen for resize events
+
+    return () => window.removeEventListener("resize", handleResize); // Cleanup on unmount
+  }, []);
+
+  const currentImage = isSmallScreen ? smallhero : heroimg;
   return (
     <div className="flex md:pt-0 pt-28 flex-col overflow-hidden text-balance">
       <ContainerScroll
@@ -19,7 +35,7 @@ export function Hero() {
         }
       >
         <Image
-          src={heroimg}
+          src={currentImage}
           alt="hero"
           height={720}
           width={1400}
