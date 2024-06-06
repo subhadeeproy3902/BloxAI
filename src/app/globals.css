@@ -82,6 +82,10 @@
   overflow-y: auto;
   scrollbar-width: none;
   height: 100vh;
+  
+}
+.codex-editor::-webkit-scrollbar{
+  display: none;
 }
 
 .codex-editor--narrow .codex-editor__redactor {
@@ -106,4 +110,14 @@
   left: 0;
   right: 0;
   bottom: unset;
+}
+
+.tc-toolbox--showed{
+  background-color: aliceblue;
+}
+.tc-popover__item-label{
+  color: black;
+}
+.tc-popover__item-icon{
+  background-color: black !important;
 }

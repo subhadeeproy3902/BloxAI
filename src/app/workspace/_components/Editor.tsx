@@ -11,11 +11,16 @@ import Checklist from "@editorjs/checklist";
 import Paragraph from "@editorjs/paragraph";
 // @ts-ignore
 import Warning from "@editorjs/warning";
+// @ts-ignore
+import InlineImage from 'editorjs-inline-image';
+// @ts-ignore
+import Table from '@editorjs/table'
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { toast } from "sonner";
 import { FILE } from "../../dashboard/_components/FileList";
 import { useTheme } from "next-themes";
+import { table } from "console";
 
 const rawDocument = {
   time: 1550476186479,
@@ -102,7 +107,31 @@ function Editor({
           inlineToolbar:true
         },
         warning: Warning,
+        image: {
+          class: InlineImage,
+          inlineToolbar: true,
+          config: {
+            embed: {
+              display: true,
+            },
+            unsplash: {
+              appName: 'india',
+              apiUrl: 'https://unsplash.com/s/photos/',
+              maxResults: 30,
+            }
+          }
+        },
+        table: {
+          class: Table,
+          inlineToolbar: true,
+          config: {
+            rows: 2,
+            cols: 3,
+            withHeadings:true
+          },
+        },
       },
+
       holder: "editorjs",
       data: fileData?.document ? JSON.parse(fileData.document) : rawDocument,
     });
