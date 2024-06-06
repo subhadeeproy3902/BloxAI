@@ -15,6 +15,8 @@ import { toggleClose } from "../Redux/Menu/menuSlice";
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 import Loader from "@/components/shared/Loader";
+import InviteModal from "@/components/shared/InviteModal";
+import JoinTeamModal from "@/components/shared/JoinTeamModal";
 export interface FILE {
   archive: boolean;
   createdBt: string;
@@ -107,9 +109,8 @@ function Dashboard() {
             />
           </Link>
         </div>
-        <Button>
-          <Send className="h-4 w-4" /> Invite
-        </Button>
+        <InviteModal />
+        <JoinTeamModal />
       </div>
       <FileList
         fileList={fileList || null}
