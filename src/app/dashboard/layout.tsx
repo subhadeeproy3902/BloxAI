@@ -24,13 +24,16 @@ function DashboardLayout({
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const count = useSelector((state: RootState) => state.counter.value);
-  const [teams, setTeams] = useState(false);
+  const [hasCheckedTeam, setHasCheckedTeam] = useState(false);
 
   useEffect(() => {
-    user && checkTeam();
-  }, [user, teams]);
+    if (user && !hasCheckedTeam) {
+      checkTeam();
+    }
+  }, [user, hasCheckedTeam]);
 
   const checkTeam = async () => {
+    setHasCheckedTeam(true);
     const result = await convex.query(api.teams.getTeam, {
       email: user?.email,
     });
@@ -44,7 +47,6 @@ function DashboardLayout({
           router.push("/dashboard");
         }
       });
-      setTeams(true);
     }
   };
 

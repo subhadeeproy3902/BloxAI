@@ -21,7 +21,7 @@ import { usePathname } from 'next/navigation';
 import { Id } from "../../../../convex/_generated/dataModel";
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
-import { useConvex } from "convex/react";
+import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -42,8 +42,6 @@ interface TEAM {
 
 function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
   const pathname = usePathname();
-  console.log(pathname);
-  
   const menuList = [
     {
       id: 1,
@@ -61,14 +59,16 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
 
   const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>([]);
-  const convex = useConvex();
-
   const [fileInput, setFileInput] = useState<string>("");
   const [error, setError] = useState<string>("");
 
   const deleteTeam = useMutation(api.teams.deleteTeam);
   const deleteFunc = async (e: any, id: String) => {
     e.stopPropagation();
+    if(activeTeam.teamName === "My Org") {
+      toast.error("My Org can not be deleted");
+      return;
+    }
     await deleteTeam({ _id: id as Id<"teams"> });
     window.location.reload();
   };
@@ -87,8 +87,6 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
   useEffect(() => {
     fileList_ && setFileList(fileList_);
   }, [fileList_]);
-
-  console.log("active Team", activeTeam)
 
   return (
     <div>
