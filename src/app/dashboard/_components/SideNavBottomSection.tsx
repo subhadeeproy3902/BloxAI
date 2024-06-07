@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Archive, File, Github, Trash2 } from "lucide-react";
+import { Archive, CheckCircle2, File, Github, Trash2 } from "lucide-react";
 import React, { useState, useContext, useEffect } from "react";
 import {
   Dialog,
@@ -61,6 +61,7 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
   const [fileList, setFileList] = useState<any>([]);
   const [fileInput, setFileInput] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [isSubmitted,setIsSubmitted] = useState(false);
 
   const deleteTeam = useMutation(api.teams.deleteTeam);
   const deleteFunc = async (e: any, id: String) => {
@@ -70,7 +71,7 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
       return;
     }
     await deleteTeam({ _id: id as Id<"teams"> });
-    window.location.reload();
+    setIsSubmitted(true)
   };
   
 
@@ -142,33 +143,52 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
       {/* Delete Team Button */}
 
       <div className="flex items-center justify-between mt-4">
-            <AlertDialog>
-                <AlertDialogTrigger className="w-full" asChild>
-                <Button variant={"destructive"} className="mb-2 mt-1">
-                  Delete Team <Trash2 className="h-4 w-4 rounded-full" />
-                </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you absolutely sure?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone. This will permanently
-                      delete your team and remove your data from our
-                      servers.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={(e) => deleteFunc(e, activeTeam._id)}
-                    >
-                      Continue
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+        <AlertDialog>
+          <AlertDialogTrigger className="w-full" asChild>
+            <Button variant={"destructive"} className="mb-2 mt-1">
+              Delete Team <Trash2 className="h-4 w-4 rounded-full" />
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            {!isSubmitted && (
+              <>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your team and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <Button onClick={(e) => deleteFunc(e, activeTeam._id)}>
+                    Continue
+                  </Button>
+                </AlertDialogFooter>
+              </>
+            )}
+
+            {isSubmitted && (
+              <>
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="flex gap-2">
+                    <p>Team Deleted Successfully!!</p>{" "}
+                    <CheckCircle2 className="w-6 h-6" />
+                  </AlertDialogTitle>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogAction
+                    onClick={() => {
+                      window.location.reload();
+                    }}
+                  >
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </>
+            )}
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
 
       {/* Progress Bar */}
