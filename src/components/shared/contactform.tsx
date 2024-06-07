@@ -40,7 +40,6 @@ export default function Contact() {
     try {
       const response = await handleSubmit2(values);
     } catch (error) {
-      console.error('Error submitting form:', error);
       setServerError("There was an issue submitting the form. Please try again.");
     }
   };

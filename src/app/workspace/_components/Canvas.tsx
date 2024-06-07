@@ -33,7 +33,7 @@ function Canvas({
     });
   };
 
-  const [mermaidCode, setMermaidCode] = useState<string>("");
+  
 
   const handleMermaidToExcalidraw = async () => {
     const mermaidCode = `flowchart TD
@@ -48,7 +48,6 @@ function Canvas({
       const { elements } = await parseMermaidToExcalidraw(mermaidCode, {
         fontSize: 16, // Example font size
       });
-
       // Set the converted elements to the state
       setWhiteBoardData(elements);
     } catch (e) {

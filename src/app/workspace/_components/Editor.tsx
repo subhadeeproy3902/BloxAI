@@ -11,11 +11,16 @@ import Checklist from "@editorjs/checklist";
 import Paragraph from "@editorjs/paragraph";
 // @ts-ignore
 import Warning from "@editorjs/warning";
+// @ts-ignore
+import InlineImage from 'editorjs-inline-image';
+// @ts-ignore
+import Table from '@editorjs/table'
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { toast } from "sonner";
 import { FILE } from "../../dashboard/_components/FileList";
 import { useTheme } from "next-themes";
+import { table } from "console";
 
 const rawDocument = {
   time: 1550476186479,
@@ -48,13 +53,22 @@ function Editor({
   fileId: any;
   fileData: FILE;
 }) {
-  const ref = useRef<EditorJS>();
+  const ref = useRef<EditorJS | null>(null);
   const updateDocument = useMutation(api.files.updateDocument);
   const [document, setDocument] = useState(rawDocument);
   const { theme } = useTheme();
 
   useEffect(() => {
-    fileData && initEditor();
+    if (fileData) {
+      initEditor();
+    }
+
+    return () => {
+      if (ref.current) {
+        ref.current.destroy();
+        ref.current = null;
+      }
+    };
   }, [fileData]);
 
   useEffect(() => {
@@ -62,13 +76,19 @@ function Editor({
   }, [onSaveTrigger]);
 
   const initEditor = () => {
-    const editor = new EditorJS({
+    if (ref.current) {
+      ref.current.destroy();
+    }
+
+    ref.current = new EditorJS({
       tools: {
         header: {
           class: Header,
           shortcut: "CMD+SHIFT+H",
+          inlineToolbar: true,
           config: {
             placeholder: "Enter a Header",
+            levels: [2, 3, 4],
           },
         },
         list: {
@@ -82,13 +102,39 @@ function Editor({
           class: Checklist,
           inlineToolbar: true,
         },
-        paragraph: Paragraph,
+        paragraph:{
+          class:Paragraph,
+          inlineToolbar:true
+        },
         warning: Warning,
+        image: {
+          class: InlineImage,
+          inlineToolbar: true,
+          config: {
+            embed: {
+              display: true,
+            },
+            unsplash: {
+              appName: 'india',
+              apiUrl: 'https://unsplash.com/s/photos/',
+              maxResults: 30,
+            }
+          }
+        },
+        table: {
+          class: Table,
+          inlineToolbar: true,
+          config: {
+            rows: 2,
+            cols: 3,
+            withHeadings:true
+          },
+        },
       },
+
       holder: "editorjs",
       data: fileData?.document ? JSON.parse(fileData.document) : rawDocument,
     });
-    ref.current = editor;
   };
 
   const onSaveDocument = () => {
@@ -113,6 +159,8 @@ function Editor({
         });
     }
   };
+
+
 
   return (
     <div>

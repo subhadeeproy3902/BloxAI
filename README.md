@@ -1,3 +1,4 @@
+<a name="top"></a>
 ![](https://i.postimg.cc/FF6TxJdC/home.jpg)
 
 # Blox AI
@@ -9,7 +10,6 @@ Visit the site here - [Blox AI](https://blox-ai.vercel.app/)
 ## Features
 
 - **Effortless Flowchart and Diagram Creation**: Easily create flowcharts and diagrams with our intuitive tools.
-   
 - **Rich Text Editor**: Craft beautiful documentation with our powerful rich text editor.
 
 - **Collaborative Sharing**: Share your creations effortlessly with your entire team.
@@ -25,7 +25,6 @@ Visit the site here - [Blox AI](https://blox-ai.vercel.app/)
 - **Limited Files Allotment**: Get a set number of files allotted, ensuring efficient usage of resources.
 
 - **Install as app**: Can also be installed as an app and run smoothly in mobiles anytime
-
 
 ## Tech Stack
 
@@ -60,6 +59,16 @@ However, it's important to adhere to strict regulations to maintain the integrit
 
 We understand that open source collaboration is filled with excitement and fulfillment. Your contributions are invaluable, and we're committed to ensuring that your efforts are duly recognized and appreciated.
 
+## How to get the API Keys?
+
+1. Kinde API keys are already provided. Official Docs : [Kinde](https://kinde.com/)
+2. Convex API keys are already provided. Official Docs : [Convex](https://www.convex.dev/)
+3. For Gemini API keys, visit [Gemini AI Studio](https://aistudio.google.com/app/apikey) and create a new API key. Copy and paste it into the .env file.
+
+![Gemini API](image.png)
+
+
+
 ## Licence
 
 [MIT](https://github.com/subhadeeproy3902/BloxAI/blob/main/LICENSE)
@@ -77,3 +86,5 @@ Thanks to all contributors for helping this project grow! 🍻
 Don't forget to leave a star ⭐ for this project!
 
 Crafted with ♥ by @subhadeeproy3902 & @xeven777.
+
+<p align="right"><a href="#top">Back to top</a></p>

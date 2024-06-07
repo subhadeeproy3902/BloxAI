@@ -25,14 +25,13 @@ function Workspace({ params }: any) {
   };
 
 
-  console.log(fullScreen)
-
   return (
     <div className="overflow-x-hidden">
       <WorkspaceHeader
         onSave={() => setTriggerSave(!triggerSave)}
         name={fileData?.fileName || "New Document"}
         setFullScreen={setFullScreen}
+        setFileData={setFileData}
       />
 
       <div className={`grid grid-cols-1 ${fullScreen ? "": "md:grid-cols-2"} overflow-x-none`}>

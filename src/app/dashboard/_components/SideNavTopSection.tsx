@@ -44,6 +44,8 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
     user && getTeamList();
   }, [user]);
 
+  console.log(user)
+
   useEffect(() => {
     activeTeam ? setActiveTeamInfo(activeTeam) : null;
   }, [activeTeam]);
@@ -63,6 +65,8 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
       router.push(item.path);
     }
   };
+
+  console.log(teamList)
 
   return (
     <div>
