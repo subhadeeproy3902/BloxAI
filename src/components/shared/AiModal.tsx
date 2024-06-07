@@ -35,6 +35,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { toast } from "sonner";
 
 function convertMarkdownToEditorBlocks(markdownAST: any) {
   const blocks: any = [];
@@ -168,6 +169,9 @@ export function GenAIModal({ setFileData }: Props) {
         ...prevFileData,
         document: JSON.stringify(editorData),
       }));
+
+      toast.success("Documentation Generated!!")
+
       setLoading(false);
       setIsDialogOpen(false);
     } catch (err) {
@@ -188,6 +192,7 @@ export function GenAIModal({ setFileData }: Props) {
         .replaceAll("JSON", "");
       const parsedString = JSON.parse(docs);
       setMermaidCode(parsedString.code);
+      toast.success("Flowchart Generated!!")
       setLoading(false);
       setCopyModal(true);
     } catch (err) {
@@ -198,6 +203,7 @@ export function GenAIModal({ setFileData }: Props) {
 
   const CopyHandler = () => {
     navigator.clipboard.writeText(mermaidCode);
+    toast.success("Code copied!!");
   };
 
   return (
