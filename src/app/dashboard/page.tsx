@@ -6,17 +6,16 @@ import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useConvex, useMutation } from "convex/react";
 import FileList from "./_components/FileList";
 import { useState, useContext, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ThemeTogglebutton from "@/components/ui/ThemeToggle";
-import { Search, Send } from "lucide-react";
+import { Search } from "lucide-react";
 import Image from "next/image";
 import { toggleClose } from "../Redux/Menu/menuSlice";
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
-import Loader from "@/components/shared/Loader";
 import InviteModal from "@/components/shared/InviteModal";
 import JoinTeamModal from "@/components/shared/JoinTeamModal";
+
 export interface FILE {
   archive: boolean;
   createdBt: string;

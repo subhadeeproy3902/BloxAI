@@ -42,7 +42,6 @@ function DashboardLayout({
       createTeam({
         teamName: "My Org",
         createdBy: user?.email,
-        teamMembers: [user.email]
       }).then((resp) => {
         if (resp) {
           router.push("/dashboard");
