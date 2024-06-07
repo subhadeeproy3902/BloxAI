@@ -21,18 +21,6 @@ import {
 import { JoinTeamForm } from "./JoinTeamForm";
   
   export default function JoinTeamModal() {
-    const teamName = useSelector((state: RootState) => state.team.teamName);
-    const teamId = useSelector((state: RootState) => state.team.teamId);
-  
-    const URL = `${window.location.href}/invite/${teamId}`;
-  
-    const ShareLinkHandler = () => {
-      navigator.clipboard.writeText(URL);
-    };
-  
-    const CodeHandler = () => {
-      navigator.clipboard.writeText(teamId);
-    };
   
     return (
       <Dialog>

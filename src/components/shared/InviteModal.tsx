@@ -17,6 +17,7 @@ import { RootState } from "@/app/store";
 import { Separator } from "../ui/separator";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function InviteModal() {
   const teamName = useSelector((state: RootState) => state.team.teamName);
@@ -26,10 +27,12 @@ export default function InviteModal() {
 
   const ShareLinkHandler = () => {
     navigator.clipboard.writeText(URL);
+    toast.success("Link copied successfully!!")
   };
 
   const CodeHandler = () => {
     navigator.clipboard.writeText(teamId);
+    toast.success("Code copied successfully!!")
   };
 
   return (
