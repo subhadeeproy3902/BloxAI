@@ -44,7 +44,7 @@ export default function Contact() {
       issue: "",
     },
   });
-  const [state, handleSubmit2] = uForm("mqkrveda");
+  const [state, handleSubmit2] = uForm("xvoejeeo");
 
   const handleForm = () => {
     // Display success message and reset the form
@@ -72,31 +72,15 @@ export default function Contact() {
   }, [state.succeeded]);
 
   return (
-    <section className="w-full px-2 max-w-screen-md">
-      <h2 className="text-4xl md:text-6xl font-bold mb-5 bg-gradient-to-br from-gray-400 via-orange-600 to-orange-700 bg-clip-text text-transparent text-center mt-4">
+    <section className="w-full px-2 max-w-screen-md mb-16 mt-6">
+      <h2 className="text-4xl md:text-6xl font-bold mb-5 bg-gradient-to-b from-zinc-100 via-orange-400 to-orange-500 bg-clip-text text-transparent text-center mt-4">
         Let&apos;s Get in Touch
       </h2>
       <p className="text-muted-foreground mb-6 text-center">
         Fill out the form below and we&apos;ll get back to you as soon as
         possible.
       </p>
-      <div className="grid items-start w-full gap-12 mx-auto lg:grid-cols-2 lg:px-12 mb-6 pt-10 pb-6 bg-opacity-8 px-4 rounded-lg gradient1 shadow shadow-orange-900 border border-secondary">
-        {successMessage && (
-          <div
-            className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 my-4 rounded relative"
-            role="alert"
-          >
-            <span className="block sm:inline">{successMessage}</span>
-          </div>
-        )}
-        {serverError && (
-          <div
-            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 my-4 rounded relative"
-            role="alert"
-          >
-            <span className="block sm:inline">{serverError}</span>
-          </div>
-        )}
+      <div className="grid items-start w-full gap-12 mx-auto lg:grid-cols-2 lg:px-12 mb-6 pt-10 pb-6 bg-opacity-8 px-4 rounded-lg gradient2 dark:gradient1 shadow shadow-orange-600 dark:shadow-orange-900 border border-secondary">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -115,7 +99,7 @@ export default function Contact() {
                       <FormControl>
                         <input
                           placeholder="John Doe"
-                          className="flex h-10 w-full rounded-md border border-orange-900 bg-background/75 px-3 py-2 text-sm shadow-inner shadow-orange-900 hover:border-orange-600 hover:transition-all focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500"
+                          className="flex h-10 w-full rounded-md border border-orange-500 dark:border-orange-900 placeholder:text-muted-foreground bg-background/75 px-3 py-2 text-sm shadow-inner shadow-orange-400 dark:shadow-orange-900 hover:border-orange-600 hover:transition-all focus:border-orange-600 dark:focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500"
                           type="text"
                           {...field}
                         />
@@ -139,7 +123,7 @@ export default function Contact() {
                       <FormControl>
                         <input
                           placeholder="johndoe@example.com"
-                          className="flex h-10 w-full rounded-md border border-orange-900 bg-background/75 px-3 py-2 text-sm shadow-inner shadow-orange-900 hover:border-orange-600 hover:transition-all focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500"
+                          className="flex h-10 w-full rounded-md border border-orange-500 dark:border-orange-900 placeholder:text-muted-foreground bg-background/75 px-3 py-2 text-sm shadow-inner shadow-orange-400 dark:shadow-orange-900 hover:border-orange-600 hover:transition-all focus:border-orange-600 dark:focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500"
                           type="email"
                           {...field}
                         />
@@ -163,8 +147,8 @@ export default function Contact() {
                       <FormControl>
                         <textarea
                           placeholder="Tell us a little bit about your issue in details here"
-                          className="min-h-[110px] mb-5 shadow-inner shadow-orange-900
-                flex w-full rounded-md border border-orange-900 bg-background/75 px-3 py-2 text-sm ring-offset-background   placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 hover:border-orange-600 hover:transition-all focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500"
+                          className="min-h-[110px] mb-5 shadow-inner shadow-orange-400 dark:shadow-orange-900
+                flex w-full rounded-md border border-orange-500 dark:border-orange-900 bg-background/75 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 hover:border-orange-600 hover:transition-all focus:border-orange-600 dark:focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500"
                           {...field}
                         />
                       </FormControl>
@@ -176,7 +160,7 @@ export default function Contact() {
             </div>
             <Button
               type="submit"
-              className="bg-gradient-to-br relative group/btn from-orange-800 to-orange-500 block w-full rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] py-2 hover:from-orange-700 hover:to-orange-800 hover:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] duration-300 ease-in-out text-center transition-all"
+              className="bg-gradient-to-br relative group/btn from-orange-500 to-orange-600 block w-full rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] py-2 hover:from-orange-600 hover:to-orange-500 hover:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] duration-300 ease-in-out text-center transition-all"
               disabled={state.submitting}
             >
               <b>SUBMIT</b>
@@ -185,17 +169,17 @@ export default function Contact() {
           </form>
         </Form>
         <div>
-          <h3 className="text-2xl font-semibold mb-10 text-muted-foreground">
+          <h3 className="text-2xl font-semibold mb-10 text-foreground/75">
             Connect with Us
           </h3>
           <div className="flex gap-8 mb-12">
             <Link
-              className="flex items-center justify-center w-10 h-10 rounded-full border border-orange-600 shadow-inner shadow-orange-800 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
+              className="flex items-center justify-center w-10 h-10 rounded-full border bg-orange-200 dark:bg-transparent border-orange-600 shadow-inner shadow-orange-600 dark:shadow-orange-800 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
               href="#"
             >
               <Mail className="w-5 h-5" />
             </Link>
-            <div className="text-md text-slate-300">
+            <div className="text-md text-foreground">
               <p>Email to us at </p>
               <p>subha9.5@gmail.com</p>
             </div>
@@ -203,12 +187,12 @@ export default function Contact() {
 
           <div className="flex gap-8 mb-12">
             <Link
-              className="flex items-center justify-center w-10 h-10 rounded-full border border-orange-600 shadow-inner shadow-orange-800 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
+              className="flex items-center justify-center w-10 h-10 rounded-full border bg-orange-200 dark:bg-transparent border-orange-600 shadow-inner shadow-orange-600 dark:shadow-orange-800 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
               href="#"
             >
               <Phone className="w-5 h-5" />
             </Link>
-            <div className="text-md text-slate-300">
+            <div className="text-md text-foreground">
               <p>Call us at </p>
               <p>+91 86373 73116</p>
             </div>
@@ -216,12 +200,12 @@ export default function Contact() {
 
           <div className="flex gap-8 mb-12">
             <Link
-              className="flex items-center justify-center w-10 h-10 rounded-full border border-orange-600 shadow-inner shadow-orange-800 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
+              className="flex items-center justify-center w-10 h-10 rounded-full border bg-orange-200 dark:bg-transparent border-orange-600 shadow-inner shadow-orange-600 dark:shadow-orange-800 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
               href="https://chat.whatsapp.com/E5oRd1VG1Ov4HoNPq4QcRU"
             >
               <MessageCircleMore className="w-5 h-5" />
             </Link>
-            <div className="text-md text-slate-300">
+            <div className="text-md text-foreground">
               <p>Chat with us at </p>
               <p className="underline">
                 <a href="https://chat.whatsapp.com/E5oRd1VG1Ov4HoNPq4QcRU">
@@ -233,25 +217,25 @@ export default function Contact() {
 
           <div className="flex space-x-12 py-7">
             <Link
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-orange-800 border border-orange-600 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
-              href="#"
+              className="flex items-center justify-center w-10 h-10 rounded-full bg-orange-500 dark:bg-orange-800 border border-orange-600 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
+              href="https://www.youtube.com/watch?v=gyBAWJRAMEg&t=1s"
             >
               <Youtube className="w-5 h-5 text-white" />
             </Link>
             <Link
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-orange-800 border border-orange-600 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
+              className="flex items-center justify-center w-10 h-10 rounded-full bg-orange-500 dark:bg-orange-800 border border-orange-600 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
               href="#"
             >
               <Instagram className="w-5 h-5 text-white" />
             </Link>
             <Link
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-orange-800 border border-orange-700  hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
+              className="flex items-center justify-center w-10 h-10 rounded-full bg-orange-500 dark:bg-orange-800 border border-orange-700  hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
               href="https://www.linkedin.com/in/subhadeep3902/"
             >
               <Linkedin className="w-5 h-5 text-white" />
             </Link>
             <Link
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-orange-800 border border-orange-700 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
+              className="flex items-center justify-center w-10 h-10 rounded-full bg-orange-500 dark:bg-orange-800 border border-orange-700 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
               href="https://github.com/subhadeeproy3902/BloxAI"
             >
               <Github className="w-5 h-5 text-white" />
@@ -259,6 +243,22 @@ export default function Contact() {
           </div>
         </div>
       </div>
+      {successMessage && (
+        <div
+          className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 my-4 rounded relative"
+          role="alert"
+        >
+          <span className="block sm:inline">{successMessage}</span>
+        </div>
+      )}
+      {serverError && (
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 my-4 rounded relative"
+          role="alert"
+        >
+          <span className="block sm:inline">{serverError}</span>
+        </div>
+      )}
     </section>
   );
 }
