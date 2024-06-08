@@ -317,7 +317,7 @@ export function GenAIModal({ setFileData }: Props) {
                 </Tooltip>
               </TooltipProvider>
             </div>
-            <Textarea className="bg-[#333333] w-full p-4 rounded-xl resize-none h-[200px]">
+            <Textarea className="dark:bg-[#333333] dark:text-gray-400 bg-secondary text-[#333333] w-full p-4 rounded-xl resize-none h-[200px]">
               {mermaidCode}
             </Textarea>
           </div>
