@@ -44,3 +44,5 @@ next-env.d.ts
 .env.local
 .env
 package-lock.json
+
+.env.local

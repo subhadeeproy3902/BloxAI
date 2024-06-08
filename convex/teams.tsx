@@ -23,9 +23,13 @@ export const deleteTeam = mutation({
 });
 
 export const createTeam = mutation({
-  args: { teamName: v.string(), createdBy: v.string() },
+  args: { teamName: v.string(), createdBy: v.string(), teamMembers:v.array(v.string()) },
   handler: async (ctx, args) => {
-    const result = await ctx.db.insert("teams", args);
+    const {teamName, teamMembers, createdBy} = args;
+
+    const result = await ctx.db.insert("teams", {
+      teamName,createdBy,teamMembers
+    });
     return result;
   },
 });

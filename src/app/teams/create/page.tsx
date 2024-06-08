@@ -29,6 +29,7 @@ function CreateTeam() {
     createTeam({
       teamName: teamName,
       createdBy: user?.email,
+      teamMembers:[user.email]
     }).then((resp) => {
       if (resp) {
         router.push("/dashboard");
