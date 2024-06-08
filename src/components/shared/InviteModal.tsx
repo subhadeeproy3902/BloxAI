@@ -22,8 +22,7 @@ import { toast } from "sonner";
 export default function InviteModal() {
   const teamName = useSelector((state: RootState) => state.team.teamName);
   const teamId = useSelector((state: RootState) => state.team.teamId);
-
-  const URL = `${window.location.href}/invite/${teamId}`;
+  const URL = `${window.location.origin}/invite/${teamId}`;
 
   const ShareLinkHandler = () => {
     navigator.clipboard.writeText(URL);
@@ -66,7 +65,7 @@ export default function InviteModal() {
           <Separator />
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
-            <p className="bg-[#333333] p-2 rounded-lg px-4 text-gray-300">
+            <p className="dark:bg-[#333333] bg-secondary text-[#333333] p-2 rounded-lg px-4 dark:text-gray-300">
               {teamId}
             </p>
             <Button onClick={() => CodeHandler()}>
@@ -80,7 +79,7 @@ export default function InviteModal() {
               <Link
                 target="_blank"
                 href={"https://www.instagram.com/"}
-                className="p-2 rounded-xl bg-secondary text-secondary-foreground hover:bg-primary/90"
+                className="p-2 rounded-xl dark:bg-secondary bg-[#333333] text-secondary-foreground hover:bg-primary/90"
               >
                 <Image
                   src={"/insta.svg"}
@@ -92,7 +91,7 @@ export default function InviteModal() {
               <Link
                 target="_blank"
                 href={"https://www.linkedin.com/"}
-                className="p-2 rounded-xl bg-secondary text-secondary-foreground hover:bg-primary/90"
+                className="p-2 rounded-xl dark:bg-secondary bg-[#333333] text-secondary-foreground hover:bg-primary/90"
               >
                 <Image
                   src={"/linkedin.svg"}
@@ -104,7 +103,7 @@ export default function InviteModal() {
               <Link
                 target="_blank"
                 href={"https://web.whatsapp.com/"}
-                className="p-2 hover:bg-primary/90 rounded-xl bg-secondary text-secondary-foreground "
+                className="p-2 hover:bg-primary/90 dark:bg-secondary bg-[#333333] rounded-xl text-secondary-foreground "
               >
                 <Image
                   src={"/whatsapp.svg"}
@@ -116,7 +115,7 @@ export default function InviteModal() {
               <Link
                 target="_blank"
                 href={"https://x.com/"}
-                className="p-2 hover:bg-primary/90 rounded-xl bg-secondary text-secondary-foreground"
+                className="p-2 hover:bg-primary/90 rounded-xl dark:bg-secondary bg-[#333333] text-secondary-foreground"
               >
                 <Image
                   src={"/twitter.svg"}
