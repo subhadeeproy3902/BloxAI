@@ -18,7 +18,7 @@ const Header = () => {
   const links = [
     {
       title: "About",
-      path: "/",
+      path: "/about",
     },
     {
       title: "Contributors",
