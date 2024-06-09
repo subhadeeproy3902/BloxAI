@@ -82,14 +82,14 @@ export default function Review() {
         </p>
         <ReviewCarousel items={testimonials2} direction="left" speed="slow" />
       </div>
-      <div className="flex w-full text-2xl flex-col items-center p-10 md:text-sm">
-        <p className="text-xl md:text-2xl py-5 opacity-75">
+        <p  className=" text-4xl md:text-6xl font-bold mb-5 bg-gradient-to-b from-zinc-100 via-orange-400 to-orange-500 bg-clip-text text-transparent text-center mt-4">
           Loved our product?
         </p>
-        <p className="text-3xl md:text-5xl font-bold py-2 bg-gradient-to-r bg-clip-text text-transparent from-muted-foreground via-primary-foreground to-muted-foreground">
+      <div className="flex  w-[80vw] flex-col items-center justify-center  lg:w-[50vw] md:w[50vw] gap-6 mx-auto  mb-6 pt-10 pb-6 bg-opacity-8 px-4 rounded-lg gradient2 dark:gradient1 shadow shadow-orange-600 dark:shadow-orange-900 border border-secondary">
+   
+        <p className="text-center text-3xl md:text-5xl font-bold py-2 bg-gradient-to-r bg-clip-text text-transparent from-muted-foreground via-primary-foreground to-muted-foreground">
           Leave a Review 👇
         </p>
-      </div>
       <div className="w-full max-w-lg p-4 md:p-10">
         <Form {...form}>
           <form
@@ -106,6 +106,7 @@ export default function Review() {
                     <FormControl>
                       <Input
                         placeholder="Manav Malhotra"
+                        className="flex h-10 w-full rounded-md border border-orange-500 dark:border-orange-900 placeholder:text-muted-foreground bg-background/75 px-3 py-2 text-sm shadow-inner shadow-orange-400 dark:shadow-orange-900 hover:border-orange-600 hover:transition-all focus:border-orange-600 dark:focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500"
                         type="text"
                         {...field}
                       />
@@ -125,7 +126,7 @@ export default function Review() {
                     <FormLabel>Email Address</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="manav@example.com"
+ className="flex h-10 w-full rounded-md border border-orange-500 dark:border-orange-900 placeholder:text-muted-foreground bg-background/75 px-3 py-2 text-sm shadow-inner shadow-orange-400 dark:shadow-orange-900 hover:border-orange-600 hover:transition-all focus:border-orange-600 dark:focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500"                        placeholder="manav@example.com"
                         type="email"
                         {...field}
                       />
@@ -135,7 +136,6 @@ export default function Review() {
                 );
               }}
             />
-
             <FormField
               control={form.control}
               name="feedback"
@@ -146,7 +146,7 @@ export default function Review() {
                     <FormControl>
                       <Textarea
                         placeholder="Tell us what you loved about our product"
-                        className="resize-none"
+                        className="flex h-10 w-full rounded-md border border-orange-500 dark:border-orange-900 placeholder:text-muted-foreground bg-background/75 px-3 py-2 text-sm shadow-inner shadow-orange-400 dark:shadow-orange-900 hover:border-orange-600 hover:transition-all focus:border-orange-600 dark:focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500 resize-none"
                         {...field}
                       />
                     </FormControl>
@@ -160,6 +160,7 @@ export default function Review() {
             </Button>
           </form>
         </Form>
+      </div>
       </div>
     </main>
   );
