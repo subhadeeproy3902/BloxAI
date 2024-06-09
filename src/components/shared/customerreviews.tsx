@@ -1,7 +1,9 @@
 "use client";
 import * as React from "react";
+import Image from 'next/image';
 import * as z from "zod";
 import { useForm } from "react-hook-form";
+import  feedbackImage from  '../../../src/app/assets/feedback.png' ;
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -85,16 +87,21 @@ export default function Review() {
         <p  className=" text-4xl md:text-6xl font-bold mb-5 bg-gradient-to-b from-zinc-100 via-orange-400 to-orange-500 bg-clip-text text-transparent text-center mt-4">
           Loved our product?
         </p>
-      <div className="flex  w-[80vw] flex-col items-center justify-center  lg:w-[50vw] md:w[50vw] gap-6 mx-auto  mb-6 pt-10 pb-6 bg-opacity-8 px-4 rounded-lg gradient2 dark:gradient1 shadow shadow-orange-600 dark:shadow-orange-900 border border-secondary">
+      <div className="flex shadow-lg md:relative md:right-[40px] dark:shadow-white shadow-black  w-[80vw] flex-col items-center justify-center   lg:w-[80vw] md:w[80vw] gap-6 mx-auto  mb-6 pt-10 pb-6 bg-opacity-8 px-4 rounded-lg  dark:bg-black dark:border-white  bg-white   border border-secondary">
    
         <p className="text-center text-3xl md:text-5xl font-bold py-2 bg-gradient-to-r bg-clip-text text-transparent from-muted-foreground via-primary-foreground to-muted-foreground">
           Leave a Review 👇
         </p>
-      <div className="w-full max-w-lg p-4 md:p-10">
+        <div className="flex md:flex-row flex-col gap-0 w-[100%]">
+<div className="w-[100%]   md:w-[50%] flex justify-center items-center">
+
+          <Image src={feedbackImage} width={500} height={700} alt="No"/>
+</div>
+      <div className="w-[100%]  md:w-[50%] flex justify-center items-center max-w-lg p-4 md:p-10">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className="flex flex-col gap-8"
+            className="flex flex-col gap-8 w-[80%]"
           >
             <FormField
               control={form.control}
@@ -106,7 +113,7 @@ export default function Review() {
                     <FormControl>
                       <Input
                         placeholder="Manav Malhotra"
-                        className="flex h-10 w-full rounded-md border border-orange-500 dark:border-orange-900 placeholder:text-muted-foreground bg-background/75 px-3 py-2 text-sm shadow-inner shadow-orange-400 dark:shadow-orange-900 hover:border-orange-600 hover:transition-all focus:border-orange-600 dark:focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500"
+                        className="flex h-10 rounded-none w-full border-b-black  dark:border-b-white  placeholder:text-muted-foreground  px-3 py-2 text-sm shadow-inner bg-[transparent] focus:outline-none outline-none  "
                         type="text"
                         {...field}
                       />
@@ -126,8 +133,9 @@ export default function Review() {
                     <FormLabel>Email Address</FormLabel>
                     <FormControl>
                       <Input
- className="flex h-10 w-full rounded-md border border-orange-500 dark:border-orange-900 placeholder:text-muted-foreground bg-background/75 px-3 py-2 text-sm shadow-inner shadow-orange-400 dark:shadow-orange-900 hover:border-orange-600 hover:transition-all focus:border-orange-600 dark:focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500"                        placeholder="manav@example.com"
+                        className="flex h-10 rounded-none w-full border-b-black  dark:border-b-white  placeholder:text-muted-foreground  px-3 py-2 text-sm shadow-inner bg-[transparent] focus:outline-none outline-none  "
                         type="email"
+                        placeholder="manav@example.com"
                         {...field}
                       />
                     </FormControl>
@@ -146,7 +154,7 @@ export default function Review() {
                     <FormControl>
                       <Textarea
                         placeholder="Tell us what you loved about our product"
-                        className="flex h-10 w-full rounded-md border border-orange-500 dark:border-orange-900 placeholder:text-muted-foreground bg-background/75 px-3 py-2 text-sm shadow-inner shadow-orange-400 dark:shadow-orange-900 hover:border-orange-600 hover:transition-all focus:border-orange-600 dark:focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500 resize-none"
+                        className="resize-none flex h-10 rounded-none w-full border-b-black  dark:border-b-white  placeholder:text-muted-foreground   px-3 py-2 text-sm shadow-inner bg-[transparent] focus:outline-none outline-none  "
                         {...field}
                       />
                     </FormControl>
@@ -161,6 +169,7 @@ export default function Review() {
           </form>
         </Form>
       </div>
+        </div>
       </div>
     </main>
   );
