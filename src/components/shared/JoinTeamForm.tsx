@@ -21,6 +21,13 @@ import { Id } from "../../../convex/_generated/dataModel";
 import { SetStateAction, useState } from "react";
 import { toast } from "sonner";
 
+export type TEAMS = {
+  createdBy:string; 
+  teamMembers?:string[];
+  teamName:string;
+  _creationTime:number; 
+  _id:Id<"teams">;
+}
 const FormSchema = z.object({
   code: z.string().min(1, {
     message: "Code is required!",
@@ -47,7 +54,7 @@ export function JoinTeamForm({user,setIsDialogOpen}:Props) {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const id:Id<"teams"> = data.code as Id<"teams">;
 
-    const teamData = await convex.query(api.teams.getTeamById, {
+    const teamData:TEAMS = await convex.query(api.teams.getTeamById, {
       _id: id,
     });
 
@@ -57,7 +64,7 @@ export function JoinTeamForm({user,setIsDialogOpen}:Props) {
       return;
     }
 
-    let memberArray:string[] = teamData.teamMembers
+    let memberArray:string[];
 
     if(teamData.teamMembers){
       memberArray = teamData.teamMembers;
@@ -74,9 +81,9 @@ export function JoinTeamForm({user,setIsDialogOpen}:Props) {
       memberArray: memberArray,
     });
 
-    if (result) {
-      router.push("/dashboard");
-    }
+
+    router.push("/dashboard");
+    
   }
 
   return (
