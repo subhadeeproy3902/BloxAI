@@ -89,7 +89,7 @@ export default function Review() {
         </p>
       <div className="flex shadow-lg md:relative md:right-[40px] dark:shadow-white shadow-black  w-[80vw] flex-col items-center justify-center   lg:w-[80vw] md:w[80vw] gap-6 mx-auto  mb-6 pt-10 pb-6 bg-opacity-8 px-4 rounded-lg  dark:bg-black dark:border-white  bg-white   border border-secondary">
    
-        <p className="text-center text-3xl md:text-5xl font-bold py-2 bg-gradient-to-r bg-clip-text text-transparent from-muted-foreground via-primary-foreground to-muted-foreground">
+        <p className="text-center color-black dark:color-white text-3xl md:text-5xl font-bold py-2 bg-gradient-to-r bg-clip-text text-transparent from-muted-foreground via-primary-foreground to-muted-foreground">
           Leave a Review 👇
         </p>
         <div className="flex md:flex-row flex-col gap-0 w-[100%]">
