@@ -51,15 +51,11 @@ export const getTeamById = query({
 });
 
 export const addMember = mutation({
-  args: { _id: v.id("teams"), userEmail: v.string() },
+  args: { _id: v.id("teams"), memberArray: v.array(v.string()) },
   handler: async (ctx, args) => {
-    const { _id, userEmail } = args;
+    const { _id, memberArray } = args;
 
-    const teamData = await await ctx.db.get(args._id);
-
-    const membersArray = teamData.teamMembers.push(userEmail);
-
-    const res = await ctx.db.patch(_id, { teamMembers: membersArray });
+    const res = await ctx.db.patch(_id, { teamMembers: memberArray });
 
     return res;
   },
