@@ -20,14 +20,17 @@ import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import Link from "next/link";
 import Terms from "@/components/shared/TermsDiv";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useRouter } from "next/navigation";
 
 export default function Page({ params }: any) {
   const convex = useConvex();
   const { id } = params;
+  const router = useRouter();
   const [teamData, setTeamData] = useState<any>(undefined);
   const [errorMsg, setErrorMsg] = useState("");
   const [isError, setIsError] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isValidLink,setIsValidLink] = useState(true);
   const { user }: any = useKindeBrowserClient();
   const { isAuthenticated } = useKindeBrowserClient();
 
@@ -45,10 +48,11 @@ export default function Page({ params }: any) {
         setTeamData(result);
         setIsDialogOpen(true);
       } else {
-        console.log(isDialogOpen);
         setIsDialogOpen(true);
         setErrorMsg("Invalid Invite Link!!");
         setIsError(true);
+        setTeamData("Invalid Link")
+        setIsValidLink(false);
       }
     };
     if (user && isAuthenticated) {
@@ -68,7 +72,32 @@ export default function Page({ params }: any) {
     return () => clearTimeout(timer);
   }, [user]);
 
-  const AddUserToMember = async () => {};
+  const AddUserToMember = async () => {
+    if (teamData.teamMembers.includes(user.email)) {
+      setErrorMsg(`Already member of ${teamData.teamName}`)
+      setIsError(true);
+      return;
+    }
+
+    let memberArray:string[];
+
+    if(teamData.teamMembers){
+      memberArray = teamData.teamMembers;
+    }else{
+      memberArray = [teamData.createdBy];
+    }
+
+    memberArray.push(user.email);
+
+    const result = await convex.mutation(api.teams.addMember, {
+      _id: id,
+      memberArray: memberArray,
+    });
+
+    if (result) {
+      router.push("/dashboard");
+    }
+  };
 
   if (!isDialogOpen) return <Loader />;
 
@@ -112,7 +141,11 @@ export default function Page({ params }: any) {
                 </AlertDialogDescription>
                 {!firstForm && (
                   <div className="flex items-center space-x-2">
-                    <Checkbox checked={checked} onCheckedChange={()=>setChecked(!checked)} id="terms" />
+                    <Checkbox
+                      checked={checked}
+                      onCheckedChange={() => setChecked(!checked)}
+                      id="terms"
+                    />
                     <label
                       htmlFor="terms"
                       className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -125,9 +158,12 @@ export default function Page({ params }: any) {
               <AlertDialogFooter>
                 {firstForm && (
                   <>
-                    <AlertDialogCancel>
+                    <Button
+                      variant={"secondary"}
+                      onClick={() => router.push("/")}
+                    >
                       <p>Cancel</p>
-                    </AlertDialogCancel>
+                    </Button>
                     <Button
                       onClick={() => {
                         setFirstForm(false);
@@ -163,9 +199,10 @@ export default function Page({ params }: any) {
           {!user && !isAuthenticated && (
             <>
               <AlertDialogHeader>
-                <AlertDialogTitle>Unauthorized Access!!</AlertDialogTitle>
+                <AlertDialogTitle>Unauthorized Access or Invalid link!!</AlertDialogTitle>
                 <AlertDialogDescription className="w-full">
                   <p>Register or Login to your account.</p>
+                  <p>Link may be Invalid!</p>
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
@@ -178,6 +215,23 @@ export default function Page({ params }: any) {
               </AlertDialogFooter>
             </>
           )}
+          {
+            user && isAuthenticated && isError && (
+              <>
+              <AlertDialogHeader>
+                <AlertDialogTitle>{errorMsg}</AlertDialogTitle>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <Link
+                  className="bg-primary p-2 rounded-lg px-3 text-secondary"
+                  href={"/dashboard"}
+                >
+                  Dashboard
+                </Link>
+              </AlertDialogFooter>
+            </>
+            )
+          }
         </AlertDialogContent>
       </AlertDialog>
     </div>

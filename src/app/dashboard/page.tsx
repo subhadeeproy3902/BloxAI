@@ -112,7 +112,7 @@ function Dashboard() {
           </div>
           <div className="flex items-center justify-center gap-2">
             <InviteModal />
-            <JoinTeamModal />
+            <JoinTeamModal user={user} />
           </div>
         </div>
       </div>
@@ -157,7 +157,7 @@ function Dashboard() {
             />
           </Link>
           <InviteModal />
-          <JoinTeamModal />
+          <JoinTeamModal user={user} />
         </div>
       </div>
       <FileList

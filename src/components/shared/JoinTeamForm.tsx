@@ -14,14 +14,29 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
+import { useConvex } from "convex/react";
+import { api } from "../../../convex/_generated/api";
+import { Id } from "../../../convex/_generated/dataModel";
+import { SetStateAction, useState } from "react";
+import { toast } from "sonner";
 
 const FormSchema = z.object({
-  code: z.string().min(0, {
+  code: z.string().min(1, {
     message: "Code is required!",
   }),
 });
 
-export function JoinTeamForm() {
+type Props = {
+  user:any;
+  setIsDialogOpen:React.Dispatch<SetStateAction<boolean>>;
+}
+
+export function JoinTeamForm({user,setIsDialogOpen}:Props) {
+
+  const convex = useConvex();
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -29,8 +44,39 @@ export function JoinTeamForm() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    const id:Id<"teams"> = data.code as Id<"teams">;
+
+    const teamData = await convex.query(api.teams.getTeamById, {
+      _id: id,
+    });
+
+    if (teamData.teamMembers?.includes(user.email) || teamData.createdBy == user.email) {
+      toast.error(`Already member of ${teamData.teamName}`)
+      setIsDialogOpen(false);
+      return;
+    }
+
+    let memberArray:string[] = teamData.teamMembers
+
+    if(teamData.teamMembers){
+      memberArray = teamData.teamMembers;
+    }else{
+      memberArray = [teamData.createdBy];
+    }
+
+    memberArray.push(user.email);
+
+    console.log(memberArray);
+
+    const result = await convex.mutation(api.teams.addMember, {
+      _id: id,
+      memberArray: memberArray,
+    });
+
+    if (result) {
+      router.push("/dashboard");
+    }
   }
 
   return (
