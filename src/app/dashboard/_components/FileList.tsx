@@ -345,6 +345,7 @@ function FileList({
             </div>
             {sortedFiles.map((file, index) => (
               <div
+                onClick={() => router.push("/workspace/" + file._id)}
                 key={index}
                 className={`border p-4 mb-4 rounded ${index % 2 === 0 ? "bg-muted/50" : ""}`}
               >
