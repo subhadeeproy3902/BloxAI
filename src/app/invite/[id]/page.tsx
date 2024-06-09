@@ -73,7 +73,8 @@ export default function Page({ params }: any) {
   }, [user]);
 
   const AddUserToMember = async () => {
-    if (teamData.teamMembers.includes(user.email)) {
+
+    if (teamData.teamMembers?.includes(user.email) || teamData.createdBy == user.email) {
       setErrorMsg(`Already member of ${teamData.teamName}`)
       setIsError(true);
       return;
@@ -94,9 +95,8 @@ export default function Page({ params }: any) {
       memberArray: memberArray,
     });
 
-    if (result) {
-      router.push("/dashboard");
-    }
+    router.push("/dashboard");
+
   };
 
   if (!isDialogOpen) return <Loader />;
