@@ -81,8 +81,7 @@ export function JoinTeamForm({user,setIsDialogOpen}:Props) {
       memberArray: memberArray,
     });
 
-
-    router.push("/dashboard");
+    router.refresh();
     
   }
 
