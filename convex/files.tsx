@@ -16,6 +16,18 @@ export const createFile = mutation({
   },
 });
 
+export const renameFile = mutation({
+  args:{
+    _id: v.id("files"),
+    newName: v.string(),
+  },
+  handler: async (ctx,args) => {
+    const { _id,newName } = args;
+    const res = await ctx.db.patch(_id,{fileName:newName});
+    return res;
+  }
+})
+
 export const getAllFiles = query({
   args: {},
   handler: async (ctx, args) => {

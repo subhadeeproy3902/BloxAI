@@ -74,8 +74,6 @@ export function JoinTeamForm({user,setIsDialogOpen}:Props) {
 
     memberArray.push(user.email);
 
-    console.log(memberArray);
-
     const result = await convex.mutation(api.teams.addMember, {
       _id: id,
       memberArray: memberArray,
