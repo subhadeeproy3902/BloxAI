@@ -62,14 +62,10 @@ export const addMember = mutation({
 });
 
 export const getAllTeam = query({
-  args: { email: v.string() },
-  handler: async (ctx, args) => {
+  args: {  },
+  handler: async (ctx) => {
     const result = await ctx.db.query("teams").collect();
 
-    const userTeams = result.filter((team: any) =>
-      team.teamMembers.includes(args.email)
-    );
-
-    return userTeams;
+    return result;
   },
 });
