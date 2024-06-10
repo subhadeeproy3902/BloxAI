@@ -58,6 +58,10 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
     dispatch(
       setTeamInfo({ teamId: result[0]._id, teamName: result[0].teamName })
     );
+
+    const res = await convex.query(api.teams.getAllTeam);
+    console.log(res)
+
   };
 
   const onMenuClick = (item: any) => {
@@ -65,8 +69,6 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
       router.push(item.path);
     }
   };
-
-  console.log(teamList)
 
   return (
     <div>
