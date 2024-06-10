@@ -44,24 +44,20 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
     user && getTeamList();
   }, [user]);
 
-  console.log(user)
-
   useEffect(() => {
     activeTeam ? setActiveTeamInfo(activeTeam) : null;
   }, [activeTeam]);
   const getTeamList = async () => {
-    const result = await convex.query(api.teams.getTeam, {
-      email: user?.email,
-    });
-    setTeamList(result);
-    setActiveTeam(result[0]);
-    dispatch(
-      setTeamInfo({ teamId: result[0]._id, teamName: result[0].teamName })
-    );
-
     const res = await convex.query(api.teams.getAllTeam);
-    console.log(res)
-
+    const allTeams = res.filter(
+      (file: { createdBy: any; teamMembers: string | any[] }) =>
+        file.createdBy === user.email || file.teamMembers?.includes(user.email)
+    );
+    setTeamList(allTeams);
+    setActiveTeam(allTeams[0]);
+    dispatch(
+      setTeamInfo({ teamId: allTeams[0]._id, teamName: allTeams[0].teamName })
+    );
   };
 
   const onMenuClick = (item: any) => {
@@ -91,10 +87,9 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
           {/* Team Section  */}
           <div>
             {teamList?.map((team, index) => (
-              <h2
+              <div
                 key={index}
-                className={`p-2 hover:bg-primary
-                         rounded-lg mb-1 cursor-pointer
+                className={`p-2 hover:bg-primary flex items-center justify-between rounded-lg mb-1 cursor-pointer
                          ${activeTeam?._id == team._id && "bg-primary text-white"}`}
                 onClick={() => {
                   dispatch(
@@ -103,8 +98,11 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
                   setActiveTeam(team);
                 }}
               >
-                {team.teamName}
-              </h2>
+                <h2 className=" font-semibold">{team.teamName}</h2>
+                <h2 className="text-gray-400">
+                  {team.createdBy === user.email ? "Admin" : ""}
+                </h2>
+              </div>
             ))}
           </div>
           <Separator className="mt-2" />
@@ -159,7 +157,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
       <Button
         variant="secondary"
         className="w-full justify-start gap-2 font-bold mt-8"
-        onClick={() => router.push('/dashboard')}
+        onClick={() => router.push("/dashboard")}
       >
         <LayoutGrid className="h-5 w-5" />
         All Files
