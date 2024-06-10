@@ -69,3 +69,15 @@ export const getAllTeam = query({
     return result;
   },
 });
+
+export const renameTeam = mutation({
+  args:{
+    _id: v.id("teams"),
+    newName: v.string(),
+  },
+  handler: async (ctx,args) => {
+    const { _id,newName } = args;
+    const res = await ctx.db.patch(_id,{fileName:newName});
+    return res;
+  }
+})
