@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useDispatch } from "react-redux";
 import { setTeamInfo } from "@/app/Redux/Team/team-slice";
+import RenameTeamModal from "@/components/shared/RenameTeamModal";
 
 export interface TEAM {
   createdBy: String;
@@ -120,6 +121,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
                 {item.name}
               </h2>
             ))}
+            <RenameTeamModal />
             <LogoutLink>
               <h2
                 className="flex gap-2 items-center
