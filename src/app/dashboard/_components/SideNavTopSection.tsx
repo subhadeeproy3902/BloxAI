@@ -1,4 +1,4 @@
-import { ChevronDown, LayoutGrid, LogOut, Settings, Users } from "lucide-react";
+import { ChevronDown, LayoutGrid, LogOut, Users, Users2 } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import {
@@ -19,6 +19,7 @@ export interface TEAM {
   createdBy: String;
   teamName: String;
   _id: String;
+  teamMembers?: string[];
 }
 function SideNavTopSection({ user, setActiveTeamInfo }: any) {
   const menu = [
@@ -99,8 +100,8 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
                 }}
               >
                 <h2 className=" font-semibold">{team.teamName}</h2>
-                <h2 className="text-gray-400">
-                  {team.createdBy === user.email ? "Admin" : ""}
+                <h2 className="text-gray-400 flex items-center justify-center gap-2">
+                  {team.createdBy === user.email ? "Owner" : <><Users2 className="w-5 h-5" />{team.teamMembers?.length}</>}
                 </h2>
               </div>
             ))}
