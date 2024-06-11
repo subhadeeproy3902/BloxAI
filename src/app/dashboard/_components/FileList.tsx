@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import { useSelector } from 'react-redux';
-import { RootState } from '@/app/store';
 import {
   Loader2,
   Trash2,
@@ -10,6 +8,7 @@ import {
   Clock,
   Edit,
   Users,
+  CheckCircle2,
 } from "lucide-react";
 import moment from "moment";
 import Image from "next/image";
@@ -29,6 +28,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
+import RenameFileModal from "@/components/shared/RenameFileModal";
 
 export interface FILE {
   archive: boolean;
@@ -41,19 +42,29 @@ export interface FILE {
   _creationTime: number;
 }
 
-
 const ActionDialog = ({
   buttonIcon: ButtonIcon,
   dialogTitle,
   dialogDescription,
   onAction,
   buttonVariant = "secondary",
+  isSubmitted,
+  successTitle,
 }: {
   buttonIcon: typeof ArchiveIcon;
   dialogTitle: string;
   dialogDescription: string;
   onAction: (e: any) => void;
-  buttonVariant?: "secondary" | "link" | "default" | "destructive" | "outline" | "ghost" | null;
+  buttonVariant?:
+    | "secondary"
+    | "link"
+    | "default"
+    | "destructive"
+    | "outline"
+    | "ghost"
+    | null;
+  isSubmitted: boolean;
+  successTitle: string;
 }) => (
   <AlertDialog>
     <AlertDialogTrigger>
@@ -62,14 +73,36 @@ const ActionDialog = ({
       </Button>
     </AlertDialogTrigger>
     <AlertDialogContent>
-      <AlertDialogHeader>
-        <AlertDialogTitle>{dialogTitle}</AlertDialogTitle>
-        <AlertDialogDescription>{dialogDescription}</AlertDialogDescription>
-      </AlertDialogHeader>
-      <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction onClick={onAction}>Continue</AlertDialogAction>
-      </AlertDialogFooter>
+      {!isSubmitted && (
+        <>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{dialogTitle}</AlertDialogTitle>
+            <AlertDialogDescription>{dialogDescription}</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <Button onClick={onAction}>Continue</Button>
+          </AlertDialogFooter>
+        </>
+      )}
+      {isSubmitted && (
+        <>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex gap-2">
+              <p>{successTitle}</p> <CheckCircle2 className="w-6 h-6" />
+            </AlertDialogTitle>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </>
+      )}
     </AlertDialogContent>
   </AlertDialog>
 );
@@ -83,6 +116,7 @@ const FileRow = ({
   onDelete,
   router,
   index,
+  isSubmitted,
 }: {
   file: FILE;
   picture: string;
@@ -92,23 +126,41 @@ const FileRow = ({
   onDelete: (e: any, id: string) => void;
   router: ReturnType<typeof useRouter>;
   index: number;
+  isSubmitted: boolean;
 }) => (
   <tr key={file._id} className="odd:bg-muted/50 cursor-pointer">
-    <td className="whitespace-nowrap px-4 py-2 font-medium" onClick={() => router.push("/workspace/" + file._id)}>
       {file.fileName}
     </td>
-    <td className="whitespace-nowrap px-4 py-2 text-muted-foreground" onClick={() => router.push("/workspace/" + file._id)}>
+    <td
+      className="whitespace-nowrap px-4 py-2 text-muted-foreground"
+      onClick={() => router.push("/workspace/" + file._id)}
+    >
       {moment(file._creationTime).format("DD MMM YYYY")}
     </td>
-    <td className="whitespace-nowrap px-4 py-2 text-muted-foreground" onClick={() => router.push("/workspace/" + file._id)}>
+    <td
+      className="whitespace-nowrap px-4 py-2 text-muted-foreground"
+      onClick={() => router.push("/workspace/" + file._id)}
+    >
       {moment(file._creationTime).format("DD MMM YYYY")}
     </td>
-    <td className="whitespace-nowrap px-4 py-2 text-muted-foreground" onClick={() => router.push("/workspace/" + file._id)}>
-      <Image src={picture} alt="user" width={30} height={30} className="rounded-full" />
+    <td
+      className="whitespace-nowrap px-4 py-2 text-muted-foreground"
+      onClick={() => router.push("/workspace/" + file._id)}
+    >
+      <Image
+        src={picture}
+        alt="user"
+        width={30}
+        height={30}
+        className="rounded-full"
+      />
     </td>
     <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
+      <RenameFileModal />
       {pathname === "/dashboard" && (
         <ActionDialog
+          isSubmitted={isSubmitted}
+          successTitle="File Archived Successfully!!"
           buttonIcon={ArchiveIcon}
           dialogTitle="Are you absolutely sure?"
           dialogDescription="This will add your file to the archive section."
@@ -117,6 +169,8 @@ const FileRow = ({
       )}
       {pathname === "/dashboard/archive" && (
         <ActionDialog
+          isSubmitted={isSubmitted}
+          successTitle="File Restored Successfully!!"
           buttonIcon={ArchiveRestore}
           dialogTitle="Are you absolutely sure?"
           dialogDescription="This will unarchive your file."
@@ -126,6 +180,8 @@ const FileRow = ({
       )}
       <ActionDialog
         buttonIcon={Trash2}
+        isSubmitted={isSubmitted}
+        successTitle="File Deleted Successfully!!"
         dialogTitle="Are you absolutely sure?"
         dialogDescription="This action cannot be undone. This will permanently delete your file and remove your data from our servers."
         onAction={(e) => onDelete(e, file._id)}
@@ -135,10 +191,20 @@ const FileRow = ({
   </tr>
 );
 
-function FileList({ fileList, picture }: { fileList?: FILE[]; picture: string }) {
+function FileList({
+  fileList,
+  picture,
+}: {
+  fileList?: FILE[];
+  picture: string;
+}) {
   const router = useRouter();
-  const [sortConfig, setSortConfig] = useState<{ key: keyof FILE; direction: string } | null>(null);
+  const [sortConfig, setSortConfig] = useState<{
+    key: keyof FILE;
+    direction: string;
+  } | null>(null);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const safeFileList = Array.isArray(fileList) ? fileList : [];
   const pathname = usePathname();
 
@@ -159,26 +225,30 @@ function FileList({ fileList, picture }: { fileList?: FILE[]; picture: string })
   const deleteFunc = async (e: any, id: string) => {
     e.stopPropagation();
     await deleteFile({ _id: id as Id<"files"> });
-    window.location.reload();
+    setIsSubmitted(true);
   };
 
   const archiveFile = useMutation(api.files.addToArchive);
   const archiveFunc = async (e: any, id: string) => {
     e.stopPropagation();
     await archiveFile({ _id: id as Id<"files"> });
-    window.location.reload();
+    setIsSubmitted(true);
   };
 
   const unArchiveFile = useMutation(api.files.removeFromArchive);
   const unarchiveFunc = async (e: any, id: string) => {
     e.stopPropagation();
     await unArchiveFile({ _id: id as Id<"files"> });
-    window.location.reload();
+    setIsSubmitted(true);
   };
 
   const requestSort = (key: keyof FILE) => {
     let direction = "ascending";
-    if (sortConfig && sortConfig.key === key && sortConfig.direction === "ascending") {
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.direction === "ascending"
+    ) {
       direction = "descending";
     }
     setSortConfig({ key, direction });
@@ -189,10 +259,10 @@ function FileList({ fileList, picture }: { fileList?: FILE[]; picture: string })
       setIsSmallScreen(window.innerWidth < 768);
     };
     handleResize();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -203,21 +273,32 @@ function FileList({ fileList, picture }: { fileList?: FILE[]; picture: string })
           <table className="min-w-full divide-y-2 overflow-hidden text-sm">
             <thead className="ltr:text-left rtl:text-right">
               <tr>
-                <td className="whitespace-nowrap px-4 py-2 font-medium cursor-pointer" onClick={() => requestSort("fileName")}>
+                <td
+                  className="whitespace-nowrap px-4 py-2 font-medium cursor-pointer"
+                  onClick={() => requestSort("fileName")}
+                >
                   File Name <ChevronsUpDown className="inline-block ml-2" />
                 </td>
-                <td className="whitespace-nowrap px-4 py-2 font-medium cursor-pointer" onClick={() => requestSort("_creationTime")}>
+                <td
+                  className="whitespace-nowrap px-4 py-2 font-medium cursor-pointer"
+                  onClick={() => requestSort("_creationTime")}
+                >
                   Created At <ChevronsUpDown className="inline-block ml-2" />
                 </td>
-                <td className="whitespace-nowrap px-4 py-2 font-medium">Edited</td>
-                <td className="whitespace-nowrap px-4 py-2 font-medium">Author</td>
+                <td className="whitespace-nowrap px-4 py-2 font-medium">
+                  Edited
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 font-medium">
+                  Author
+                </td>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-600">
               {!fileList && (
                 <tr className="relative h-16">
                   <td className="whitespace-nowrap w-full absolute px-4 py-2 mt-5 text-center font-medium flex-center">
-                    <Loader2 className="animate-spin mr-3" size={20} /> Loading... Please wait
+                    <Loader2 className="animate-spin mr-3" size={20} />{" "}
+                    Loading... Please wait
                   </td>
                 </tr>
               )}
@@ -228,38 +309,49 @@ function FileList({ fileList, picture }: { fileList?: FILE[]; picture: string })
                   </td>
                 </tr>
               )}
-              {(sortedFiles.length > 0 ? sortedFiles : safeFileList).map((file, index) => (
-                <FileRow
-                  key={file._id}
-                  file={file}
-                  picture={picture}
-                  pathname={pathname}
-                  onArchive={archiveFunc}
-                  onUnarchive={unarchiveFunc}
-                  onDelete={deleteFunc}
-                  router={router}
-                  index={index}
-                />
-              ))}
+              {(sortedFiles.length > 0 ? sortedFiles : safeFileList).map(
+                (file, index) => (
+                  <FileRow
+                    isSubmitted={isSubmitted}
+                    key={file._id}
+                    file={file}
+                    picture={picture}
+                    pathname={pathname}
+                    onArchive={archiveFunc}
+                    onUnarchive={unarchiveFunc}
+                    onDelete={deleteFunc}
+                    router={router}
+                    index={index}
+                  />
+                )
+              )}
             </tbody>
           </table>
         ) : (
           <div>
-            <div className="flex justify-between px-4 py-2 font-medium bg-gray-200">
-              <div className="cursor-pointer" onClick={() => requestSort("fileName")}>
+            <div className="flex justify-between px-4 py-2 font-medium bg-muted/50">
+              <div
+                className="cursor-pointer"
+                onClick={() => requestSort("fileName")}
+              >
                 File Name <ChevronsUpDown className="inline-block ml-2" />
               </div>
-              <div className="cursor-pointer" onClick={() => requestSort("_creationTime")}>
+              <div
+                className="cursor-pointer"
+                onClick={() => requestSort("_creationTime")}
+              >
                 Created At <ChevronsUpDown className="inline-block ml-2" />
               </div>
             </div>
             {sortedFiles.map((file, index) => (
-              <div key={index} className={`border p-4 mb-4 rounded ${index % 2 === 0 ? "odd:bg-muted/50" : ""}`}>
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-bold text-xl">{file.fileName}</span>
                   <div className="flex gap-2">
+                    <RenameFileModal />
                     {pathname === "/dashboard" && (
                       <ActionDialog
+                        isSubmitted={isSubmitted}
+                        successTitle="File Archived Successfully!!"
                         buttonIcon={ArchiveIcon}
                         dialogTitle="Are you absolutely sure?"
                         dialogDescription="This will add your file to the archive section."
@@ -268,6 +360,8 @@ function FileList({ fileList, picture }: { fileList?: FILE[]; picture: string })
                     )}
                     {pathname === "/dashboard/archive" && (
                       <ActionDialog
+                        isSubmitted={isSubmitted}
+                        successTitle="File Restored Successfully!!"
                         buttonIcon={ArchiveRestore}
                         dialogTitle="Are you absolutely sure?"
                         dialogDescription="This will unarchive your file."
@@ -276,6 +370,8 @@ function FileList({ fileList, picture }: { fileList?: FILE[]; picture: string })
                       />
                     )}
                     <ActionDialog
+                      isSubmitted={isSubmitted}
+                      successTitle="File Deleted Successfully!!"
                       buttonIcon={Trash2}
                       dialogTitle="Are you absolutely sure?"
                       dialogDescription="This action cannot be undone. This will permanently delete your file and remove your data from our servers."
@@ -293,7 +389,13 @@ function FileList({ fileList, picture }: { fileList?: FILE[]; picture: string })
                   {moment(file._creationTime).format("YYYY-MM-DD")}
                 </div>
                 <div className="text-muted-foreground flex justify-end">
-                  <Image src={picture} alt="user" width={30} height={30} className="rounded-full" />
+                  <Image
+                    src={picture}
+                    alt="user"
+                    width={30}
+                    height={30}
+                    className="rounded-full"
+                  />
                 </div>
               </div>
             ))}

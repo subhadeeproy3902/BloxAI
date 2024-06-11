@@ -8,19 +8,28 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {  useState } from "react";
 import { toast } from "sonner";
-// import { useConvex } from "convex/react";
+import { useConvex } from "convex/react";
 
 function CreateTeam() {
-  // const convex = useConvex();
   const [teamName, setTeamName] = useState("");
   const createTeam = useMutation(api.teams.createTeam);
   const { user }: any = useKindeBrowserClient();
+  const convex = useConvex();
   const router = useRouter();
-  // const [cancel, setCancel] = useState(false);
-  const createNewTeam = () => {
+  const createNewTeam = async() => {
+    const result = await convex.query(api.teams.getTeam, {
+      email: user?.email,
+    });
+    //checking if team with same name alreaady exist. if yes then don't create that team
+    const team = result.find((team: any) => team?.teamName === teamName)
+    if(team){
+      toast.error(`Team with name "${teamName}" already exists. please enter other name.`)
+      return;
+    }
     createTeam({
       teamName: teamName,
       createdBy: user?.email,
+      teamMembers:[user.email]
     }).then((resp) => {
       if (resp) {
         router.push("/dashboard");
@@ -28,6 +37,7 @@ function CreateTeam() {
       }
     });
   };
+  
   return (
     <div className=" px-6 md:px-16 my-16">
       <Image src="/android-chrome-512x512.png" alt="logo" width={50} height={50} />

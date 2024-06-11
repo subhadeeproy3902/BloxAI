@@ -1,4 +1,4 @@
-import { ChevronDown, LayoutGrid, LogOut, Settings, Users } from "lucide-react";
+import { ChevronDown, LayoutGrid, LogOut, Users, Users2 } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import {
@@ -14,11 +14,13 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useDispatch } from "react-redux";
 import { setTeamInfo } from "@/app/Redux/Team/team-slice";
+import RenameTeamModal from "@/components/shared/RenameTeamModal";
 
 export interface TEAM {
   createdBy: String;
   teamName: String;
   _id: String;
+  teamMembers?: string[];
 }
 function SideNavTopSection({ user, setActiveTeamInfo }: any) {
   const menu = [
@@ -48,13 +50,15 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
     activeTeam ? setActiveTeamInfo(activeTeam) : null;
   }, [activeTeam]);
   const getTeamList = async () => {
-    const result = await convex.query(api.teams.getTeam, {
-      email: user?.email,
-    });
-    setTeamList(result);
-    setActiveTeam(result[0]);
+    const res = await convex.query(api.teams.getAllTeam);
+    const allTeams = res.filter(
+      (file: { createdBy: any; teamMembers: string | any[] }) =>
+        file.createdBy === user.email || file.teamMembers?.includes(user.email)
+    );
+    setTeamList(allTeams);
+    setActiveTeam(allTeams[0]);
     dispatch(
-      setTeamInfo({ teamId: result[0]._id, teamName: result[0].teamName })
+      setTeamInfo({ teamId: allTeams[0]._id, teamName: allTeams[0].teamName })
     );
   };
 
@@ -85,10 +89,9 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
           {/* Team Section  */}
           <div>
             {teamList?.map((team, index) => (
-              <h2
+              <div
                 key={index}
-                className={`p-2 hover:bg-primary
-                         rounded-lg mb-1 cursor-pointer
+                className={`p-2 hover:bg-primary flex items-center justify-between rounded-lg mb-1 cursor-pointer
                          ${activeTeam?._id == team._id && "bg-primary text-white"}`}
                 onClick={() => {
                   dispatch(
@@ -97,8 +100,18 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
                   setActiveTeam(team);
                 }}
               >
-                {team.teamName}
-              </h2>
+                <h2 className=" font-semibold">{team.teamName}</h2>
+                <h2 className="text-gray-400 flex items-center justify-center gap-2">
+                  {team.createdBy === user.email ? (
+                    "Owner"
+                  ) : (
+                    <>
+                      <Users2 className="w-5 h-5" />
+                      {team.teamMembers?.length}
+                    </>
+                  )}
+                </h2>
+              </div>
             ))}
           </div>
           <Separator className="mt-2" />
@@ -115,6 +128,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
                 {item.name}
               </h2>
             ))}
+            {activeTeam?.createdBy === user?.email &&  <RenameTeamModal />}
             <LogoutLink>
               <h2
                 className="flex gap-2 items-center
@@ -153,7 +167,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
       <Button
         variant="secondary"
         className="w-full justify-start gap-2 font-bold mt-8"
-        onClick={() => router.push('/dashboard')}
+        onClick={() => router.push("/dashboard")}
       >
         <LayoutGrid className="h-5 w-5" />
         All Files

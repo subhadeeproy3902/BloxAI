@@ -63,13 +63,28 @@
     justify-content: center;
     align-items: center;
   }
+  .gradient1 {
+    background-image: radial-gradient(
+      164.75% 100% at 50% 0,
+      #66331a 0,
+      #221108 48.73%
+    );
+  }
+
+  .gradient2 {
+    background-image: radial-gradient(
+      164.75% 100% at 50% 0,
+      #ff8a51 0,
+      #f8d3c0 48.73%
+    );
+  }
 }
 ::selection {
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
   @apply bg-primary text-white;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   @apply bg-muted w-2;
 }
 
@@ -80,7 +95,11 @@
 .codex-editor {
   overflow-x: hidden;
   overflow-y: auto;
+  scrollbar-width: none;
   height: 100vh;
+}
+.codex-editor::-webkit-scrollbar {
+  display: none;
 }
 
 .codex-editor--narrow .codex-editor__redactor {
@@ -100,9 +119,19 @@
   right: 1.5rem !important;
 }
 
-.ce-popover{
+.ce-popover {
   top: 2.5rem;
   left: 0;
   right: 0;
   bottom: unset;
+}
+
+.tc-toolbox--showed {
+  background-color: aliceblue;
+}
+.tc-popover__item-label {
+  color: black;
+}
+.tc-popover__item-icon {
+  background-color: black !important;
 }

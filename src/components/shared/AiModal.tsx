@@ -35,6 +35,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { toast } from "sonner";
 
 function convertMarkdownToEditorBlocks(markdownAST: any) {
   const blocks: any = [];
@@ -142,7 +143,6 @@ export function GenAIModal({ setFileData }: Props) {
         getFlowchartFormHandler(values);
       }
     } catch (err) {
-      console.log(err);
       setLoading(false);
       setError(true);
       setIsDialogOpen(false);
@@ -169,10 +169,12 @@ export function GenAIModal({ setFileData }: Props) {
         ...prevFileData,
         document: JSON.stringify(editorData),
       }));
+
+      toast.success("Documentation Generated!!")
+
       setLoading(false);
       setIsDialogOpen(false);
     } catch (err) {
-      console.log(err);
       setLoading(false);
       setIsDialogOpen(false);
     }
@@ -189,12 +191,11 @@ export function GenAIModal({ setFileData }: Props) {
         .replaceAll("json", "")
         .replaceAll("JSON", "");
       const parsedString = JSON.parse(docs);
-      console.log(parsedString.code);
       setMermaidCode(parsedString.code);
+      toast.success("Flowchart Generated!!")
       setLoading(false);
       setCopyModal(true);
     } catch (err) {
-      console.log(err);
       setLoading(false);
       setIsDialogOpen(false);
     }
@@ -202,6 +203,7 @@ export function GenAIModal({ setFileData }: Props) {
 
   const CopyHandler = () => {
     navigator.clipboard.writeText(mermaidCode);
+    toast.success("Code copied!!");
   };
 
   return (
@@ -212,7 +214,7 @@ export function GenAIModal({ setFileData }: Props) {
           <p className="hidden sm:inline">Generate AI</p>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[300px] sm:max-w-[625px]">
+      <DialogContent className="sm:max-w-[625px]">
         <DialogHeader>
           <DialogTitle>AI Assistant!</DialogTitle>
           <DialogDescription>Let me help you!</DialogDescription>
@@ -315,7 +317,7 @@ export function GenAIModal({ setFileData }: Props) {
                 </Tooltip>
               </TooltipProvider>
             </div>
-            <Textarea className="bg-[#333333] w-full p-4 rounded-xl resize-none h-[200px]">
+            <Textarea className="dark:bg-[#333333] dark:text-gray-400 bg-secondary text-[#333333] w-full p-4 rounded-xl resize-none h-[200px]">
               {mermaidCode}
             </Textarea>
           </div>
