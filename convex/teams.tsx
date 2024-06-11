@@ -77,7 +77,7 @@ export const renameTeam = mutation({
   },
   handler: async (ctx,args) => {
     const { _id,newName } = args;
-    const res = await ctx.db.patch(_id,{fileName:newName});
+    const res = await ctx.db.patch(_id,{teamName:newName});
     return res;
   }
 })

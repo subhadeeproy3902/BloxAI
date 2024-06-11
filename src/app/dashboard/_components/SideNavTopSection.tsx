@@ -12,9 +12,10 @@ import { useConvex } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setTeamInfo } from "@/app/Redux/Team/team-slice";
 import RenameTeamModal from "@/components/shared/RenameTeamModal";
+import { RootState } from "@/app/store";
 
 export interface TEAM {
   createdBy: String;
@@ -23,6 +24,8 @@ export interface TEAM {
   teamMembers?: string[];
 }
 function SideNavTopSection({ user, setActiveTeamInfo }: any) {
+  const id = useSelector((state: RootState) => state.team.teamId);
+  console.log(id)
   const menu = [
     {
       id: 1,
@@ -61,6 +64,8 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
       setTeamInfo({ teamId: allTeams[0]._id, teamName: allTeams[0].teamName })
     );
   };
+
+  console.log(teamList)
 
   const onMenuClick = (item: any) => {
     if (item.path) {
