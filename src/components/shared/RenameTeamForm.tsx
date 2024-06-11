@@ -35,7 +35,6 @@ type Props = {
 
 export function RenameTeamForm({ setIsSubmitted }: Props) {
   const convex = useConvex();
-  const router = useRouter();
   const id = useSelector((state: RootState) => state.team.teamId);
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -46,6 +45,10 @@ export function RenameTeamForm({ setIsSubmitted }: Props) {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    const result = await convex.mutation(api.teams.renameTeam, {
+      _id:id as Id<"teams">,
+      newName:data.newName
+    })
     setIsSubmitted(true);
   }
 
