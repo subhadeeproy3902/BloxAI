@@ -291,6 +291,10 @@ export default function FileList({
             </div>
           </div>
           {sortedFiles.map((file, index) => (
+            <div
+              key={index}
+              className={`border p-4 mb-4 rounded ${index % 2 === 0 ? "bg-muted/50" : ""}`}
+            >
               <div className="flex justify-between items-center mb-2">
                 <span className="font-bold text-xl">{file.fileName}</span>
                 <ActionDialog

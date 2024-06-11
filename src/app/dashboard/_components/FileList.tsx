@@ -129,6 +129,10 @@ const FileRow = ({
   isSubmitted: boolean;
 }) => (
   <tr key={file._id} className="odd:bg-muted/50 cursor-pointer">
+    <td
+      className="whitespace-nowrap px-4 py-2 font-medium"
+      onClick={() => router.push("/workspace/" + file._id)}
+    >
       {file.fileName}
     </td>
     <td
@@ -344,6 +348,11 @@ function FileList({
               </div>
             </div>
             {sortedFiles.map((file, index) => (
+              <div
+                onClick={() => router.push("/workspace/" + file._id)}
+                key={index}
+                className={`border p-4 mb-4 rounded ${index % 2 === 0 ? "bg-muted/50" : ""}`}
+              >
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-bold text-xl">{file.fileName}</span>
                   <div className="flex gap-2">
