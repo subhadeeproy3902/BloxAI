@@ -128,7 +128,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
                 {item.name}
               </h2>
             ))}
-            {activeTeam?.createdBy === user.email &&  <RenameTeamModal />}
+            {activeTeam?.createdBy === user?.email &&  <RenameTeamModal />}
             <LogoutLink>
               <h2
                 className="flex gap-2 items-center
