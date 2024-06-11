@@ -29,6 +29,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
+import RenameFileModal from "@/components/shared/RenameFileModal";
 
 export interface FILE {
   archive: boolean;
@@ -87,7 +88,9 @@ const ActionDialog = ({
       {isSubmitted && (
         <>
           <AlertDialogHeader>
-            <AlertDialogTitle className="flex gap-2"><p>{successTitle}</p> <CheckCircle2 className="w-6 h-6" /></AlertDialogTitle>
+            <AlertDialogTitle className="flex gap-2">
+              <p>{successTitle}</p> <CheckCircle2 className="w-6 h-6" />
+            </AlertDialogTitle>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction
@@ -157,6 +160,7 @@ const FileRow = ({
       />
     </td>
     <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
+      <RenameFileModal />
       {pathname === "/dashboard" && (
         <ActionDialog
           isSubmitted={isSubmitted}
@@ -352,6 +356,7 @@ function FileList({
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-bold text-xl">{file.fileName}</span>
                   <div className="flex gap-2">
+                    <RenameFileModal />
                     {pathname === "/dashboard" && (
                       <ActionDialog
                         isSubmitted={isSubmitted}

@@ -1,5 +1,4 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,10 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
 import { useConvex } from "convex/react";
-import { api } from "../../../convex/_generated/api";
-import { Id } from "../../../convex/_generated/dataModel";
 import { SetStateAction } from "react";
 import { PencilIcon } from "lucide-react";
 import { useSelector } from "react-redux";
@@ -29,11 +25,8 @@ const FormSchema = z.object({
   }),
 });
 
-type Props = {
-  setIsSubmitted: React.Dispatch<SetStateAction<boolean>>;
-};
 
-export function RenameTeamForm({ setIsSubmitted }: Props) {
+export function RenameFileForm() {
   const convex = useConvex();
   const id = useSelector((state: RootState) => state.team.teamId);
 
@@ -45,11 +38,7 @@ export function RenameTeamForm({ setIsSubmitted }: Props) {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const result = await convex.mutation(api.teams.renameTeam, {
-      _id:id as Id<"teams">,
-      newName:data.newName
-    })
-    setIsSubmitted(true);
+
   }
 
   return (
@@ -63,12 +52,12 @@ export function RenameTeamForm({ setIsSubmitted }: Props) {
           name="newName"
           render={({ field }) => (
             <FormItem className="w-full p-4">
-              <FormLabel className="px-2">Team Name</FormLabel>
+              <FormLabel className="px-2">File Name</FormLabel>
               <FormControl>
                 <Input placeholder="Name..." {...field} />
               </FormControl>
               <FormDescription className="px-2">
-                Enter team name here!
+                Enter file name here!
               </FormDescription>
               <FormMessage />
             </FormItem>

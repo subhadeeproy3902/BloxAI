@@ -102,7 +102,14 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
               >
                 <h2 className=" font-semibold">{team.teamName}</h2>
                 <h2 className="text-gray-400 flex items-center justify-center gap-2">
-                  {team.createdBy === user.email ? "Owner" : <><Users2 className="w-5 h-5" />{team.teamMembers?.length}</>}
+                  {team.createdBy === user.email ? (
+                    "Owner"
+                  ) : (
+                    <>
+                      <Users2 className="w-5 h-5" />
+                      {team.teamMembers?.length}
+                    </>
+                  )}
                 </h2>
               </div>
             ))}
@@ -121,7 +128,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
                 {item.name}
               </h2>
             ))}
-            <RenameTeamModal />
+            {activeTeam?.createdBy === user?.email &&  <RenameTeamModal />}
             <LogoutLink>
               <h2
                 className="flex gap-2 items-center
