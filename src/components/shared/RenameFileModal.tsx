@@ -4,30 +4,51 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
 import { RenameFileForm } from "./RenameFileForm";
 import { Button } from "../ui/button";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function RenameFileModal() {
+type Props = {
+  id: string;
+};
+
+export default function RenameFileModal({ id }: Props) {
+  const router = useRouter();
+  const [isSubmitted, setIsSubmitted] = useState(false);
   return (
     <Dialog>
       <DialogTrigger>
-      <Button variant={"secondary"} size="icon">
-        <PencilIcon className="w-4 h-4" />
-      </Button>
+        <Button variant={"secondary"} size="icon">
+          <PencilIcon className="w-4 h-4" />
+        </Button>
       </DialogTrigger>
       <DialogContent>
+        {!isSubmitted && (
           <DialogHeader>
             <DialogTitle>
               <h1>Rename File</h1>
             </DialogTitle>
             <DialogDescription>
-              <RenameFileForm />
+              <RenameFileForm id={id} setIsSubmitted={setIsSubmitted} />
             </DialogDescription>
           </DialogHeader>
+        )}
+        {isSubmitted && (
+          <>
+            <DialogHeader>
+              <DialogTitle>File renamed successfully!!</DialogTitle>
+            </DialogHeader>
+            <DialogFooter>
+              <Button onClick={() => router.refresh()}>Close</Button>
+            </DialogFooter>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );

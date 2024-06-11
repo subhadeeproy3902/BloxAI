@@ -14,10 +14,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useConvex } from "convex/react";
-import { SetStateAction } from "react";
 import { PencilIcon } from "lucide-react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
+import { api } from "../../../convex/_generated/api";
+import { Id } from "../../../convex/_generated/dataModel";
+import { SetStateAction } from "react";
 
 const FormSchema = z.object({
   newName: z.string().min(1, {
@@ -25,10 +25,13 @@ const FormSchema = z.object({
   }),
 });
 
+type Props = {
+  id:string;
+  setIsSubmitted: React.Dispatch<SetStateAction<boolean>>;
+}
 
-export function RenameFileForm() {
+export function RenameFileForm({id,setIsSubmitted}:Props) {
   const convex = useConvex();
-  const id = useSelector((state: RootState) => state.team.teamId);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -38,7 +41,12 @@ export function RenameFileForm() {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    const result = await convex.mutation(api.files.renameFile,{
+      _id:id as Id<"files">,
+      newName:data.newName
+    })
 
+    setIsSubmitted(true);
   }
 
   return (

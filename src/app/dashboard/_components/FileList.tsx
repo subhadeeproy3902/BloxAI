@@ -160,7 +160,7 @@ const FileRow = ({
       />
     </td>
     <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
-      <RenameFileModal />
+      <RenameFileModal id={file._id} />
       {pathname === "/dashboard" && (
         <ActionDialog
           isSubmitted={isSubmitted}
@@ -356,7 +356,7 @@ function FileList({
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-bold text-xl">{file.fileName}</span>
                   <div className="flex gap-2">
-                    <RenameFileModal />
+                    <RenameFileModal id={file._id} />
                     {pathname === "/dashboard" && (
                       <ActionDialog
                         isSubmitted={isSubmitted}
