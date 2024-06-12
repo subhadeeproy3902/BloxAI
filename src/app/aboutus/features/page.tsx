@@ -96,7 +96,7 @@ interface Feature {
 const FeatureSection = () => {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <section className="dark:text-neutral-50 dark:border-gray-800 dark:border-opacity-20 py-16">
         <div className="container mx-auto px-6">
           <h2 className="text-5xl font-bold text-gray-800 dark:text-white text-center mb-12">
