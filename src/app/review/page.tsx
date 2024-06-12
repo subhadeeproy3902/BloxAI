@@ -2,6 +2,7 @@ import Header from "@/components/shared/Header";
 import Review from "@/components/shared/customerreviews";
 import type { Metadata } from "next";
 import Footer from "@/components/shared/Footer";
+import ScrollToTopButton from "@/components/shared/ScrollUp";
 
 export const metadata: Metadata = {
   title: "Blox AI | Review Us",
@@ -19,6 +20,7 @@ const page = () => {
         <Review />
       </div>
       <Footer />
+      <ScrollToTopButton/>
     </>
   );
 };
