@@ -116,6 +116,11 @@ export const ContributorsData = [
     imageUrl: "https://avatars.githubusercontent.com/u/49404370?v=4",
   },
   {
+    name: "Vijay Shanker Sharma",
+    github: "https://github.com/thevijayshankersharma",
+    imageUrl: "https://avatars.githubusercontent.com/u/109781385?v=4"
+  },
+  {
     name: "Vaibhav Gangurde",
     github: "https://github.com/Vaibhavsg17",
     imageUrl: "https://avatars.githubusercontent.com/u/66477893?v=4",
