@@ -10,6 +10,7 @@ import Contact from "@/components/shared/contactform";
 
 import type { Metadata } from "next";
 import Footer from "@/components/shared/Footer";
+import ScrollToTopButton from "@/components/shared/ScrollUp";
 
 export const metadata: Metadata = {
   title: "Blox AI | Contact Us",
@@ -27,6 +28,7 @@ const page = () => {
         <Contact />
       </div>
       <Footer />
+      <ScrollToTopButton/>
     </>
   );
 };
