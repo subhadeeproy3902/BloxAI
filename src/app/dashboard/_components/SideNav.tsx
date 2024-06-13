@@ -22,7 +22,6 @@ function SideNav() {
   const { setFileList_ } = useContext(FileListContext);
   const dispatch = useDispatch();
   const { theme } = useTheme();
-  const [background, setBackground] = useState("dark");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const dispatch_nav = useDispatch();
@@ -76,16 +75,9 @@ function SideNav() {
     setTotalFiles(result?.length);
   };
 
-  useEffect(() => {
-    setBackground(theme === "dark" ? "dark" : "light");
-  }, [theme]);
-
   return (
     <div
-      className={
-        `h-screen fixed md:w-72 w-60 borde-r border-[1px] p-6 flex flex-col ` +
-        (`${background}` === "dark" ? "bg-black" : "bg-white")
-      }
+      className={`h-screen fixed md:w-72 w-60 borde-r border-[1px] p-6 flex flex-col `}
     >
       <button
         className="md:hidden absolute top-4 right-4 mb-2"

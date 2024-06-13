@@ -45,7 +45,7 @@ export default function RenameFileModal({ id }: Props) {
               <DialogTitle>File renamed successfully!!</DialogTitle>
             </DialogHeader>
             <DialogFooter>
-              <Button onClick={() => router.refresh()}>Close</Button>
+              <Button onClick={() => window.location.reload()}>Close</Button>
             </DialogFooter>
           </>
         )}

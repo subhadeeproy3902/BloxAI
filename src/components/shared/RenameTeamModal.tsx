@@ -40,7 +40,7 @@ export default function RenameTeamModal() {
               <DialogTitle>Team renamed successfully!!</DialogTitle>
             </DialogHeader>
             <DialogFooter>
-              <Button onClick={() => router.refresh()}>Close</Button>
+              <Button onClick={() => window.location.reload()}>Close</Button>
             </DialogFooter>
           </>
         )}
