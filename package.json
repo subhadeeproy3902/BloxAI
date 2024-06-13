@@ -45,6 +45,7 @@
     "convex": "^1.11.3",
     "cors": "^2.8.5",
     "editorjs-button": "^3.0.3",
+    "emailjs-com": "^3.2.0",
     "embla-carousel-autoplay": "^8.0.4",
     "embla-carousel-react": "^8.0.4",
     "express": "^4.19.2",
