@@ -5,6 +5,7 @@ import Header from "@/components/shared/Header";
 import { Creators } from "@/components/shared/Creators";
 import { GlobeDemo } from "@/components/shared/GlobeCard";
 import Footer from "@/components/shared/Footer";
+import ScrollToTopButton from "@/components/shared/ScrollUp";
 
 export const metadata: Metadata = {
   title: "Blox AI | Contributors",
@@ -61,6 +62,7 @@ const page = () => {
         <GlobeDemo />
       </section>
       <Footer />
+      <ScrollToTopButton/>
     </>
   );
 };
