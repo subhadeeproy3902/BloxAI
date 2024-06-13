@@ -30,7 +30,7 @@ export default function Page({ params }: any) {
   const [errorMsg, setErrorMsg] = useState("");
   const [isError, setIsError] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isValidLink,setIsValidLink] = useState(true);
+  const [isValidLink, setIsValidLink] = useState(true);
   const { user }: any = useKindeBrowserClient();
   const { isAuthenticated } = useKindeBrowserClient();
 
@@ -43,7 +43,7 @@ export default function Page({ params }: any) {
         _id: id,
       });
       if (result) {
-        console.log(isDialogOpen);
+        setErrorMsg("");
         setIsError(false);
         setTeamData(result);
         setIsDialogOpen(true);
@@ -51,40 +51,39 @@ export default function Page({ params }: any) {
         setIsDialogOpen(true);
         setErrorMsg("Invalid Invite Link!!");
         setIsError(true);
-        setTeamData("Invalid Link")
+        setTeamData("Invalid Link");
         setIsValidLink(false);
       }
     };
     if (user && isAuthenticated) {
       getTeamData();
     }
-  }, [user]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!user && !isAuthenticated && !isDialogOpen && !teamData) {
+    if(!user && !isAuthenticated){
+      const timer = setTimeout(()=>{
         setIsDialogOpen(true);
         setErrorMsg("Unauthorized Access!!");
         setIsError(true);
-      }
-    }, 5000);
-
-    return () => clearTimeout(timer);
+      },3000)
+      return () => clearTimeout(timer);
+    }
   }, [user]);
 
-  const AddUserToMember = async () => {
 
-    if (teamData.teamMembers?.includes(user.email) || teamData.createdBy == user.email) {
-      setErrorMsg(`Already member of ${teamData.teamName}`)
+  const AddUserToMember = async () => {
+    if (
+      teamData.teamMembers?.includes(user.email) ||
+      teamData.createdBy == user.email
+    ) {
+      setErrorMsg(`Already member of ${teamData.teamName}`);
       setIsError(true);
       return;
     }
 
-    let memberArray:string[];
+    let memberArray: string[];
 
-    if(teamData.teamMembers){
+    if (teamData.teamMembers) {
       memberArray = teamData.teamMembers;
-    }else{
+    } else {
       memberArray = [teamData.createdBy];
     }
 
@@ -96,7 +95,6 @@ export default function Page({ params }: any) {
     });
 
     router.push("/dashboard");
-
   };
 
   if (!isDialogOpen) return <Loader />;
@@ -199,7 +197,9 @@ export default function Page({ params }: any) {
           {!user && !isAuthenticated && (
             <>
               <AlertDialogHeader>
-                <AlertDialogTitle>Unauthorized Access or Invalid link!!</AlertDialogTitle>
+                <AlertDialogTitle>
+                  Unauthorized Access or Invalid link!!
+                </AlertDialogTitle>
                 <AlertDialogDescription className="w-full">
                   <p>Register or Login to your account.</p>
                   <p>Link may be Invalid!</p>
@@ -215,9 +215,8 @@ export default function Page({ params }: any) {
               </AlertDialogFooter>
             </>
           )}
-          {
-            user && isAuthenticated && isError && (
-              <>
+          {user && isAuthenticated && isError && (
+            <>
               <AlertDialogHeader>
                 <AlertDialogTitle>{errorMsg}</AlertDialogTitle>
               </AlertDialogHeader>
@@ -230,8 +229,7 @@ export default function Page({ params }: any) {
                 </Link>
               </AlertDialogFooter>
             </>
-            )
-          }
+          )}
         </AlertDialogContent>
       </AlertDialog>
     </div>

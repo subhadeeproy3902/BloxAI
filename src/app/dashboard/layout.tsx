@@ -37,12 +37,12 @@ function DashboardLayout({
     const result = await convex.query(api.teams.getTeam, {
       email: user?.email,
     });
-    
+
     if (!result?.length) {
       createTeam({
-        teamName: "My Org",
+        teamName: `${user.given_name} Org`,
         createdBy: user?.email,
-        teamMembers: [user.email]
+        teamMembers: [user.email],
       }).then((resp) => {
         if (resp) {
           router.push("/dashboard");
