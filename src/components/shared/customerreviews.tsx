@@ -54,6 +54,20 @@ const formSchema = z.object({
   feedback: z.string().nonempty("Feedback is required"),
 });
 
+
+export function TextareaForm() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+  });
+}
+
+function onSubmit(values: z.infer<typeof formSchema>) {
+  // Do something with the form values.
+  emailjs.send(process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!, values,{
+    publicKey:process.env.NEXT_PUBLIC_EMAILJS_API_KEY,
+  })
+}
+
 export default function Review() {
   const [acknowledgment, setAcknowledgment] = React.useState("");
   const form = useForm<z.infer<typeof formSchema>>({
@@ -106,7 +120,7 @@ export default function Review() {
         )}
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(handleSubmit)}
+            onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-8"
           >
             <FormField
