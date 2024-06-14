@@ -10,7 +10,6 @@ export default function IntroPage() {
     <div>
       <Header />
       <div className="container mx-auto px-4 py-8">
-        {/* Hero Section */}
         <div className="bg-gradient-to-r from-primary to-secondary text-white py-16 rounded-lg mb-8">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl font-bold mb-4">Welcome to BloxAI</h1>
@@ -22,7 +21,6 @@ export default function IntroPage() {
             </Button>
           </div>
         </div>
-        {/* Features Section */}
         <div className="mb-8">
           <h2 className="text-3xl font-bold mb-6 text-center">
             Powerful Features
@@ -53,7 +51,6 @@ export default function IntroPage() {
             </div>
           </div>
         </div>
-        {/* How to Use Section */}
         <div className="mb-8">
           <h2 className="text-3xl font-bold mb-6 text-center">How to Use</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -88,7 +85,6 @@ export default function IntroPage() {
             </div>
           </div>
         </div>
-        {/* FAQ Section */}
         <div className="mb-8">
           <h2 className="text-3xl font-bold mb-6 text-center">
             Frequently Asked Questions
@@ -131,7 +127,6 @@ export default function IntroPage() {
           </div>
         </div>
 
-        {/* Testimonials Section */}
         <div className="mb-8">
           <h2 className="text-3xl font-bold mb-6 text-center">
             What Our Users Say
@@ -163,7 +158,6 @@ export default function IntroPage() {
             </div>
           </div>
         </div>
-        {/* Testimonials Section */}
         <div className="mb-8">
           <h2 className="text-3xl font-bold mb-6 text-center">
             What Our Users Say
@@ -195,7 +189,6 @@ export default function IntroPage() {
             </div>
           </div>
         </div>
-        {/* Contact Information Section */}
         <div className="bg-primary text-white p-8 rounded-lg">
           <h2 className="text-3xl font-bold mb-6">Get in Touch</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -205,10 +198,10 @@ export default function IntroPage() {
                 us.
               </p>
               <p className="mb-4">
-                <strong>Email:</strong> support@bloxai.com
+                <strong>Email:</strong> subha9.5@gmail.com
               </p>
               <p className="mb-4">
-                <strong>Phone:</strong> +1 (555) 123-4567
+                <strong>Phone:</strong> +91 86373 73116
               </p>
             </div>
             <div>
@@ -221,9 +214,8 @@ export default function IntroPage() {
             </div>
           </div>
         </div>
-        {/* Footer Section */}
         <div className="bg-slate-100 p-8 rounded-lg text-center">
-          <p className="mb-4">© 2022 BloxAI. All rights reserved.</p>
+          <p className="mb-4">© 2024 BloxAI. All rights reserved.</p>
           <p>
             <a href="#" className="text-primary underline">
               Privacy Policy
