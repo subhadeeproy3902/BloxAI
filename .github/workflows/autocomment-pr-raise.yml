@@ -1,0 +1,36 @@
+name: Auto Comment on PR
+
+on:
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Add Comment to Pull Request
+      run: |
+        COMMENT=$(cat <<EOF
+        {
+          "body": "Welcome to Blox AI! 🎉 Thank you for submitting your pull request. We're excited to review it! 🚀 If you haven't already, be sure to check out our site to learn more about how Blox AI makes crafting flowcharts and diagrams a breeze, and how you can get explanations from the top Google Gemini model about your creations. Start visualizing your ideas today! Visit [Blox AI](https://www.bloxai.com) for more information."
+        }
+        EOF
+        )
+        RESPONSE=$(curl -s -o response.json -w "%{http_code}" \
+          -X POST \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
+          -d "$COMMENT")
+        cat response.json
+        if [ "$RESPONSE" -ne 201 ]; then
+          echo "Failed to add comment"
+          exit 1
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
