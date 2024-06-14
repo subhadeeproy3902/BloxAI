@@ -58,13 +58,8 @@ export default function Page({ params }: any) {
     if (user && isAuthenticated) {
       getTeamData();
     }
-    if(!user && !isAuthenticated){
-      const timer = setTimeout(()=>{
-        setIsDialogOpen(true);
-        setErrorMsg("Unauthorized Access!!");
-        setIsError(true);
-      },3000)
-      return () => clearTimeout(timer);
+    if(!user && !isAuthenticated && !teamData && !isError){
+      setIsDialogOpen(true)
     }
   }, [user]);
 
@@ -106,7 +101,7 @@ export default function Page({ params }: any) {
           <Button>Open</Button>
         </AlertDialogTrigger>
         <AlertDialogContent className="overflow-hidden">
-          {isDialogOpen && !isError && (
+          {isDialogOpen && teamData && !isError && (
             <>
               <AlertDialogHeader>
                 <AlertDialogTitle>
@@ -194,7 +189,7 @@ export default function Page({ params }: any) {
               </AlertDialogFooter>
             </>
           )}
-          {!user && !isAuthenticated && (
+          {(!user && !isAuthenticated) && (
             <>
               <AlertDialogHeader>
                 <AlertDialogTitle>
@@ -211,21 +206,6 @@ export default function Page({ params }: any) {
                   href={"/"}
                 >
                   Home
-                </Link>
-              </AlertDialogFooter>
-            </>
-          )}
-          {user && isAuthenticated && isError && (
-            <>
-              <AlertDialogHeader>
-                <AlertDialogTitle>{errorMsg}</AlertDialogTitle>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <Link
-                  className="bg-primary p-2 rounded-lg px-3 text-secondary"
-                  href={"/dashboard"}
-                >
-                  Dashboard
                 </Link>
               </AlertDialogFooter>
             </>
