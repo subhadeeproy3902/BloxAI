@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/shared/Header";
 export default function IntroPage() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
   return (
     <div>
       <Header />
