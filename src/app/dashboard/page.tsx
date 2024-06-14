@@ -34,16 +34,20 @@ function Dashboard() {
   const count = useSelector((state: RootState) => state.counter.value);
   const activeTeamId = useSelector((state: RootState) => state.team.teamId);
   const dispatch = useDispatch();
+  
   const checkUser = async () => {
     const result = await convex.query(api.user.getUser, { email: user?.email });
     if (!result?.length) {
       createUser({
         name: user.given_name,
         email: user.email,
-        image: user.picture,
+        image: user.picture || "https://picsum.photos/50",
       });
     }
+    console.log(result)
   };
+
+
 
   const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>();
@@ -63,6 +67,12 @@ function Dashboard() {
     );
     setFileList(filteredFileList);
   };
+
+  useEffect(()=>{
+    if(user){
+      checkUser();
+    }
+  },[user])
 
   return (
     <div className="md:p-8 p-3">
