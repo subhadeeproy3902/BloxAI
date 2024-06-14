@@ -3,6 +3,7 @@ import * as React from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import emailjs from '@emailjs/browser';
 import {
   Form,
   FormControl,
@@ -61,7 +62,9 @@ export function TextareaForm() {
 
 function onSubmit(values: z.infer<typeof formSchema>) {
   // Do something with the form values.
-  console.log(values);
+  emailjs.send(process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!, values,{
+    publicKey:process.env.NEXT_PUBLIC_EMAILJS_API_KEY,
+  })
 }
 
 export default function Review() {
@@ -93,7 +96,7 @@ export default function Review() {
       <div className="w-full max-w-lg p-4 md:p-10">
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(handleSubmit)}
+            onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-8"
           >
             <FormField
