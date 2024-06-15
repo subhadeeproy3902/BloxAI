@@ -133,25 +133,25 @@ export default function IntroPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-slate-100 p-6 rounded-lg shadow-md">
               <p className="text-gray-600 mb-4">
-                "BloxAI has been a game-changer for our team. The real-time
+                &quot;BloxAI has been a game-changer for our team. The real-time
                 collaboration features have streamlined our workflow, and the
-                intuitive editor makes creating diagrams a breeze."
+                intuitive editor makes creating diagrams a breeze.&quot;
               </p>
               <p className="font-bold">- John Doe, Project Manager</p>
             </div>
             <div className="bg-slate-100 p-6 rounded-lg shadow-md">
               <p className="text-gray-600 mb-4">
-                "The secure sharing options and access controls give us peace of
-                mind when sharing our work. We highly recommend BloxAI to any
-                team that needs a powerful diagramming tool."
+                &quot;The secure sharing options and access controls give us
+                peace of mind when sharing our work. We highly recommend BloxAI
+                to any team that needs a powerful diagramming tool.&quot;
               </p>
               <p className="font-bold">- Jane Smith, Team Lead</p>
             </div>
             <div className="bg-slate-100 p-6 rounded-lg shadow-md">
               <p className="text-gray-600 mb-4">
-                "BloxAI's real-time collaboration and intuitive editor have made
-                our diagramming process much more efficient. It's a must-have
-                tool for any team."
+                &quot;BloxAI&apos;s real-time collaboration and intuitive editor
+                have made our diagramming process much more efficient. It&apos;s
+                a must-have tool for any team.&quot;
               </p>
               <p className="font-bold">- Bob Johnson, Product Manager</p>
             </div>
@@ -164,25 +164,25 @@ export default function IntroPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-slate-100 p-6 rounded-lg shadow-md">
               <p className="text-gray-600 mb-4">
-                "BloxAI has been a game-changer for our team. The real-time
+                &quot;BloxAI has been a game-changer for our team. The real-time
                 collaboration features have streamlined our workflow, and the
-                intuitive editor makes creating diagrams a breeze."
+                intuitive editor makes creating diagrams a breeze.&quot;
               </p>
               <p className="font-bold">- John Doe, Project Manager</p>
             </div>
             <div className="bg-slate-100 p-6 rounded-lg shadow-md">
               <p className="text-gray-600 mb-4">
-                "The secure sharing options and access controls give us peace of
-                mind when sharing our work. We highly recommend BloxAI to any
-                team that needs a powerful diagramming tool."
+                &quot;The secure sharing options and access controls give us
+                peace of mind when sharing our work. We highly recommend BloxAI
+                to any team that needs a powerful diagramming tool.&quot;
               </p>
               <p className="font-bold">- Jane Smith, Team Lead</p>
             </div>
             <div className="bg-slate-100 p-6 rounded-lg shadow-md">
               <p className="text-gray-600 mb-4">
-                "BloxAI's real-time collaboration and intuitive editor have made
-                our diagramming process much more efficient. It's a must-have
-                tool for any team."
+                &quot;BloxAI&apos;s real-time collaboration and intuitive editor
+                have made our diagramming process much more efficient. It&apos;s
+                a must-have tool for any team.&quot;
               </p>
               <p className="font-bold">- Bob Johnson, Product Manager</p>
             </div>
