@@ -2,12 +2,18 @@
 
 import { Excalidraw } from "@excalidraw/excalidraw";
 import { Button } from "@/components/ui/button";
+import type { Metadata } from "next";
 import Header from "@/components/shared/Header";
+import ScrollToTopButton from "@/components/shared/ScrollUp";
 
+export const metadata: Metadata = {
+  title: "Blox AI | Geeting Started",
+  description: "Let's get you started with Blox AI.",
+};
 
-export default function GettingStarted() {
+const page = () => {
   return (
-    <div>
+    <>
       <Header />
       <div className="container mx-auto px-4 py-8">
         <div className="bg-gradient-to-r from-primary to-secondary text-white py-16 rounded-lg mb-8">
@@ -227,6 +233,9 @@ export default function GettingStarted() {
           </p>
         </div>
       </div>
-    </div>
+      <ScrollToTopButton />
+    </>
   );
-}
+};
+
+export default page;
