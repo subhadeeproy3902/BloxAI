@@ -55,16 +55,16 @@ export default function Page({ params }: any) {
         setIsValidLink(false);
       }
     };
-    if (user && isAuthenticated) {
-      getTeamData();
-    }
-    if(!user && !isAuthenticated && !teamData && !isError){
-      setIsDialogOpen(true)
-    }
-  }, [user]);
-
+    getTeamData();
+  }, []);
 
   const AddUserToMember = async () => {
+    if (!user || !isAuthenticated) {
+      setErrorMsg("Unauthorized Access!");
+      setIsError(true);
+      return;
+    }
+
     if (
       teamData.teamMembers?.includes(user.email) ||
       teamData.createdBy == user.email
@@ -189,20 +189,14 @@ export default function Page({ params }: any) {
               </AlertDialogFooter>
             </>
           )}
-          {(!user && !isAuthenticated) && (
+          {isError && isDialogOpen && (
             <>
               <AlertDialogHeader>
-                <AlertDialogTitle>
-                  Unauthorized Access or Invalid link!!
-                </AlertDialogTitle>
-                <AlertDialogDescription className="w-full">
-                  <p>Register or Login to your account.</p>
-                  <p>Link may be Invalid!</p>
-                </AlertDialogDescription>
+                <AlertDialogTitle>{errorMsg}</AlertDialogTitle>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <Link
-                  className="bg-primary p-2 rounded-lg px-3 text-secondary"
+                  className="bg-primary text-white p-2 rounded-lg px-3 text-secondary"
                   href={"/"}
                 >
                   Home
