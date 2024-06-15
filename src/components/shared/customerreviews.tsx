@@ -3,7 +3,7 @@ import * as React from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import emailjs from '@emailjs/browser';
+import emailjs from "emailjs-com";
 import {
   Form,
   FormControl,
@@ -49,10 +49,11 @@ const testimonials2 = [
 ];
 
 const formSchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  feedback: z.string(),
+  name: z.string().nonempty("Name is required"),
+  email: z.string().email("Invalid email address"),
+  feedback: z.string().nonempty("Feedback is required"),
 });
+
 
 export function TextareaForm() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -68,6 +69,7 @@ function onSubmit(values: z.infer<typeof formSchema>) {
 }
 
 export default function Review() {
+  const [acknowledgment, setAcknowledgment] = React.useState("");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -76,7 +78,26 @@ export default function Review() {
       feedback: "",
     },
   });
-  const handleSubmit = () => {};
+
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      await emailjs.send(
+        'service_f48choq', // Replace with your EmailJS service ID
+        'template_0totbmm', // Replace with your EmailJS template ID
+        {
+          from_name: values.name,
+          to_name: "Blox AI", // Replace with the recipient's name or a variable
+          message: values.feedback,
+        },
+        'm9ltaf_4ooKvkH4y4' // Replace with your EmailJS user ID
+      );
+      setAcknowledgment("Thank you! Your review has been received.");
+      form.reset();
+    } catch (error) {
+      console.error("Failed to send feedback:", error);
+    }
+  };
+
   return (
     <main className="flex flex-col items-center p-4 md:p-10 w-full">
       <div className="w-full flex flex-col items-center">
@@ -86,14 +107,17 @@ export default function Review() {
         <ReviewCarousel items={testimonials2} direction="left" speed="slow" />
       </div>
       <div className="flex w-full text-2xl flex-col items-center p-10 md:text-sm">
-        <p className="text-xl md:text-2xl py-5 opacity-75">
-          Loved our product?
-        </p>
+        <p className="text-xl md:text-2xl py-5 opacity-75">Loved our product?</p>
         <p className="text-3xl md:text-5xl font-bold py-2 bg-gradient-to-r bg-clip-text text-transparent from-muted-foreground via-primary-foreground to-muted-foreground">
           Leave a Review 👇
         </p>
       </div>
       <div className="w-full max-w-lg p-4 md:p-10">
+        {acknowledgment && (
+          <div className="mt-4 p-4 text-green-600 border border-green-600 rounded">
+            {acknowledgment}
+          </div>
+        )}
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -102,62 +126,49 @@ export default function Review() {
             <FormField
               control={form.control}
               name="name"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Full Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Manav Malhotra"
-                        type="text"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Full Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Manav Malhotra" type="text" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
 
             <FormField
               control={form.control}
               name="email"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Email Address</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="manav@example.com"
-                        type="email"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email Address</FormLabel>
+                  <FormControl>
+                    <Input placeholder="manav@example.com" type="email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
 
             <FormField
               control={form.control}
               name="feedback"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Your Feedback</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Tell us what you loved about our product"
-                        className="resize-none"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Your Feedback</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Tell us what you loved about our product"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
+
             <Button type="submit" className="w-full">
               <b>SUBMIT</b>
             </Button>
