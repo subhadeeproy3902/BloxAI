@@ -121,8 +121,18 @@ export const ContributorsData = [
     imageUrl: "https://avatars.githubusercontent.com/u/109781385?v=4"
   },
   {
+    name: "Mukilan .T",
+    github: "https://github.com/mukilan2815",
+    imageUrl: "https://avatars.githubusercontent.com/u/66477893?v=4",
+  },
+  {
     name: "Vaibhav Gangurde",
     github: "https://github.com/Vaibhavsg17",
-    imageUrl: "https://avatars.githubusercontent.com/u/66477893?v=4",
+    imageUrl: "https://avatars.githubusercontent.com/u/71129858?v=4",
+  },
+  {
+    name: "Ayushmaan Agarwal",
+    github: "https://github.com/Ayushmaanagarwal1211",
+    imageUrl: "https://avatars.githubusercontent.com/u/118350936?v=4",
   },
 ];
