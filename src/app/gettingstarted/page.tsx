@@ -1,9 +1,11 @@
 "use client";
-import React, { useState } from "react";
+
 import { Excalidraw } from "@excalidraw/excalidraw";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/shared/Header";
-export default function IntroPage() {
+
+
+export default function GettingStarted() {
   return (
     <div>
       <Header />
