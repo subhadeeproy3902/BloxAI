@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Archive, CheckCircle2, File, Github, Trash2 } from "lucide-react";
+import { Archive, CheckCircle2, File, Github, Settings, Trash2 } from "lucide-react";
 import React, { useState, useContext, useEffect } from "react";
 import {
   Dialog,
@@ -60,6 +60,12 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
       name: "Archive",
       icon: Archive,
       path: `/dashboard/archive`,
+    },
+    {
+      id: 3,
+      name: "Settings",
+      icon: Settings,
+      path: `/dashboard/settings`,
     },
   ];
 
