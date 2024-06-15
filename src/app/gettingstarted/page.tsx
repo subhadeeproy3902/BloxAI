@@ -1,6 +1,4 @@
-"use client";
 
-import { Excalidraw } from "@excalidraw/excalidraw";
 import { Button } from "@/components/ui/button";
 import type { Metadata } from "next";
 import Header from "@/components/shared/Header";
@@ -86,9 +84,6 @@ const page = () => {
                 </p>
               </div>
             </div>
-            <div>
-              <Excalidraw />
-            </div>
           </div>
         </div>
         <div className="mb-8">
@@ -164,37 +159,7 @@ const page = () => {
             </div>
           </div>
         </div>
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-6 text-center">
-            What Our Users Say
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-secondary p-6 rounded-lg shadow-md">
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                &quot;BloxAI has been a game-changer for our team. The real-time
-                collaboration features have streamlined our workflow, and the
-                intuitive editor makes creating diagrams a breeze.&quot;
-              </p>
-              <p className="font-bold">- John Doe, Project Manager</p>
-            </div>
-            <div className="bg-secondary p-6 rounded-lg shadow-md">
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                &quot;The secure sharing options and access controls give us
-                peace of mind when sharing our work. We highly recommend BloxAI
-                to any team that needs a powerful diagramming tool.&quot;
-              </p>
-              <p className="font-bold">- Jane Smith, Team Lead</p>
-            </div>
-            <div className="bg-secondary p-6 rounded-lg shadow-md">
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                &quot;BloxAI&apos;s real-time collaboration and intuitive editor
-                have made our diagramming process much more efficient. It&apos;s
-                a must-have tool for any team.&quot;
-              </p>
-              <p className="font-bold">- Bob Johnson, Product Manager</p>
-            </div>
-          </div>
-        </div>
+
         <div className="bg-primary text-white p-8 rounded-lg">
           <h2 className="text-3xl font-bold mb-6">Get in Touch</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
