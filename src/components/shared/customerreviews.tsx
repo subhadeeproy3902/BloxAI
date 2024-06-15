@@ -54,18 +54,10 @@ const formSchema = z.object({
   feedback: z.string().nonempty("Feedback is required"),
 });
 
-
 export function TextareaForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
-}
-
-function onSubmit(values: z.infer<typeof formSchema>) {
-  // Do something with the form values.
-  emailjs.send(process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!, values,{
-    publicKey:process.env.NEXT_PUBLIC_EMAILJS_API_KEY,
-  })
 }
 
 export default function Review() {
@@ -82,14 +74,14 @@ export default function Review() {
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await emailjs.send(
-        'service_f48choq', // Replace with your EmailJS service ID
-        'template_0totbmm', // Replace with your EmailJS template ID
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
         {
           from_name: values.name,
           to_name: "Blox AI", // Replace with the recipient's name or a variable
           message: values.feedback,
         },
-        'm9ltaf_4ooKvkH4y4' // Replace with your EmailJS user ID
+        process.env.NEXT_PUBLIC_EMAILJS_API_KEY!
       );
       setAcknowledgment("Thank you! Your review has been received.");
       form.reset();
@@ -107,12 +99,14 @@ export default function Review() {
         <ReviewCarousel items={testimonials2} direction="left" speed="slow" />
       </div>
       <div className="flex w-full text-2xl flex-col items-center p-10 md:text-sm">
-        <p className="text-xl md:text-2xl py-5 opacity-75">Loved our product?</p>
+        <p className="text-xl md:text-2xl py-5 opacity-75">
+          Loved our product?
+        </p>
         <p className="text-3xl md:text-5xl font-bold py-2 bg-gradient-to-r bg-clip-text text-transparent from-muted-foreground via-primary-foreground to-muted-foreground">
           Leave a Review 👇
         </p>
       </div>
-      <div className="w-full max-w-lg p-4 md:p-10">
+      <div className="w-full max-w-lg mb-2 p-4 md:p-10">
         {acknowledgment && (
           <div className="mt-4 p-4 text-green-600 border border-green-600 rounded">
             {acknowledgment}
@@ -120,7 +114,11 @@ export default function Review() {
         )}
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={
+              form.handleSubmit((values) => {
+                handleSubmit(values);
+              })
+            }
             className="flex flex-col gap-8"
           >
             <FormField
@@ -130,7 +128,11 @@ export default function Review() {
                 <FormItem>
                   <FormLabel>Full Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Manav Malhotra" type="text" {...field} />
+                    <Input
+                      placeholder="Manav Malhotra"
+                      type="text"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -144,7 +146,11 @@ export default function Review() {
                 <FormItem>
                   <FormLabel>Email Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="manav@example.com" type="email" {...field} />
+                    <Input
+                      placeholder="manav@example.com"
+                      type="email"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

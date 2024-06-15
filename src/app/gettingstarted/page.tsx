@@ -4,7 +4,6 @@ import { Excalidraw } from "@excalidraw/excalidraw";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/shared/Header";
 export default function IntroPage() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <div>
       <Header />
@@ -25,25 +24,25 @@ export default function IntroPage() {
             Powerful Features
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-slate-100 p-6 rounded-lg shadow-md">
+            <div className="bg-secondary p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-bold mb-4">
                 Real-time Collaboration
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-400">
                 Work together with your team in real-time, allowing seamless
                 collaboration on diagrams and flowcharts.
               </p>
             </div>
-            <div className="bg-slate-100 p-6 rounded-lg shadow-md">
+            <div className="bg-secondary p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-bold mb-4">Intuitive Editor</h3>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-400">
                 Our intuitive editor makes it easy to create stunning visuals,
                 with a wide range of tools and features at your fingertips.
               </p>
             </div>
-            <div className="bg-slate-100 p-6 rounded-lg shadow-md">
+            <div className="bg-secondary p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-bold mb-4">Secure Sharing</h3>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-400">
                 Share your creations with peace of mind, thanks to our secure
                 sharing options and access controls.
               </p>
@@ -55,7 +54,7 @@ export default function IntroPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="space-y-4">
               <div className="flex items-center">
-                <span className="bg-primary text-white rounded-full p-2 mr-4">
+                <span className="bg-primary text-white rounded-full w-8 h-8 flex justify-center items-center p-2 mr-4">
                   1
                 </span>
                 <p className="text-lg font-semibold">
@@ -63,7 +62,7 @@ export default function IntroPage() {
                 </p>
               </div>
               <div className="flex items-center">
-                <span className="bg-primary text-white rounded-full p-2 mr-4">
+                <span className="bg-primary text-white rounded-full w-8 h-8 flex justify-center items-center p-2 mr-4">
                   2
                 </span>
                 <p className="text-lg font-semibold">
@@ -71,7 +70,7 @@ export default function IntroPage() {
                 </p>
               </div>
               <div className="flex items-center">
-                <span className="bg-primary text-white rounded-full p-2 mr-4">
+                <span className="bg-primary text-white rounded-full w-8 h-8 flex justify-center items-center p-2 mr-4">
                   3
                 </span>
                 <p className="text-lg font-semibold">
@@ -89,36 +88,36 @@ export default function IntroPage() {
             Frequently Asked Questions
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-slate-100 p-6 rounded-lg shadow-md">
+            <div className="bg-secondary p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-bold mb-4">What is BloxAI?</h3>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-400">
                 BloxAI is a powerful diagramming tool that allows you to create
                 stunning visuals, flowcharts, and diagrams effortlessly.
               </p>
             </div>
-            <div className="bg-slate-100 p-6 rounded-lg shadow-md">
+            <div className="bg-secondary p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-bold mb-4">
                 Can I collaborate with my team?
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-400">
                 Yes, BloxAI supports real-time collaboration, allowing you and
                 your team members to work on the same diagram simultaneously.
               </p>
             </div>
-            <div className="bg-slate-100 p-6 rounded-lg shadow-md">
+            <div className="bg-secondary p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-bold mb-4">
                 Is BloxAI secure and private?
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-400">
                 Absolutely! We prioritize security and privacy, ensuring that
                 your data is safe and secure at all times.
               </p>
             </div>
-            <div className="bg-slate-100 p-6 rounded-lg shadow-md">
+            <div className="bg-secondary p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-bold mb-4">
                 Can I export my diagrams?
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-400">
                 Yes, you can export your diagrams in various formats, including
                 PNG, SVG, and PDF, making it easy to share or print your work.
               </p>
@@ -131,24 +130,24 @@ export default function IntroPage() {
             What Our Users Say
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-slate-100 p-6 rounded-lg shadow-md">
-              <p className="text-gray-600 mb-4">
+            <div className="bg-secondary p-6 rounded-lg shadow-md">
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
                 &quot;BloxAI has been a game-changer for our team. The real-time
                 collaboration features have streamlined our workflow, and the
                 intuitive editor makes creating diagrams a breeze.&quot;
               </p>
               <p className="font-bold">- John Doe, Project Manager</p>
             </div>
-            <div className="bg-slate-100 p-6 rounded-lg shadow-md">
-              <p className="text-gray-600 mb-4">
+            <div className="bg-secondary p-6 rounded-lg shadow-md">
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
                 &quot;The secure sharing options and access controls give us
                 peace of mind when sharing our work. We highly recommend BloxAI
                 to any team that needs a powerful diagramming tool.&quot;
               </p>
               <p className="font-bold">- Jane Smith, Team Lead</p>
             </div>
-            <div className="bg-slate-100 p-6 rounded-lg shadow-md">
-              <p className="text-gray-600 mb-4">
+            <div className="bg-secondary p-6 rounded-lg shadow-md">
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
                 &quot;BloxAI&apos;s real-time collaboration and intuitive editor
                 have made our diagramming process much more efficient. It&apos;s
                 a must-have tool for any team.&quot;
@@ -162,24 +161,24 @@ export default function IntroPage() {
             What Our Users Say
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-slate-100 p-6 rounded-lg shadow-md">
-              <p className="text-gray-600 mb-4">
+            <div className="bg-secondary p-6 rounded-lg shadow-md">
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
                 &quot;BloxAI has been a game-changer for our team. The real-time
                 collaboration features have streamlined our workflow, and the
                 intuitive editor makes creating diagrams a breeze.&quot;
               </p>
               <p className="font-bold">- John Doe, Project Manager</p>
             </div>
-            <div className="bg-slate-100 p-6 rounded-lg shadow-md">
-              <p className="text-gray-600 mb-4">
+            <div className="bg-secondary p-6 rounded-lg shadow-md">
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
                 &quot;The secure sharing options and access controls give us
                 peace of mind when sharing our work. We highly recommend BloxAI
                 to any team that needs a powerful diagramming tool.&quot;
               </p>
               <p className="font-bold">- Jane Smith, Team Lead</p>
             </div>
-            <div className="bg-slate-100 p-6 rounded-lg shadow-md">
-              <p className="text-gray-600 mb-4">
+            <div className="bg-secondary p-6 rounded-lg shadow-md">
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
                 &quot;BloxAI&apos;s real-time collaboration and intuitive editor
                 have made our diagramming process much more efficient. It&apos;s
                 a must-have tool for any team.&quot;
@@ -213,7 +212,7 @@ export default function IntroPage() {
             </div>
           </div>
         </div>
-        <div className="bg-slate-100 p-8 rounded-lg text-center">
+        <div className="bg-secondary p-8 mt-8 rounded-lg text-center">
           <p className="mb-4">© 2024 BloxAI. All rights reserved.</p>
           <p>
             <a href="#" className="text-primary underline">
