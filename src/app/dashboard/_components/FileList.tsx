@@ -154,9 +154,9 @@ const FileRow = ({
       className="whitespace-nowrap px-4 py-2 text-muted-foreground"
       onClick={() => router.push("/workspace/" + file._id)}
     >
-      {authorData.map((author) =>
+      {authorData.map((author,index) =>
         author.email === file.createdBy ? (
-          <Avatar className="w-[40px] h-[40px]">
+          <Avatar key={index} className="w-[40px] h-[40px]">
             <AvatarImage src={""} />
             <AvatarFallback className=" text-xs">
               {author.name.charAt(0)}
