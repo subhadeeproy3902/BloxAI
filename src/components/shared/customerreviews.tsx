@@ -3,6 +3,7 @@ import * as React from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import emailjs from "emailjs-com";
 import {
   Form,
   FormControl,
@@ -48,32 +49,44 @@ const testimonials2 = [
 ];
 
 const formSchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  feedback: z.string(),
+  name: z.string().nonempty("Name is required"),
+  email: z.string().email("Invalid email address"),
+  feedback: z.string().nonempty("Feedback is required"),
+  feedbackType: z.string().nonempty("Feedback type is required"),
 });
 
-export function TextareaForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
-}
-
-function onSubmit(values: z.infer<typeof formSchema>) {
-  // Do something with the form values.
-  console.log(values);
-}
-
 export default function Review() {
+  const [acknowledgment, setAcknowledgment] = React.useState("");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       email: "",
       feedback: "",
+      feedbackType: "Other",
     },
   });
-  const handleSubmit = () => {};
+
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          from_name: values.name,
+          to_name: "Blox AI", // Replace with the recipient's name or a variable
+          message: values.feedback,
+          feedback_type: values.feedbackType,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_API_KEY!
+      );
+      setAcknowledgment("Thank you! Your review has been received.");
+      form.reset();
+    } catch (error) {
+      console.error("Failed to send feedback:", error);
+    }
+  };
+
   return (
     <main className="flex flex-col items-center p-4 md:p-10 w-full">
       <div className="w-full flex flex-col items-center">
@@ -90,71 +103,97 @@ export default function Review() {
           Leave a Review 👇
         </p>
       </div>
-      <div className="w-full max-w-lg p-4 md:p-10">
+      <div className="w-full max-w-lg mb-2 p-4 md:p-10">
+        {acknowledgment && (
+          <div className="mt-4 p-4 text-green-600 border border-green-600 rounded">
+            {acknowledgment}
+          </div>
+        )}
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(handleSubmit)}
+            onSubmit={
+              form.handleSubmit((values) => {
+                handleSubmit(values);
+              })
+            }
             className="flex flex-col gap-8"
           >
             <FormField
               control={form.control}
               name="name"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Full Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Manav Malhotra"
-                        type="text"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Full Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Manav Malhotra"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
 
             <FormField
               control={form.control}
               name="email"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Email Address</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="manav@example.com"
-                        type="email"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email Address</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="manav@example.com"
+                      type="email"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="feedbackType"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Feedback Type</FormLabel>
+                  <FormControl>
+                    <select
+                      {...field}
+                      className="form-select mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="Complaint">Complaint</option>
+                      <option value="Suggestion">Suggestion</option>
+                      <option value="Question">Question</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
 
             <FormField
               control={form.control}
               name="feedback"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Your Feedback</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Tell us what you loved about our product"
-                        className="resize-none"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Your Feedback</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Tell us what you loved about our product"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
+
             <Button type="submit" className="w-full">
               <b>SUBMIT</b>
             </Button>
