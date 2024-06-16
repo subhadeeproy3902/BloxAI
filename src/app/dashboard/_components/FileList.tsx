@@ -13,7 +13,7 @@ import {
 import moment from "moment";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useMutation } from "convex/react";
+import { useConvex, useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
@@ -30,10 +30,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import RenameFileModal from "@/components/shared/RenameFileModal";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export interface FILE {
   archive: boolean;
-  createdBt: string;
+  createdBy: string;
   document: string;
   fileName: string;
   teamId: string;
@@ -117,6 +118,7 @@ const FileRow = ({
   router,
   index,
   isSubmitted,
+  authorData,
 }: {
   file: FILE;
   picture: string;
@@ -127,6 +129,7 @@ const FileRow = ({
   router: ReturnType<typeof useRouter>;
   index: number;
   isSubmitted: boolean;
+  authorData: any[];
 }) => (
   <tr key={file._id} className="odd:bg-muted/50 cursor-pointer">
     <td
@@ -151,13 +154,18 @@ const FileRow = ({
       className="whitespace-nowrap px-4 py-2 text-muted-foreground"
       onClick={() => router.push("/workspace/" + file._id)}
     >
-      <Image
-        src={picture}
-        alt="user"
-        width={30}
-        height={30}
-        className="rounded-full"
-      />
+      {authorData.map((author,index) =>
+        author.email === file.createdBy ? (
+          <Avatar key={index} className="w-[40px] h-[40px]">
+            <AvatarImage src={""} />
+            <AvatarFallback className=" text-xs">
+              {author.name.charAt(0)}
+            </AvatarFallback>
+          </Avatar>
+        ) : (
+          ""
+        )
+      )}
     </td>
     <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
       <RenameFileModal id={file._id} />
@@ -203,14 +211,35 @@ function FileList({
   picture: string;
 }) {
   const router = useRouter();
+  const convex = useConvex();
   const [sortConfig, setSortConfig] = useState<{
     key: keyof FILE;
     direction: string;
   } | null>(null);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [authorData, setAuthorData] = useState<any[]>([]);
   const safeFileList = Array.isArray(fileList) ? fileList : [];
   const pathname = usePathname();
+
+  useEffect(() => {
+    const getData = async () => {
+      let listOfCreators: string[] = [];
+
+      fileList?.forEach(async (file) => {
+        if (!listOfCreators.includes(file.createdBy)) {
+          listOfCreators.push(file.createdBy);
+          const result = await convex.query(api.user.getUser, {
+            email: file.createdBy,
+          });
+          setAuthorData([...authorData, result[0]]);
+        }
+      });
+    };
+    if (fileList) {
+      getData();
+    }
+  }, [fileList]);
 
   const sortedFiles = [...safeFileList];
   if (sortConfig !== null) {
@@ -326,6 +355,7 @@ function FileList({
                     onDelete={deleteFunc}
                     router={router}
                     index={index}
+                    authorData={authorData}
                   />
                 )
               )}
