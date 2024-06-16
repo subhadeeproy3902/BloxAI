@@ -10,11 +10,13 @@ import { SettingsForm } from "./_components/SettingsForm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PencilIcon } from "lucide-react";
+import { toast } from "sonner";
 
 export default function Page() {
   const { user } = useKindeBrowserClient();
   const convex = useConvex();
   const [savedData, setSavedData] = useState<any>(null);
+  const [image, setImage] = useState<string>("");
 
   useEffect(() => {
     const getData = async () => {
@@ -22,13 +24,12 @@ export default function Page() {
         email: user?.email!,
       });
       setSavedData(result[0]);
+      setImage(result[0].image);
     };
     if (user) {
       getData();
     }
   }, [user]);
-
-  console.log(savedData);
 
   return (
     <div className="flex flex-col">
@@ -46,8 +47,8 @@ export default function Page() {
               <PencilIcon className="w-4 h-4" />
             </Button>
             <Avatar className="w-[180px] relative h-[180px]">
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>
+              <AvatarImage src={image} />
+              <AvatarFallback className=" text-2xl">
                 {user?.given_name?.charAt(0)}
                 {user?.family_name?.charAt(0)}
               </AvatarFallback>
@@ -58,12 +59,18 @@ export default function Page() {
             </div>
             <div className="flex gap-3">
               <Button variant={"secondary"}>Change Picture</Button>
-              <Button className="bg-red-500 hover:bg-red-600">
+              <Button
+                onClick={() => {
+                  setImage("");
+                  toast("Image Deleted!!");
+                }}
+                className="bg-red-500 hover:bg-red-600"
+              >
                 Delete Picture
               </Button>
             </div>
             <Separator />
-            <SettingsForm />
+            <SettingsForm image={image} savedData={savedData} />
           </Card>
         </div>
       )}
