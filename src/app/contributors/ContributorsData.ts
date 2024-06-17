@@ -145,4 +145,9 @@ export const ContributorsData = [
     github: "https://github.com/AkhilaSunesh",
     imageUrl: "https://avatars.githubusercontent.com/u/140897461?s=400&v=4",
   },
+  {
+    name: "Chaanakyaa Milkuri",
+    github: "https://github.com/chaanakyaam",
+    imageUrl: "https://avatars.githubusercontent.com/u/131477601?s=400&v=4",
+  },
 ];
