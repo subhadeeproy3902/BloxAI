@@ -140,4 +140,9 @@ export const ContributorsData = [
     github: "https://github.com/RamakrushnaBiswal",
     imageUrl: "https://avatars.githubusercontent.com/u/125277258?v=4",
   },
+  {
+    name: "Akhila Sunesh",
+    github: "https://github.com/AkhilaSunesh",
+    imageUrl: "https://avatars.githubusercontent.com/u/140897461?s=400&v=4",
+  },
 ];

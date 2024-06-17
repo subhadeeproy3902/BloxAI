@@ -3,7 +3,7 @@ import * as React from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import emailjs from "emailjs-com";
+import emailjs from '@emailjs/browser';
 import {
   Form,
   FormControl,
@@ -52,41 +52,41 @@ const formSchema = z.object({
   name: z.string().nonempty("Name is required"),
   email: z.string().email("Invalid email address"),
   feedback: z.string().nonempty("Feedback is required"),
+  feedbackType: z.string().nonempty("Feedback type is required"),
+  otherFeedback: z.string().optional(),
 });
 
-export function TextareaForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
-}
-
 export default function Review() {
-  const [acknowledgment, setAcknowledgment] = React.useState("");
+  const [showOtherFeedback, setShowOtherFeedback] = React.useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       email: "",
       feedback: "",
+      feedbackType: "",
+      otherFeedback: "",
     },
   });
 
-  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+  const handleFeedbackTypeChange = (value: string) => {
+    setShowOtherFeedback(value === "Other");
+  };
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        {
-          from_name: values.name,
-          to_name: "Blox AI", // Replace with the recipient's name or a variable
-          message: values.feedback,
-        },
+        values,
         process.env.NEXT_PUBLIC_EMAILJS_API_KEY!
       );
-      setAcknowledgment("Thank you! Your review has been received.");
+      alert("Thank you! Your review has been received.");
       form.reset();
     } catch (error) {
       console.error("Failed to send feedback:", error);
+      alert("Failed to send feedback. Please try again later.");
     }
   };
 
@@ -107,18 +107,9 @@ export default function Review() {
         </p>
       </div>
       <div className="w-full max-w-lg mb-2 p-4 md:p-10">
-        {acknowledgment && (
-          <div className="mt-4 p-4 text-green-600 border border-green-600 rounded">
-            {acknowledgment}
-          </div>
-        )}
         <Form {...form}>
           <form
-            onSubmit={
-              form.handleSubmit((values) => {
-                handleSubmit(values);
-              })
-            }
+            onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-8"
           >
             <FormField
@@ -156,6 +147,53 @@ export default function Review() {
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="feedbackType"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Feedback Type</FormLabel>
+                  <FormControl>
+                    <select
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        handleFeedbackTypeChange(e.target.value);
+                      }}
+                      className="form-select mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="">Select Feedback Type</option>
+                      <option value="Complaint">Complaint</option>
+                      <option value="Suggestion">Suggestion</option>
+                      <option value="Question">Question</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {showOtherFeedback && (
+              <FormField
+                control={form.control}
+                name="otherFeedback"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Other Feedback</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Please specify"
+                        type="text"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
 
             <FormField
               control={form.control}
