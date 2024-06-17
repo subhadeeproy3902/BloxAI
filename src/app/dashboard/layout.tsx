@@ -77,7 +77,7 @@ function DashboardLayout({
             <LoginLink className="text-blue-600 underline hover:text-blue-800 transition duration-300">
               Login
             </LoginLink>
-          </Button>.
+          </Button>
         </p>
         <p className="text-sm text-gray-500 dark:text-gray-300">
           Don't have an account? <a href="/signup" className="text-orange-600 underline hover:text-blue-800 transition duration-300"><RegisterLink>Sign up</RegisterLink></a>
