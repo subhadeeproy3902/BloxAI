@@ -8,7 +8,7 @@ import Footer from "@/components/shared/Footer";
 import ScrollToTopButton from "@/components/shared/ScrollUp";
 import Lenis from '@studio-freight/lenis';
 import { useEffect } from "react";
-import FAQ from "@FAQs/faq";
+import Faq from "@/components/shared/Faq";
 export default function Home() {
   useEffect(() => {
     const lenis = new Lenis();
@@ -28,7 +28,7 @@ export default function Home() {
         <FollowingPointerDemo />
       </div>
       <div>
-      <FAQ />
+      <Faq />
     </div>
       <Footer />
       <ScrollToTopButton />
