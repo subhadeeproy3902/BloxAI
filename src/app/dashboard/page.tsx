@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 import InviteModal from "@/components/shared/InviteModal";
 import JoinTeamModal from "@/components/shared/JoinTeamModal";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export interface FILE {
   archive: boolean;
@@ -34,14 +35,20 @@ function Dashboard() {
   const count = useSelector((state: RootState) => state.counter.value);
   const activeTeamId = useSelector((state: RootState) => state.team.teamId);
   const dispatch = useDispatch();
+  const [userData, setUserdata] = useState<any>();
+
   const checkUser = async () => {
     const result = await convex.query(api.user.getUser, { email: user?.email });
     if (!result?.length) {
       createUser({
         name: user.given_name,
         email: user.email,
-        image: user.picture,
+        image: user.picture || "https://picsum.photos/50",
       });
+      const res = await convex.query(api.user.getUser, { email: user?.email });
+      setUserdata(res[0]);
+    } else {
+      setUserdata(result[0]);
     }
   };
 
@@ -63,6 +70,12 @@ function Dashboard() {
     );
     setFileList(filteredFileList);
   };
+
+  useEffect(() => {
+    if (user) {
+      checkUser();
+    }
+  }, [user]);
 
   return (
     <div className="md:p-8 p-3">
@@ -101,13 +114,13 @@ function Dashboard() {
           <div className="flex items-center justify-center gap-2">
             <ThemeTogglebutton />
             <Link href={`/dashboard/profile`}>
-              <Image
-                src={user?.picture || "https://picsum.photos/50"}
-                alt="user"
-                width={30}
-                height={30}
-                className="rounded-full"
-              />
+              <Avatar className="w-[40px] h-[40px]">
+                <AvatarImage src={userData?.image} />
+                <AvatarFallback className=" text-xs">
+                  {user?.given_name?.charAt(0)}
+                  {user?.family_name?.charAt(0)}
+                </AvatarFallback>
+              </Avatar>
             </Link>
           </div>
           <div className="flex items-center justify-center gap-2">
@@ -148,13 +161,13 @@ function Dashboard() {
         <div className="flex gap-2 items-center mx-2">
           <ThemeTogglebutton />
           <Link href={`/dashboard/profile`}>
-            <Image
-              src={user?.picture || "https://picsum.photos/50"}
-              alt="user"
-              width={30}
-              height={30}
-              className="rounded-full"
-            />
+            <Avatar className="w-[40px] h-[40px]">
+              <AvatarImage src={userData?.image} />
+              <AvatarFallback className=" text-xs">
+                {user?.given_name?.charAt(0)}
+                {user?.family_name?.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
           </Link>
           <InviteModal />
           <JoinTeamModal user={user} />

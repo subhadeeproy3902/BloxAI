@@ -2,7 +2,6 @@
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import UserImage from "./_components/UserImage";
 import FileList, { Team } from "./_components/FileList";
 import React, { useEffect, useState } from "react";
 import { useConvex } from "convex/react";
@@ -11,6 +10,7 @@ import TeamList from "./_components/TeamList";
 import { toggleClose } from "@/app/Redux/Menu/menuSlice";
 import { useDispatch } from "react-redux";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Page() {
   const { user }: any = useKindeBrowserClient();
@@ -21,6 +21,7 @@ export default function Page() {
   const [focusedTeam, setfocusedTeam] = useState<string | null>(null);
   const [teamList, setTeamList] = useState<Team[]>([]);
   const [teamListWithCount, setTeamListCount] = useState<Team[]>([]);
+  const [userData, setUserdata] = useState<any>();
 
   useEffect(() => {
     const getTeamData = async () => {
@@ -46,6 +47,18 @@ export default function Page() {
   }, [user]);
 
   useEffect(() => {
+    const getData = async () => {
+      const result = await convex.query(api.user.getUser, {
+        email: user?.email!,
+      });
+      setUserdata(result[0]);
+    };
+    if (user) {
+      getData();
+    }
+  }, [user]);
+
+  useEffect(() => {
     if (teamList.length > 0 && fileList?.length > 0 && !focusedTeam) {
       const fileCounts = fileList.reduce(
         (acc: Record<string, number>, file: any) => {
@@ -66,7 +79,7 @@ export default function Page() {
 
   const allFilesHandler = async () => {
     setfocusedTeam(null);
-    setFileList(null)
+    setFileList(null);
     const result = await convex.query(api.files.getAllFiles, {});
     const getFilesUser = result.filter(
       (file: { createdBy: string }) => file.createdBy === user.email
@@ -98,7 +111,17 @@ export default function Page() {
           <ArrowLeft />
         </Link>
       </nav>
-      <UserImage image={user?.picture} />
+
+      <div className="flex items-center justify-center w-full">
+        <Avatar className="w-[180px] h-[180px]">
+          <AvatarImage src={userData?.image} />
+          <AvatarFallback className=" text-2xl">
+            {user?.given_name?.charAt(0)}
+            {user?.family_name?.charAt(0)}
+          </AvatarFallback>
+        </Avatar>
+      </div>
+
       <div className="flex flex-col gap-2 w-full justify-center text-center">
         <h1 className=" text-md font-semibold md:text-xl">
           {user?.given_name} {user?.family_name}
