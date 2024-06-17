@@ -49,34 +49,47 @@ const testimonials2 = [
 ];
 
 const formSchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  feedback: z.string(),
+  name: z.string().nonempty("Name is required"),
+  email: z.string().email("Invalid email address"),
+  feedback: z.string().nonempty("Feedback is required"),
+  feedbackType: z.string().nonempty("Feedback type is required"),
+  otherFeedback: z.string().optional(),
 });
 
-export function TextareaForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
-}
-
-function onSubmit(values: z.infer<typeof formSchema>) {
-  // Do something with the form values.
-  emailjs.send(process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!, values,{
-    publicKey:process.env.NEXT_PUBLIC_EMAILJS_API_KEY,
-  })
-}
-
 export default function Review() {
+  const [showOtherFeedback, setShowOtherFeedback] = React.useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       email: "",
       feedback: "",
+      feedbackType: "",
+      otherFeedback: "",
     },
   });
-  const handleSubmit = () => {};
+
+  const handleFeedbackTypeChange = (value: string) => {
+    setShowOtherFeedback(value === "Other");
+  };
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        values,
+        process.env.NEXT_PUBLIC_EMAILJS_API_KEY!
+      );
+      alert("Thank you! Your review has been received.");
+      form.reset();
+    } catch (error) {
+      console.error("Failed to send feedback:", error);
+      alert("Failed to send feedback. Please try again later.");
+    }
+  };
+
   return (
     <main className="flex flex-col items-center p-4 md:p-10 w-full">
       <div className="w-full flex flex-col items-center">
@@ -93,7 +106,7 @@ export default function Review() {
           Leave a Review 👇
         </p>
       </div>
-      <div className="w-full max-w-lg p-4 md:p-10">
+      <div className="w-full max-w-lg mb-2 p-4 md:p-10">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -102,62 +115,104 @@ export default function Review() {
             <FormField
               control={form.control}
               name="name"
-              render={({ field }) => {
-                return (
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Full Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Manav Malhotra"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email Address</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="manav@example.com"
+                      type="email"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="feedbackType"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Feedback Type</FormLabel>
+                  <FormControl>
+                    <select
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        handleFeedbackTypeChange(e.target.value);
+                      }}
+                      className="form-select mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="">Select Feedback Type</option>
+                      <option value="Complaint">Complaint</option>
+                      <option value="Suggestion">Suggestion</option>
+                      <option value="Question">Question</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {showOtherFeedback && (
+              <FormField
+                control={form.control}
+                name="otherFeedback"
+                render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel>Other Feedback</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Manav Malhotra"
+                        placeholder="Please specify"
                         type="text"
                         {...field}
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
-                );
-              }}
-            />
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Email Address</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="manav@example.com"
-                        type="email"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
-            />
+                )}
+              />
+            )}
 
             <FormField
               control={form.control}
               name="feedback"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Your Feedback</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Tell us what you loved about our product"
-                        className="resize-none"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Your Feedback</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Tell us what you loved about our product"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
+
             <Button type="submit" className="w-full">
               <b>SUBMIT</b>
             </Button>
