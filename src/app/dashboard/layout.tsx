@@ -61,30 +61,33 @@ function DashboardLayout({
   if (!isAuthenticated && !loading)
     return (
       <div className="relative flex justify-center items-center w-full h-screen bg-gray-100 dark:bg-gray-900 overflow-hidden">
-      <div className="absolute inset-0">
-        <Image 
-          src="/login.png" 
-          alt="Background"
-          layout="fill"
-          objectFit="contain" // Use 'cover' for full coverage
-          className="z-0"
-        />
+        <div className="absolute inset-0">
+          <Image
+            src="/login.png"
+            alt="Background"
+            layout="fill"
+            objectFit="contain" // Use 'cover' for full coverage
+            className="z-0"
+          />
+        </div>
+        <div className="relative bg-white dark:bg-gray-800 p-8 rounded-lg shadow-2xl max-w-md w-full text-center z-10">
+          <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Welcome!</h1>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            To access this page, please{" "}
+            <Button asChild>
+              <LoginLink className="text-blue-600 underline hover:text-blue-800 transition duration-300">
+                Login
+              </LoginLink>
+            </Button>
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-300">
+            Don&apos;t have an account?
+            <span className="text-orange-600 underline hover:text-blue-800 transition duration-300">
+              <RegisterLink>Sign up</RegisterLink>
+            </span>
+          </p>
+        </div>
       </div>
-      <div className="relative bg-white dark:bg-gray-800 p-8 rounded-lg shadow-2xl max-w-md w-full text-center z-10">
-        <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Welcome!</h1>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
-          To access this page, please{" "}
-          <Button asChild>
-            <LoginLink className="text-blue-600 underline hover:text-blue-800 transition duration-300">
-              Login
-            </LoginLink>
-          </Button>
-        </p>
-        <p className="text-sm text-gray-500 dark:text-gray-300">
-          Don&apos;t have an account? <a href="/signup" className="text-orange-600 underline hover:text-blue-800 transition duration-300"><RegisterLink>Sign up</RegisterLink></a>
-        </p>
-      </div>
-    </div>
     );
 
   return !loading ? (
