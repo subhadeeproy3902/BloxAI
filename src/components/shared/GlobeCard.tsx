@@ -396,7 +396,7 @@ export function GlobeDemo() {
   ];
 
   return (
-    <div className="flex mx-4 shadow-inner flex-col rounded-3xl items-center justify-center py-20  md:h-screen border relative bg-stone-900 max-w-screen-xl sm:mx-auto">
+    <div className="flex mx-4 shadow-inner flex-col rounded-3xl items-center justify-center py-20  md:h-screen border relative bg-stone-200 dark:bg-stone-900 max-w-screen-xl sm:mx-auto">
       <div className="max-w-7xl mx-auto w-full relative overflow-hidden h-80 md:h-[40rem] px-4">
         <motion.div
           initial={{
@@ -412,7 +412,7 @@ export function GlobeDemo() {
           }}
           className="div"
         >
-          <h2 className="text-center text-2xl md:text-6xl font-bold bg-gradient-to-r bg-clip-text text-transparent from-muted via-primary-foreground to-muted">
+          <h2 className="text-center text-2xl md:text-6xl font-bold bg-gradient-to-r bg-clip-text text-transparent from-gray-400 via-stone-700 to-gray-400 dark:from-muted dark:via-primary-foreground dark:to-muted">
             Totally Open source
           </h2>
           <p className=" text-center text-base md:text-lg font-normal text-muted-foreground max-w-md mt-2 mx-auto">
@@ -420,7 +420,7 @@ export function GlobeDemo() {
             Partnering with GSSoC&apos;24 !
           </p>
         </motion.div>
-        <div className="absolute w-full bottom-0 inset-x-0 h-40 bg-gradient-to-b pointer-events-none select-none from-transparent to-stone-900 z-40" />
+        <div className="absolute w-full bottom-0 inset-x-0 h-40 bg-gradient-to-b pointer-events-none select-none from-transparent to-stone-200 dark:to-stone-900 z-40" />
         <div className="w-full -bottom-20 h-72 md:h-full z-10">
           <World data={sampleArcs} globeConfig={globeConfig} />;
         </div>

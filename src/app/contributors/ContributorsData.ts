@@ -143,11 +143,16 @@ export const ContributorsData = [
   {
     name: "Akhila Sunesh",
     github: "https://github.com/AkhilaSunesh",
-    imageUrl: "https://avatars.githubusercontent.com/u/140897461?s=400&v=4",
+    imageUrl: "https://avatars.githubusercontent.com/u/140897461?v=4",
   },
   {
     name: "Chaanakyaa Milkuri",
     github: "https://github.com/chaanakyaam",
-    imageUrl: "https://avatars.githubusercontent.com/u/131477601?s=400&v=4",
+    imageUrl: "https://avatars.githubusercontent.com/u/131477601?v=4",
+  },
+  {
+    name: "Adarsh Singh Tomar",
+    github: "https://github.com/AdarshGT33",
+    imageUrl: "https://avatars.githubusercontent.com/u/144033708?v=4",
   },
 ];
