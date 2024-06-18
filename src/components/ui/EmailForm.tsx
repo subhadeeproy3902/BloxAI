@@ -4,7 +4,7 @@ import { useState, ChangeEvent, FormEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { toast } from "sonner";
+import { toast} from "sonner";
 
 interface EmailFormProps {
   url: string;
@@ -37,7 +37,7 @@ export default function EmailForm({ url }: EmailFormProps) {
   };
 
   const isValidEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    return /^([A-Z0-9a-z._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z]{2,63})+)@(?![-])([a-zA-Z]{2,63})(?:\.[a-zA-Z]{2,63})+$/.test(email); // updated regex to verify approved domains
   };
 
   const handleSendEmails = async () => {
