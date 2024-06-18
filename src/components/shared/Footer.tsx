@@ -31,22 +31,22 @@ const Footer = () => {
               </h2>
               <ul className="text-muted-foreground font-medium">
                 <li className="mb-4">
-                  <a href="/aboutus" className="hover:underline">
+                  <a href="/aboutus" className="hover:text-white hover:bg-opacity-100 animate-blink-fast hover:animate-none hover:transform-scale-110 hover:shadow-red hover:text-shadow-md inline-block">
                     About
                   </a>
                 </li>
                 <li className="mb-4">
-                  <a href="/contributors" className="hover:underline">
+                  <a href="/contributors" className="hover:text-white hover:bg-opacity-100 animate-blink-fast hover:animate-none hover:transform-scale-110 hover:shadow-red hover:text-shadow-md inline-block">
                     Contributors
                   </a>
                 </li>
                 <li className="mb-4">
-                  <a href="/contact" className="hover:underline">
+                  <a href="/contact" className="hover:text-white hover:bg-opacity-100 animate-blink-fast hover:animate-none hover:transform-scale-110 hover:shadow-red hover:text-shadow-md inline-block">
                     Contact
                   </a>
                 </li>
-                <li>
-                  <a href="/review" className="hover:underline">
+                <li className="mb-4">
+                  <a href="/review" className="hover:text-white hover:bg-opacity-100 animate-blink-fast hover:animate-none hover:transform-scale-110 hover:shadow-red hover:text-shadow-md inline-block">
                     Review Us
                   </a>
                 </li>
@@ -60,16 +60,16 @@ const Footer = () => {
                 <li className="mb-4">
                   <a
                     href="https://github.com/subhadeeproy3902/BloxAI"
-                    className="hover:underline "
+                    className="hover:text-white hover:bg-opacity-100 animate-blink-fast hover:animate-none hover:transform-scale-110 hover:shadow-red hover:text-shadow-md inline-block"
                     target="_blank"
                   >
                     Github
                   </a>
                 </li>
-                <li>
+                <li className="mb-4">
                   <a
                     href="https://chat.whatsapp.com/E5oRd1VG1Ov4HoNPq4QcRU"
-                    className="hover:underline"
+                    className="hover:text-white hover:bg-opacity-100 animate-blink-fast hover:animate-none hover:transform-scale-110 hover:shadow-red hover:text-shadow-md inline-block"
                     target="_blank"
                   >
                     WhatsApp
@@ -85,7 +85,7 @@ const Footer = () => {
                 <li className="mb-4">
                   <a
                     href="https://www.linkedin.com/in/subhadeep3902/"
-                    className="hover:underline"
+                    className="hover:text-white hover:bg-opacity-100 animate-blink-fast hover:animate-none hover:transform-scale-110 hover:shadow-red hover:text-shadow-md inline-block"
                   >
                     Subhadeep Roy
                   </a>
@@ -93,7 +93,7 @@ const Footer = () => {
                 <li className="mb-4">
                   <a
                     href="https://www.linkedin.com/in/anishbiswas777/"
-                    className="hover:underline"
+                    className="hover:text-white hover:bg-opacity-100 animate-blink-fast hover:animate-none hover:transform-scale-110 hover:shadow-red hover:text-shadow-md inline-block"
                   >
                     Anish Biswas
                   </a>
@@ -106,25 +106,25 @@ const Footer = () => {
               </h2>
               <ul className="text-muted-foreground font-medium">
                 <li className="mb-4">
-                  <a href="/privacy" className="hover:underline">
+                  <a href="/privacy" className="hover:text-white hover:bg-opacity-100 animate-blink-fast hover:animate-none hover:transform-scale-110 hover:shadow-red hover:text-shadow-md inline-block">
                     Privacy Policy
                   </a>
                 </li>
                 <li className="mb-4">
                   <a
                     href="https://github.com/subhadeeproy3902/BloxAI/blob/main/LICENSE"
-                    className="hover:underline"
+                    className="hover:text-white hover:bg-opacity-100 animate-blink-fast hover:animate-none hover:transform-scale-110 hover:shadow-red hover:text-shadow-md inline-block"
                   >
                     License
                   </a>
                 </li>
                 <li className="mb-4">
-                  <a href="/terms_conditions" className="hover:underline">
+                  <a href="/terms_conditions" className="hover:text-white hover:bg-opacity-100 animate-blink-fast hover:animate-none hover:transform-scale-110 hover:shadow-red hover:text-shadow-md inline-block">
                     Terms &amp; Conditions
                   </a>
                 </li>
-                <li>
-                  <a href="/codeofconduct" className="hover:underline">
+                <li className="mb-4">
+                  <a href="/codeofconduct" className="hover:text-white hover:bg-opacity-100 animate-blink-fast hover:animate-none hover:transform-scale-110 hover:shadow-red hover:text-shadow-md inline-block">
                     Code Of Conduct
                   </a>
                 </li>
@@ -136,7 +136,7 @@ const Footer = () => {
         <div className="flex justify-between items-center">
           <span className="text-sm text-gray-500 sm:text-center dark:text-neutral-500">
             © 2024{" "}
-            <a href="https://blox-ai.vercel.app/" className="hover:underline">
+            <a href="https://blox-ai.vercel.app/" className="hover:text-white hover:bg-opacity-100 animate-blink-fast hover:animate-none hover:transform-scale-110 hover:shadow-red hover:text-shadow-md inline-block">
               BloxAI
             </a>
             . All Rights Reserved.
