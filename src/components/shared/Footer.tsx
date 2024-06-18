@@ -31,22 +31,22 @@ const Footer = () => {
               </h2>
               <ul className="text-muted-foreground font-medium">
                 <li className="mb-4">
-                  <a href="/aboutus" className="hover:underline">
+                  <a href="/aboutus" className="hover:text-orange-300 hover:underline transition duration-300">
                     About
                   </a>
                 </li>
                 <li className="mb-4">
-                  <a href="/contributors" className="hover:underline">
+                  <a href="/contributors" className="hover:text-orange-300 hover:underline transition duration-300">
                     Contributors
                   </a>
                 </li>
                 <li className="mb-4">
-                  <a href="/contact" className="hover:underline">
+                  <a href="/contact" className="hover:text-orange-300 hover:underline transition duration-300">
                     Contact
                   </a>
                 </li>
                 <li>
-                  <a href="/review" className="hover:underline">
+                  <a href="/review" className="hover:text-orange-300 hover:underline transition duration-300">
                     Review Us
                   </a>
                 </li>
@@ -60,7 +60,7 @@ const Footer = () => {
                 <li className="mb-4">
                   <a
                     href="https://github.com/subhadeeproy3902/BloxAI"
-                    className="hover:underline "
+                    className="hover:text-orange-300 hover:underline transition duration-300"
                     target="_blank"
                   >
                     Github
@@ -69,7 +69,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="https://chat.whatsapp.com/E5oRd1VG1Ov4HoNPq4QcRU"
-                    className="hover:underline"
+                    className="hover:text-orange-300 hover:underline transition duration-300"
                     target="_blank"
                   >
                     WhatsApp
@@ -85,7 +85,7 @@ const Footer = () => {
                 <li className="mb-4">
                   <a
                     href="https://www.linkedin.com/in/subhadeep3902/"
-                    className="hover:underline"
+                    className="hover:text-orange-300 hover:underline transition duration-300"
                   >
                     Subhadeep Roy
                   </a>
@@ -93,7 +93,7 @@ const Footer = () => {
                 <li className="mb-4">
                   <a
                     href="https://www.linkedin.com/in/anishbiswas777/"
-                    className="hover:underline"
+                    className="hover:text-orange-300 hover:underline transition duration-300"
                   >
                     Anish Biswas
                   </a>
@@ -106,25 +106,25 @@ const Footer = () => {
               </h2>
               <ul className="text-muted-foreground font-medium">
                 <li className="mb-4">
-                  <a href="/privacy" className="hover:underline">
+                  <a href="/privacy" className="hover:text-orange-300 hover:underline transition duration-300">
                     Privacy Policy
                   </a>
                 </li>
                 <li className="mb-4">
                   <a
                     href="https://github.com/subhadeeproy3902/BloxAI/blob/main/LICENSE"
-                    className="hover:underline"
+                    className="hover:text-orange-300 hover:underline transition duration-300"
                   >
                     License
                   </a>
                 </li>
                 <li className="mb-4">
-                  <a href="/terms_conditions" className="hover:underline">
+                  <a href="/terms_conditions" className="hover:text-orange-300 hover:underline transition duration-300">
                     Terms &amp; Conditions
                   </a>
                 </li>
                 <li>
-                  <a href="/codeofconduct" className="hover:underline">
+                  <a href="/codeofconduct" className="hover:text-orange-300 hover:underline transition duration-300">
                     Code Of Conduct
                   </a>
                 </li>
@@ -136,7 +136,7 @@ const Footer = () => {
         <div className="flex justify-between items-center">
           <span className="text-sm text-gray-500 sm:text-center dark:text-neutral-500">
             © 2024{" "}
-            <a href="https://blox-ai.vercel.app/" className="hover:underline">
+            <a href="https://blox-ai.vercel.app/" className="hover:text-orange-300 hover:underline transition duration-300">
               BloxAI
             </a>
             . All Rights Reserved.
@@ -144,7 +144,7 @@ const Footer = () => {
           <div className="flex mt-4 sm:justify-center items-center sm:mt-0">
             <a
               href="https://chat.whatsapp.com/E5oRd1VG1Ov4HoNPq4QcRU"
-              className="text-neutral-500 hover:text-gray-900 dark:hover:text-white ms-5"
+              className="text-neutral-500 hover:text-orange-300 dark:hover:text-orange ms-5"
             >
               <svg
                 fill="currentColor"
@@ -171,7 +171,7 @@ const Footer = () => {
 
             <a
               href="https://github.com/subhadeeproy3902/BloxAI"
-              className="text-neutral-500 hover:text-gray-900 dark:hover:text-white ms-5"
+              className="text-neutral-500 hover:text-orange-300 dark:hover:text-orange ms-5"
             >
               <svg
                 className="w-4 h-4"
