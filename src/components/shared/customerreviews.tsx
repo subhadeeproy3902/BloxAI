@@ -91,22 +91,22 @@ export default function Review() {
   };
 
   return (
-    <main className="flex flex-col items-center p-4 md:p-10 w-full">
+    <main className="flex flex-col items-center p-4 md:p-10 w-full bg-gray-100">
       <div className="w-full flex flex-col items-center">
-        <p className="text-2xl md:text-4xl font-semibold py-5">
+        <p className="text-2xl md:text-4xl font-semibold py-5 text-gray-800">
           Read what our customers love about us.
         </p>
         <ReviewCarousel items={testimonials2} direction="left" speed="slow" />
       </div>
       <div className="flex w-full text-2xl flex-col items-center p-10 md:text-sm">
-        <p className="text-xl md:text-2xl py-5 opacity-75">
+        <p className="text-xl md:text-2xl py-5 opacity-75 text-gray-600">
           Loved our product?
         </p>
         <p className="text-3xl md:text-5xl font-bold py-2 bg-gradient-to-r bg-clip-text text-transparent from-muted-foreground via-primary-foreground to-muted-foreground">
           Leave a Review 👇
         </p>
       </div>
-      <div className="w-full max-w-lg mb-2 p-4 md:p-10">
+      <div className="w-full max-w-lg mb-2 p-4 md:p-10 bg-white shadow-lg rounded-lg">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -117,15 +117,16 @@ export default function Review() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full Name</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">Full Name</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Manav Malhotra"
                       type="text"
                       {...field}
+                      className="border border-gray-300 focus:ring-primary-500 focus:border-primary-500 rounded-md px-4 py-2"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-500 mt-1" />
                 </FormItem>
               )}
             />
@@ -135,15 +136,16 @@ export default function Review() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email Address</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">Email Address</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="manav@example.com"
                       type="email"
                       {...field}
+                      className="border border-gray-300 focus:ring-primary-500 focus:border-primary-500 rounded-md px-4 py-2"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-500 mt-1" />
                 </FormItem>
               )}
             />
@@ -153,7 +155,7 @@ export default function Review() {
               name="feedbackType"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Feedback Type</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">Feedback Type</FormLabel>
                   <FormControl>
                     <select
                       {...field}
@@ -161,7 +163,7 @@ export default function Review() {
                         field.onChange(e);
                         handleFeedbackTypeChange(e.target.value);
                       }}
-                      className="form-select mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                      className="form-select mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                     >
                       <option value="">Select Feedback Type</option>
                       <option value="Complaint">Complaint</option>
@@ -170,7 +172,7 @@ export default function Review() {
                       <option value="Other">Other</option>
                     </select>
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-500 mt-1" />
                 </FormItem>
               )}
             />
@@ -181,15 +183,16 @@ export default function Review() {
                 name="otherFeedback"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Other Feedback</FormLabel>
+                    <FormLabel className="text-gray-700 font-medium">Other Feedback</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Please specify"
                         type="text"
                         {...field}
+                        className="border border-gray-300 focus:ring-primary-500 focus:border-primary-500 rounded-md px-4 py-2"
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-500 mt-1" />
                   </FormItem>
                 )}
               />
@@ -200,20 +203,20 @@ export default function Review() {
               name="feedback"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Your Feedback</FormLabel>
+                  <FormLabel className="text-gray-700 font-medium">Your Feedback</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Tell us what you loved about our product"
-                      className="resize-none"
+                      className="resize-none border border-gray-300 focus:ring-primary-500 focus:border-primary-500 rounded-md px-4 py-2"
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-500 mt-1" />
                 </FormItem>
               )}
             />
 
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full bg-primary-600 text-white py-2 rounded-md hover:bg-primary-700 transition duration-300">
               <b>SUBMIT</b>
             </Button>
           </form>
