@@ -3,7 +3,7 @@ import * as React from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import emailjs from "@emailjs/browser";
+import emailjs from '@emailjs/browser';
 import {
   Form,
   FormControl,
@@ -181,6 +181,64 @@ export default function Review() {
                   <FormControl>
                     <Textarea
                       placeholder="Please leave your feedback here"
+
+            <FormField
+              control={form.control}
+              name="feedbackType"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Feedback Type</FormLabel>
+                  <FormControl>
+                    <select
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        handleFeedbackTypeChange(e.target.value);
+                      }}
+                      className="form-select mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="">Select Feedback Type</option>
+                      <option value="Complaint">Complaint</option>
+                      <option value="Suggestion">Suggestion</option>
+                      <option value="Question">Question</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {showOtherFeedback && (
+              <FormField
+                control={form.control}
+                name="otherFeedback"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Other Feedback</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Please specify"
+                        type="text"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+
+            <FormField
+              control={form.control}
+              name="feedback"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Your Feedback</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Tell us what you loved about our product"
+                      className="resize-none"
                       {...field}
                     />
                   </FormControl>
@@ -190,6 +248,9 @@ export default function Review() {
             />
 
             <Button type="submit">Submit</Button>
+            <Button type="submit" className="w-full">
+              <b>SUBMIT</b>
+            </Button>
           </form>
         </Form>
       </div>

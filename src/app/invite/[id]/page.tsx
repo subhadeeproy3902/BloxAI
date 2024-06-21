@@ -55,21 +55,16 @@ export default function Page({ params }: any) {
         setIsValidLink(false);
       }
     };
-    if (user && isAuthenticated) {
-      getTeamData();
-    }
-    if(!user && !isAuthenticated){
-      const timer = setTimeout(()=>{
-        setIsDialogOpen(true);
-        setErrorMsg("Unauthorized Access!!");
-        setIsError(true);
-      },3000)
-      return () => clearTimeout(timer);
-    }
-  }, [user]);
-
+    getTeamData();
+  }, []);
 
   const AddUserToMember = async () => {
+    if (!user || !isAuthenticated) {
+      setErrorMsg("Unauthorized Access!");
+      setIsError(true);
+      return;
+    }
+
     if (
       teamData.teamMembers?.includes(user.email) ||
       teamData.createdBy == user.email
@@ -106,7 +101,7 @@ export default function Page({ params }: any) {
           <Button>Open</Button>
         </AlertDialogTrigger>
         <AlertDialogContent className="overflow-hidden">
-          {isDialogOpen && !isError && (
+          {isDialogOpen && teamData && !isError && (
             <>
               <AlertDialogHeader>
                 <AlertDialogTitle>
@@ -194,38 +189,17 @@ export default function Page({ params }: any) {
               </AlertDialogFooter>
             </>
           )}
-          {!user && !isAuthenticated && (
-            <>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  Unauthorized Access or Invalid link!!
-                </AlertDialogTitle>
-                <AlertDialogDescription className="w-full">
-                  <p>Register or Login to your account.</p>
-                  <p>Link may be Invalid!</p>
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <Link
-                  className="bg-primary p-2 rounded-lg px-3 text-secondary"
-                  href={"/"}
-                >
-                  Home
-                </Link>
-              </AlertDialogFooter>
-            </>
-          )}
-          {user && isAuthenticated && isError && (
+          {isError && isDialogOpen && (
             <>
               <AlertDialogHeader>
                 <AlertDialogTitle>{errorMsg}</AlertDialogTitle>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <Link
-                  className="bg-primary p-2 rounded-lg px-3 text-secondary"
-                  href={"/dashboard"}
+                  className="bg-primary text-white p-2 rounded-lg px-3 text-secondary"
+                  href={"/"}
                 >
-                  Dashboard
+                  Home
                 </Link>
               </AlertDialogFooter>
             </>

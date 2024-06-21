@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Archive, CheckCircle2, File, Github, Trash2 } from "lucide-react";
+import { Archive, CheckCircle2, File, Github, Settings, Trash2 } from "lucide-react";
 import React, { useState, useContext, useEffect } from "react";
 import {
   Dialog,
@@ -17,7 +17,7 @@ import PricingDialog from "./PricingDialog";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { ErrorMessage } from "@/components/ui/error";
 import Link from "next/link";
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
 import { Id } from "../../../../convex/_generated/dataModel";
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
@@ -45,6 +45,12 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
   const menuList = [
     {
       id: 1,
+      name: "Gettng Started",
+      icon: Github,
+      path: `/gettingstarted`,
+    },
+    {
+      id: 2,
       name: "Github",
       icon: Github,
       path: `https://github.com/subhadeeproy3902/BloxAI`,
@@ -55,25 +61,30 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
       icon: Archive,
       path: `/dashboard/archive`,
     },
+    {
+      id: 3,
+      name: "Settings",
+      icon: Settings,
+      path: `/dashboard/settings`,
+    },
   ];
 
   const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>([]);
   const [fileInput, setFileInput] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [isSubmitted,setIsSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const deleteTeam = useMutation(api.teams.deleteTeam);
   const deleteFunc = async (e: any, id: String) => {
     e.stopPropagation();
-    if(activeTeam.teamName === "My Org") {
+    if (activeTeam.teamName === "My Org") {
       toast.error("My Org can not be deleted");
       return;
     }
     await deleteTeam({ _id: id as Id<"teams"> });
-    setIsSubmitted(true)
+    setIsSubmitted(true);
   };
-  
 
   const handleFileInput = (val: string) => {
     setFileInput(val);

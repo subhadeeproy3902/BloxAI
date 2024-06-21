@@ -121,8 +121,43 @@ export const ContributorsData = [
     imageUrl: "https://avatars.githubusercontent.com/u/109781385?v=4"
   },
   {
+    name: "Mukilan .T",
+    github: "https://github.com/mukilan2815",
+    imageUrl: "https://avatars.githubusercontent.com/u/66477893?v=4",
+  },
+  {
     name: "Vaibhav Gangurde",
     github: "https://github.com/Vaibhavsg17",
-    imageUrl: "https://avatars.githubusercontent.com/u/66477893?v=4",
+    imageUrl: "https://avatars.githubusercontent.com/u/71129858?v=4",
+  },
+  {
+    name: "Ayushmaan Agarwal",
+    github: "https://github.com/Ayushmaanagarwal1211",
+    imageUrl: "https://avatars.githubusercontent.com/u/118350936?v=4",
+  },
+  {
+    name: "Ramakrushna Biswal",
+    github: "https://github.com/RamakrushnaBiswal",
+    imageUrl: "https://avatars.githubusercontent.com/u/125277258?v=4",
+  },
+  {
+    name: "Akhila Sunesh",
+    github: "https://github.com/AkhilaSunesh",
+    imageUrl: "https://avatars.githubusercontent.com/u/140897461?v=4",
+  },
+  {
+    name: "Chaanakyaa Milkuri",
+    github: "https://github.com/chaanakyaam",
+    imageUrl: "https://avatars.githubusercontent.com/u/131477601?v=4",
+  },
+  {
+    name: "Adarsh Singh Tomar",
+    github: "https://github.com/AdarshGT33",
+    imageUrl: "https://avatars.githubusercontent.com/u/144033708?v=4",
+  },
+   {
+    name: "Sivaprasath",
+    github: "https://github.com/sivaprasath2004",
+    imageUrl: "https://avatars.githubusercontent.com/u/121082414?v=4",
   },
 ];

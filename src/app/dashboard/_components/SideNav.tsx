@@ -77,7 +77,7 @@ function SideNav() {
 
   return (
     <div
-      className={`h-screen fixed md:w-72 w-60 borde-r border-[1px] p-6 flex flex-col `}
+      className={`h-screen fixed md:w-72 w-60 borde-r border-[1px] p-6 flex flex-col bg-background`}
     >
       <button
         className="md:hidden absolute top-4 right-4 mb-2"

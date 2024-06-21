@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setTeamInfo } from "@/app/Redux/Team/team-slice";
 import RenameTeamModal from "@/components/shared/RenameTeamModal";
 import { RootState } from "@/app/store";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export interface TEAM {
   createdBy: String;
@@ -25,7 +26,7 @@ export interface TEAM {
 }
 function SideNavTopSection({ user, setActiveTeamInfo }: any) {
   const id = useSelector((state: RootState) => state.team.teamId);
-  console.log(id)
+  console.log(id);
   const menu = [
     {
       id: 1,
@@ -45,8 +46,22 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
   const dispatch = useDispatch();
   const [activeTeam, setActiveTeam] = useState<TEAM>();
   const [teamList, setTeamList] = useState<TEAM[]>();
+  const [userData, setUserdata] = useState<any>();
+
   useEffect(() => {
     user && getTeamList();
+  }, [user]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const result = await convex.query(api.user.getUser, {
+        email: user?.email!,
+      });
+      setUserdata(result[0]);
+    };
+    if (user) {
+      getData();
+    }
   }, [user]);
 
   useEffect(() => {
@@ -64,8 +79,6 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
       setTeamInfo({ teamId: allTeams[0]._id, teamName: allTeams[0].teamName })
     );
   };
-
-  console.log(teamList)
 
   const onMenuClick = (item: any) => {
     if (item.path) {
@@ -133,7 +146,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
                 {item.name}
               </h2>
             ))}
-            {activeTeam?.createdBy === user?.email &&  <RenameTeamModal />}
+            {activeTeam?.createdBy === user?.email && <RenameTeamModal />}
             <LogoutLink>
               <h2
                 className="flex gap-2 items-center
@@ -148,13 +161,13 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
           {/* User Info Section  */}
           {user && (
             <div className="mt-2 flex gap-2 items-center">
-              <Image
-                src={user?.picture || "https://picsum.photos/50"}
-                alt="user"
-                width={30}
-                height={30}
-                className="rounded-full"
-              />
+              <Avatar className="w-[40px] h-[40px]">
+                <AvatarImage src={userData?.image} />
+                <AvatarFallback className=" text-xs">
+                  {user?.given_name?.charAt(0)}
+                  {user?.family_name?.charAt(0)}
+                </AvatarFallback>
+              </Avatar>
               <div>
                 <h2 className="text-[14px] font-bold">
                   {user?.given_name} {user?.family_name}

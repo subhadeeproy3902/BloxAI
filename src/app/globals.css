@@ -181,3 +181,7 @@ body.dark-mode .text-gray-800 {
 .tc-popover__item-icon {
   background-color: black !important;
 }
+
+.gradientBackground{
+  background-image: linear-gradient(to bottom right, red, yellow);
+}

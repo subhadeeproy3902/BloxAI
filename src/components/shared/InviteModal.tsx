@@ -18,6 +18,7 @@ import { Separator } from "../ui/separator";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
+import EmailForm from "../ui/EmailForm";
 
 export default function InviteModal() {
   const teamName = useSelector((state: RootState) => state.team.teamName);
@@ -125,6 +126,9 @@ export default function InviteModal() {
                 />
               </Link>
             </div>
+            <div>
+                <EmailForm url={URL}/>
+              </div>
           </div>
         </DialogDescription>
       </DialogContent>
