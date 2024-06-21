@@ -16,7 +16,7 @@ const VerticalScrollColumn: React.FC<{ items: ReviewItem[]; speed: string }> = (
       <div className={`scroll-column ${speed}`}>
         {items.concat(items).map((item, index) => (
           <div key={index} className="flex flex-col items-start py-4 w-full">
-            <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 max-w-sm mx-auto w-full">
+            <div className="bg-white dark:bg-secondary shadow-lg rounded-lg p-6 max-w-sm mx-auto w-full">
               <div className="flex items-center mb-2">
                 {Array(5)
                   .fill(0)
