@@ -3,7 +3,7 @@ import * as React from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import emailjs from "emailjs-com";
+import emailjs from "@emailjs/browser";
 import {
   Form,
   FormControl,
@@ -18,34 +18,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { ReviewCarousel } from "../ui/reviewcarousel";
 
 const testimonials2 = [
-  {
-    quote:
-      "Blox AI has completely transformed the way we visualize ideas within our organization. The effortless creation tools make it simple for even non-technical team members to create professional-looking visuals and share ideas with ease and efficiency",
-    name: "Stacy Stone",
-    title: "CEO at Company",
-    imgSrc: "https://i.pravatar.cc/120?img=1",
-  },
-  {
-    quote:
-      "Blox AI has become an indispensable tool for our team's workflow. Whether we're brainstorming new ideas, mapping out user journeys, or documenting complex algorithms Blox AI provides us with the versatility and functionality we need.",
-    name: "Andrew Jettpace",
-    title: "CEO at Company",
-    imgSrc: "https://i.pravatar.cc/120?img=2",
-  },
-  {
-    quote:
-      "Blox AI has truly impressed me with its versatility and reliability. Whether I'm working on a simple flowchart or a complex diagram, Blox AI provides the tools I need to bring ideas to life The integration of the Gemini AI model for explanations adds a layer of intelligence to it",
-    name: "Edgar Allan Poe",
-    title: "CEO at Company",
-    imgSrc: "https://i.pravatar.cc/120?img=3",
-  },
-  {
-    quote:
-      "I've been using Blox AI for a while now, and it has become an integral part of my workflow. The ease of creating flowcharts, coupled with the AI explanation feature has greatly enhanced productivity and sharing option allows me to effortlessly collaborate",
-    name: "Cornelius Sheppard",
-    title: "CEO at Company",
-    imgSrc: "https://i.pravatar.cc/120?img=4",
-  },
+  { quote: "This is literally the most important app you will ever download in your life. Get on this before it’s so popular that everyone else is getting these tips too.", name: "SarahLuvzCash" },
+  { quote: "I’m 13 and I’m rich. I love that with Pocket’s transaction anonymization I could sign up and start trading when I was 12 years old. I had a million dollars before I had armpit hair!", name: "RichieRich" },
+  { quote: "Started an investment firm. I charge clients a 3% management fee and just throw all their investments into Pocket. Easy money!", name: "TheCountOfMonteChristo" },
+  { quote: "Too good to be true. I was making money so fast with Pocket that it felt like a scam. But I sold my shares and withdrew the money and it’s really there, right in my bank account. This app is crazy!", name: "LazyRich99" },
+  { quote: "Quit my job. I downloaded Pocket three days ago and quit my job today. I can’t believe no one else thought to build a stock trading app that works this way!", name: "RichieRich" },
+  { quote: "Don’t download this app. Unless you want to have the best life ever! I am literally writing this from a yacht.", name: "JeffBezos" },
+  { quote: "It’s like a superpower. Every tip Pocket has sent me has paid off. It’s like playing Blackjack but knowing exactly what card is coming next!", name: "ClarkKent" },
+  { quote: "Don’t download this app. Unless you want to have the best life ever! I am literally writing this from a yacht.", name: "JeffBezos" },
+  { quote: "It’s like a superpower. Every tip Pocket has sent me has paid off. It’s like playing Blackjack but knowing exactly what card is coming next!", name: "ClarkKent" }
 ];
 
 const formSchema = z.object({
@@ -53,37 +34,40 @@ const formSchema = z.object({
   email: z.string().email("Invalid email address"),
   feedback: z.string().nonempty("Feedback is required"),
   feedbackType: z.string().nonempty("Feedback type is required"),
+  otherFeedback: z.string().optional(),
 });
 
 export default function Review() {
-  const [acknowledgment, setAcknowledgment] = React.useState("");
+  const [showOtherFeedback, setShowOtherFeedback] = React.useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       email: "",
       feedback: "",
-      feedbackType: "Other",
+      feedbackType: "",
+      otherFeedback: "",
     },
   });
 
-  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+  const handleFeedbackTypeChange = (value: string) => {
+    setShowOtherFeedback(value === "Other");
+  };
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        {
-          from_name: values.name,
-          to_name: "Blox AI", // Replace with the recipient's name or a variable
-          message: values.feedback,
-          feedback_type: values.feedbackType,
-        },
+        values,
         process.env.NEXT_PUBLIC_EMAILJS_API_KEY!
       );
-      setAcknowledgment("Thank you! Your review has been received.");
+      alert("Thank you! Your review has been received.");
       form.reset();
     } catch (error) {
       console.error("Failed to send feedback:", error);
+      alert("Failed to send feedback. Please try again later.");
     }
   };
 
@@ -93,7 +77,7 @@ export default function Review() {
         <p className="text-2xl md:text-4xl font-semibold py-5">
           Read what our customers love about us.
         </p>
-        <ReviewCarousel items={testimonials2} direction="left" speed="slow" />
+        <ReviewCarousel items={testimonials2} />
       </div>
       <div className="flex w-full text-2xl flex-col items-center p-10 md:text-sm">
         <p className="text-xl md:text-2xl py-5 opacity-75">
@@ -104,18 +88,9 @@ export default function Review() {
         </p>
       </div>
       <div className="w-full max-w-lg mb-2 p-4 md:p-10">
-        {acknowledgment && (
-          <div className="mt-4 p-4 text-green-600 border border-green-600 rounded">
-            {acknowledgment}
-          </div>
-        )}
         <Form {...form}>
           <form
-            onSubmit={
-              form.handleSubmit((values) => {
-                handleSubmit(values);
-              })
-            }
+            onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-8"
           >
             <FormField
@@ -163,11 +138,16 @@ export default function Review() {
                   <FormControl>
                     <select
                       {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        handleFeedbackTypeChange(e.target.value);
+                      }}
                       className="form-select mt-1 block w-full p-2 border border-gray-300 rounded-md"
                     >
+                      <option value="">Select Feedback Type</option>
                       <option value="Complaint">Complaint</option>
                       <option value="Suggestion">Suggestion</option>
-                      <option value="Question">Question</option>
+                      <option value="Appreciation">Appreciation</option>
                       <option value="Other">Other</option>
                     </select>
                   </FormControl>
@@ -176,16 +156,31 @@ export default function Review() {
               )}
             />
 
+            {showOtherFeedback && (
+              <FormField
+                control={form.control}
+                name="otherFeedback"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Other Feedback</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Your feedback" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+
             <FormField
               control={form.control}
               name="feedback"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Your Feedback</FormLabel>
+                  <FormLabel>Feedback</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Tell us what you loved about our product"
-                      className="resize-none"
+                      placeholder="Please leave your feedback here"
                       {...field}
                     />
                   </FormControl>
@@ -194,9 +189,7 @@ export default function Review() {
               )}
             />
 
-            <Button type="submit" className="w-full">
-              <b>SUBMIT</b>
-            </Button>
+            <Button type="submit">Submit</Button>
           </form>
         </Form>
       </div>
