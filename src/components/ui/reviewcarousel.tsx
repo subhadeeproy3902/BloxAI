@@ -25,7 +25,7 @@ const VerticalScrollColumn: React.FC<{ items: ReviewItem[]; speed: string }> = (
                   ))}
               </div>
               <p className="italic mt-4 text-left text-gray-800 dark:text-gray-200">
-                "{item.quote}"
+              &ldquo;{item.quote}&ldquo;
               </p>
               <p className="font-bold mt-2 text-left text-gray-800 dark:text-gray-200">
                 - {item.name}
