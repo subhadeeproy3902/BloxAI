@@ -72,7 +72,7 @@ export default function Review() {
   };
 
   return (
-    <main className="flex flex-col items-center p-4 md:p-10 w-full">
+    <div className="flex flex-col items-center p-4 md:p-10 w-full">
       <div className="w-full flex flex-col items-center">
         <p className="text-2xl md:text-4xl font-semibold py-5">
           Read what our customers love about us.
@@ -254,6 +254,6 @@ export default function Review() {
           </form>
         </Form>
       </div>
-    </main>
+    </div>
   );
 }
