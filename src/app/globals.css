@@ -1,6 +1,52 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@keyframes scroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.scroll-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll-column.fast {
+  animation: scroll 10s linear infinite;
+}
+
+.scroll-column.slow {
+  animation: scroll 20s linear infinite;
+}
+
+.neon-star {
+  color: #ff8c00; /* neon orange */
+  fill: #ff8c00; /* neon orange */
+  text-shadow:
+    0 0 5px #ff8c00,
+    0 0 10px #ff8c00,
+    0 0 15px #ff8c00,
+    0 0 20px #ff8c00,
+    0 0 25px #ff8c00,
+    0 0 30px #ff8c00;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.dark-mode .bg-white {
+  background-color: #1e1e1e;
+}
+
+body.dark-mode .text-gray-800 {
+  color: #ffffff;
+}
 
 @layer base {
   :root {
