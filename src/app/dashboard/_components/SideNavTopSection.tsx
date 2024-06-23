@@ -12,10 +12,9 @@ import { useConvex } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setTeamInfo } from "@/app/Redux/Team/team-slice";
 import RenameTeamModal from "@/components/shared/RenameTeamModal";
-import { RootState } from "@/app/store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export interface TEAM {
@@ -25,8 +24,6 @@ export interface TEAM {
   teamMembers?: string[];
 }
 function SideNavTopSection({ user, setActiveTeamInfo }: any) {
-  const id = useSelector((state: RootState) => state.team.teamId);
-  console.log(id);
   const menu = [
     {
       id: 1,
@@ -47,6 +44,10 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
   const [activeTeam, setActiveTeam] = useState<TEAM>();
   const [teamList, setTeamList] = useState<TEAM[]>();
   const [userData, setUserdata] = useState<any>();
+  const [teamMembersData, setTeamData] = useState<any[]>([]);
+  const [ActiveTeamMembers, setActiveTeamMembers] = useState<string[]>([]);
+
+  console.log(teamMembersData);
 
   useEffect(() => {
     user && getTeamList();
@@ -65,6 +66,26 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
   }, [user]);
 
   useEffect(() => {
+    const getData = async () => {
+      if (ActiveTeamMembers) {
+        const memberDataPromises = ActiveTeamMembers.map((mem) =>
+          convex.query(api.user.getUser, { email: mem })
+        );
+
+        const results = await Promise.all(memberDataPromises);
+
+        const memberData = results.flatMap((result) => result || []);
+
+        setTeamData(memberData);
+      }
+    };
+
+    if (teamList && activeTeam) {
+      getData();
+    }
+  }, [ActiveTeamMembers]);
+
+  useEffect(() => {
     activeTeam ? setActiveTeamInfo(activeTeam) : null;
   }, [activeTeam]);
   const getTeamList = async () => {
@@ -75,6 +96,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
     );
     setTeamList(allTeams);
     setActiveTeam(allTeams[0]);
+    setActiveTeamMembers(allTeams[0].teamMembers);
     dispatch(
       setTeamInfo({ teamId: allTeams[0]._id, teamName: allTeams[0].teamName })
     );
@@ -116,6 +138,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
                     setTeamInfo({ teamName: team.teamName, teamId: team._id })
                   );
                   setActiveTeam(team);
+                  setActiveTeamMembers(team?.teamMembers!);
                 }}
               >
                 <h2 className=" font-semibold">{team.teamName}</h2>

@@ -28,7 +28,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { toast } from "sonner";
 import RenameFileModal from "@/components/shared/RenameFileModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -155,16 +154,14 @@ const FileRow = ({
       onClick={() => router.push("/workspace/" + file._id)}
     >
       {authorData.map((author,index) =>
-        author.email === file.createdBy ? (
+        (author.email === file.createdBy && (
           <Avatar key={index} className="w-[40px] h-[40px]">
             <AvatarImage src={""} />
             <AvatarFallback className=" text-xs">
               {author.name.charAt(0)}
             </AvatarFallback>
           </Avatar>
-        ) : (
-          ""
-        )
+        ) )
       )}
     </td>
     <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
@@ -225,6 +222,9 @@ function FileList({
   useEffect(() => {
     const getData = async () => {
       let listOfCreators: string[] = [];
+      authorData.forEach((user:any)=>{
+        listOfCreators.push(user.email);
+      })
 
       fileList?.forEach(async (file) => {
         if (!listOfCreators.includes(file.createdBy)) {
