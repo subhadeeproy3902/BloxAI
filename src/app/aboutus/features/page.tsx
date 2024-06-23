@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import { useSpring, animated } from "react-spring";
-import Header from "@/components/shared/Header"; // Adjust the path as needed
-import Footer from "@/components/shared/Footer"; // Adjust the path as needed
-import Lottie from "./Lottie"; // Import the custom Lottie component
+import Header from "@/components/shared/Header"; 
+import Footer from "@/components/shared/Footer"
+import Lottie from "./Lottie"; 
 
 // Array of feature objects with Lottie animations
 const features = [
