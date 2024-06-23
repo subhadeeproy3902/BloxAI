@@ -42,10 +42,17 @@ export const ReviewCarousel: React.FC<ReviewCarouselProps> = ({ items }) => {
   const columnItems = Math.ceil(items.length / 3);
 
   return (
-    <div className="relative flex justify-center overflow-hidden h-96 w-full space-x-4">
-      <VerticalScrollColumn items={items.slice(0, columnItems)} speed="fast" />
-      <VerticalScrollColumn items={items.slice(columnItems, columnItems * 2)} speed="slow" />
-      <VerticalScrollColumn items={items.slice(columnItems * 2)} speed="fast" />
+    <div className="relative flex  overflow-hidden h-96 w-full space-x-4">
+      {/* Visible on larger screens */}
+      <div className="hidden md:flex w-full space-x-4 justify-center">
+        <VerticalScrollColumn items={items.slice(0, columnItems)} speed="fast" />
+        <VerticalScrollColumn items={items.slice(columnItems, columnItems * 2)} speed="slow" />
+        <VerticalScrollColumn items={items.slice(columnItems * 2)} speed="fast" />
+      </div>
+      {/* Visible on smaller screens */}
+      <div className="flex md:hidden w-full justify-center">
+        <VerticalScrollColumn items={items} speed="slow" />
+      </div>
     </div>
   );
 };
