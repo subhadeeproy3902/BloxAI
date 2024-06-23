@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { setTeamInfo } from "@/app/Redux/Team/team-slice";
 import RenameTeamModal from "@/components/shared/RenameTeamModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import MembersList from "@/components/shared/MembersList";
 
 export interface TEAM {
   createdBy: String;
@@ -46,8 +47,6 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
   const [userData, setUserdata] = useState<any>();
   const [teamMembersData, setTeamData] = useState<any[]>([]);
   const [ActiveTeamMembers, setActiveTeamMembers] = useState<string[]>([]);
-
-  console.log(teamMembersData);
 
   useEffect(() => {
     user && getTeamList();
@@ -109,7 +108,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
   };
 
   return (
-    <div>
+    <div className=" overflow-hidden">
       <Popover>
         <PopoverTrigger>
           <div className="flex items-center gap-3 hover:bg-secondary p-3 rounded-lg cursor-pointer">
@@ -213,6 +212,9 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
         <LayoutGrid className="h-5 w-5" />
         All Files
       </Button>
+
+      <MembersList TeamMembers={teamMembersData} />
+
     </div>
   );
 }
