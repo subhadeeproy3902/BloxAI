@@ -69,7 +69,7 @@
     "remark-parse": "^11.0.0",
     "resend": "^3.3.0",
     "sharp": "^0.33.3",
-    "sonner": "^1.4.41",
+    "sonner": "^1.5.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.164.1",
