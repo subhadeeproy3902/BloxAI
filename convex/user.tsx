@@ -23,6 +23,13 @@ export const createUser = mutation({
     image: v.string(),
   },
   handler: async (ctx, args) => {
+    const user = await ctx.db
+    .query("user")
+    .filter((q) => q.eq(q.field("email"), args.email))
+    .collect();
+
+    if(user) return "Already exist!!";
+
     return await ctx.db.insert("user", args);
   },
 });

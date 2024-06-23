@@ -62,7 +62,7 @@ export const addMember = mutation({
 });
 
 export const getAllTeam = query({
-  args: {  },
+  args: {},
   handler: async (ctx) => {
     const result = await ctx.db.query("teams").collect();
 
@@ -71,13 +71,13 @@ export const getAllTeam = query({
 });
 
 export const renameTeam = mutation({
-  args:{
+  args: {
     _id: v.id("teams"),
     newName: v.string(),
   },
-  handler: async (ctx,args) => {
-    const { _id,newName } = args;
-    const res = await ctx.db.patch(_id,{teamName:newName});
+  handler: async (ctx, args) => {
+    const { _id, newName } = args;
+    const res = await ctx.db.patch(_id, { teamName: newName });
     return res;
-  }
-})
+  },
+});
