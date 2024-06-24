@@ -9,10 +9,18 @@ export const createFile = mutation({
     archive: v.boolean(),
     document: v.string(),
     whiteboard: v.string(),
-    private: v.boolean(),
   },
   handler: async (ctx, args) => {
-    const result = await ctx.db.insert("files", args);
+    const { fileName, createdBy, teamId, archive, document, whiteboard } = args;
+    const result = await ctx.db.insert("files", {
+      fileName,
+      createdBy,
+      teamId,
+      archive,
+      document,
+      whiteboard,
+      private: false,
+    });
     return result;
   },
 });
