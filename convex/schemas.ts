@@ -20,5 +20,7 @@ export default defineSchema({
     archive: v.boolean(),
     document: v.string(),
     whiteboard: v.string(),
+    private: v.string(),
+    accessedBy: v.array(v.string())
   }),
 });
