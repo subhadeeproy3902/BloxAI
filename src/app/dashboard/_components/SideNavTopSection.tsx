@@ -19,7 +19,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import MembersList from "@/components/shared/MembersList";
 
 export interface TEAM {
-  createdBy: String;
+  createdBy: string;
   teamName: String;
   _id: String;
   teamMembers?: string[];
@@ -213,8 +213,12 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
         All Files
       </Button>
 
-      <MembersList TeamMembers={teamMembersData} />
-
+      {activeTeam && (
+        <MembersList
+          createdBy={activeTeam.createdBy!}
+          TeamMembers={teamMembersData}
+        />
+      )}
     </div>
   );
 }
