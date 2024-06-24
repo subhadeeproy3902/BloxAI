@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import { useSpring, animated } from "react-spring";
-import Header from "@/components/shared/Header"; // Adjust the path as needed
-import Footer from "@/components/shared/Footer"; // Adjust the path as needed
-import Lottie from "./Lottie"; // Import the custom Lottie component
+import Header from "@/components/shared/Header"; 
+import Footer from "@/components/shared/Footer"
+import Lottie from "./Lottie"; 
 
 // Array of feature objects with Lottie animations
 const features = [
@@ -143,11 +143,12 @@ const AnimatedFeatureCard = ({
 
   return (
     <animated.div
-      className="flex flex-col items-center rounded-xl p-8 hover:shadow-2xl transition-shadow duration-300 glass-effect text-left"
+      className="flex flex-col items-center rounded-xl p-6 hover:shadow-2xl transition-shadow duration-300 glass-effect text-left"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        height: "400px", // Set a fixed height for all cards
+        height: "auto", // Adjust the height based on content
+        minHeight: "350px", // Ensure minimum height for consistency
         backdropFilter: "blur(10px)",
         border: "1px solid rgba(255, 165, 0, 0.5)", // Neon orange border color
         boxShadow: hovered
@@ -158,17 +159,14 @@ const AnimatedFeatureCard = ({
           : "transparent", // Add gradient background
       }}
     >
-      <div className="flex justify-center flex-1">
+      <div className="flex justify-center flex-1 mb-4">
         <Lottie src={feature.lottieSrc} style={getLottieSize(index)} />
       </div>
-      <div
-        className="flex-1 flex flex-col justify-end"
-        style={{ marginBottom: "5px" }}
-      >
-        <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
+      <div className="flex-1 flex flex-col justify-end w-full">
+        <h3 className="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-2 md:mb-4">
           {feature.title}
         </h3>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">
           {feature.description}
         </p>
       </div>
