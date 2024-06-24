@@ -9,6 +9,7 @@ export const createFile = mutation({
     archive: v.boolean(),
     document: v.string(),
     whiteboard: v.string(),
+    private: v.boolean(),
   },
   handler: async (ctx, args) => {
     const result = await ctx.db.insert("files", args);
@@ -17,24 +18,21 @@ export const createFile = mutation({
 });
 
 export const renameFile = mutation({
-  args:{
+  args: {
     _id: v.id("files"),
     newName: v.string(),
   },
-  handler: async (ctx,args) => {
-    const { _id,newName } = args;
-    const res = await ctx.db.patch(_id,{fileName:newName});
+  handler: async (ctx, args) => {
+    const { _id, newName } = args;
+    const res = await ctx.db.patch(_id, { fileName: newName });
     return res;
-  }
-})
+  },
+});
 
 export const getAllFiles = query({
   args: {},
   handler: async (ctx, args) => {
-    const result = ctx.db
-      .query("files")
-      .order("desc")
-      .collect();
+    const result = ctx.db.query("files").order("desc").collect();
 
     return result;
   },
@@ -100,23 +98,88 @@ export const deleteFile = mutation({
 });
 
 export const addToArchive = mutation({
-  args:{
+  args: {
     _id: v.id("files"),
   },
-  handler: async (ctx,args) => {
+  handler: async (ctx, args) => {
     const { _id } = args;
-    const res = await ctx.db.patch(_id,{archive:true})
+    const res = await ctx.db.patch(_id, { archive: true });
     return res;
-  }
-})
+  },
+});
 
 export const removeFromArchive = mutation({
-  args:{
+  args: {
     _id: v.id("files"),
   },
-  handler: async (ctx,args) => {
+  handler: async (ctx, args) => {
     const { _id } = args;
-    const res = await ctx.db.patch(_id,{archive:false})
+    const res = await ctx.db.patch(_id, { archive: false });
     return res;
-  }
-})
+  },
+});
+
+export const getPrivateFiles = query({
+  args: {
+    teamId: v.id("teams"),
+    email: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const { teamId, email } = args;
+
+    const teamInfo = await await ctx.db.get(teamId);
+
+    if (!teamInfo.teamMembers.includes(email)) {
+      return { status: 401 };
+    }
+
+    const result = await ctx.db
+      .query("files")
+      .filter((q) =>
+        q.and(q.eq(q.field("teamId"), teamId), q.eq(q.field("private"), true))
+      )
+      .order("desc")
+      .collect();
+    return result;
+  },
+});
+
+export const changeToPrivate = mutation({
+  args: {
+    _id: v.id("files"),
+    teamId: v.id("teams"),
+    email: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const { _id, email, teamId } = args;
+
+    const teamInfo = await await ctx.db.get(teamId);
+
+    if (teamInfo.createdBy === email) {
+      return { status: 401 };
+    }
+
+    const res = await ctx.db.patch(_id, { private: true });
+    return res;
+  },
+});
+
+export const changeToPublic = mutation({
+  args: {
+    _id: v.id("files"),
+    teamId: v.id("teams"),
+    email: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const { _id, email, teamId } = args;
+
+    const teamInfo = await await ctx.db.get(teamId);
+
+    if (teamInfo.createdBy === email) {
+      return { status: 401 };
+    }
+
+    const res = await ctx.db.patch(_id, { private: false });
+    return res;
+  },
+});
