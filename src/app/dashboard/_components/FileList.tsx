@@ -120,7 +120,7 @@ const FileRow = ({
   index,
   isSubmitted,
   authorData,
-  user
+  user,
 }: {
   file: FILE;
   picture: string;
@@ -132,7 +132,7 @@ const FileRow = ({
   index: number;
   isSubmitted: boolean;
   authorData: any[];
-  user:any;
+  user: any;
 }) => (
   <tr key={file._id} className="odd:bg-muted/50 cursor-pointer">
     <td
@@ -175,13 +175,15 @@ const FileRow = ({
         email={user.email}
         privateFIle={file.private}
         successTitle={
-          !file.private ? "File accessible to members only" :"File accessible to everyone"
+          !file.private
+            ? "File accessible to members only"
+            : "File accessible to everyone"
         }
-        dialogTitle={
-          !file.private ? "Private File" : "Public File"
-        }
+        dialogTitle={!file.private ? "Private File" : "Public File"}
         dialogDescription={
-          !file.private ? "Make file accessible to members only" : "Make file accessible to everyone"
+          !file.private
+            ? "Make file accessible to members only"
+            : "Make file accessible to everyone"
         }
       />
     </td>
@@ -224,11 +226,11 @@ const FileRow = ({
 function FileList({
   fileList,
   picture,
-  user
+  user,
 }: {
   fileList?: FILE[];
   picture: string;
-  user:any;
+  user: any;
 }) {
   const router = useRouter();
   const convex = useConvex();
@@ -443,14 +445,37 @@ function FileList({
                     />
                   </div>
                 </div>
-                <div className="mb-2 text-muted-foreground">
-                  <Clock className="inline-block mr-2" size={20} />
-                  {moment(file._creationTime).format("YYYY-MM-DD")}
+                <div className="flex justify-between items-center mb-2">
+                  <div className="flex flex-col">
+                    <div className="mb-2 text-muted-foreground">
+                      <Clock className="inline-block mr-2" size={20} />
+                      {moment(file._creationTime).format("YYYY-MM-DD")}
+                    </div>
+                    <div className="mb-2 text-muted-foreground">
+                      <Edit className="inline-block mr-2" size={20} />
+                      {moment(file._creationTime).format("YYYY-MM-DD")}
+                    </div>
+                  </div>
+                  <FileStatusModal
+                      fileId={file._id}
+                      email={user.email}
+                      privateFIle={file.private}
+                      successTitle={
+                        !file.private
+                          ? "File accessible to members only"
+                          : "File accessible to everyone"
+                      }
+                      dialogTitle={
+                        !file.private ? "Private File" : "Public File"
+                      }
+                      dialogDescription={
+                        !file.private
+                          ? "Make file accessible to members only"
+                          : "Make file accessible to everyone"
+                      }
+                    />
                 </div>
-                <div className="mb-2 text-muted-foreground">
-                  <Edit className="inline-block mr-2" size={20} />
-                  {moment(file._creationTime).format("YYYY-MM-DD")}
-                </div>
+
                 <div className="text-muted-foreground flex justify-end">
                   <Image
                     src={picture}
