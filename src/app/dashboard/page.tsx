@@ -174,6 +174,7 @@ function Dashboard() {
         </div>
       </div>
       <FileList
+        user={user}
         fileList={fileList || null}
         picture={user?.picture || "https://picsum.photos/50"}
       />

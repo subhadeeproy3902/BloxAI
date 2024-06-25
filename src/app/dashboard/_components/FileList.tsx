@@ -29,6 +29,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import RenameFileModal from "@/components/shared/RenameFileModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import FileStatusModal from "@/components/shared/FileStatusModal";
 
 export interface FILE {
   archive: boolean;
@@ -39,6 +41,7 @@ export interface FILE {
   whiteboard: string;
   _id: string;
   _creationTime: number;
+  private: boolean;
 }
 
 const ActionDialog = ({
@@ -117,6 +120,7 @@ const FileRow = ({
   index,
   isSubmitted,
   authorData,
+  user,
 }: {
   file: FILE;
   picture: string;
@@ -128,6 +132,7 @@ const FileRow = ({
   index: number;
   isSubmitted: boolean;
   authorData: any[];
+  user: any;
 }) => (
   <tr key={file._id} className="odd:bg-muted/50 cursor-pointer">
     <td
@@ -152,16 +157,35 @@ const FileRow = ({
       className="whitespace-nowrap px-4 py-2 text-muted-foreground"
       onClick={() => router.push("/workspace/" + file._id)}
     >
-      {authorData.map((author,index) =>
-        (author.email === file.createdBy && (
-          <Avatar key={index} className="w-[40px] h-[40px]">
-            <AvatarImage src={""} />
-            <AvatarFallback className=" text-xs">
-              {author.name.charAt(0)}
-            </AvatarFallback>
-          </Avatar>
-        ) )
+      {authorData.map(
+        (author, index) =>
+          author.email === file.createdBy && (
+            <Avatar key={index} className="w-[40px] h-[40px]">
+              <AvatarImage src={""} />
+              <AvatarFallback className=" text-xs">
+                {author.name.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
+          )
       )}
+    </td>
+    <td>
+      <FileStatusModal
+        fileId={file._id}
+        email={user.email}
+        privateFIle={file.private}
+        successTitle={
+          !file.private
+            ? "File accessible to members only"
+            : "File accessible to everyone"
+        }
+        dialogTitle={!file.private ? "Private File" : "Public File"}
+        dialogDescription={
+          !file.private
+            ? "Make file accessible to members only"
+            : "Make file accessible to everyone"
+        }
+      />
     </td>
     <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
       <RenameFileModal id={file._id} />
@@ -202,9 +226,11 @@ const FileRow = ({
 function FileList({
   fileList,
   picture,
+  user,
 }: {
   fileList?: FILE[];
   picture: string;
+  user: any;
 }) {
   const router = useRouter();
   const convex = useConvex();
@@ -221,9 +247,9 @@ function FileList({
   useEffect(() => {
     const getData = async () => {
       let listOfCreators: string[] = [];
-      authorData.forEach((user:any)=>{
+      authorData.forEach((user: any) => {
         listOfCreators.push(user.email);
-      })
+      });
 
       fileList?.forEach(async (file) => {
         if (!listOfCreators.includes(file.createdBy)) {
@@ -344,6 +370,7 @@ function FileList({
               {(sortedFiles.length > 0 ? sortedFiles : safeFileList).map(
                 (file, index) => (
                   <FileRow
+                    user={user}
                     isSubmitted={isSubmitted}
                     key={file._id}
                     file={file}
@@ -418,14 +445,37 @@ function FileList({
                     />
                   </div>
                 </div>
-                <div className="mb-2 text-muted-foreground">
-                  <Clock className="inline-block mr-2" size={20} />
-                  {moment(file._creationTime).format("YYYY-MM-DD")}
+                <div className="flex justify-between items-center mb-2">
+                  <div className="flex flex-col">
+                    <div className="mb-2 text-muted-foreground">
+                      <Clock className="inline-block mr-2" size={20} />
+                      {moment(file._creationTime).format("YYYY-MM-DD")}
+                    </div>
+                    <div className="mb-2 text-muted-foreground">
+                      <Edit className="inline-block mr-2" size={20} />
+                      {moment(file._creationTime).format("YYYY-MM-DD")}
+                    </div>
+                  </div>
+                  <FileStatusModal
+                      fileId={file._id}
+                      email={user.email}
+                      privateFIle={file.private}
+                      successTitle={
+                        !file.private
+                          ? "File accessible to members only"
+                          : "File accessible to everyone"
+                      }
+                      dialogTitle={
+                        !file.private ? "Private File" : "Public File"
+                      }
+                      dialogDescription={
+                        !file.private
+                          ? "Make file accessible to members only"
+                          : "Make file accessible to everyone"
+                      }
+                    />
                 </div>
-                <div className="mb-2 text-muted-foreground">
-                  <Edit className="inline-block mr-2" size={20} />
-                  {moment(file._creationTime).format("YYYY-MM-DD")}
-                </div>
+
                 <div className="text-muted-foreground flex justify-end">
                   <Image
                     src={picture}
