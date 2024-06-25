@@ -23,6 +23,7 @@ export default function Page() {
     <div className='md:p-8 p-3'>
       <Navbar />
       <FileList
+        user={user}
         fileList={fileList || null}
         picture={user?.picture || "https://picsum.photos/50"}
       />

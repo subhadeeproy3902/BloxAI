@@ -11,7 +11,7 @@ export const PUT = async(req: Request) => {
       
     const teamInfo = await client.query(api.teams.getTeamById,{_id:teamId})
   
-    if (teamInfo.createdBy === email) {
+    if (teamInfo.createdBy !== email) {
       return new Response('Only owner can make changes!!',{status: 400});
     }
   
