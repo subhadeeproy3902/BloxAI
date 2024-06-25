@@ -7,8 +7,7 @@ import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GenAIModal } from "@/components/shared/AiModal";
 
-
-function WorkspaceHeader({ onSave, name, setFullScreen, setFileData }: any) {
+function WorkspaceHeader({ onSave, onSaveAsPdf, name, setFullScreen, setFileData }: any) {
   return (
     <>
       <div className="p-3 border-b flex justify-between items-center">
@@ -27,7 +26,10 @@ function WorkspaceHeader({ onSave, name, setFullScreen, setFileData }: any) {
         <div className="flex items-center gap-4">
           <ThemeTogglebutton />
           <Button onClick={() => onSave()}>
-            <Save className="h-4 w-4 mr-2" /> Save{" "}
+            <Save className="h-4 w-4 mr-2" /> Save
+          </Button>
+          <Button onClick={() => onSaveAsPdf()}>
+            Save as PDF
           </Button>
         </div>
       </div>
@@ -52,9 +54,9 @@ function WorkspaceHeader({ onSave, name, setFullScreen, setFileData }: any) {
           }}
         >
           <p className="hidden sm:inline">
-          Share
+            Share
           </p>
-           <Link2 className="h-4 w-4" />{" "}
+          <Link2 className="h-4 w-4" />
         </Button>
         <GenAIModal setFileData={setFileData} />
       </div>
