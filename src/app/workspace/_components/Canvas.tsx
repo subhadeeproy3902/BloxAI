@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import { Excalidraw, MainMenu, WelcomeScreen } from "@excalidraw/excalidraw";
 import { FILE } from "../../dashboard/_components/FileList";
 import { parseMermaidToExcalidraw } from "@excalidraw/mermaid-to-excalidraw";
@@ -7,7 +7,7 @@ import { useTheme } from "next-themes";
 import { api } from "../../../../convex/_generated/api";
 import { toast } from "sonner";
 
-function Canvas({
+const Canvas = forwardRef(({
   onSaveTrigger,
   fileId,
   fileData,
@@ -15,11 +15,12 @@ function Canvas({
   onSaveTrigger: any;
   fileId: any;
   fileData: FILE;
-}) {
+}, ref) => {
   const [whiteBoardData, setWhiteBoardData] = useState<any>();
   const { theme } = useTheme();
 
   const updateWhiteboard = useMutation(api.files.updateWhiteboard);
+
   useEffect(() => {
     onSaveTrigger && saveWhiteboard();
   }, [onSaveTrigger]);
@@ -33,7 +34,11 @@ function Canvas({
     });
   };
 
-  
+  useImperativeHandle(ref, () => ({
+    getSceneElements: () => whiteBoardData,
+    getAppState: () => ({ viewBackgroundColor: "#e6e6e6" }),
+    getFiles: () => [], // Implement getFiles based on your app's requirements
+  }));
 
   const handleMermaidToExcalidraw = async () => {
     const mermaidCode = `flowchart TD
@@ -107,6 +112,8 @@ function Canvas({
       </div>
     </>
   );
-}
+});
+
+Canvas.displayName = "Canvas";
 
 export default Canvas;
