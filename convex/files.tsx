@@ -154,19 +154,10 @@ export const getPrivateFiles = query({
 
 export const changeToPrivate = mutation({
   args: {
-    _id: v.id("files"),
-    teamId: v.id("teams"),
-    email: v.string(),
+    _id: v.id("files")
   },
   handler: async (ctx, args) => {
-    const { _id, email, teamId } = args;
-
-    const teamInfo = await await ctx.db.get(teamId);
-
-    if (teamInfo.createdBy === email) {
-      return { status: 401 };
-    }
-
+    const { _id } = args;
     const res = await ctx.db.patch(_id, { private: true });
     return res;
   },
@@ -174,19 +165,10 @@ export const changeToPrivate = mutation({
 
 export const changeToPublic = mutation({
   args: {
-    _id: v.id("files"),
-    teamId: v.id("teams"),
-    email: v.string(),
+    _id: v.id("files")
   },
   handler: async (ctx, args) => {
-    const { _id, email, teamId } = args;
-
-    const teamInfo = await await ctx.db.get(teamId);
-
-    if (teamInfo.createdBy === email) {
-      return { status: 401 };
-    }
-
+    const { _id  } = args;
     const res = await ctx.db.patch(_id, { private: false });
     return res;
   },
