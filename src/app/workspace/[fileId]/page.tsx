@@ -139,10 +139,20 @@ function Workspace({ params }: any) {
               let imgHeight = (imgProps.height * imgWidth) / imgProps.width;
   
               // Check if the image height exceeds the remaining page height
-              if (y + imgHeight > pageHeight - margin) {
+              if (y + imgHeight + 20 > pageHeight - margin) { // 20 for the heading space
                 pdf.addPage();
                 y = margin;
               }
+  
+              // Add heading for the flowchart
+              pdf.setFont("helvetica", "bold");
+              pdf.setFontSize(16); // Set font size for the heading
+              const headingText = "Flowchart";
+              const headingWidth = pdf.getStringUnitWidth(headingText) * 16 / pdf.internal.scaleFactor;
+              pdf.text(headingText, (pageWidth - headingWidth) / 2, y);
+              pdf.setFontSize(12); // Reset font size
+              pdf.setFont("helvetica", "normal");
+              y += 20; // Adjust y position to avoid overlap with the heading
   
               // Check if the image height exceeds the page height and scale it down if necessary
               if (imgHeight > pageHeight - margin * 2) {
