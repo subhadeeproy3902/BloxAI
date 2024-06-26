@@ -3,7 +3,6 @@ import { v } from "convex/values";
 
 export default defineSchema({
   teams: defineTable({
-    
     teamName: v.string(),
     createdBy: v.string(),
     teamMembers: v.array(v.string()),
@@ -21,6 +20,8 @@ export default defineSchema({
     document: v.string(),
     whiteboard: v.string(),
     private: v.string(),
-    accessedBy: v.array(v.string())
+    writtenBy: v.array(v.string()),
+    write:v.boolean(),
+    read:v.boolean()
   }),
 });
