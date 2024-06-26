@@ -33,7 +33,7 @@ function Workspace({ params }: any) {
     });
     setFileData(result);
   };
-  
+
   const saveAsPdf = async () => {
     const { default: jsPDF } = await jsPDFPromise;
     const { exportToSvg } = await excalidrawPromise;
@@ -68,7 +68,6 @@ function Workspace({ params }: any) {
             case "list":
               lines = block.data.items.map((item: string) => ({ text: `• ${item}`, style: 'normal' }));
               break;
-            // Add more cases if needed for different block types
             default:
               lines = [{ text: block.data.text, style: 'normal' }];
           }
@@ -97,7 +96,6 @@ function Workspace({ params }: any) {
             }
   
             if (line.style !== 'header') {
-              // Split text if it's too wide and handle separately
               const wrappedLines = pdf.splitTextToSize(line.text, textWidth);
               wrappedLines.forEach((wrappedLine: string) => {
                 if (y + 10 > textHeight) {
@@ -110,7 +108,6 @@ function Workspace({ params }: any) {
             }
           });
   
-          // Reset font style and size after each block
           pdf.setFont("helvetica", "normal");
           pdf.setFontSize(12);
         });
@@ -122,21 +119,9 @@ function Workspace({ params }: any) {
   
         exportToSvg({
           elements: elements,
-          appState: { ...appState, exportBackground: false }, // No background
+          appState: { ...appState, exportBackground: false },
           files: files,
         }).then((svg: SVGSVGElement) => {
-          // Add heading for the flowchart
-          pdf.setFont("helvetica", "bold");
-          pdf.setFontSize(16); // Set font size for the heading
-          const headingText = "Flowchart";
-          const headingWidth = pdf.getStringUnitWidth(headingText) * pdf.internal.scaleFactor;
-          const headingX = (pageWidth - headingWidth) / 2;
-          pdf.text(headingText, headingX, y + 10);
-          pdf.setFontSize(12); // Reset font size
-          pdf.setFont("helvetica", "normal");
-          y += 20; // Adjust y position to avoid overlap with the heading
-  
-          // Convert SVG to PNG using the Canvas API
           const svgData = new XMLSerializer().serializeToString(svg);
           const canvas = document.createElement("canvas");
           const context = canvas.getContext("2d");
@@ -150,13 +135,24 @@ function Workspace({ params }: any) {
   
               const imgData = canvas.toDataURL("image/png");
               const imgProps = pdf.getImageProperties(imgData);
-              const imgHeight = (imgProps.height * pageWidth) / imgProps.width;
+              let imgWidth = pageWidth - margin * 2;
+              let imgHeight = (imgProps.height * imgWidth) / imgProps.width;
   
-              // Add canvas image just below the heading
-              pdf.addImage(imgData, "PNG", margin, y, pageWidth - margin * 2, imgHeight);
-              y += imgHeight;
+              // Check if the image height exceeds the remaining page height
+              if (y + imgHeight > pageHeight - margin) {
+                pdf.addPage();
+                y = margin;
+              }
   
-              // Save the PDF
+              // Check if the image height exceeds the page height and scale it down if necessary
+              if (imgHeight > pageHeight - margin * 2) {
+                const scaleFactor = (pageHeight - margin * 2) / imgHeight;
+                imgHeight *= scaleFactor;
+                imgWidth *= scaleFactor;
+              }
+  
+              pdf.addImage(imgData, "PNG", margin, y, imgWidth, imgHeight, undefined, "FAST");
+  
               pdf.save("document.pdf");
             } else {
               console.error("Failed to get canvas context");
@@ -169,8 +165,8 @@ function Workspace({ params }: any) {
     } else {
       console.error("Unable to find the content to save as PDF");
     }
-  };
-  
+  };  
+
   const parseText = (text: string) => {
     const lines: any[] = [];
     const parser = new DOMParser();
@@ -186,7 +182,6 @@ function Workspace({ params }: any) {
     });
     return lines;
   };
-  
 
   return (
     <div className="overflow-x-hidden">
