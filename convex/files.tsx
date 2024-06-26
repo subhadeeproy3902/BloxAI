@@ -173,3 +173,27 @@ export const changeToPublic = mutation({
     return res;
   },
 });
+
+export const updateWrite = mutation({
+  args: {
+    _id: v.id("files"),
+    writtenBy: v.array(v.string())
+  },
+  handler: async (ctx, args) => {
+    const { _id,writtenBy } = args;
+    const res = await ctx.db.patch(_id, { writtenBy, write:true, read:true });
+    return res;
+  },
+});
+
+export const updateRead = mutation({
+  args: {
+    _id: v.id("files"),
+    writtenBy: v.array(v.string())
+  },
+  handler: async (ctx, args) => {
+    const { _id,writtenBy } = args;
+    const res = await ctx.db.patch(_id, { writtenBy, write:false, read:true });
+    return res;
+  },
+});
