@@ -20,6 +20,10 @@ export const createFile = mutation({
       document,
       whiteboard,
       private: false,
+      read:true,
+      write:false,
+      writtenBy:[createdBy],
+      readBy:[createdBy]
     });
     return result;
   },
@@ -189,11 +193,11 @@ export const updateWrite = mutation({
 export const updateRead = mutation({
   args: {
     _id: v.id("files"),
-    writtenBy: v.array(v.string())
+    readBy: v.array(v.string())
   },
   handler: async (ctx, args) => {
-    const { _id,writtenBy } = args;
-    const res = await ctx.db.patch(_id, { writtenBy, write:false, read:true });
+    const { _id,readBy } = args;
+    const res = await ctx.db.patch(_id, { readBy, write:false, read:true });
     return res;
   },
 });
