@@ -12,7 +12,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import { FileListContext } from "@/app/_context/FilesListContext";
-import { useState,useContext,useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
+import { FILE } from "@/app/dashboard/page";
+import { Badge } from "../ui/badge";
 
 type Props = {
   image: string;
@@ -30,6 +32,18 @@ export default function MemberModal({
   email,
 }: Props) {
   const teamName = useSelector((state: RootState) => state.team.teamName);
+  const [fileData, setFileList] = useState([]);
+  const { fileList_ } = useContext(FileListContext);
+
+  useEffect(() => {
+    if (fileList_) {
+      const nonArchivedFiles = fileList_.filter(
+        (file: { archive: boolean }) => !file.archive
+      );
+      setFileList(nonArchivedFiles);
+    }
+  }, [fileList_]);
+
   return (
     <Dialog key={index}>
       <DialogTrigger
@@ -57,7 +71,27 @@ export default function MemberModal({
           </DialogDescription>
         </DialogHeader>
 
+        {
+          <div className="flex flex-col max-h-[350px] p-2 overflow-x-hidden overflow-y-auto">
+            <div className="flex font-semibold p-2 text-base items-center justify-between w-full">
+              <h1>File Name</h1>
+              <h1>File Access</h1>
+            </div>
+            {fileData.map((file: FILE, index) => (
+              <div
+                className="w-full bg-secondary border-t-[1px] border-gray-400 flex p-2 items-center justify-between"
+                key={index}
+              >
+                <h1>{file.fileName}</h1>
 
+                <div className="flex gap-3">
+                  { file.readBy?.includes(email) && <Badge>Read</Badge>}
+                  { file.writtenBy?.includes(email) && <Badge>Write</Badge>}
+                </div>
+              </div>
+            ))}
+          </div>
+        }
 
         <DialogFooter className=" text-gray-500">Email : {email}</DialogFooter>
       </DialogContent>
