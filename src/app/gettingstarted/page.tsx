@@ -20,7 +20,7 @@ const Page = () => {
               <p className="text-xl mb-8">
                 Craft stunning flowcharts, diagrams, and visuals effortlessly.
               </p>
-              <Button variant="primary" size="lg">
+              <Button variant="default" size="lg">
                 Get Started
               </Button>
             </div>
