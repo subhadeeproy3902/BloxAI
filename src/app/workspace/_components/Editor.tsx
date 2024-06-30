@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import EditorJS from "@editorjs/editorjs";
+import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
+import EditorJS, { OutputData } from "@editorjs/editorjs";
 // @ts-ignore
 import Header from "@editorjs/header";
 // @ts-ignore
@@ -14,13 +14,12 @@ import Warning from "@editorjs/warning";
 // @ts-ignore
 import InlineImage from 'editorjs-inline-image';
 // @ts-ignore
-import Table from '@editorjs/table'
+import Table from '@editorjs/table';
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { toast } from "sonner";
 import { FILE } from "../../dashboard/_components/FileList";
 import { useTheme } from "next-themes";
-import { table } from "console";
 
 const rawDocument = {
   time: 1550476186479,
@@ -44,43 +43,52 @@ const rawDocument = {
   version: "2.8.1",
 };
 
-function Editor({
-  onSaveTrigger,
-  fileId,
-  fileData,
-}: {
-  onSaveTrigger: any;
+type EditorProps = {
+  onSaveTrigger: boolean;
   fileId: any;
   fileData: FILE;
-}) {
-  const ref = useRef<EditorJS | null>(null);
+};
+
+const Editor = forwardRef((props: EditorProps, ref) => {
+  const editorInstanceRef = useRef<EditorJS | null>(null);
   const updateDocument = useMutation(api.files.updateDocument);
   const [document, setDocument] = useState(rawDocument);
   const { theme } = useTheme();
 
+  useImperativeHandle(ref, () => ({
+    get instance() {
+      return editorInstanceRef.current;
+    },
+    save: () => {
+      return editorInstanceRef.current
+        ? editorInstanceRef.current.save()
+        : Promise.resolve({ blocks: [] } as OutputData);
+    },
+  }), [editorInstanceRef]);
+
   useEffect(() => {
-    if (fileData) {
+    if (props.fileData) {
       initEditor();
     }
 
     return () => {
-      if (ref.current) {
-        ref.current.destroy();
-        ref.current = null;
+      if (editorInstanceRef.current) {
+        editorInstanceRef.current.destroy();
+        editorInstanceRef.current = null;
       }
     };
-  }, [fileData]);
+  }, [props.fileData]);
 
   useEffect(() => {
-    onSaveTrigger && onSaveDocument();
-  }, [onSaveTrigger]);
+    props.onSaveTrigger && onSaveDocument();
+  }, [props.onSaveTrigger]);
 
   const initEditor = () => {
-    if (ref.current) {
-      ref.current.destroy();
+    if (editorInstanceRef.current) {
+      editorInstanceRef.current.destroy();
     }
 
-    ref.current = new EditorJS({
+    editorInstanceRef.current = new EditorJS({
       tools: {
         header: {
           class: Header,
@@ -102,9 +110,9 @@ function Editor({
           class: Checklist,
           inlineToolbar: true,
         },
-        paragraph:{
-          class:Paragraph,
-          inlineToolbar:true
+        paragraph: {
+          class: Paragraph,
+          inlineToolbar: true,
         },
         warning: Warning,
         image: {
@@ -118,8 +126,8 @@ function Editor({
               appName: 'india',
               apiUrl: 'https://unsplash.com/s/photos/',
               maxResults: 30,
-            }
-          }
+            },
+          },
         },
         table: {
           class: Table,
@@ -127,23 +135,23 @@ function Editor({
           config: {
             rows: 2,
             cols: 3,
-            withHeadings:true
+            withHeadings: true,
           },
         },
       },
 
       holder: "editorjs",
-      data: fileData?.document ? JSON.parse(fileData.document) : rawDocument,
+      data: props.fileData?.document ? JSON.parse(props.fileData.document) : rawDocument,
     });
   };
 
   const onSaveDocument = () => {
-    if (ref.current) {
-      ref.current
+    if (editorInstanceRef.current) {
+      editorInstanceRef.current
         .save()
         .then((outputData) => {
           updateDocument({
-            _id: fileId,
+            _id: props.fileId,
             document: JSON.stringify(outputData),
           }).then(
             (resp) => {
@@ -160,17 +168,17 @@ function Editor({
     }
   };
 
-
-
   return (
     <div>
       <div
         id="editorjs"
         className="h-screen pl-8"
-        style={{ backgroundColor: theme === "dark" ? " #333333" : "#f2f2f2" }} // Change background color based on theme
+        style={{ backgroundColor: theme === "dark" ? "#333333" : "#f2f2f2" }} // Change background color based on theme
       />
     </div>
   );
-}
+});
+
+Editor.displayName = 'Editor';
 
 export default Editor;

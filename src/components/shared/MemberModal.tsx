@@ -11,6 +11,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
+import { FileListContext } from "@/app/_context/FilesListContext";
+import { useState,useContext,useEffect } from "react";
 
 type Props = {
   image: string;
@@ -54,7 +56,9 @@ export default function MemberModal({
             <span className=" font-bold">{teamName}</span>
           </DialogDescription>
         </DialogHeader>
-        <h1>File Access : </h1>
+
+
+
         <DialogFooter className=" text-gray-500">Email : {email}</DialogFooter>
       </DialogContent>
     </Dialog>
