@@ -24,6 +24,19 @@ const Footer = () => {
             </p>
           </div>
 
+          
+<div class="wrapper col-md-3 col-12" style="justify-content: center;display: flex;">
+<div id="google_element"></div>
+<script src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+<script>
+  function loadGoogleTranslate() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en'
+    }, 'google_element');
+  }
+</script>
+</div>
+          
           <div className="grid grid-cols-2 gap-8 sm:gap-6 lg:grid-cols-4">
             <div>
               <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
