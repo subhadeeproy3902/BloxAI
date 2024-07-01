@@ -47,6 +47,7 @@ export default function MemberModal({
   return (
     <Dialog key={index}>
       <DialogTrigger
+        key={index}
         className={`z-[${index + 10}]  ${index == 0 && "left-0"} ${index == 1 && "left-8"} ${index == 2 && " left-16"} ${index == 3 && " left-24"}  absolute  `}
       >
         <Avatar className="w-[40px] border-2 border-gray-400 h-[40px]">
