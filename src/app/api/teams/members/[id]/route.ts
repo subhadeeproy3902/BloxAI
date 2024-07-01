@@ -21,13 +21,14 @@ export async function GET(
   );
 
   const results = await Promise.all(memberDataPromises);
+  console.log(results)
 
   const memberData = results.flatMap((result) => result || []);
 
   return Response.json({ memberData });
 }
 
-export async function DELETE(
+export async function PUT(
   request: Request,
   { params }: { params: { id: string } }
 ) {
@@ -49,6 +50,6 @@ export async function DELETE(
 
   await client.mutation(api.teams.addMember, { _id: id as Id<"teams">, memberArray:updatedTeamMembers });
 
-  return new Response("Member removed!!", { status: 200 });
+  return new Response("Member removd!!", { status: 200 });
 
 }

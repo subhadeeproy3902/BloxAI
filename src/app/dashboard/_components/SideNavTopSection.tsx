@@ -48,6 +48,8 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
   const [teamMembersData, setTeamData] = useState<any[]>([]);
   const [ActiveTeamMembers, setActiveTeamMembers] = useState<string[]>([]);
 
+  console.log(activeTeam)
+
   useEffect(() => {
     user && getTeamList();
   }, [user]);
