@@ -27,15 +27,21 @@ export default function DeleteTeamMember({ email }: Props) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const router = useRouter();
   const teamId = useSelector((state: RootState) => state.team.teamId);
+  const [isError,setIsError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const DeleteHandler = async () => {
     try {
       axiosInstance.put(`${deleteTeamMemberUrl}/${teamId}`, { email })
       .then((res)=>{
         if(res.status === 200) setIsSubmitted(true);
+      }).catch((err)=>{
+        setIsError(true);
+        setErrorMsg(err.response.data)
       })
-    } catch (err) {
-      console.log(err);
+    } catch (err:any) {
+      setIsError(true);
+      setErrorMsg(err.response.data)
     }
   };
 
@@ -47,7 +53,7 @@ export default function DeleteTeamMember({ email }: Props) {
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
-        {!isSubmitted && (
+        {!isSubmitted && !isError && (
           <>
             <AlertDialogHeader>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -68,6 +74,25 @@ export default function DeleteTeamMember({ email }: Props) {
             <AlertDialogHeader>
               <AlertDialogTitle className="flex gap-2">
                 <p>Team Member Removed Successfully!!</p>{" "}
+                <CheckCircle2 className="w-6 h-6" />
+              </AlertDialogTitle>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogAction
+                onClick={() => {
+                  router.push('/dashboard')
+                }}
+              >
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </>
+        )}
+        {isError && (
+          <>
+            <AlertDialogHeader>
+              <AlertDialogTitle className="flex gap-2">
+                <p>{errorMsg}</p>{" "}
                 <CheckCircle2 className="w-6 h-6" />
               </AlertDialogTitle>
             </AlertDialogHeader>

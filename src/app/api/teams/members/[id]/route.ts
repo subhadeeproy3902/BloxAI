@@ -21,7 +21,6 @@ export async function GET(
   );
 
   const results = await Promise.all(memberDataPromises);
-  console.log(results)
 
   const memberData = results.flatMap((result) => result || []);
 
