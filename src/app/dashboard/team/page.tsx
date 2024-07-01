@@ -38,7 +38,7 @@ export default function Page() {
 
   return (
     <div className="w-[full] bg-background flex relative flex-col gap-5 flex-1 items-start justify-center overflow-y-auto overflow-x-hidden">
-      <h1 className="text-lg font-bold sm:p-4">Team Settings</h1>
+      <h1 className="text-lg font-bold w-full text-center sm:text-start sm:p-4">Team Settings</h1>
 
       {teamMembersData !== null && (
         <div className="flex items-center justify-center w-full">
