@@ -26,6 +26,10 @@ export interface FILE {
   whiteboard: string;
   _id: string;
   _creationTime: number;
+  read:boolean;
+  write:boolean;
+  writtenBy: string[];
+  readBy: string[];
 }
 
 function Dashboard() {
