@@ -13,9 +13,8 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
-import { Trash2 } from "lucide-react";
-import { SetStateAction, useState } from "react";
+import { SetStateAction } from "react";
+import DeleteTeamMember from "./DeleteTeamMember";
 
  export type USER = {
   name: string;
@@ -31,7 +30,6 @@ type Props = {
 };
 
 export default function MemberCarousel({ teamMembersData,focusedUser,setFocusedUser }: Props) {
-
   return (
     <div className="flex flex-col items-center justify-center p-10 w-[75%]">
       <Carousel className="w-full">
@@ -60,12 +58,7 @@ export default function MemberCarousel({ teamMembersData,focusedUser,setFocusedU
                   <CardContent>
                     <CardDescription className="flex items-center justify-between">
                       <h1>Email : {user.email}</h1>
-                      <Button
-                        size={"icon"}
-                        className=" bg-red-600 hover:bg-red-700"
-                      >
-                        <Trash2 className="w-5 h-5" />
-                      </Button>
+                      <DeleteTeamMember email={user.email} />
                     </CardDescription>
                   </CardContent>
                 </Card>
