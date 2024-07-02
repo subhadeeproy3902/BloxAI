@@ -113,10 +113,10 @@ const ActionDialog = ({
 const FileRow = ({
   file,
   router,
-  user
+  user,
 }: {
   file: FILE;
-  user:any;
+  user: any;
   router: ReturnType<typeof useRouter>;
 }) => (
   <tr key={file._id} className="odd:bg-muted/50 cursor-pointer">
@@ -137,12 +137,18 @@ const FileRow = ({
       onClick={() => router.push("/workspace/" + file._id)}
     >
       {file.readBy && file.readBy.includes(user.email) && <Badge>Read</Badge>}
-      {file.writtenBy && file.writtenBy.includes(user.email) && <Badge>Write</Badge>}
+      {file.writtenBy && file.writtenBy.includes(user.email) && (
+        <Badge>Write</Badge>
+      )}
       {!file.readBy && !file.writtenBy && <Badge>No Access</Badge>}
     </td>
     <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
-        <Button><EyeIcon size={"icon"} className="w-5 h-5" /></Button>
-        <Button><Edit3Icon size={"icon"} className="w-5 h-5" /></Button>
+      <Button size={"icon"} variant={"secondary"}>
+        <EyeIcon className="w-5 h-5" />
+      </Button>
+      <Button size={"icon"} variant={"secondary"}>
+        <Edit3Icon  className="w-5 h-5" />
+      </Button>
       {/* <RenameFileModal id={file._id} />
       {pathname === "/dashboard" && (
         <ActionDialog
@@ -178,13 +184,7 @@ const FileRow = ({
   </tr>
 );
 
-function FileList({
-  fileList,
-  user
-}: {
-  fileList?: FILE[];
-  user:any;
-}) {
+function FileList({ fileList, user }: { fileList?: FILE[]; user: any }) {
   const router = useRouter();
   const convex = useConvex();
   const [sortConfig, setSortConfig] = useState<{
@@ -193,11 +193,10 @@ function FileList({
   } | null>(null);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [authorData, setAuthorData] = useState<any[]>([]);
   const safeFileList = Array.isArray(fileList) ? fileList : [];
   const pathname = usePathname();
 
-  console.log(fileList)
+  console.log(fileList);
 
   const sortedFiles = [...safeFileList];
   if (sortConfig !== null) {
@@ -276,10 +275,11 @@ function FileList({
               {(sortedFiles.length > 0 ? sortedFiles : safeFileList).map(
                 (file, index) => (
                   <FileRow
-                        user={user}
-                        key={index}
-                          file={file}
-                          router={router}  />
+                    user={user}
+                    key={index}
+                    file={file}
+                    router={router}
+                  />
                 )
               )}
             </tbody>
@@ -293,12 +293,7 @@ function FileList({
               >
                 File Name <ChevronsUpDown className="inline-block ml-2" />
               </div>
-              <div
-                className="cursor-pointer"
-                onClick={() => requestSort("_creationTime")}
-              >
-                Created At <ChevronsUpDown className="inline-block ml-2" />
-              </div>
+              <div className="cursor-pointer">Access</div>
             </div>
             {sortedFiles.map((file, index) => (
               <div
@@ -309,68 +304,26 @@ function FileList({
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-bold text-xl">{file.fileName}</span>
                   <div className="flex gap-2">
-                    {/* <RenameFileModal id={file._id} />
-                    {pathname === "/dashboard" && (
-                      <ActionDialog
-                        isSubmitted={isSubmitted}
-                        successTitle="File Archived Successfully!!"
-                        buttonIcon={ArchiveIcon}
-                        dialogTitle="Are you absolutely sure?"
-                        dialogDescription="This will add your file to the archive section."
-                        onAction={(e) => archiveFunc(e, file._id)}
-                      />
-                    )}
-                    {pathname === "/dashboard/archive" && (
-                      <ActionDialog
-                        isSubmitted={isSubmitted}
-                        successTitle="File Restored Successfully!!"
-                        buttonIcon={ArchiveRestore}
-                        dialogTitle="Are you absolutely sure?"
-                        dialogDescription="This will unarchive your file."
-                        onAction={(e) => unarchiveFunc(e, file._id)}
-                        buttonVariant="destructive"
-                      />
-                    )}
-                    <ActionDialog
-                      isSubmitted={isSubmitted}
-                      successTitle="File Deleted Successfully!!"
-                      buttonIcon={Trash2}
-                      dialogTitle="Are you absolutely sure?"
-                      dialogDescription="This action cannot be undone. This will permanently delete your file and remove your data from our servers."
-                      onAction={(e) => deleteFunc(e, file._id)}
-                      buttonVariant="destructive"
-                    /> */}
+                    <Button size={"icon"} variant={"secondary"}>
+                      <EyeIcon className="w-5 h-5" />
+                    </Button>
+                    <Button size={"icon"} variant={"secondary"}>
+                      <Edit3Icon size={"icon"} className="w-5 h-5" />
+                    </Button>
                   </div>
                 </div>
                 <div className="flex justify-between items-center mb-2">
                   <div className="flex flex-col">
-                    <div className="mb-2 text-muted-foreground">
-                      <Clock className="inline-block mr-2" size={20} />
-                      {moment(file._creationTime).format("YYYY-MM-DD")}
-                    </div>
-                    <div className="mb-2 text-muted-foreground">
-                      <Edit className="inline-block mr-2" size={20} />
-                      {moment(file._creationTime).format("YYYY-MM-DD")}
-                    </div>
+                    {file.readBy && file.readBy.includes(user.email) && (
+                      <Badge>Read</Badge>
+                    )}
+                    {file.writtenBy && file.writtenBy.includes(user.email) && (
+                      <Badge>Write</Badge>
+                    )}
+                    {!file.readBy && !file.writtenBy && (
+                      <Badge>No Access</Badge>
+                    )}
                   </div>
-                  {/* <FileStatusModal
-                      fileId={file._id}
-                      email={user.email}
-                      privateFIle={file.private}
-                      successTitle={
-                        !file.private
-                          ? "File accessible to members only"
-                          : "File accessible to everyone"
-                      }
-                      dialogTitle={
-                        !file.private ? "Private File" : "Public File"
-                      }
-                      dialogDescription={
-                        !file.private
-                          ? "Make file accessible to members only"
-                          : "Make file accessible to everyone"
-                      }
-                    /> */}
                 </div>
 
                 <div className="text-muted-foreground flex justify-end">

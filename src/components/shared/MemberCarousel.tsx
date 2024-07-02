@@ -31,7 +31,7 @@ type Props = {
 
 export default function MemberCarousel({ teamMembersData,focusedUser,setFocusedUser }: Props) {
   return (
-    <div className="flex flex-col items-center justify-center p-10 w-[75%]">
+    <div className="flex flex-col items-center justify-center p-10 w-[90%] sm:w-[75%]">
       <Carousel className="w-full">
         <CarouselPrevious />
         <CarouselContent>
@@ -40,13 +40,13 @@ export default function MemberCarousel({ teamMembersData,focusedUser,setFocusedU
               <CarouselItem
                 onClick={() => setFocusedUser(user)}
                 key={index}
-                className="w-full group cursor-pointer sm:basis-1/2 md:basis-1/2"
+                className="w-full group cursor-pointer xl:basis-1/2"
               >
                 <Card
                   className={`
                  group-hover:border-gray-300 ${focusedUser?._id === user._id ? "border-gray-300" : ""}`}
                 >
-                  <CardHeader className="flex flex-row gap-3 items-center justify-start">
+                  <CardHeader className="flex sm:flex-row flex-col gap-3 items-center justify-start">
                     <Avatar className="w-[50px] h-[50px]">
                       <AvatarImage src={user.image} />
                       <AvatarFallback className=" text-2xl">
@@ -56,8 +56,8 @@ export default function MemberCarousel({ teamMembersData,focusedUser,setFocusedU
                     {user.name}
                   </CardHeader>
                   <CardContent>
-                    <CardDescription className="flex items-center justify-between">
-                      <h1>Email : {user.email}</h1>
+                    <CardDescription className="flex sm:flex-row gap-3 sm:gap-0 flex-col items-center justify-between">
+                      <p className="text-wrap">Email : {user.email}</p>
                       <DeleteTeamMember email={user.email} />
                     </CardDescription>
                   </CardContent>
