@@ -45,12 +45,12 @@ const FileRow = ({
   router,
   user,
   teamId,
-  setIsUpdated
+  setIsUpdated,
 }: {
   file: FILE;
   user: any;
   router: ReturnType<typeof useRouter>;
-  setIsUpdated:React.Dispatch<SetStateAction<boolean>>;
+  setIsUpdated: React.Dispatch<SetStateAction<boolean>>;
   teamId: string;
 }) => (
   <tr key={file._id} className="odd:bg-muted/50 cursor-pointer">
@@ -81,8 +81,18 @@ const FileRow = ({
         !file.writtenBy.includes(user.email) && <Badge>No Access</Badge>}
     </td>
     <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
-      <ReadAccessModal setIsUpdated={setIsUpdated} teamId={teamId} focusedUser={user} file={file} />
-      <WriteAccessModal />
+      <ReadAccessModal
+        setIsUpdated={setIsUpdated}
+        teamId={teamId}
+        focusedUser={user}
+        file={file}
+      />
+      <WriteAccessModal
+        setIsUpdated={setIsUpdated}
+        teamId={teamId}
+        file={file}
+        focusedUser={user}
+      />
     </td>
   </tr>
 );
@@ -91,12 +101,12 @@ function FileList({
   fileList,
   user,
   teamId,
-  setIsUpdated
+  setIsUpdated,
 }: {
   fileList?: FILE[];
   user: any;
   teamId: string;
-  setIsUpdated:React.Dispatch<SetStateAction<boolean>>;
+  setIsUpdated: React.Dispatch<SetStateAction<boolean>>;
 }) {
   const router = useRouter();
   const convex = useConvex();
@@ -184,7 +194,7 @@ function FileList({
               {(sortedFiles.length > 0 ? sortedFiles : safeFileList).map(
                 (file, index) => (
                   <FileRow
-                  setIsUpdated={setIsUpdated}
+                    setIsUpdated={setIsUpdated}
                     teamId={teamId}
                     user={user}
                     key={index}
@@ -225,7 +235,12 @@ function FileList({
                       file={file}
                       focusedUser={user}
                     />
-                    <WriteAccessModal />
+                    <WriteAccessModal
+                      setIsUpdated={setIsUpdated}
+                      teamId={teamId}
+                      file={file}
+                      focusedUser={user}
+                    />
                   </div>
                 </div>
                 <div className="flex justify-between items-center mb-2">
