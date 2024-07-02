@@ -1,20 +1,13 @@
 import { useState, useEffect } from "react";
 import {
   Loader2,
-  Trash2,
   ChevronsUpDown,
   ArchiveIcon,
-  ArchiveRestore,
-  Clock,
-  Edit,
   CheckCircle2,
-  EyeIcon,
   Edit3Icon,
 } from "lucide-react";
-import moment from "moment";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useConvex, useMutation } from "convex/react";
+import { useConvex } from "convex/react";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -28,6 +21,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
+import ReadAccessModal from "@/components/shared/ReadAccessModal";
 
 export interface FILE {
   archive: boolean;
@@ -143,43 +137,10 @@ const FileRow = ({
       {!file.readBy && !file.writtenBy && <Badge>No Access</Badge>}
     </td>
     <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
-      <Button size={"icon"} variant={"secondary"}>
-        <EyeIcon className="w-5 h-5" />
-      </Button>
+      <ReadAccessModal />
       <Button size={"icon"} variant={"secondary"}>
         <Edit3Icon  className="w-5 h-5" />
       </Button>
-      {/* <RenameFileModal id={file._id} />
-      {pathname === "/dashboard" && (
-        <ActionDialog
-          isSubmitted={isSubmitted}
-          successTitle="File Archived Successfully!!"
-          buttonIcon={ArchiveIcon}
-          dialogTitle="Are you absolutely sure?"
-          dialogDescription="This will add your file to the archive section."
-          onAction={(e) => onArchive(e, file._id)}
-        />
-      )}
-      {pathname === "/dashboard/archive" && (
-        <ActionDialog
-          isSubmitted={isSubmitted}
-          successTitle="File Restored Successfully!!"
-          buttonIcon={ArchiveRestore}
-          dialogTitle="Are you absolutely sure?"
-          dialogDescription="This will unarchive your file."
-          onAction={(e) => onUnarchive(e, file._id)}
-          buttonVariant="destructive"
-        />
-      )}
-      <ActionDialog
-        buttonIcon={Trash2}
-        isSubmitted={isSubmitted}
-        successTitle="File Deleted Successfully!!"
-        dialogTitle="Are you absolutely sure?"
-        dialogDescription="This action cannot be undone. This will permanently delete your file and remove your data from our servers."
-        onAction={(e) => onDelete(e, file._id)}
-        buttonVariant="destructive"
-      /> */}
     </td>
   </tr>
 );
@@ -195,8 +156,6 @@ function FileList({ fileList, user }: { fileList?: FILE[]; user: any }) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const safeFileList = Array.isArray(fileList) ? fileList : [];
   const pathname = usePathname();
-
-  console.log(fileList);
 
   const sortedFiles = [...safeFileList];
   if (sortConfig !== null) {
@@ -304,9 +263,7 @@ function FileList({ fileList, user }: { fileList?: FILE[]; user: any }) {
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-bold text-xl">{file.fileName}</span>
                   <div className="flex gap-2">
-                    <Button size={"icon"} variant={"secondary"}>
-                      <EyeIcon className="w-5 h-5" />
-                    </Button>
+                    <ReadAccessModal />
                     <Button size={"icon"} variant={"secondary"}>
                       <Edit3Icon size={"icon"} className="w-5 h-5" />
                     </Button>
