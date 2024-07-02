@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import ReadAccessModal from "@/components/shared/ReadAccessModal";
+import WriteAccessModal from "@/components/shared/WriteAccessModal";
 
 export interface FILE {
   archive: boolean;
@@ -138,9 +139,7 @@ const FileRow = ({
     </td>
     <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
       <ReadAccessModal />
-      <Button size={"icon"} variant={"secondary"}>
-        <Edit3Icon  className="w-5 h-5" />
-      </Button>
+      <WriteAccessModal />
     </td>
   </tr>
 );
@@ -264,9 +263,7 @@ function FileList({ fileList, user }: { fileList?: FILE[]; user: any }) {
                   <span className="font-bold text-xl">{file.fileName}</span>
                   <div className="flex gap-2">
                     <ReadAccessModal />
-                    <Button size={"icon"} variant={"secondary"}>
-                      <Edit3Icon size={"icon"} className="w-5 h-5" />
-                    </Button>
+                    <WriteAccessModal />
                   </div>
                 </div>
                 <div className="flex justify-between items-center mb-2">

@@ -1,5 +1,5 @@
 "use client";
-import { EyeIcon } from "lucide-react";
+import { Edit3Icon, EyeIcon } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,7 @@ import {
 import { Button } from "../ui/button";
 import { useState } from "react";
 
-export default function ReadAccessModal() {
+export default function WriteAccessModal() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -29,8 +29,8 @@ export default function ReadAccessModal() {
       }}
     >
       <DialogTrigger>
-        <Button variant={"secondary"} size="icon">
-          <EyeIcon className="w-4 h-4" />
+        <Button size={"icon"} variant={"secondary"}>
+          <Edit3Icon size={"icon"} className="w-5 h-5" />
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -38,11 +38,11 @@ export default function ReadAccessModal() {
           <>
             <DialogHeader>
               <DialogTitle>
-                <h1>Read File Access</h1>
+                <h1>Write File Access</h1>
               </DialogTitle>
             </DialogHeader>
             <DialogDescription>
-              This will give the read file access to the member!!
+              This will give the write access to the member!!
             </DialogDescription>
             <div className=" flex gap-2">
               <Button onClick={() => setOpen(false)} variant={"secondary"}>
@@ -56,7 +56,7 @@ export default function ReadAccessModal() {
         {isSubmitted && (
           <>
             <DialogHeader>
-              <DialogTitle>Read File Access granted!!</DialogTitle>
+              <DialogTitle>Write File Access granted!!</DialogTitle>
             </DialogHeader>
             <DialogFooter>
               <Button onClick={() => window.location.reload()}>Close</Button>
