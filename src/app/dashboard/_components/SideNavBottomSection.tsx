@@ -123,7 +123,7 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam, user }: an
         </Link>
       ))}
 
-      {user?.email === activeTeam?.createdBy && <Link href={`/dashboard/team`}>
+      {user?.email === activeTeam?.createdBy && <Link href={`/teams/settings/${activeTeam?._id}`}>
         <h2
           className={`flex gap-2 p-1 ${
             pathname == `/dashboard/team` ? "bg-muted" : ""
