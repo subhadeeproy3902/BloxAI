@@ -138,7 +138,7 @@ const FileRow = ({
       {!file.readBy && !file.writtenBy && <Badge>No Access</Badge>}
     </td>
     <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
-      <ReadAccessModal />
+      <ReadAccessModal focusedUser={user} file={file} />
       <WriteAccessModal />
     </td>
   </tr>
@@ -255,14 +255,13 @@ function FileList({ fileList, user }: { fileList?: FILE[]; user: any }) {
             </div>
             {sortedFiles.map((file, index) => (
               <div
-                onClick={() => router.push("/workspace/" + file._id)}
                 key={index}
                 className={`border p-4 mb-4 rounded ${index % 2 === 0 ? "bg-muted/50" : ""}`}
               >
                 <div className="flex justify-between items-center mb-2">
-                  <span className="font-bold text-xl">{file.fileName}</span>
+                  <span onClick={() => router.push("/workspace/" + file._id)} className="font-bold text-xl">{file.fileName}</span>
                   <div className="flex gap-2">
-                    <ReadAccessModal />
+                    <ReadAccessModal file={file} focusedUser={user} />
                     <WriteAccessModal />
                   </div>
                 </div>

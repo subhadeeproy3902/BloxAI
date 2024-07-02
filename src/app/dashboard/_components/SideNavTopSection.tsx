@@ -17,6 +17,8 @@ import { setTeamInfo } from "@/app/Redux/Team/team-slice";
 import RenameTeamModal from "@/components/shared/RenameTeamModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import MembersList from "@/components/shared/MembersList";
+import axiosInstance from "@/config/AxiosInstance";
+import { getTeamMembersData } from "@/lib/API-URLs";
 
 export interface TEAM {
   createdBy: string;
@@ -48,8 +50,6 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
   const [teamMembersData, setTeamData] = useState<any[]>([]);
   const [ActiveTeamMembers, setActiveTeamMembers] = useState<string[]>([]);
 
-  console.log(activeTeam)
-
   useEffect(() => {
     user && getTeamList();
   }, [user]);
@@ -69,22 +69,17 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
   useEffect(() => {
     const getData = async () => {
       if (ActiveTeamMembers) {
-        const memberDataPromises = ActiveTeamMembers.map((mem) =>
-          convex.query(api.user.getUser, { email: mem })
-        );
+        const res = await axiosInstance.get(`${getTeamMembersData}/${activeTeam?._id}`);
+        console.log(res.data);
 
-        const results = await Promise.all(memberDataPromises);
-
-        const memberData = results.flatMap((result) => result || []);
-
-        setTeamData(memberData);
+        setTeamData(res.data.memberData);
       }
     };
 
     if (teamList && activeTeam) {
       getData();
     }
-  }, [ActiveTeamMembers]);
+  }, [ActiveTeamMembers, activeTeam]);
 
   useEffect(() => {
     activeTeam ? setActiveTeamInfo(activeTeam) : null;
