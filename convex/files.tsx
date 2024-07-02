@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { Id } from "./_generated/dataModel";
 
 export const createFile = mutation({
   args: {
@@ -191,11 +192,7 @@ export const updateWrite = mutation({
 });
 
 export const updateRead = mutation({
-  args: {
-    _id: v.id("files"),
-    readBy: v.array(v.string())
-  },
-  handler: async (ctx, args) => {
+  handler: async (ctx, args:{_id : Id<"files">, readBy:string[]}) => {
     const { _id,readBy } = args;
     const res = await ctx.db.patch(_id, { readBy:readBy, write:false, read:true });
     return res;
