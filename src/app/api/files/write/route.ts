@@ -5,9 +5,9 @@ import { Id } from "../../../../../convex/_generated/dataModel";
 // Give write read access
 export const POST = async (req: Request) => {
   try {
-    const { teamId, email, memberEmail, writtenBy, fileId } = await req.json();
+    const { teamId, email, memberEmail, writtenBy, readBy, fileId } = await req.json();
 
-    if (!teamId || !memberEmail || !email || !fileId || !writtenBy)
+    if (!teamId || !memberEmail || !email || !fileId || !writtenBy || !readBy)
       return new Response("Parameters missing!!", { status: 401 });
 
     const client = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
@@ -21,9 +21,14 @@ export const POST = async (req: Request) => {
     if (teamInfo.createdBy !== email) {
       return new Response("Only owner can make changes!!", { status: 400 });
     }
+
+    if(!readBy.includes(memberEmail)){
+      readBy.push(memberEmail)
+    }
     
     writtenBy.push(memberEmail);
-
+    
+    await client.mutation(api.files.updateRead, { _id: fileId as Id<"files">, readBy:readBy });
     await client.mutation(api.files.updateWrite, { _id: fileId as Id<"files">, writtenBy:writtenBy });
 
     return new Response("Read Access given!!", { status: 200 });
