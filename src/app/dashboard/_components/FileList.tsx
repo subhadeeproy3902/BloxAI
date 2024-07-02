@@ -244,6 +244,8 @@ function FileList({
   const safeFileList = Array.isArray(fileList) ? fileList : [];
   const pathname = usePathname();
 
+  console.log(fileList)
+
   useEffect(() => {
     const getData = async () => {
       let listOfCreators: string[] = [];

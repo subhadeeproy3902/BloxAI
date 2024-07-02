@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import {
   Loader2,
   ChevronsUpDown,
@@ -40,79 +40,18 @@ export interface FILE {
   writtenBy: string[];
 }
 
-const ActionDialog = ({
-  buttonIcon: ButtonIcon,
-  dialogTitle,
-  dialogDescription,
-  onAction,
-  buttonVariant = "secondary",
-  isSubmitted,
-  successTitle,
-}: {
-  buttonIcon: typeof ArchiveIcon;
-  dialogTitle: string;
-  dialogDescription: string;
-  onAction: (e: any) => void;
-  buttonVariant?:
-    | "secondary"
-    | "link"
-    | "default"
-    | "destructive"
-    | "outline"
-    | "ghost"
-    | null;
-  isSubmitted: boolean;
-  successTitle: string;
-}) => (
-  <AlertDialog>
-    <AlertDialogTrigger>
-      <Button variant={buttonVariant} size="icon">
-        <ButtonIcon className="h-4 w-4" />
-      </Button>
-    </AlertDialogTrigger>
-    <AlertDialogContent>
-      {!isSubmitted && (
-        <>
-          <AlertDialogHeader>
-            <AlertDialogTitle>{dialogTitle}</AlertDialogTitle>
-            <AlertDialogDescription>{dialogDescription}</AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <Button onClick={onAction}>Continue</Button>
-          </AlertDialogFooter>
-        </>
-      )}
-      {isSubmitted && (
-        <>
-          <AlertDialogHeader>
-            <AlertDialogTitle className="flex gap-2">
-              <p>{successTitle}</p> <CheckCircle2 className="w-6 h-6" />
-            </AlertDialogTitle>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction
-              onClick={() => {
-                window.location.reload();
-              }}
-            >
-              Continue
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </>
-      )}
-    </AlertDialogContent>
-  </AlertDialog>
-);
-
 const FileRow = ({
   file,
   router,
   user,
+  teamId,
+  setIsUpdated
 }: {
   file: FILE;
   user: any;
   router: ReturnType<typeof useRouter>;
+  setIsUpdated:React.Dispatch<SetStateAction<boolean>>;
+  teamId: string;
 }) => (
   <tr key={file._id} className="odd:bg-muted/50 cursor-pointer">
     <td
@@ -138,16 +77,27 @@ const FileRow = ({
         ? file.writtenBy &&
           file.writtenBy.includes(user.email) && <Badge>Write</Badge>
         : ""}
-      {!file.readBy && !file.writtenBy && <Badge>No Access</Badge>}
+      {!file.readBy.includes(user.email) &&
+        !file.writtenBy.includes(user.email) && <Badge>No Access</Badge>}
     </td>
     <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
-      <ReadAccessModal focusedUser={user} file={file} />
+      <ReadAccessModal setIsUpdated={setIsUpdated} teamId={teamId} focusedUser={user} file={file} />
       <WriteAccessModal />
     </td>
   </tr>
 );
 
-function FileList({ fileList, user }: { fileList?: FILE[]; user: any }) {
+function FileList({
+  fileList,
+  user,
+  teamId,
+  setIsUpdated
+}: {
+  fileList?: FILE[];
+  user: any;
+  teamId: string;
+  setIsUpdated:React.Dispatch<SetStateAction<boolean>>;
+}) {
   const router = useRouter();
   const convex = useConvex();
   const [sortConfig, setSortConfig] = useState<{
@@ -155,9 +105,7 @@ function FileList({ fileList, user }: { fileList?: FILE[]; user: any }) {
     direction: string;
   } | null>(null);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const safeFileList = Array.isArray(fileList) ? fileList : [];
-  const pathname = usePathname();
 
   const sortedFiles = [...safeFileList];
   if (sortConfig !== null) {
@@ -195,8 +143,6 @@ function FileList({ fileList, user }: { fileList?: FILE[]; user: any }) {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  console.log(fileList)
 
   return (
     <div className="mt-10">
@@ -238,6 +184,8 @@ function FileList({ fileList, user }: { fileList?: FILE[]; user: any }) {
               {(sortedFiles.length > 0 ? sortedFiles : safeFileList).map(
                 (file, index) => (
                   <FileRow
+                  setIsUpdated={setIsUpdated}
+                    teamId={teamId}
                     user={user}
                     key={index}
                     file={file}
@@ -271,7 +219,12 @@ function FileList({ fileList, user }: { fileList?: FILE[]; user: any }) {
                     {file.fileName}
                   </span>
                   <div className="flex gap-2">
-                    <ReadAccessModal file={file} focusedUser={user} />
+                    <ReadAccessModal
+                      setIsUpdated={setIsUpdated}
+                      teamId={teamId}
+                      file={file}
+                      focusedUser={user}
+                    />
                     <WriteAccessModal />
                   </div>
                 </div>
@@ -283,9 +236,10 @@ function FileList({ fileList, user }: { fileList?: FILE[]; user: any }) {
                     {file.writtenBy && file.writtenBy.includes(user.email) && (
                       <Badge>Write</Badge>
                     )}
-                    {!file.readBy && !file.writtenBy && (
-                      <Badge>No Access</Badge>
-                    )}
+                    {!file.readBy.includes(user.email) &&
+                      !file.writtenBy.includes(user.email) && (
+                        <Badge>No Access</Badge>
+                      )}
                   </div>
                 </div>
 

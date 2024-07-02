@@ -86,8 +86,12 @@ export default function MemberModal({
                 <h1>{file.fileName}</h1>
 
                 <div className="flex gap-3">
-                  { file.readBy?.includes(email) && <Badge>Read</Badge>}
-                  { file.writtenBy?.includes(email) && <Badge>Write</Badge>}
+                  {file.readBy && file.readBy.includes(email) && (
+                    <Badge>Read</Badge>
+                  )}
+                  {file.writtenBy && file.writtenBy.includes(email) && (
+                    <Badge>Write</Badge>
+                  )}
                 </div>
               </div>
             ))}

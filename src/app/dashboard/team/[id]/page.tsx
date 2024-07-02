@@ -5,12 +5,12 @@ import axiosInstance from "@/config/AxiosInstance";
 import { getTeamMembersData } from "@/lib/API-URLs";
 import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import FileList from "./_components/FileList";
+import FileList from "../_components/FileList";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { toggleClose } from "@/app/Redux/Menu/menuSlice";
 
-export default function Page() {
-  const teamId = useSelector((state: RootState) => state.team.teamId);
+export default function Page({ params }: { params: { id: string } }) {
+  const teamId = params.id;
   const [teamMembersData, setData] = useState(null);
   const [focusedUser, setFocusedUser] = useState<USER | null>(null);
   const [fileList, setFileList] = useState<any>();
@@ -76,7 +76,7 @@ export default function Page() {
         </div>
       )}
 
-      <div className=" w-full px-10">
+      <div className=" w-full px-16">
         {focusedUser !== null && (
           <FileList user={focusedUser} fileList={fileList} />
         )}
