@@ -35,8 +35,6 @@ export default function WriteAccessModal({
   const [open, setOpen] = useState(false);
   const { user }: any = useKindeBrowserClient();
 
-  console.log(user)
-
   const SubmitHandler = async () => {
     if (file.writtenBy && file.writtenBy.includes(focusedUser.email)) {
       try {

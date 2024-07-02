@@ -4,10 +4,13 @@ import WorkspaceHeader from "../_components/WorkspaceHeader";
 import Editor from "../_components/Editor";
 import { useConvex } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
-import { FILE } from "../../dashboard/_components/FileList";
 import Canvas from "../_components/Canvas";
 import dynamic from 'next/dynamic';
 import EditorJS, { OutputData } from "@editorjs/editorjs";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import Loader from "@/components/shared/Loader";
+import { FILE } from "@/app/teams/settings/_components/FileList";
+import PrivateAlert from "@/components/shared/PrivateAlert";
 
 // Dynamic imports for server-side libraries
 const jsPDFPromise = import('jspdf');
@@ -16,16 +19,34 @@ const excalidrawPromise = import('@excalidraw/excalidraw');
 function Workspace({ params }: any) {
   const [triggerSave, setTriggerSave] = useState(false);
   const convex = useConvex();
-  const [fileData, setFileData] = useState<FILE | any>();
+  const [fileData, setFileData] = useState<FILE | null>(null);
   const [fullScreen, setFullScreen] = useState(false);
   const editorRef = useRef<EditorJS | null>(null);
   const canvasRef = useRef<any>(null);
+  const { user, isLoading, isAuthenticated } = useKindeBrowserClient();
+
+  const [isError,setError] = useState(false);
+  const [errorMsg,setErrorMsg] = useState("");
 
   useEffect(() => {
     if (params.fileId) {
       getFileData();
     }
   }, [params.fileId]);
+
+  useEffect(()=>{
+    if(fileData && !isLoading && fileData.private){
+      if(user){
+        if((fileData.readBy && !fileData.readBy.includes(user.email!)) || fileData.createdBy !== user.email){
+          setError(true);
+          setErrorMsg("Invalid Access! Request owner to give read or write access!")
+        }
+      }else{
+        setError(true);
+        setErrorMsg("Invalid Access! Request owner to make file public!!");
+      }
+    }
+  },[isLoading,fileData])
 
   const getFileData = async () => {
     const result = await convex.query(api.files.getFileById, {
@@ -193,7 +214,9 @@ function Workspace({ params }: any) {
     return lines;
   };
 
-  return (
+  if(isLoading && fileData === null) return <Loader />
+
+  return !isError ? (
     <div className="overflow-x-hidden">
       <WorkspaceHeader
         onSave={() => setTriggerSave(!triggerSave)}
@@ -209,7 +232,7 @@ function Workspace({ params }: any) {
             ref={editorRef as MutableRefObject<EditorJS | null>}
             onSaveTrigger={triggerSave}
             fileId={params.fileId}
-            fileData={fileData}
+            fileData={fileData!}
           />
         </div>
         <div className={`h-screen border-l`}>
@@ -217,12 +240,14 @@ function Workspace({ params }: any) {
             ref={canvasRef as MutableRefObject<any>}
             onSaveTrigger={triggerSave}
             fileId={params.fileId}
-            fileData={fileData}
+            fileData={fileData!}
           />
         </div>
       </div>
     </div>
-  );
+  ) : (
+    <PrivateAlert errorMsg={errorMsg} />
+  )
 }
 
 export default Workspace;
