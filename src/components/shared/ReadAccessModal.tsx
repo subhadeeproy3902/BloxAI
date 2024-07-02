@@ -2,7 +2,6 @@
 import { EyeIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { SetStateAction, useState } from "react";
-import { FILE } from "@/app/dashboard/team/_components/FileList";
 import { USER } from "./MemberCarousel";
 import axiosInstance from "@/config/AxiosInstance";
 import { updateReadAccessUrl } from "@/lib/API-URLs";
@@ -17,6 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import { FILE } from "@/app/teams/settings/_components/FileList";
 
 type Props = {
   file: FILE;
