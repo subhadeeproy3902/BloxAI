@@ -197,7 +197,7 @@ export const updateRead = mutation({
   },
   handler: async (ctx, args) => {
     const { _id,readBy } = args;
-    const res = await ctx.db.patch(_id, { readBy, write:false, read:true });
+    const res = await ctx.db.patch(_id, { readBy:readBy, write:false, read:true });
     return res;
   },
 });

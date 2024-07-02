@@ -1,6 +1,7 @@
 import { api } from "../../../../../convex/_generated/api";
 import { ConvexHttpClient } from "convex/browser";
 import { Id } from "../../../../../convex/_generated/dataModel";
+import { v } from "convex/values";
 
 // Give user read access
 export const POST = async (req: Request) => {
@@ -25,14 +26,17 @@ export const POST = async (req: Request) => {
       return new Response("Only owner can make changes!!", { status: 400 });
     }
     
-    const updatedReadBy = readBy.push(memberEmail);
     
-    const res = await client.mutation(api.files.updateRead, { _id: fileId, readBy:updatedReadBy as string[] });
+    const updatedReadBy:string[]  = readBy.push(memberEmail);
+
+    const res = await client.mutation(api.files.updateRead, { _id: fileId as Id<"files">, readBy:updatedReadBy });
     console.log(res)
     console.log(teamInfo)
     return new Response("Changed to Public!!", { status: 200 });
   } catch (err) {
+    console.log(err)
     return new Response(`Error: ${err}`, {status:500})
+
   }
 };
 
