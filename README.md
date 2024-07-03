@@ -1,11 +1,39 @@
+<center>
+<img  src="https://readme-typing-svg.herokuapp.com?color=45ffaa&size=40&width=900&height=80&lines=Welcome-to-Box-AI"/>
+</center
+
 <a name="top"></a>
 ![](https://i.postimg.cc/FF6TxJdC/home.jpg)
-
-# Blox AI
+<br>
 
 Welcome to Blox AI, where crafting flowcharts and diagrams is a breeze and get an explanation from the top Google Gemini model about your creations! Seamlessly create stunning visuals and rich documentation with our intuitive tools. Collaborate effortlessly with your team, from basic flowcharts to intricate diagrams. Enjoy secure workspaces and easy sharing. Start visualizing your ideas today!
 
 Visit the site here - [Blox AI](https://blox-ai.vercel.app/)
+
+## 🏆 Featured in:
+
+<table>
+    <tr>
+      <th>Event Logo</th>
+      <th>Event Name</th>
+      <th>Event Description</th>
+    </tr>
+    <tr>
+        <td><img src="screenshots/Gssoc Label.png" width="200" height="auto" loading="lazy" alt="GSSoC 24"/></td>
+        <td>GirlScript Summer of Code 2024</td>
+        <td>GirlScript Summer of Code is a three-month-long Open Source Program conducted every summer by GirlScript Foundation. It is an initiative to bring more beginners to Open-Source Software Development. 
+    </tr>
+</table>
+
+# Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Authors](#authors)
+- [Contributors](#contributors)
+- [How to Get API Keys](#how-to-get-api-keys?)
+- [Licence](#licence)
+
 
 ## Features
 
@@ -81,7 +109,7 @@ Thanks to all contributors for helping this project grow! 🍻
   <img src="https://contrib.rocks/image?repo=subhadeeproy3902/BloxAI" width=800 />
 </a>
  
-## 🙏 Support
+## Support 🙏 
 
 Don't forget to leave a star ⭐ for this project!
 
