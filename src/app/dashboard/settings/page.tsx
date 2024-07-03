@@ -36,17 +36,17 @@ export default function Page() {
       <Navbar />
       {user && savedData && (
         <div className="flex w-full h-full xl:p-5 items-center justify-center">
-          <Card className="flex rounded-lg overflow-hidden relative sm:w-[700px] flex-col items-center justify-center p-10 gap-6 px-10">
-            <div className="absolute w-full h-[140px] z-0 gradientBackground top-0"></div>
+          <Card className="flex w-[300px] rounded-lg overflow-hidden relative sm:w-[700px] flex-col items-center justify-center my-5 sm:my-0 p-10 gap-6">
+            <div className="absolute w-full h-[100px] sm:h-[140px] z-0 gradientBackground top-0"></div>
 
             <Button
               variant={"secondary"}
               size={"icon"}
-              className="absolute top-14 w-[32px] h-[32px] right-[37%] rounded-full z-10"
+              className="absolute top-9 sm:top-14 w-[32px] h-[32px] right-[37%] rounded-full z-10"
             >
               <PencilIcon className="w-4 h-4" />
             </Button>
-            <Avatar className="w-[180px] relative h-[180px]">
+            <Avatar className="w-[100px] sm:w-[180px] relative h-[100px] sm:h-[180px]">
               <AvatarImage src={image} />
               <AvatarFallback className=" text-2xl">
                 {user?.given_name?.charAt(0)}
@@ -57,7 +57,7 @@ export default function Page() {
               <h1 className=" font-bold">{savedData.name}</h1>
               <p className=" text-gray-400">{savedData.email}</p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <Button variant={"secondary"}>Change Picture</Button>
               <Button
                 onClick={() => {

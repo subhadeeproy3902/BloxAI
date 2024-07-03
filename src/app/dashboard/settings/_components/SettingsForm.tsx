@@ -62,7 +62,7 @@ export function SettingsForm({ savedData,image }: Props) {
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full space-y-6 flex flex-col items-center justify-center"
       >
-        <div className="flex w-[400px] flex-col gap-2">
+        <div className="flex sm:w-[400px] flex-col gap-2">
           <FormItem className="w-full">
             <FormLabel className="px-2">Email</FormLabel>
             <FormControl>
