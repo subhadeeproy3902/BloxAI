@@ -3,12 +3,14 @@
 </center
 
 <a name="top"></a>
-![](https://i.postimg.cc/FF6TxJdC/home.jpg)
+<p align="center">
+  <img src="https://i.postimg.cc/FF6TxJdC/home.jpg" width="900" style="border: 2px solid #000000;" alt="Blox AI Home">
+</p>
 <br>
 
 Welcome to Blox AI, where crafting flowcharts and diagrams is a breeze and get an explanation from the top Google Gemini model about your creations! Seamlessly create stunning visuals and rich documentation with our intuitive tools. Collaborate effortlessly with your team, from basic flowcharts to intricate diagrams. Enjoy secure workspaces and easy sharing. Start visualizing your ideas today!
 
-Visit the site here - [Blox AI](https://blox-ai.vercel.app/)
+<p align="center"><strong>Visit the site here - <a href="https://blox-ai.vercel.app/" style="background-color: yellow; padding: 5px; border-radius: 5px;">Blox AI</a></strong></p>
 
 ## 🏆 Featured in:
 
@@ -19,7 +21,7 @@ Visit the site here - [Blox AI](https://blox-ai.vercel.app/)
       <th>Event Description</th>
     </tr>
     <tr>
-        <td><img src="screenshots/Gssoc Label.png" width="200" height="auto" loading="lazy" alt="GSSoC 24"/></td>
+        <td><img src="public/Gssoc Label.png" width="200" height="auto" loading="lazy" alt="GSSoC 24"/></td>
         <td>GirlScript Summer of Code 2024</td>
         <td>GirlScript Summer of Code is a three-month-long Open Source Program conducted every summer by GirlScript Foundation. It is an initiative to bring more beginners to Open-Source Software Development. 
     </tr>
@@ -113,6 +115,6 @@ Thanks to all contributors for helping this project grow! 🍻
 
 Don't forget to leave a star ⭐ for this project!
 
-Crafted with ♥ by @subhadeeproy3902 & @xeven777.
+<p align="center"><strong> Crafted with ♥ by @subhadeeproy3902 & @xeven777. </strong></p>
 
 <p align="right"><a href="#top">Back to top</a></p>
