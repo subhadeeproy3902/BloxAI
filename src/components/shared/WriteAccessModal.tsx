@@ -1,49 +1,93 @@
 "use client";
-import { Edit3Icon, EyeIcon } from "lucide-react";
+import { Edit3Icon } from "lucide-react";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { FILE } from "@/app/teams/settings/_components/FileList";
+import { USER } from "./MemberCarousel";
+import axiosInstance from "@/config/AxiosInstance";
+import { updateWriteAccessUrl } from "@/lib/API-URLs";
 
-export default function WriteAccessModal() {
+type Props = {
+  file: FILE;
+  setIsUpdated: React.Dispatch<SetStateAction<boolean>>;
+  focusedUser: USER;
+  teamId: string;
+};
+
+export default function WriteAccessModal({
+  file,
+  focusedUser,
+  teamId,
+  setIsUpdated,
+}:Props) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [open, setOpen] = useState(false);
+  const { user }: any = useKindeBrowserClient();
 
-  const SubmitHandler = () => {
-    setIsSubmitted(true);
+  const SubmitHandler = async () => {
+    if (file.writtenBy && file.writtenBy.includes(focusedUser.email)) {
+      try {
+        const res = await axiosInstance.put(`${updateWriteAccessUrl}`, {
+          teamId,
+          email: user.email,
+          memberEmail: focusedUser.email,
+          writtenBy: file.writtenBy !== undefined ? file.writtenBy : [],
+          fileId: file._id,
+        });
+        if (res.status === 200) setIsSubmitted(true);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      try {
+        const res = await axiosInstance.post(`${updateWriteAccessUrl}`, {
+          teamId,
+          email: user.email,
+          memberEmail: focusedUser.email,
+          writtenBy: file.writtenBy !== undefined ? file.writtenBy : [],
+          fileId: file._id,
+          readBy:file.readBy
+        });
+        if (res.status === 200) setIsSubmitted(true);
+      } catch (err) {
+        console.log(err);
+      }
+    }
   };
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={() => {
-        setOpen(!open);
-        setIsSubmitted(false);
-      }}
-    >
-      <DialogTrigger>
-        <Button size={"icon"} variant={"secondary"}>
-          <Edit3Icon size={"icon"} className="w-5 h-5" />
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger>
+        <Button variant={"secondary"} size="icon">
+          <Edit3Icon className="w-4 h-4" />
         </Button>
-      </DialogTrigger>
-      <DialogContent>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
         {!isSubmitted && (
           <>
-            <DialogHeader>
-              <DialogTitle>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
                 <h1>Write File Access</h1>
-              </DialogTitle>
-            </DialogHeader>
-            <DialogDescription>
-              This will give the write access to the member!!
-            </DialogDescription>
+              </AlertDialogTitle>
+            </AlertDialogHeader>
+            <AlertDialogDescription>
+              {!file?.writtenBy?.includes(focusedUser.email) &&
+                "This will give the write file access to the member!!"}
+              {file.writtenBy &&
+                file.writtenBy.includes(focusedUser.email) &&
+                "This will remove the write file access from the member!!"}
+            </AlertDialogDescription>
             <div className=" flex gap-2">
               <Button onClick={() => setOpen(false)} variant={"secondary"}>
                 Cancel
@@ -55,15 +99,28 @@ export default function WriteAccessModal() {
 
         {isSubmitted && (
           <>
-            <DialogHeader>
-              <DialogTitle>Write File Access granted!!</DialogTitle>
-            </DialogHeader>
-            <DialogFooter>
-              <Button onClick={() => window.location.reload()}>Close</Button>
-            </DialogFooter>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                {!file?.writtenBy?.includes(focusedUser.email) &&
+                  "Write File Access Granted!!"}
+                {file.writtenBy &&
+                  file.writtenBy.includes(focusedUser.email) &&
+                  "Write File Access Removed!!"}
+              </AlertDialogTitle>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel
+                onClick={() => {
+                  setIsUpdated(true);
+                  setIsSubmitted(false)
+                }}
+              >
+                Close
+              </AlertDialogCancel>
+            </AlertDialogFooter>
           </>
         )}
-      </DialogContent>
-    </Dialog>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

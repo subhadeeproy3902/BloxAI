@@ -72,7 +72,7 @@ const Editor = forwardRef((props: EditorProps, ref) => {
     }
 
     return () => {
-      if (editorInstanceRef.current) {
+      if (editorInstanceRef.current &&  editorInstanceRef.current.destroy) {
         editorInstanceRef.current.destroy();
         editorInstanceRef.current = null;
       }
@@ -84,7 +84,7 @@ const Editor = forwardRef((props: EditorProps, ref) => {
   }, [props.onSaveTrigger]);
 
   const initEditor = () => {
-    if (editorInstanceRef.current) {
+    if (editorInstanceRef.current &&  editorInstanceRef.current.destroy) {
       editorInstanceRef.current.destroy();
     }
 
