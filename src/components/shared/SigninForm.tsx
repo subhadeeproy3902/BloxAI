@@ -98,7 +98,7 @@ export function SigninForm({}: Props) {
           </div>
 
           <p className=" text-xs text-center text-gray-400">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href={`/signup`} className=" underline">
               Sign up
             </Link>
