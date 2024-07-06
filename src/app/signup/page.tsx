@@ -5,6 +5,7 @@ import { SignupForm } from "@/components/shared/SignupForm";
 import Link from "next/link";
 
 export default function Page() {
+
   return (
     <div className="flex relative h-screen w-screen">
       <div className=" absolute top-5 left-5">

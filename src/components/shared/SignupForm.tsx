@@ -16,6 +16,9 @@ import { LogInIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Separator } from "../ui/separator";
+import axios from "axios";
+import { registerUserUrl } from "@/lib/API-URLs";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z
   .object({
@@ -43,6 +46,8 @@ const FormSchema = z
 type Props = {};
 
 export function SignupForm({}: Props) {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -55,7 +60,21 @@ export function SignupForm({}: Props) {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
+    try {
+      const res = await axios.post(registerUserUrl, {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+      }, {
+        headers: { "Content-Type": "application/json" }
+      });
+
+      if(res.status === 200){
+        return router.push('/signin');
+      }
+
+    } catch (err) {}
   }
 
   return (
@@ -110,7 +129,7 @@ export function SignupForm({}: Props) {
             <FormItem className="w-full p-2">
               <FormLabel className="px-2">Password</FormLabel>
               <FormControl>
-                <Input placeholder="Password..." {...field} />
+                <Input type="password" placeholder="Password..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -123,7 +142,7 @@ export function SignupForm({}: Props) {
             <FormItem className="w-full p-2">
               <FormLabel className="px-2">Confirm Password</FormLabel>
               <FormControl>
-                <Input placeholder="Password..." {...field} />
+                <Input type="password" placeholder="Password..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

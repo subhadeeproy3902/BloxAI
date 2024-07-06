@@ -4,3 +4,4 @@ export const getTeamMembersData = "/api/teams/members";
 export const deleteTeamMemberUrl = "/api/teams/members";
 export const updateReadAccessUrl = "/api/files/read";
 export const updateWriteAccessUrl = "/api/files/write";
+export const registerUserUrl = "/api/auth/register";

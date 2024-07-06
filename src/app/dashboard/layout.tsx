@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useMutation } from "convex/react";
 import Image from "next/image";
 import { RegisterLink } from "@kinde-oss/kinde-auth-nextjs";
+import { SessionProvider } from "next-auth/react";
 
 function DashboardLayout({
   children,
@@ -93,6 +94,7 @@ function DashboardLayout({
   return !loading ? (
     <div>
       <FileListContext.Provider value={{ fileList_, setFileList_ }}>
+      <SessionProvider>
         <div className="md:grid md:grid-cols-4">
           <div
             className={`bg-background z-[2]  h-screen md:w-72 w-36 fixed ${count ? "" : "md:relative hidden"}`}
@@ -101,6 +103,7 @@ function DashboardLayout({
           </div>
           <div className="col-span-4 md:ml-72">{children}</div>
         </div>
+      </SessionProvider>
       </FileListContext.Provider>
     </div>
   ) : (
