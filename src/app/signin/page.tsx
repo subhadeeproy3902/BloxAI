@@ -1,10 +1,23 @@
+"use client";
 import Image from "next/image";
 import heroImg from "@/app/assets/651593780abfac438bc371ae_Group 573.webp";
 import { SigninForm } from "@/components/shared/SigninForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import { useSession,signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export default function Page() {
+  const { data: session } = useSession();
+  console.log(session);
+
+  const router = useRouter();
+
+  // if (session) {
+  //   router.push("/dashboard");
+  // }
+
   return (
     <div className="flex relative h-screen w-screen">
       <div className=" absolute top-5 left-5">
@@ -17,6 +30,7 @@ export default function Page() {
             height={45}
           />
         </Link>
+        <Button onClick={()=>signOut()}>SignOut</Button>
       </div>
 
       <div className="flex items-center justify-center w-full">

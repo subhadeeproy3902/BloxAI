@@ -5,6 +5,7 @@ import ConvexClientProvider from "./ConvexClientProvider";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
 import { Providers } from "./Provider";
+import { AuthProvider } from "./SessionProvider";
 const poppins = Poppins({ weight: ["400", "700", "600"], subsets: ["latin"] });
 
 export const viewport: Viewport = {
@@ -40,8 +41,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  session
 }: Readonly<{
   children: React.ReactNode;
+  session:any;
 }>) {
   return (
     <Providers>
@@ -49,7 +52,9 @@ export default function RootLayout({
         <body className={poppins.className}>
           <ConvexClientProvider>
             <ThemeProvider attribute="class">
-              {children}
+              <AuthProvider session={session}>
+                {children}
+              </AuthProvider>
               <Toaster richColors theme="system" />
             </ThemeProvider>
           </ConvexClientProvider>

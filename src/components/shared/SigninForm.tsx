@@ -16,6 +16,8 @@ import { LogInIcon } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   email: z.string().email().min(1, {
@@ -29,6 +31,9 @@ const FormSchema = z.object({
 type Props = {};
 
 export function SigninForm({}: Props) {
+
+  const router = useRouter()
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -37,7 +42,26 @@ export function SigninForm({}: Props) {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {}
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    try {
+      const {email,password} = data;
+      const res = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: `${window.location.origin}/dashboard`,
+      });
+
+      // if (res?.url) {
+      //   router.push(`${window.location.origin}/dashboard`);
+      // }
+
+      console.log(res);
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <Form {...form}>
@@ -73,7 +97,7 @@ export function SigninForm({}: Props) {
                 </Link>
               </div>
               <FormControl>
-                <Input placeholder="Password..." {...field} />
+                <Input type="password" placeholder="Password..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
