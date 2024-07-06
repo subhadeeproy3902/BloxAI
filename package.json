@@ -23,7 +23,6 @@
     "@excalidraw/mermaid-to-excalidraw": "^0.3.0",
     "@formspree/react": "^2.5.1",
     "@hookform/resolvers": "^3.4.0",
-    "@kinde-oss/kinde-auth-nextjs": "^2.2.6",
     "@langchain/google-genai": "^0.0.16",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-avatar": "^1.0.4",

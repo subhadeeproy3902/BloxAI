@@ -19,6 +19,8 @@ import { Separator } from "../ui/separator";
 import axios from "axios";
 import { registerUserUrl } from "@/lib/API-URLs";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 
 const FormSchema = z
   .object({
@@ -47,6 +49,11 @@ type Props = {};
 
 export function SignupForm({}: Props) {
   const router = useRouter();
+  const isAuth  = useSelector((state:RootState)=>state.auth.user.isAuth);
+
+  if(isAuth){
+    router.push('/dashboard');
+  }
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),

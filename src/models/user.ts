@@ -7,7 +7,7 @@ interface User {
   lastName: string;
   password: string;
   refreshToken?: string;
-
+  image?: string;
 }
 
 const UserSchema = new Schema<User>(
@@ -16,7 +16,8 @@ const UserSchema = new Schema<User>(
     email: { type: String, required: true },
     firstName: String,
     lastName: String,
-    refreshToken: String
+    refreshToken: String,
+    image:String
   },
   { timestamps: true }
 );

@@ -40,11 +40,9 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
-  session
+  children
 }: Readonly<{
   children: React.ReactNode;
-  session:any;
 }>) {
   return (
     <Providers>
@@ -52,7 +50,7 @@ export default function RootLayout({
         <body className={poppins.className}>
           <ConvexClientProvider>
             <ThemeProvider attribute="class">
-              <AuthProvider session={session}>
+              <AuthProvider>
                 {children}
               </AuthProvider>
               <Toaster richColors theme="system" />

@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./Redux/Menu/menuSlice";
 import teamReducer from "./Redux/Team/team-slice"
+import authReducer from "./Redux/Auth/auth-slice"
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
-    team:teamReducer
+    team:teamReducer,
+    auth:authReducer
   },
 });
 

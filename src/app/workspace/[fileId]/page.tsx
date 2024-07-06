@@ -7,10 +7,12 @@ import { api } from "../../../../convex/_generated/api";
 import Canvas from "../_components/Canvas";
 import dynamic from 'next/dynamic';
 import EditorJS, { OutputData } from "@editorjs/editorjs";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import Loader from "@/components/shared/Loader";
 import { FILE } from "@/app/teams/settings/_components/FileList";
 import PrivateAlert from "@/components/shared/PrivateAlert";
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/store';
+import { useSession } from "next-auth/react";
 
 // Dynamic imports for server-side libraries
 const jsPDFPromise = import('jspdf');
@@ -23,7 +25,8 @@ function Workspace({ params }: any) {
   const [fullScreen, setFullScreen] = useState(false);
   const editorRef = useRef<EditorJS | null>(null);
   const canvasRef = useRef<any>(null);
-  const { user, isLoading, isAuthenticated } = useKindeBrowserClient();
+  const {data:session,status} = useSession();
+  const isAuth = useSelector((state:RootState)=>state.auth.user.isAuth)
 
   const [isError,setError] = useState(false);
   const [errorMsg,setErrorMsg] = useState("");
@@ -35,9 +38,9 @@ function Workspace({ params }: any) {
   }, [params.fileId]);
 
   useEffect(()=>{
-    if(fileData && !isLoading && fileData.private){
-      if(user){
-        if((fileData.readBy && !fileData.readBy.includes(user.email!)) || fileData.createdBy !== user.email){
+    if(fileData && session && fileData.private){
+      if(isAuth){
+        if((fileData.readBy && !fileData.readBy.includes(session.user.email)) || fileData.createdBy !== session.user.email){
           setError(true);
           setErrorMsg("Invalid Access! Request owner to give read or write access!")
         }
@@ -46,7 +49,7 @@ function Workspace({ params }: any) {
         setErrorMsg("Invalid Access! Request owner to make file public!!");
       }
     }
-  },[isLoading,fileData])
+  },[fileData])
 
   const getFileData = async () => {
     const result = await convex.query(api.files.getFileById, {
@@ -214,7 +217,7 @@ function Workspace({ params }: any) {
     return lines;
   };
 
-  if(isLoading && fileData === null) return <Loader />
+  if(session === undefined && fileData === null) return <Loader />
 
   return !isError ? (
     <div className="overflow-x-hidden">

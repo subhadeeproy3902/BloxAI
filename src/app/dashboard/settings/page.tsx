@@ -1,7 +1,6 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Navbar from "./_components/Navbar";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { Separator } from "@/components/ui/separator";
 import { useEffect, useState } from "react";
 import { useConvex } from "convex/react";
@@ -11,22 +10,24 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PencilIcon } from "lucide-react";
 import { toast } from "sonner";
+import { RootState } from "@/app/store";
+import { useSelector } from "react-redux";
 
 export default function Page() {
-  const { user } = useKindeBrowserClient();
   const convex = useConvex();
   const [savedData, setSavedData] = useState<any>(null);
   const [image, setImage] = useState<string>("");
+  const user = useSelector((state:RootState)=>state.auth.user)
 
   useEffect(() => {
     const getData = async () => {
       const result = await convex.query(api.user.getUser, {
-        email: user?.email!,
+        email: user.email,
       });
       setSavedData(result[0]);
       setImage(result[0].image);
     };
-    if (user) {
+    if (user.isAuth) {
       getData();
     }
   }, [user]);
@@ -49,8 +50,8 @@ export default function Page() {
             <Avatar className="w-[100px] sm:w-[180px] relative h-[100px] sm:h-[180px]">
               <AvatarImage src={image} />
               <AvatarFallback className=" text-2xl">
-                {user?.given_name?.charAt(0)}
-                {user?.family_name?.charAt(0)}
+                {user.firstName.charAt(0)}
+                {user?.lastName.charAt(0)}
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col items-center justify-center">

@@ -5,7 +5,6 @@ import { SetStateAction, useState } from "react";
 import { USER } from "./MemberCarousel";
 import axiosInstance from "@/config/AxiosInstance";
 import { updateReadAccessUrl } from "@/lib/API-URLs";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -17,6 +16,8 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { FILE } from "@/app/teams/settings/_components/FileList";
+import { RootState } from "@/app/store";
+import { useSelector } from "react-redux";
 
 type Props = {
   file: FILE;
@@ -33,7 +34,8 @@ export default function ReadAccessModal({
 }: Props) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [open, setOpen] = useState(false);
-  const { user }: any = useKindeBrowserClient();
+  const user = useSelector((state:RootState) => state.auth.user);
+  
 
   const SubmitHandler = async () => {
     if (file.readBy && file.readBy.includes(focusedUser.email)) {

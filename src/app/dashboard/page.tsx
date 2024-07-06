@@ -2,7 +2,6 @@
 import type { RootState } from "../store";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { api } from "../../../convex/_generated/api";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useConvex, useMutation } from "convex/react";
 import FileList from "./_components/FileList";
 import { useState, useContext, useEffect } from "react";
@@ -34,20 +33,22 @@ export interface FILE {
 
 function Dashboard() {
   const convex = useConvex();
-  const { user }: any = useKindeBrowserClient();
   const createUser = useMutation(api.user.createUser);
   const count = useSelector((state: RootState) => state.counter.value);
   const activeTeamId = useSelector((state: RootState) => state.team.teamId);
   const dispatch = useDispatch();
   const [userData, setUserdata] = useState<any>();
+  const user = useSelector((state:RootState) => state.auth.user);
+
+  
 
   const checkUser = async () => {
     const result = await convex.query(api.user.getUser, { email: user?.email });
     if (!result?.length) {
       createUser({
-        name: user.given_name,
+        name: user.firstName,
         email: user.email,
-        image: user.picture || "https://picsum.photos/50",
+        image: user.image || "https://picsum.photos/50",
       });
       const res = await convex.query(api.user.getUser, { email: user?.email });
       setUserdata(res[0]);
@@ -121,8 +122,8 @@ function Dashboard() {
               <Avatar className="w-[40px] h-[40px]">
                 <AvatarImage src={userData?.image} />
                 <AvatarFallback className=" text-xs">
-                  {user?.given_name?.charAt(0)}
-                  {user?.family_name?.charAt(0)}
+                  {user.firstName.charAt(0)}
+                  {user.lastName.charAt(0)}
                 </AvatarFallback>
               </Avatar>
             </Link>
@@ -168,8 +169,8 @@ function Dashboard() {
             <Avatar className="w-[40px] h-[40px]">
               <AvatarImage src={userData?.image} />
               <AvatarFallback className=" text-xs">
-                {user?.given_name?.charAt(0)}
-                {user?.family_name?.charAt(0)}
+                {user.firstName.charAt(0)}
+                {user.lastName.charAt(0)}
               </AvatarFallback>
             </Avatar>
           </Link>
@@ -180,7 +181,7 @@ function Dashboard() {
       <FileList
         user={user}
         fileList={fileList || null}
-        picture={user?.picture || "https://picsum.photos/50"}
+        picture={user.image || "https://picsum.photos/50"}
       />
     </div>
   );
