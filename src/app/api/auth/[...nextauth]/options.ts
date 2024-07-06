@@ -70,7 +70,7 @@ export const options: NextAuthOptions = {
         // Save the refresh token to the user document
         user.refreshToken = refreshToken;
         await user.save({ validateBeforeSave: false });
-
+        
         token.id = user._id;
         token.email = user.email;
         token.firstName = user.firstName;

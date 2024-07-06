@@ -44,6 +44,7 @@ export default function Page() {
             height={45}
           />
         </Link>
+        <Button onClick={()=>signOut()}>SignOut</Button>
       </div>
 
       <div className="flex items-center justify-center w-full">
