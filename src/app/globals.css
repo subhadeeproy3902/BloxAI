@@ -9,6 +9,71 @@
     transform: translateY(-50%);
   }
 }
+.custom-card {
+  transition: transform 0.3s, opacity 0.3s;
+  transform: translateY(50px);
+  opacity: 0.5;
+}
+
+.custom-card.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.custom-gradient-1 {
+  background-color: hsla(0, 40%, 76%, 1);
+  background-image:
+    radial-gradient(at 40% 20%, hsla(19, 0%, 100%, 1) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, hsla(287, 100%, 74%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, hsla(355, 0%, 100%, 1) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, hsla(339, 71%, 56%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(65, 0%, 100%, 0.76) 0px, transparent 50%),
+    radial-gradient(at 80% 100%, hsla(242, 100%, 70%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 0%, hsla(343, 0%, 100%, 1) 0px, transparent 50%);
+}
+
+.custom-gradient-2 {
+  background-color: hsla(0, 0%, 97%, 1);
+  background-image:
+    radial-gradient(at 55% 40%, hsla(145, 0%, 100%, 1) 0px, transparent 50%),
+    radial-gradient(at 57% 17%, hsla(294, 0%, 100%, 1) 0px, transparent 50%),
+    radial-gradient(at 40% 12%, hsla(202, 0%, 100%, 1) 0px, transparent 50%),
+    radial-gradient(at 74% 14%, hsla(349, 64%, 70%, 1) 0px, transparent 50%),
+    radial-gradient(at 74% 63%, hsla(229, 73%, 67%, 1) 0px, transparent 50%),
+    radial-gradient(at 29% 44%, hsla(93, 0%, 100%, 1) 0px, transparent 50%),
+    radial-gradient(at 19% 98%, hsla(257, 57%, 58%, 1) 0px, transparent 50%);
+}
+
+.custom-gradient-3 {
+  background-color: hsla(0, 40%, 76%, 1);
+  background-image:
+    radial-gradient(at 40% 20%, hsla(127, 0%, 100%, 1) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, hsla(35, 100%, 74%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, hsla(103, 0%, 100%, 1) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, hsla(87, 71%, 56%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(173, 0%, 100%, 0.76) 0px, transparent 50%),
+    radial-gradient(at 80% 100%, hsla(350, 100%, 70%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 0%, hsla(91, 0%, 100%, 1) 0px, transparent 50%);
+}
+
+.custom-gradient-4 {
+  background-color: hsla(0, 0%, 97%, 1);
+  background-image:
+    radial-gradient(at 55% 40%, hsla(145, 0%, 100%, 1) 0px, transparent 50%),
+    radial-gradient(at 57% 17%, hsla(294, 0%, 100%, 1) 0px, transparent 50%),
+    radial-gradient(at 40% 12%, hsla(202, 0%, 100%, 1) 0px, transparent 50%),
+    radial-gradient(at 74% 14%, hsla(349, 87%, 49%, 1) 0px, transparent 50%),
+    radial-gradient(at 74% 63%, hsla(24, 72%, 67%, 1) 0px, transparent 50%),
+    radial-gradient(at 29% 44%, hsla(0, 69%, 47%, 1) 0px, transparent 50%),
+    radial-gradient(at 19% 98%, hsla(17, 50%, 51%, 1) 0px, transparent 50%);
+}
+
+.custom-card {
+  max-width: 1400px; /* Adjust the width as necessary */
+  width: 100%;
+}
+
+
 
 .scroll-column {
   display: flex;
@@ -94,6 +159,12 @@ body.dark-mode .text-gray-800 {
     --ring: 20.5 90.2% 48.2%;
   }
 }
+@media (min-width: 640px) {
+  .custom-card {
+    max-width: 400px; /* Ensure a smaller width on larger screens */
+  }
+}
+
 
 @layer base {
   * {
