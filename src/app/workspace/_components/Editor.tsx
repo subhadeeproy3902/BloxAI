@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
-import EditorJS, { OutputData } from "@editorjs/editorjs";
+import EditorJS, { OutputData, ToolConstructable } from "@editorjs/editorjs";
 // @ts-ignore
 import Header from "@editorjs/header";
 // @ts-ignore
@@ -91,7 +91,7 @@ const Editor = forwardRef((props: EditorProps, ref) => {
     editorInstanceRef.current = new EditorJS({
       tools: {
         header: {
-          class: Header,
+          class: Header as unknown as ToolConstructable,
           shortcut: "CMD+SHIFT+H",
           inlineToolbar: true,
           config: {
