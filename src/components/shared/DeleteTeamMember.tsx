@@ -16,7 +16,7 @@ import { CheckCircle2, Trash2 } from "lucide-react";
 import axiosInstance from "@/config/AxiosInstance";
 import { deleteTeamMemberUrl } from "@/lib/API-URLs";
 import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
+import { RootState } from "@/config/store";
 import { useRouter } from "next/navigation";
 
 type Props = {

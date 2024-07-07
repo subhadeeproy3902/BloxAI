@@ -13,7 +13,7 @@ import {
   LinkIcon,
 } from "lucide-react";
 import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
+import { RootState } from "@/config/store";
 import { Separator } from "../ui/separator";
 import Image from "next/image";
 import Link from "next/link";

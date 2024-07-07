@@ -11,7 +11,7 @@ import { logIn } from "../Redux/Auth/auth-slice";
 import Loader from "@/components/shared/Loader";
 
 export default function Page() {
-  const { data: session } = useSession();
+  const { data: session,status } = useSession();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,18 +19,18 @@ export default function Page() {
       dispatch(
         logIn({
           id: session.user.id,
-          accessToken: session.user.accessToken,
-          refreshToken: session.user.refreshToken,
+          accessToken: session.user.accessToken!,
+          refreshToken: session.user.refreshToken!,
           email: session.user.email,
           firstName: session.user.firstName,
           lastName: session.user.lastName,
-          image:session.user.image
+          image:session.user.image,
         })
       );
     }
   }, [session]);
 
-  if(session === undefined) return <Loader />
+  if(session === undefined || status === "loading") return <Loader />
 
   return (
     <div className="flex relative h-screen w-screen">

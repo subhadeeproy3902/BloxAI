@@ -8,7 +8,7 @@ import { FileListContext } from "@/app/_context/FilesListContext";
 import { setClose, setOpen } from "@/app/Redux/Menu/menuSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "next-themes";
-import { RootState } from "@/app/store";
+import { RootState } from "@/config/store";
 // import { RootState } from "@/app/store";
 
 function SideNav() {

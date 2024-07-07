@@ -20,7 +20,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
+import { RootState } from "@/config/store";
 
 const FormSchema = z.object({
   email: z.string().email().min(1, {
@@ -37,7 +37,7 @@ export function SigninForm({}: Props) {
   const router = useRouter()
   const dispatch = useDispatch();
 
-  const isAuth  = useSelector((state:RootState)=>state.auth.user.isAuth);
+  const isAuth  = useSelector((state:RootState)=>state.auth.user?.isAuth);
 
   if(isAuth){
     router.push('/dashboard');

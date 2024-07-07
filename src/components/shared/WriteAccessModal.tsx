@@ -16,7 +16,7 @@ import { FILE } from "@/app/teams/settings/_components/FileList";
 import { USER } from "./MemberCarousel";
 import axiosInstance from "@/config/AxiosInstance";
 import { updateWriteAccessUrl } from "@/lib/API-URLs";
-import { RootState } from "@/app/store";
+import { RootState } from "@/config/store";
 import { useSelector } from "react-redux";
 
 type Props = {
