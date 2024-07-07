@@ -6,6 +6,7 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
 import { ReduxProviders } from "./ReduxProviders";
 import { AuthProvider } from "./SessionProvider";
+import Preloader from "@/components/shared/Preloader";
 const poppins = Poppins({ weight: ["400", "700", "600"], subsets: ["latin"] });
 
 export const viewport: Viewport = {
@@ -57,6 +58,7 @@ export default function RootLayout({
             </ThemeProvider>
             </ReduxProviders>
           </ConvexClientProvider>
+          <Preloader />
         </body>
       </html>
   );
