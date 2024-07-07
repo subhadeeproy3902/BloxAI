@@ -101,13 +101,13 @@ const Header = () => {
                 </>
               </div>
 
-              <div className="block md:hidden">
+              <div className="flex md:hidden">
                 <Button
-                  onClick={handleMenuOpen}
                   variant="secondary"
-                  className="p-2"
+                  asChild
                 >
-                  <MenuIcon size={24} />
+                <i onClick={handleMenuOpen}
+ className={`fa ${menuOpen?'fa-times':'fa-bars'}`}></i>
                 </Button>
               </div>
             </div>
