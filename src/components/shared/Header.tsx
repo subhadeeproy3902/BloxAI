@@ -51,7 +51,7 @@ const Header = () => {
               </Link>
             </div>
 
-            <div className="hidden md:block sm:pl-40">
+            <div className="hidden md:block sm:pl-40 md:pl-10">
               <nav aria-label="Global">
                 <ul className="flex items-center gap-6 text-sm">
                   <li className=" space-x-6">
