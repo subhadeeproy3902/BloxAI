@@ -4,7 +4,7 @@ import Navbar from './_components/Navbar'
 import FileList from '../_components/FileList'
 import { FileListContext } from '@/app/_context/FilesListContext';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/app/store';
+import { RootState } from '@/config/store';
 
 export default function Page() {
   const user = useSelector((state:RootState)=>state.auth.user)

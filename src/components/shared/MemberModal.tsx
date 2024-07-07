@@ -10,7 +10,7 @@ import {
 } from "../ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
+import { RootState } from "@/config/store";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { useState, useContext, useEffect } from "react";
 import { FILE } from "@/app/dashboard/page";

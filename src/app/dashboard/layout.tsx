@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import SideNav from "./_components/SideNav";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../store";
+import type { RootState } from "../../config/store";
 import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "convex/react";

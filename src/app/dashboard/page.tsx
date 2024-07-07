@@ -1,5 +1,5 @@
 "use client";
-import type { RootState } from "../store";
+import type { RootState } from "../../config/store";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { api } from "../../../convex/_generated/api";
 import { useConvex, useMutation } from "convex/react";

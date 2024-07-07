@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useSelector } from 'react-redux';
-import { RootState } from '@/app/store';
+import { RootState } from '@/config/store';
 
 export default function Page() {
   const user = useSelector((state:RootState)=>state.auth.user)

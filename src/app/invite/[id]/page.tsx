@@ -20,7 +20,7 @@ import Link from "next/link";
 import Terms from "@/components/shared/TermsDiv";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useRouter } from "next/navigation";
-import { RootState } from "@/app/store";
+import { RootState } from "@/config/store";
 import { useSelector } from "react-redux";
 
 export default function Page({ params }: any) {

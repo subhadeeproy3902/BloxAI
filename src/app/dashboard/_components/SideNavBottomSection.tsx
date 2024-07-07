@@ -41,7 +41,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { RootState } from "@/app/store";
+import { RootState } from "@/config/store";
 
 interface TEAM {
   createdBy: String;

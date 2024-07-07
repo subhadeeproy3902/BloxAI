@@ -16,7 +16,7 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { FILE } from "@/app/teams/settings/_components/FileList";
-import { RootState } from "@/app/store";
+import { RootState } from "@/config/store";
 import { useSelector } from "react-redux";
 
 type Props = {

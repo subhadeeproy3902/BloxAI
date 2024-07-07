@@ -1,5 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+type UserState = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  refreshToken: string;
+  accessToken: string;
+  image: string | undefined;
+};
+
 type AuthState = {
 user:{
   isAuth: boolean;
@@ -14,34 +24,30 @@ user:{
 };
 
 const initialState: AuthState = {
-user:{
-  id:"",
-  isAuth: false,
-  firstName: "",
-  lastName: "",
-  email: "",
-  accessToken: "",
-  refreshToken: "",
-  image:undefined
-}
+  user:{
+    id:"",
+    isAuth: false,
+    firstName: "",
+    lastName: "",
+    email: "",
+    accessToken: "",
+    refreshToken: "",
+    image:undefined
+  }
 };
 
 export const auth = createSlice({
   name: "auth",
-  initialState,
+  initialState:initialState,
   reducers: {
-    logOut: () => {
-      return initialState;
+    logOut: (state) => {
+      state.user = { ...initialState.user };
     },
-    logIn: (state, action: PayloadAction<any>) => {
-      state.user.id = action.payload.id
-      state.user.email = action.payload.email;
-      state.user.isAuth = true;
-      state.user.accessToken = action.payload.accessToken;
-      state.user.refreshToken = action.payload.refreshToken;
-      state.user.firstName = action.payload.firstName;
-      state.user.lastName = action.payload.lastName;
-      state.user.image = action.payload.image;
+    logIn: (state, action: PayloadAction<UserState>) => {
+      state.user = {
+        ...action.payload,
+        isAuth: true,
+      };
     },
   },
 });

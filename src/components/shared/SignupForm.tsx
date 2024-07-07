@@ -20,7 +20,7 @@ import axios from "axios";
 import { registerUserUrl } from "@/lib/API-URLs";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
+import { RootState } from "@/config/store";
 
 const FormSchema = z
   .object({

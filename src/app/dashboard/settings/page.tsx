@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PencilIcon } from "lucide-react";
 import { toast } from "sonner";
-import { RootState } from "@/app/store";
+import { RootState } from "@/config/store";
 import { useSelector } from "react-redux";
 
 export default function Page() {

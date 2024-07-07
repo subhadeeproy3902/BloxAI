@@ -18,7 +18,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import MembersList from "@/components/shared/MembersList";
 import axiosInstance from "@/config/AxiosInstance";
 import { getTeamMembersData } from "@/lib/API-URLs";
-import { RootState } from "@/app/store";
+import { RootState } from "@/config/store";
 import { signOut } from "next-auth/react";
 
 export interface TEAM {

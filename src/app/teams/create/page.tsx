@@ -9,7 +9,7 @@ import {  useState } from "react";
 import { toast } from "sonner";
 import { useConvex } from "convex/react";
 import { useSelector } from 'react-redux';
-import { RootState } from '@/app/store';
+import { RootState } from '@/config/store';
 
 function CreateTeam() {
   const [teamName, setTeamName] = useState("");

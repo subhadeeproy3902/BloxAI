@@ -4,7 +4,7 @@ import "./globals.css";
 import ConvexClientProvider from "./ConvexClientProvider";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
-import { Providers } from "./Provider";
+import { ReduxProviders } from "./ReduxProviders";
 import { AuthProvider } from "./SessionProvider";
 const poppins = Poppins({ weight: ["400", "700", "600"], subsets: ["latin"] });
 
@@ -45,19 +45,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Providers>
       <html lang="en">
         <body className={poppins.className}>
           <ConvexClientProvider>
+            <ReduxProviders>
             <ThemeProvider attribute="class">
               <AuthProvider>
                 {children}
               </AuthProvider>
               <Toaster richColors theme="system" />
             </ThemeProvider>
+            </ReduxProviders>
           </ConvexClientProvider>
         </body>
       </html>
-    </Providers>
   );
 }

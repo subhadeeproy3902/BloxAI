@@ -13,7 +13,7 @@ import {
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
+import { RootState } from "@/config/store";
 import { changeToPrivateUrl, changeToPublicUrl } from "@/lib/API-URLs";
 import axiosInstance from "@/config/AxiosInstance";
 import { CheckCircle2 } from "lucide-react";
