@@ -41,6 +41,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { RootState } from "@/app/store";
 
 interface TEAM {
   createdBy: String;
@@ -48,7 +49,7 @@ interface TEAM {
   _id: String;
 }
 
-function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam, user }: any) {
+function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
   const pathname = usePathname();
   const menuList = [
     {
@@ -82,7 +83,7 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam, user }: an
   const [fileInput, setFileInput] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-
+  const email = ((state:RootState) => state.auth.user.email)
   const deleteTeam = useMutation(api.teams.deleteTeam);
   const deleteFunc = async (e: any, id: String) => {
     e.stopPropagation();
@@ -123,7 +124,7 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam, user }: an
         </Link>
       ))}
 
-      {user?.email === activeTeam?.createdBy && <Link href={`/teams/settings/${activeTeam?._id}`}>
+      {email === activeTeam?.createdBy && <Link href={`/teams/settings/${activeTeam?._id}`}>
         <h2
           className={`flex gap-2 p-1 ${
             pathname == `/dashboard/team` ? "bg-muted" : ""

@@ -16,11 +16,12 @@ import {
 import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import Link from "next/link";
 import Terms from "@/components/shared/TermsDiv";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useRouter } from "next/navigation";
+import { RootState } from "@/app/store";
+import { useSelector } from "react-redux";
 
 export default function Page({ params }: any) {
   const convex = useConvex();
@@ -31,8 +32,7 @@ export default function Page({ params }: any) {
   const [isError, setIsError] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isValidLink, setIsValidLink] = useState(true);
-  const { user }: any = useKindeBrowserClient();
-  const { isAuthenticated } = useKindeBrowserClient();
+  const user = useSelector((state:RootState)=>state.auth.user)
 
   const [firstForm, setFirstForm] = useState(true);
   const [checked, setChecked] = useState(false);
@@ -59,7 +59,7 @@ export default function Page({ params }: any) {
   }, []);
 
   const AddUserToMember = async () => {
-    if (!user || !isAuthenticated) {
+    if (!user || !user.isAuth) {
       setErrorMsg("Unauthorized Access!");
       setIsError(true);
       return;

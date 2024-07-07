@@ -1,5 +1,4 @@
 import type { NextAuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import UserModel from "@/models/user";
 import bcrypt from "bcryptjs";
@@ -7,10 +6,6 @@ import { mongoDB } from "@/lib/MongoDB";
 
 export const options: NextAuthOptions = {
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -53,8 +48,17 @@ export const options: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks:{
-    async session({ session, token, user }) {
-      session.user = token;
+    async session({ session, token }) {
+      session.user = {
+        ...session.user,
+        id: token.id as string,
+        email: token.email as string,
+        accessToken: token.accessToken as string,
+        refreshToken: token.refreshToken as string,
+        firstName: token.firstName as string,
+        lastName: token.lastName as string,
+        image: token.image as string | undefined,
+      };
       return session;
     },
     async jwt({ token, user }:any) {
@@ -66,13 +70,16 @@ export const options: NextAuthOptions = {
         // Save the refresh token to the user document
         user.refreshToken = refreshToken;
         await user.save({ validateBeforeSave: false });
-
-        token.user = {
-          id: user._id,
-          email: user.email,
-        };
+        
+        token.id = user._id;
+        token.email = user.email;
+        token.firstName = user.firstName;
+        token.lastName = user.lastName;
+       
         token.accessToken = accessToken;
         token.refreshToken = refreshToken;
+
+        token.image = user.image
       }
       return token;
     }

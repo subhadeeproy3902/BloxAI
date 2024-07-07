@@ -18,6 +18,9 @@ import { Separator } from "../ui/separator";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 
 const FormSchema = z.object({
   email: z.string().email().min(1, {
@@ -31,8 +34,14 @@ const FormSchema = z.object({
 type Props = {};
 
 export function SigninForm({}: Props) {
-
   const router = useRouter()
+  const dispatch = useDispatch();
+
+  const isAuth  = useSelector((state:RootState)=>state.auth.user.isAuth);
+
+  if(isAuth){
+    router.push('/dashboard');
+  }
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -52,9 +61,9 @@ export function SigninForm({}: Props) {
         callbackUrl: `${window.location.origin}/dashboard`,
       });
 
-      // if (res?.url) {
-      //   router.push(`${window.location.origin}/dashboard`);
-      // }
+      if (res?.url) {
+        router.push(`${window.location.origin}/dashboard`);
+      }
 
       console.log(res);
 

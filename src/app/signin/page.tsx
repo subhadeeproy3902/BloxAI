@@ -4,19 +4,33 @@ import heroImg from "@/app/assets/651593780abfac438bc371ae_Group 573.webp";
 import { SigninForm } from "@/components/shared/SigninForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { useSession,signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { logIn } from "../Redux/Auth/auth-slice";
+import Loader from "@/components/shared/Loader";
 
 export default function Page() {
   const { data: session } = useSession();
-  console.log(session);
+  const dispatch = useDispatch();
 
-  const router = useRouter();
+  useEffect(() => {
+    if (session) {
+      dispatch(
+        logIn({
+          id: session.user.id,
+          accessToken: session.user.accessToken,
+          refreshToken: session.user.refreshToken,
+          email: session.user.email,
+          firstName: session.user.firstName,
+          lastName: session.user.lastName,
+          image:session.user.image
+        })
+      );
+    }
+  }, [session]);
 
-  // if (session) {
-  //   router.push("/dashboard");
-  // }
+  if(session === undefined) return <Loader />
 
   return (
     <div className="flex relative h-screen w-screen">

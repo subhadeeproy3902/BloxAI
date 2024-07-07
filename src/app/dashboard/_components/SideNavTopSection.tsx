@@ -6,19 +6,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs";
 import { Separator } from "@/components/ui/separator";
 import { useConvex } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setTeamInfo } from "@/app/Redux/Team/team-slice";
 import RenameTeamModal from "@/components/shared/RenameTeamModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import MembersList from "@/components/shared/MembersList";
 import axiosInstance from "@/config/AxiosInstance";
 import { getTeamMembersData } from "@/lib/API-URLs";
+import { RootState } from "@/app/store";
+import { signOut } from "next-auth/react";
 
 export interface TEAM {
   createdBy: string;
@@ -26,7 +27,7 @@ export interface TEAM {
   _id: String;
   teamMembers?: string[];
 }
-function SideNavTopSection({ user, setActiveTeamInfo }: any) {
+function SideNavTopSection({ setActiveTeamInfo }: any) {
   const menu = [
     {
       id: 1,
@@ -49,6 +50,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
   const [userData, setUserdata] = useState<any>();
   const [teamMembersData, setTeamData] = useState<any[]>([]);
   const [ActiveTeamMembers, setActiveTeamMembers] = useState<string[]>([]);
+  const user = useSelector((state:RootState) => state.auth.user);
 
   useEffect(() => {
     user && getTeamList();
@@ -57,7 +59,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
   useEffect(() => {
     const getData = async () => {
       const result = await convex.query(api.user.getUser, {
-        email: user?.email!,
+        email: user.email,
       });
       setUserdata(result[0]);
     };
@@ -70,8 +72,6 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
     const getData = async () => {
       if (ActiveTeamMembers) {
         const res = await axiosInstance.get(`${getTeamMembersData}/${activeTeam?._id}`);
-        console.log(res.data);
-
         setTeamData(res.data.memberData);
       }
     };
@@ -166,7 +166,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
               </h2>
             ))}
             {activeTeam?.createdBy === user?.email && <RenameTeamModal />}
-            <LogoutLink>
+            <button onClick={()=>signOut()}>
               <h2
                 className="flex gap-2 items-center
                         p-2 hover:bg-secondary rounded-lg cursor-pointer text-sm"
@@ -174,7 +174,7 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
                 <LogOut className="h-4 w-4" />
                 Logout
               </h2>
-            </LogoutLink>
+            </button>
           </div>
           <Separator className="mt-2" />
           {/* User Info Section  */}
@@ -183,16 +183,16 @@ function SideNavTopSection({ user, setActiveTeamInfo }: any) {
               <Avatar className="w-[40px] h-[40px]">
                 <AvatarImage src={userData?.image} />
                 <AvatarFallback className=" text-xs">
-                  {user?.given_name?.charAt(0)}
-                  {user?.family_name?.charAt(0)}
+                  {user.firstName.charAt(0)}
+                  {user.lastName.charAt(0)}
                 </AvatarFallback>
               </Avatar>
               <div>
                 <h2 className="text-[14px] font-bold">
-                  {user?.given_name} {user?.family_name}
+                  {user.lastName} {user.lastName}
                 </h2>
                 <h2 className="text-[12px] text-muted-foreground">
-                  {user?.email}
+                  {user.email}
                 </h2>
               </div>
             </div>
