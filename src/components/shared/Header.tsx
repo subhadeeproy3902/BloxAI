@@ -6,6 +6,7 @@ import { MenuIcon } from "lucide-react";
 import ThemeTogglebutton from "../ui/ThemeToggle";
 import { useState } from "react";
 import NavLink from "./NavLink";
+import { title } from "process";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -32,7 +33,10 @@ const Header = () => {
     {
       title: "Review Us",
       path: "/review",
-    },
+    },{
+      title: "What's New",
+      path:"/version"
+    }
   ];
   return (
     <>
