@@ -20,7 +20,7 @@ import { Id } from "../../../convex/_generated/dataModel";
 import { SetStateAction } from "react";
 import { PencilIcon } from "lucide-react";
 import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
+import { RootState } from "@/config/store";
 
 const FormSchema = z.object({
   newName: z.string().min(1, {

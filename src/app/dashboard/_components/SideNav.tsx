@@ -1,18 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import SideNavTopSection, { TEAM } from "./SideNavTopSection";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import SideNavBottomSection from "./SideNavBottomSection";
 import { useConvex, useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { toast } from "sonner";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { setClose, setOpen } from "@/app/Redux/Menu/menuSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "next-themes";
+import { RootState } from "@/config/store";
 // import { RootState } from "@/app/store";
 
 function SideNav() {
-  const { user }: any = useKindeBrowserClient();
   const createFile = useMutation(api.files.createFile);
   const [activeTeam, setActiveTeam] = useState<TEAM | any>();
   // const activeTeamId = useSelector((state: RootState) => state.team.teamId);
@@ -23,7 +22,7 @@ function SideNav() {
   const dispatch = useDispatch();
   const { theme } = useTheme();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
+  const email = useSelector((state:RootState)=>state.auth.user.email)
   const dispatch_nav = useDispatch();
 
   useEffect(() => {
@@ -50,7 +49,7 @@ function SideNav() {
     createFile({
       fileName: fileName,
       teamId: activeTeam?._id,
-      createdBy: user?.email,
+      createdBy: email,
       archive: false,
       document: "",
       whiteboard: "",
@@ -104,7 +103,6 @@ function SideNav() {
       </button>
       <div className="flex-1">
         <SideNavTopSection
-          user={user}
           setActiveTeamInfo={(activeTeam: TEAM) => setActiveTeam(activeTeam)}
         />
       </div>

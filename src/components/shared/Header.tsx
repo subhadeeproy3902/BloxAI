@@ -3,22 +3,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { MenuIcon } from "lucide-react";
-import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs";
 import ThemeTogglebutton from "../ui/ThemeToggle";
 import { useState } from "react";
 import NavLink from "./NavLink";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { isAuthenticated } = useKindeBrowserClient();
   const handleMenuOpen = () => {
     setMenuOpen(!menuOpen);
   };
   const links = [
     {
-      title : "Home",
-      path: "/"
+      title: "Home",
+      path: "/",
     },
     {
       title: "About",
@@ -54,7 +51,7 @@ const Header = () => {
               </Link>
             </div>
 
-            <div className="hidden md:block sm:pl-40">
+            <div className="hidden md:block sm:pl-40 md:pl-10">
               <nav aria-label="Global">
                 <ul className="flex items-center gap-6 text-sm">
                   <li className=" space-x-6">
@@ -75,7 +72,7 @@ const Header = () => {
             <div className="flex items-center gap-4">
               <div className="flex gap-4">
                 <ThemeTogglebutton />
-                {isAuthenticated ? (
+                {/* {isAuthenticated ? (
                   <Button asChild>
                     <Link href="/dashboard">
                       Get Started
@@ -92,7 +89,16 @@ const Header = () => {
                       </Button>
                     </div>
                   </>
-                )}
+                )} */}
+                <>
+                  <Button asChild>
+                    <Link href={"/signin"}>Login</Link>
+                  </Button>
+
+                  <Button variant="secondary" asChild>
+                    <Link href={"/signup"}>Signup</Link>
+                  </Button>
+                </>
               </div>
 
               <div className="block md:hidden">

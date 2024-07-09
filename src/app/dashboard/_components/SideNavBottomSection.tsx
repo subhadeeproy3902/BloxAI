@@ -1,5 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { Archive, CheckCircle2, File, Github, Settings, Trash2 } from "lucide-react";
+import {
+  Archive,
+  CheckCircle2,
+  File,
+  Github,
+  Settings,
+  Trash2,
+  UserCog2Icon,
+} from "lucide-react";
 import React, { useState, useContext, useEffect } from "react";
 import {
   Dialog,
@@ -17,7 +25,7 @@ import PricingDialog from "./PricingDialog";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { ErrorMessage } from "@/components/ui/error";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Id } from "../../../../convex/_generated/dataModel";
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
@@ -33,6 +41,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { RootState } from "@/config/store";
 
 interface TEAM {
   createdBy: String;
@@ -68,13 +77,13 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
       path: `/dashboard/settings`,
     },
   ];
-
+  const router = useRouter()
   const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>([]);
   const [fileInput, setFileInput] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-
+  const email = ((state:RootState) => state.auth.user.email)
   const deleteTeam = useMutation(api.teams.deleteTeam);
   const deleteFunc = async (e: any, id: String) => {
     e.stopPropagation();
@@ -114,6 +123,17 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
           </h2>
         </Link>
       ))}
+
+      {email === activeTeam?.createdBy && <Link href={`/teams/settings/${activeTeam?._id}`}>
+        <h2
+          className={`flex gap-2 p-1 ${
+            pathname == `/dashboard/team` ? "bg-muted" : ""
+          } px-2 text-[14px] hover:bg-muted rounded-md cursor-pointer`}
+        >
+          <UserCog2Icon className="h-5 w-5" />
+          Team Settings
+        </h2>
+      </Link>}
 
       {/* Add New File Button */}
       <Dialog>

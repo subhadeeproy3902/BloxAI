@@ -2,20 +2,22 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { api } from "../../../../convex/_generated/api";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useMutation } from "convex/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {  useState } from "react";
 import { toast } from "sonner";
 import { useConvex } from "convex/react";
+import { useSelector } from 'react-redux';
+import { RootState } from '@/config/store';
 
 function CreateTeam() {
   const [teamName, setTeamName] = useState("");
   const createTeam = useMutation(api.teams.createTeam);
-  const { user }: any = useKindeBrowserClient();
+  const user = useSelector((state:RootState)=>state.auth.user)
   const convex = useConvex();
   const router = useRouter();
+
   const createNewTeam = async() => {
     const result = await convex.query(api.teams.getTeam, {
       email: user?.email,

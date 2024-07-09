@@ -1,5 +1,4 @@
 "use client";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import FileList, { Team } from "./_components/FileList";
@@ -11,9 +10,11 @@ import { toggleClose } from "@/app/Redux/Menu/menuSlice";
 import { useDispatch } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useSelector } from 'react-redux';
+import { RootState } from '@/config/store';
 
 export default function Page() {
-  const { user }: any = useKindeBrowserClient();
+  const user = useSelector((state:RootState)=>state.auth.user)
   const dispatch = useDispatch();
   const convex = useConvex();
 
@@ -107,7 +108,7 @@ export default function Page() {
             <path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"></path>
           </svg>
         </button>
-        <Link href={"/dashboard"}>
+        <Link className="hidden md:inline relative " href={"/dashboard"}>
           <ArrowLeft />
         </Link>
       </nav>
@@ -116,15 +117,15 @@ export default function Page() {
         <Avatar className="w-[180px] h-[180px]">
           <AvatarImage src={userData?.image} />
           <AvatarFallback className=" text-2xl">
-            {user?.given_name?.charAt(0)}
-            {user?.family_name?.charAt(0)}
+            {user?.firstName?.charAt(0)}
+            {user?.lastName?.charAt(0)}
           </AvatarFallback>
         </Avatar>
       </div>
 
       <div className="flex flex-col gap-2 w-full justify-center text-center">
         <h1 className=" text-md font-semibold md:text-xl">
-          {user?.given_name} {user?.family_name}
+          {user?.firstName} {user?.lastName}
         </h1>
         <p className=" text-gray-400 text-sm md:text-lg">{user?.email}</p>
       </div>
