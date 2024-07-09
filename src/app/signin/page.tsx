@@ -52,7 +52,7 @@ export default function Page() {
             <CardTitle>Login</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
-            <SigninForm />
+            <SigninForm session={session}/>
           </CardContent>
         </Card>
       </div>

@@ -26,6 +26,7 @@ export const options: NextAuthOptions = {
         try {
           await mongoDB();
           const user = await UserModel.findOne({ email });
+          console.log(user)
           if (!user) {
             throw new Error("Not Registered!");
           }

@@ -20,6 +20,7 @@ import axiosInstance from "@/config/AxiosInstance";
 import { getTeamMembersData } from "@/lib/API-URLs";
 import { RootState } from "@/config/store";
 import { signOut } from "next-auth/react";
+import { logOut } from "@/app/Redux/Auth/auth-slice";
 
 export interface TEAM {
   createdBy: string;
@@ -166,7 +167,10 @@ function SideNavTopSection({ setActiveTeamInfo }: any) {
               </h2>
             ))}
             {activeTeam?.createdBy === user?.email && <RenameTeamModal />}
-            <button onClick={()=>signOut()}>
+            <button onClick={()=>{
+              signOut();
+              dispatch(logOut())
+            }}>
               <h2
                 className="flex gap-2 items-center
                         p-2 hover:bg-secondary rounded-lg cursor-pointer text-sm"
