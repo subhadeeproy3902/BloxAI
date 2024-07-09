@@ -72,10 +72,8 @@ export function SigninForm({session}: Props) {
       }
 
       if(res?.error) {
-        toast("Invalid credentials !!");
+        toast.error("Invalid Credentials !!");
       }
-
-      console.log(res);
 
     } catch (err) {
       console.log(err);
