@@ -52,7 +52,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <a href="/version" className="hover:underline">
-                    What's New
+                    What&rsquo;s New
                   </a>
                 </li>
               </ul>
