@@ -4,6 +4,7 @@ import VersionCard from './version';
 import { versionData } from './versionData';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
+import ScrollToTopButton from '@/components/shared/ScrollUp';
 
 const gradientClasses = [
   'custom-gradient-3',
@@ -73,6 +74,7 @@ const Timeline: React.FC = () => {
         </div>
       </div>
       <Footer />
+      <ScrollToTopButton/>
     </>
   );
 };

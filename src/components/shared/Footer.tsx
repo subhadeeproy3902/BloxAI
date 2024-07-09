@@ -45,9 +45,14 @@ const Footer = () => {
                     Contact
                   </a>
                 </li>
-                <li>
+                <li className="mb-4">
                   <a href="/review" className="hover:underline">
                     Review Us
+                  </a>
+                </li>
+                <li>
+                  <a href="/version" className="hover:underline">
+                    What&rsquo;s New
                   </a>
                 </li>
               </ul>
