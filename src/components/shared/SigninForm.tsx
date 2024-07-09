@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "@/config/store";
+import { toast } from "sonner";
 
 const FormSchema = z.object({
   email: z.string().email().min(1, {
@@ -31,17 +32,22 @@ const FormSchema = z.object({
   }),
 });
 
-type Props = {};
+type Props = {
+  session:any;
+};
 
-export function SigninForm({}: Props) {
+export function SigninForm({session}: Props) {
   const router = useRouter()
-  const dispatch = useDispatch();
 
-  const isAuth  = useSelector((state:RootState)=>state.auth.user?.isAuth);
-
-  if(isAuth){
+  if(session){
     router.push('/dashboard');
   }
+
+  // const isAuth  = useSelector((state:RootState)=>state.auth.user?.isAuth);
+
+  // if(isAuth){
+  //   router.push('/dashboard');
+  // }
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -63,6 +69,10 @@ export function SigninForm({}: Props) {
 
       if (res?.url) {
         router.push(`${window.location.origin}/dashboard`);
+      }
+
+      if(res?.error) {
+        toast("Invalid credentials !!");
       }
 
       console.log(res);
