@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken"
 
-interface User {
+export interface User {
   email: string;
   firstName: string;
   lastName: string;

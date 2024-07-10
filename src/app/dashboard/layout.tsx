@@ -13,14 +13,14 @@ import { useMutation } from "convex/react";
 import Image from "next/image";
 import { SessionProvider, useSession } from "next-auth/react";
 import Link from "next/link";
-import { logIn } from "../Redux/Auth/auth-slice";
+
 
 function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const {data:session,status} = useSession();
+  const { data: session, status } = useSession();
   const createTeam = useMutation(api.teams.createTeam);
   const convex = useConvex();
   const [fileList_, setFileList_] = useState();
@@ -29,22 +29,6 @@ function DashboardLayout({
   const count = useSelector((state: RootState) => state.counter.value);
   const [hasCheckedTeam, setHasCheckedTeam] = useState(false);
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   if (session) {
-  //     dispatch(
-  //       logIn({
-  //         id: session.user.id,
-  //         accessToken: session.user.accessToken,
-  //         refreshToken: session.user.refreshToken,
-  //         email: session.user.email,
-  //         firstName: session.user.firstName,
-  //         lastName: session.user.lastName,
-  //         image:session.user.image
-  //       })
-  //     );
-  //   }
-  // }, [session]);
 
   useEffect(() => {
     if (session && !hasCheckedTeam) {
@@ -88,40 +72,38 @@ function DashboardLayout({
           />
         </div>
         <div className="relative bg-white dark:bg-gray-800 p-8 rounded-lg shadow-2xl max-w-md w-full text-center z-10">
-          <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Welcome!</h1>
+          <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
+            Welcome!
+          </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
             To access this page, please{" "}
             <Button asChild>
-              <Link href={"/signin"}>
-                Login
-              </Link>
+              <Link href={"/signin"}>Login</Link>
             </Button>
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-300">
             Don&apos;t have an account?
             <span className="text-orange-600 underline hover:text-blue-800 transition duration-300">
-            <Link href={"/signup"}>
-                Signup
-              </Link>
+              <Link href={"/signup"}>Signup</Link>
             </span>
           </p>
         </div>
       </div>
     );
 
-  return (!loading || session === undefined) ? (
+  return !loading || session === undefined ? (
     <div>
       <FileListContext.Provider value={{ fileList_, setFileList_ }}>
-      <SessionProvider>
-        <div className="md:grid md:grid-cols-4">
-          <div
-            className={`bg-background z-[2]  h-screen md:w-72 w-36 fixed ${count ? "" : "md:relative hidden"}`}
-          >
-            <SideNav />
+        <SessionProvider>
+          <div className="md:grid md:grid-cols-4">
+            <div
+              className={`bg-background z-[2]  h-screen md:w-72 w-36 fixed ${count ? "" : "md:relative hidden"}`}
+            >
+              <SideNav />
+            </div>
+            <div className="col-span-4 md:ml-72">{children}</div>
           </div>
-          <div className="col-span-4 md:ml-72">{children}</div>
-        </div>
-      </SessionProvider>
+        </SessionProvider>
       </FileListContext.Provider>
     </div>
   ) : (
