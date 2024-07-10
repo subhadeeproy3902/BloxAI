@@ -27,8 +27,8 @@ const FormSchema = z
     firstName: z.string().min(3, {
       message: "Minimum Length should be 3",
     }),
-    lastName: z.string().min(8, {
-      message: "Minimum Length should be 8",
+    lastName: z.string().min(3, {
+      message: "Minimum Length should be 3",
     }),
     email: z.string().email().min(1, {
       message: "Email required!",
