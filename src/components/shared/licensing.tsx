@@ -37,6 +37,9 @@ const Licensing = () => {
           OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
           SOFTWARE.
         </p>
+        <p className="mb-4 text-muted-foreground">        
+         For more information check: <a href="https://github.com/subhadeeproy3902/BloxAI/blob/main/LICENSE"   className="hover:underline">LICENSE</a>
+        </p>
       </div>
     </div>
   );
