@@ -15,6 +15,10 @@ import Link from "next/link";
 import InviteModal from "@/components/shared/InviteModal";
 import JoinTeamModal from "@/components/shared/JoinTeamModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import axiosProtectedInstance from "@/config/AxiosProtectedRoute";
+import { checkHealthUrl } from "@/lib/API-URLs";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import { useRouter } from "next/navigation";
 
 export interface FILE {
   archive: boolean;
@@ -39,8 +43,19 @@ function Dashboard() {
   const dispatch = useDispatch();
   const [userData, setUserdata] = useState<any>();
   const user = useSelector((state:RootState) => state.auth.user);
+  const router = useRouter()
 
-  
+  const accessToken = useSelector((state:RootState)=>state.auth.user.accessToken);
+
+  const axiosInstance = createAxiosInstance(accessToken);
+
+  useEffect(() => {
+    const checkHealth = async () => {
+      const res = await axiosInstance.get(checkHealthUrl);
+      if(res.status !== 200) router.push('/signin');
+    };
+    checkHealth();
+  }, []);
 
   const checkUser = async () => {
     const result = await convex.query(api.user.getUser, { email: user?.email });

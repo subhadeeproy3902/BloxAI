@@ -6,11 +6,9 @@ interface File {
   archive: boolean;
   document: string;
   whiteboard: string;
-  private: boolean;
+  filePrivate: boolean;
   writtenBy: any[];
   readBy: any[];
-  write: boolean;
-  read: boolean;
 }
 
 const FileSchema = new Schema<File>(
@@ -20,11 +18,9 @@ const FileSchema = new Schema<File>(
     archive: { type: Boolean },
     document: { type: String },
     whiteboard: { type: String },
-    private: { type: Boolean, required: true },
+    filePrivate: { type: Boolean, required: true },
     writtenBy: [{ type: Schema.Types.ObjectId, required: true, ref: "User" }],
     readBy: [{ type: Schema.Types.ObjectId, required: true, ref: "User" }],
-    write: { type: Boolean },
-    read: { type: Boolean },
   },
   { timestamps: true }
 );
