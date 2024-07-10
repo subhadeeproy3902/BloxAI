@@ -19,6 +19,7 @@ import axiosProtectedInstance from "@/config/AxiosProtectedRoute";
 import { checkHealthUrl } from "@/lib/API-URLs";
 import createAxiosInstance from "@/config/AxiosProtectedRoute";
 import { useRouter } from "next/navigation";
+import { logOut } from "../Redux/Auth/auth-slice";
 
 export interface FILE {
   archive: boolean;
@@ -52,7 +53,10 @@ function Dashboard() {
   useEffect(() => {
     const checkHealth = async () => {
       const res = await axiosInstance.get(checkHealthUrl);
-      if(res.status !== 200) router.push('/signin');
+      if(res.status !== 200) {
+        router.push('/signin');
+        dispatch(logOut())
+      };
     };
     checkHealth();
   }, []);
