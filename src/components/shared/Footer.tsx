@@ -141,7 +141,7 @@ const Footer: React.FC = () => {
                 </li>
                 <li className="mb-4">
                   <a
-                    href="https://github.com/subhadeeproy3902/BloxAI/blob/main/LICENSE"
+                    href="/licensing"
                     className="hover:underline"
                   >
                     License
