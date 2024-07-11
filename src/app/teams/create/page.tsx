@@ -10,34 +10,28 @@ import { toast } from "sonner";
 import { useConvex } from "convex/react";
 import { useSelector } from 'react-redux';
 import { RootState } from '@/config/store';
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import { createNewTeamUrl } from "@/lib/API-URLs";
 
 function CreateTeam() {
   const [teamName, setTeamName] = useState("");
-  const createTeam = useMutation(api.teams.createTeam);
   const user = useSelector((state:RootState)=>state.auth.user)
-  const convex = useConvex();
   const router = useRouter();
+  const axiosInstance = createAxiosInstance(user.accessToken);
 
   const createNewTeam = async() => {
-    const result = await convex.query(api.teams.getTeam, {
-      email: user?.email,
-    });
-    //checking if team with same name alreaady exist. if yes then don't create that team
-    const team = result.find((team: any) => team?.teamName === teamName)
-    if(team){
-      toast.error(`Team with name "${teamName}" already exists. please enter other name.`)
-      return;
-    }
-    createTeam({
-      teamName: teamName,
-      createdBy: user?.email,
-      teamMembers:[user.email]
-    }).then((resp) => {
-      if (resp) {
-        router.push("/dashboard");
-        toast.success("Team created successfully!!!");
+    try {
+      const res = await axiosInstance.post(createNewTeamUrl,{
+        teamName
+      });
+      if(res.status === 200){
+        router.push('/dashboard');
+        toast.success("File created Successfully");
       }
-    });
+    } catch (err) {
+
+      console.log(err);
+    }
   };
   
   return (
