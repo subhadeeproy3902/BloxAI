@@ -19,8 +19,6 @@ import { Separator } from "../ui/separator";
 import axios from "axios";
 import { registerUserUrl } from "@/lib/API-URLs";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
-import { RootState } from "@/config/store";
 
 const FormSchema = z
   .object({
@@ -45,13 +43,14 @@ const FormSchema = z
     path: ["confirmPwd"],
   });
 
-type Props = {};
+  type Props = {
+    session:any;
+  };
 
-export function SignupForm({}: Props) {
+export function SignupForm({session}: Props) {
   const router = useRouter();
-  const isAuth  = useSelector((state:RootState)=>state.auth.user.isAuth);
 
-  if(isAuth){
+  if(session){
     router.push('/dashboard');
   }
 

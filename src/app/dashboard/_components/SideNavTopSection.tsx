@@ -16,11 +16,11 @@ import { setTeamInfo } from "@/app/Redux/Team/team-slice";
 import RenameTeamModal from "@/components/shared/RenameTeamModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import MembersList from "@/components/shared/MembersList";
-import axiosInstance from "@/config/AxiosInstance";
-import { getTeamMembersData } from "@/lib/API-URLs";
+import { getTeamMembersData, getTeamUrl } from "@/lib/API-URLs";
 import { RootState } from "@/config/store";
 import { signOut } from "next-auth/react";
 import { logOut } from "@/app/Redux/Auth/auth-slice";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
 
 export interface TEAM {
   createdBy: string;
@@ -52,6 +52,7 @@ function SideNavTopSection({ setActiveTeamInfo }: any) {
   const [teamMembersData, setTeamData] = useState<any[]>([]);
   const [ActiveTeamMembers, setActiveTeamMembers] = useState<string[]>([]);
   const user = useSelector((state:RootState) => state.auth.user);
+  const axiosInstance = createAxiosInstance(user.accessToken);
 
   useEffect(() => {
     user && getTeamList();
@@ -70,34 +71,31 @@ function SideNavTopSection({ setActiveTeamInfo }: any) {
   }, [user]);
 
   useEffect(() => {
-    const getData = async () => {
-      if (ActiveTeamMembers) {
-        const res = await axiosInstance.get(`${getTeamMembersData}/${activeTeam?._id}`);
-        setTeamData(res.data.memberData);
-      }
-    };
-
-    if (teamList && activeTeam) {
-      getData();
-    }
-  }, [ActiveTeamMembers, activeTeam]);
-
-  useEffect(() => {
     activeTeam ? setActiveTeamInfo(activeTeam) : null;
   }, [activeTeam]);
+  
   const getTeamList = async () => {
-    const res = await convex.query(api.teams.getAllTeam);
-    const allTeams = res.filter(
-      (file: { createdBy: any; teamMembers: string | any[] }) =>
-        file.createdBy === user.email || file.teamMembers?.includes(user.email)
-    );
-    setTeamList(allTeams);
-    setActiveTeam(allTeams[0]);
-    setActiveTeamMembers(allTeams[0].teamMembers);
+    const res = await axiosInstance.get(getTeamUrl)
+
+    setTeamList(res.data);
+    setActiveTeam(res.data[0]);
+    setActiveTeamMembers(res.data[0].teamMembers);
     dispatch(
-      setTeamInfo({ teamId: allTeams[0]._id, teamName: allTeams[0].teamName })
+      setTeamInfo({ teamId: res.data[0]._id, teamName: res.data[0].teamName })
     );
   };
+
+  useEffect(()=>{
+    const getData = async() => {
+      const res = await axiosInstance.get(`${getTeamMembersData}/${activeTeam?._id}`);
+      setTeamData(res.data)
+    }
+
+    if(activeTeam?._id){
+      getData()
+    }
+
+  },[activeTeam?._id])
 
   const onMenuClick = (item: any) => {
     if (item.path) {
