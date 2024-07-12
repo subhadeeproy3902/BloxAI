@@ -13,6 +13,10 @@ import { useMutation } from "convex/react";
 import Image from "next/image";
 import { SessionProvider, useSession } from "next-auth/react";
 import Link from "next/link";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import { createNewTeamUrl, getTeamUrl } from "@/lib/API-URLs";
+import { toast } from "sonner";
+import { setTeamInfo } from "../Redux/Team/team-slice";
 
 
 function DashboardLayout({
@@ -27,8 +31,10 @@ function DashboardLayout({
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const count = useSelector((state: RootState) => state.counter.value);
+  const user = useSelector((state: RootState) => state.auth.user);
   const [hasCheckedTeam, setHasCheckedTeam] = useState(false);
   const dispatch = useDispatch();
+  const axiosInstance = createAxiosInstance(user.accessToken);
 
   useEffect(() => {
     if (session && !hasCheckedTeam) {
@@ -37,21 +43,24 @@ function DashboardLayout({
   }, [session, hasCheckedTeam]);
 
   const checkTeam = async () => {
-    setHasCheckedTeam(true);
-    const result = await convex.query(api.teams.getTeam, {
-      email: session?.user.email!,
-    });
+    try {
+      const res = await axiosInstance.get(getTeamUrl)
+  
+      if (!res.data.length) {
+        const res2 = await axiosInstance.post(createNewTeamUrl,{
+          teamName:`${user.firstName}'s Org`
+        });
 
-    if (!result?.length) {
-      createTeam({
-        teamName: `${session?.user.firstName} Org`,
-        createdBy: session?.user.email!,
-        teamMembers: [session?.user.email!],
-      }).then((resp) => {
-        if (resp) {
-          router.push("/dashboard");
+        if(res2.status === 200){
+          toast.success(`Welcome to ${user.firstName}'s Org`)
         }
-      });
+        
+        dispatch(setTeamInfo({teamId:res2.data._id,teamName:res2.data.teamName}));
+      }
+      setHasCheckedTeam(true);
+
+    } catch (err) {
+      console.log(err);
     }
   };
 

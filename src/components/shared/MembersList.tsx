@@ -10,7 +10,6 @@ type Props = {
 
 export default function MembersList({ TeamMembers,createdBy }: Props) {
 
-
   return (
     <div className=" bg-secondary mt-5  p-3 overflow-hidden rounded-lg">
       <div className="text-xl flex p-1 gap-2">
@@ -19,9 +18,9 @@ export default function MembersList({ TeamMembers,createdBy }: Props) {
       </div>
       <Separator className=" dark:bg-gray-500 bg-gray-500" />
       <div className=" grid relative sm:my-2 gap-2 h-[60px] grid-rows-2 items-center grid-cols-4 justify-start rounded-lg p-1 sm:p-3 overflow-x-auto">
-        {TeamMembers.map((member, index) => (
+        {TeamMembers && TeamMembers.map((member, index) => (
           <>
-            <MemberModal email={member.email} createdBy={createdBy} key={index} image={member.image} index={index} name={member.name} />
+            <MemberModal email={member.email} createdBy={createdBy} key={index} image={member.image} index={index} name={member.firstName} />
           </>
         ))}
       </div>

@@ -20,6 +20,7 @@ import { checkHealthUrl } from "@/lib/API-URLs";
 import createAxiosInstance from "@/config/AxiosProtectedRoute";
 import { useRouter } from "next/navigation";
 import { logOut } from "../Redux/Auth/auth-slice";
+import { signOut } from "next-auth/react";
 
 export interface FILE {
   archive: boolean;
@@ -30,8 +31,8 @@ export interface FILE {
   whiteboard: string;
   _id: string;
   _creationTime: number;
-  read:boolean;
-  write:boolean;
+  read: boolean;
+  write: boolean;
   writtenBy: string[];
   readBy: string[];
 }
@@ -43,38 +44,27 @@ function Dashboard() {
   const activeTeamId = useSelector((state: RootState) => state.team.teamId);
   const dispatch = useDispatch();
   const [userData, setUserdata] = useState<any>();
-  const user = useSelector((state:RootState) => state.auth.user);
-  const router = useRouter()
+  const user = useSelector((state: RootState) => state.auth.user);
+  const router = useRouter();
 
-  const accessToken = useSelector((state:RootState)=>state.auth.user.accessToken);
+  const accessToken = useSelector(
+    (state: RootState) => state.auth.user.accessToken
+  );
 
   const axiosInstance = createAxiosInstance(accessToken);
 
   useEffect(() => {
     const checkHealth = async () => {
-      const res = await axiosInstance.get(checkHealthUrl);
-      if(res.status !== 200) {
-        router.push('/signin');
-        dispatch(logOut())
-      };
+      try {
+        await axiosInstance.get(checkHealthUrl).catch((err) => {
+          signOut();
+          dispatch(logOut());
+          router.push("/signin");
+        });
+      } catch (err) {}
     };
     checkHealth();
   }, []);
-
-  const checkUser = async () => {
-    const result = await convex.query(api.user.getUser, { email: user?.email });
-    if (!result?.length) {
-      createUser({
-        name: user.firstName,
-        email: user.email,
-        image: user.image || "https://picsum.photos/50",
-      });
-      const res = await convex.query(api.user.getUser, { email: user?.email });
-      setUserdata(res[0]);
-    } else {
-      setUserdata(result[0]);
-    }
-  };
 
   const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>();
@@ -95,11 +85,6 @@ function Dashboard() {
     setFileList(filteredFileList);
   };
 
-  useEffect(() => {
-    if (user) {
-      checkUser();
-    }
-  }, [user]);
 
   return (
     <div className="md:p-8 p-3">

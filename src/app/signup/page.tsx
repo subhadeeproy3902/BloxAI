@@ -1,11 +1,13 @@
+"use client"
 import Image from "next/image";
 import heroImg from "@/app/assets/651593780abfac438bc371ae_Group 573.webp";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SignupForm } from "@/components/shared/SignupForm";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export default function Page() {
-
+  const { data: session } = useSession();
   return (
     <div className="flex relative h-screen w-screen">
       <div className=" absolute top-5 left-5">
@@ -26,7 +28,7 @@ export default function Page() {
             <CardTitle>Register</CardTitle>
           </CardHeader>
           <CardContent>
-            <SignupForm />
+            <SignupForm session={session} />
           </CardContent>
         </Card>
       </div>

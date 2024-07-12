@@ -1,13 +1,10 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { api } from "../../../../convex/_generated/api";
-import { useMutation } from "convex/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {  useState } from "react";
 import { toast } from "sonner";
-import { useConvex } from "convex/react";
 import { useSelector } from 'react-redux';
 import { RootState } from '@/config/store';
 import createAxiosInstance from "@/config/AxiosProtectedRoute";
@@ -26,7 +23,7 @@ function CreateTeam() {
       });
       if(res.status === 200){
         router.push('/dashboard');
-        toast.success("File created Successfully");
+        toast.success("Team created Successfully");
       }
     } catch (err) {
 

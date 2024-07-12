@@ -7,3 +7,4 @@ export const updateWriteAccessUrl = "/api/files/write";
 export const registerUserUrl = "/api/auth/register";
 export const checkHealthUrl = "/api/health";
 export const createNewTeamUrl = "/api/teams/create";
+export const getTeamUrl = "/api/teams/get";
