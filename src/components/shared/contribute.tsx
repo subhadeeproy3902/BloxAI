@@ -5,7 +5,7 @@ const ContributingGuidelines = () => {
     <div className="min-h-[40rem] w-full pt-7 rounded-md flex justify-center flex-col antialiased relative overflow-hidden">
       <div className="mx-auto max-w-2xl px-4 py-8">
         <h1 className="text-3xl font-bold mb-4 mt-0 text-foreground/75">
-          Contributing Guidelines 
+          Contributing Guidelines
         </h1>
         <p className="mb-4 text-muted-foreground">
           This documentation contains a set of guidelines to help you during the contribution process. We are happy to welcome all the contributions from anyone willing to improve/add new scripts to this project. Thank you for helping out and remember, <strong>no contribution is too small.</strong>
@@ -15,7 +15,7 @@ const ContributingGuidelines = () => {
         </p>
 
         <h2 className="text-2xl font-semibold mb-2 text-foreground/75">
-          Need some help regarding the basics? 
+          Need some help regarding the basics?
         </h2>
         <p className="mb-4 text-muted-foreground">
           You can refer to the following articles on basics of Git and Github and also contact the Project Mentors, in case you are stuck:
@@ -34,40 +34,40 @@ const ContributingGuidelines = () => {
         <ol className="list-decimal list-inside mb-4 text-muted-foreground">
           <li>Fork <a href="https://github.com/subhadeeproy3902/BloxAI.git" className="text-black-500 underline">this repository</a>.</li>
           <li>Clone your forked copy of the project.</li>
-          <pre className="bg-gray-100 dark:bg-gray-800 p-2 rounded mb-2">
+          <pre className="bg-gray-100 p-2 rounded mb-2">
             <code>git clone https://github.com/&lt;your_user_name&gt;/BloxAI.git</code>
           </pre>
           <li>Navigate to the project directory.</li>
-          <pre className="bg-gray-100 dark:bg-gray-800 p-2 rounded mb-2">
+          <pre className="bg-gray-100 p-2 rounded mb-2">
             <code>cd BloxAI.git</code>
           </pre>
           <li>Add a reference(remote) to the original repository.</li>
-          <pre className="bg-gray-100 dark:bg-gray-800 p-2 rounded mb-2">
+          <pre className="bg-gray-100 p-2 rounded mb-2">
             <code>git remote add upstream https://github.com/subhadeeproy3902/BloxAI.git</code>
           </pre>
           <li>Check the remotes for this repository.</li>
-          <pre className="bg-gray-100 dark:bg-gray-800 p-2 rounded mb-2">
+          <pre className="bg-gray-100 p-2 rounded mb-2">
             <code>git remote -v</code>
           </pre>
           <li>Always take a pull from the upstream repository to your master branch to keep it at par with the main project (updated repository).</li>
-          <pre className="bg-gray-100 dark:bg-gray-800 p-2 rounded mb-2">
+          <pre className="bg-gray-100 p-2 rounded mb-2">
             <code>git pull upstream main</code>
           </pre>
           <li>Create a new branch.</li>
-          <pre className="bg-gray-100 dark:bg-gray-800 p-2 rounded mb-2">
+          <pre className="bg-gray-100 p-2 rounded mb-2">
             <code>git checkout -b &lt;your_branch_name&gt;</code>
           </pre>
           <li>Perform your desired changes to the code base.</li>
           <li>Track your changes.</li>
-          <pre className="bg-gray-100 dark:bg-gray-800 p-2 rounded mb-2">
+          <pre className="bg-gray-100 p-2 rounded mb-2">
             <code>git add .</code>
           </pre>
           <li>Commit your changes.</li>
-          <pre className="bg-gray-100 dark:bg-gray-800 p-2 rounded mb-2">
+          <pre className="bg-gray-100 p-2 rounded mb-2">
             <code>git commit -m "Relevant message"</code>
           </pre>
           <li>Push the committed changes in your feature branch to your remote repo.</li>
-          <pre className="bg-gray-100 dark:bg-gray-800 p-2 rounded mb-2">
+          <pre className="bg-gray-100 p-2 rounded mb-2">
             <code>git push -u origin &lt;your_branch_name&gt;</code>
           </pre>
           <li>To create a pull request, click on `compare and pull requests`.</li>
@@ -91,7 +91,7 @@ const ContributingGuidelines = () => {
         </ol>
 
         <h2 className="text-2xl font-semibold mb-2 text-foreground/75">
-          Issue Report Process 
+          Issue Report Process
         </h2>
         <ol className="list-decimal list-inside mb-4 text-muted-foreground">
           <li>Go to the project's issues.</li>
@@ -106,7 +106,7 @@ const ContributingGuidelines = () => {
         </p>
 
         <h2 className="text-2xl font-semibold mb-2 text-foreground/75">
-          Pull Request Process 
+          Pull Request Process
         </h2>
         <ol className="list-decimal list-inside mb-4 text-muted-foreground">
           <li>Ensure that you have self-reviewed your code.</li>
