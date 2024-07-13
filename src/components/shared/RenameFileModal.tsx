@@ -12,14 +12,14 @@ import {
 import { RenameFileForm } from "./RenameFileForm";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { FILE } from "@/app/dashboard/_components/FileList";
 
 type Props = {
-  id: string;
+  file: FILE;
+  user:any;
 };
 
-export default function RenameFileModal({ id }: Props) {
-  const router = useRouter();
+export default function RenameFileModal({ file,user }: Props) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   return (
     <Dialog>
@@ -35,7 +35,7 @@ export default function RenameFileModal({ id }: Props) {
               <h1>Rename File</h1>
             </DialogTitle>
             <DialogDescription>
-              <RenameFileForm id={id} setIsSubmitted={setIsSubmitted} />
+              <RenameFileForm file={file} setIsSubmitted={setIsSubmitted} user={user} />
             </DialogDescription>
           </DialogHeader>
         )}

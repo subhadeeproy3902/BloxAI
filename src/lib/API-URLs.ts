@@ -11,3 +11,4 @@ export const getTeamUrl = "/api/teams/get";
 export const createFileUrl = "/api/files/create";
 export const getFileUrl = "/api/files/get";
 export const getFileByIdUrl = "/api/files/getFileById";
+export const updateFileUrl = "/api/files/update";
