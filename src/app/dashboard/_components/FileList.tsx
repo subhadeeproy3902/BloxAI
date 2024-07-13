@@ -31,6 +31,9 @@ import RenameFileModal from "@/components/shared/RenameFileModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import FileStatusModal from "@/components/shared/FileStatusModal";
+import { RootState } from "@/config/store";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import { updateFileUrl } from "@/lib/API-URLs";
 
 export interface FILE {
   archive: boolean;
@@ -130,8 +133,8 @@ const FileRow = ({
   file: FILE;
   picture: string;
   pathname: string;
-  onArchive: (e: any, id: string) => void;
-  onUnarchive: (e: any, id: string) => void;
+  onArchive: (e: any, file: FILE) => void;
+  onUnarchive: (e: any, file: FILE) => void;
   onDelete: (e: any, id: string) => void;
   router: ReturnType<typeof useRouter>;
   index: number;
@@ -171,8 +174,8 @@ const FileRow = ({
     </td>
     <td>
       <FileStatusModal
-        fileId={file._id}
-        email={user.email}
+        file={file}
+        user={user}
         privateFIle={file.filePrivate}
         successTitle={
           !file.filePrivate
@@ -188,7 +191,7 @@ const FileRow = ({
       />
     </td>
     <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
-      <RenameFileModal id={file._id} />
+      <RenameFileModal file={file} user={user} />
       {pathname === "/dashboard" && (
         <ActionDialog
           isSubmitted={isSubmitted}
@@ -196,7 +199,7 @@ const FileRow = ({
           buttonIcon={ArchiveIcon}
           dialogTitle="Are you absolutely sure?"
           dialogDescription="This will add your file to the archive section."
-          onAction={(e) => onArchive(e, file._id)}
+          onAction={(e) => onArchive(e, file)}
         />
       )}
       {pathname === "/dashboard/archive" && (
@@ -206,7 +209,7 @@ const FileRow = ({
           buttonIcon={ArchiveRestore}
           dialogTitle="Are you absolutely sure?"
           dialogDescription="This will unarchive your file."
-          onAction={(e) => onUnarchive(e, file._id)}
+          onAction={(e) => onUnarchive(e, file)}
           buttonVariant="destructive"
         />
       )}
@@ -243,6 +246,8 @@ function FileList({
   const safeFileList = Array.isArray(fileList) ? fileList : [];
   const pathname = usePathname();
 
+  const axiosInstance = createAxiosInstance(user.accessToken)
+
   const sortedFiles = [...safeFileList];
   if (sortConfig !== null) {
     sortedFiles.sort((a, b) => {
@@ -263,18 +268,35 @@ function FileList({
     setIsSubmitted(true);
   };
 
-  const archiveFile = useMutation(api.files.addToArchive);
-  const archiveFunc = async (e: any, id: string) => {
+
+  const archiveFunc = async (e: any, file:FILE) => {
     e.stopPropagation();
-    await archiveFile({ _id: id as Id<"files"> });
-    setIsSubmitted(true);
+    try {
+      await axiosInstance.put(updateFileUrl,{
+        fileName:file.fileName, 
+        filePrivate:file.filePrivate, 
+        fileId:file._id,
+        archive:true
+      })
+      setIsSubmitted(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const unArchiveFile = useMutation(api.files.removeFromArchive);
-  const unarchiveFunc = async (e: any, id: string) => {
+  const unarchiveFunc = async (e: any, file:FILE) => {
     e.stopPropagation();
-    await unArchiveFile({ _id: id as Id<"files"> });
-    setIsSubmitted(true);
+    try {
+      await axiosInstance.put(updateFileUrl,{
+        fileName:file.fileName, 
+        filePrivate:file.filePrivate, 
+        fileId:file._id,
+        archive:false
+      })
+      setIsSubmitted(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const requestSort = (key: keyof FILE) => {
@@ -388,7 +410,7 @@ function FileList({
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-bold text-xl">{file.fileName}</span>
                   <div className="flex gap-2">
-                    <RenameFileModal id={file._id} />
+                    <RenameFileModal user={user} file={file} />
                     {pathname === "/dashboard" && (
                       <ActionDialog
                         isSubmitted={isSubmitted}
@@ -396,7 +418,7 @@ function FileList({
                         buttonIcon={ArchiveIcon}
                         dialogTitle="Are you absolutely sure?"
                         dialogDescription="This will add your file to the archive section."
-                        onAction={(e) => archiveFunc(e, file._id)}
+                        onAction={(e) => archiveFunc(e, file)}
                       />
                     )}
                     {pathname === "/dashboard/archive" && (
@@ -406,7 +428,7 @@ function FileList({
                         buttonIcon={ArchiveRestore}
                         dialogTitle="Are you absolutely sure?"
                         dialogDescription="This will unarchive your file."
-                        onAction={(e) => unarchiveFunc(e, file._id)}
+                        onAction={(e) => unarchiveFunc(e, file)}
                         buttonVariant="destructive"
                       />
                     )}
@@ -433,8 +455,8 @@ function FileList({
                     </div>
                   </div>
                   <FileStatusModal
-                    fileId={file._id}
-                    email={user.email}
+                    file={file}
+                    user={user}
                     privateFIle={file.filePrivate}
                     successTitle={
                       !file.filePrivate
