@@ -152,6 +152,12 @@ const Footer: React.FC = () => {
                     Terms &amp; Conditions
                   </a>
                 </li>
+                <li className="mb-4">
+                  <a
+                    href="/contribute" className="hover:underline" >
+                    Contributing Guidelines
+                  </a>
+                </li>
                 <li>
                   <a href="/codeofconduct" className="hover:underline">
                     Code Of Conduct
