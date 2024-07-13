@@ -14,8 +14,9 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/config/store";
-import { changeToPrivateUrl, changeToPublicUrl } from "@/lib/API-URLs";
-import axiosInstance from "@/config/AxiosInstance";
+import { changeToPublicUrl, updateFileUrl } from "@/lib/API-URLs";
+import { FILE } from "@/app/dashboard/_components/FileList";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
 import { CheckCircle2 } from "lucide-react";
 
 type Props = {
@@ -23,8 +24,8 @@ type Props = {
   dialogDescription: string;
   successTitle: string;
   privateFIle: boolean;
-  fileId: string;
-  email: string;
+  file: FILE;
+  user: any;
 };
 
 export default function FileStatusModal({
@@ -32,21 +33,22 @@ export default function FileStatusModal({
   dialogDescription,
   successTitle,
   privateFIle,
-  fileId,
-  email,
+  file,
+  user,
 }: Props) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const teamId = useSelector((state: RootState) => state.team.teamId);
+  const axiosInstance = createAxiosInstance(user.accessToken)
 
   const FileHandler = async () => {
     if (!privateFIle) {
       try {
-        const res = await axiosInstance.put(changeToPrivateUrl, {
-          teamId,
-          email,
-          fileId,
+        const res = await axiosInstance.put(updateFileUrl, {
+          fileName:file.fileName, 
+          filePrivate:true, 
+          fileId:file._id,
+          archive: (file.archive === undefined) ? false : file.archive
         });
         if (res.status === 200) {
           setIsSubmitted(true);
@@ -59,10 +61,11 @@ export default function FileStatusModal({
       }
     } else {
       try {
-        const res = await axiosInstance.put(changeToPublicUrl, {
-          teamId,
-          email,
-          fileId,
+        const res = await axiosInstance.put(updateFileUrl, {
+          fileName:file.fileName, 
+          filePrivate:false, 
+          fileId:file._id,
+          archive: (file.archive === undefined) ? false : file.archive
         });
         if (res.status === 200) {
           setIsSubmitted(true);

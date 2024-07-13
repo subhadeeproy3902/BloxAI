@@ -18,6 +18,9 @@ import { PencilIcon } from "lucide-react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
 import { SetStateAction } from "react";
+import { FILE } from "@/app/dashboard/_components/FileList";
+import { updateFileUrl } from "@/lib/API-URLs";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
 
 const FormSchema = z.object({
   newName: z.string().min(1, {
@@ -26,12 +29,14 @@ const FormSchema = z.object({
 });
 
 type Props = {
-  id:string;
+  file:FILE;
   setIsSubmitted: React.Dispatch<SetStateAction<boolean>>;
+  user:any;
 }
 
-export function RenameFileForm({id,setIsSubmitted}:Props) {
-  const convex = useConvex();
+export function RenameFileForm({file,setIsSubmitted,user}:Props) {
+
+  const axiosInstance = createAxiosInstance(user.accessToken)
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -41,12 +46,17 @@ export function RenameFileForm({id,setIsSubmitted}:Props) {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const result = await convex.mutation(api.files.renameFile,{
-      _id:id as Id<"files">,
-      newName:data.newName
-    })
-
-    setIsSubmitted(true);
+    try {
+      await axiosInstance.put(updateFileUrl,{
+        fileName:data.newName, 
+        filePrivate:file.filePrivate, 
+        fileId:file._id,
+        archive: (file.archive === undefined) ? false : file.archive
+      })
+      setIsSubmitted(true);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
