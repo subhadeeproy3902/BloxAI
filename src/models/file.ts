@@ -9,6 +9,7 @@ interface File {
   filePrivate: boolean;
   writtenBy: any[];
   readBy: any[];
+  teamId:any;
 }
 
 const FileSchema = new Schema<File>(
@@ -21,6 +22,7 @@ const FileSchema = new Schema<File>(
     filePrivate: { type: Boolean, required: true },
     writtenBy: [{ type: Schema.Types.ObjectId, required: true, ref: "User" }],
     readBy: [{ type: Schema.Types.ObjectId, required: true, ref: "User" }],
+    teamId:{ type: Schema.Types.ObjectId, required: true, ref: "Team" },
   },
   { timestamps: true }
 );
