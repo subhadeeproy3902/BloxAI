@@ -2,17 +2,17 @@
 import React, { useEffect, useState, useRef, MutableRefObject } from "react";
 import WorkspaceHeader from "../_components/WorkspaceHeader";
 import Editor from "../_components/Editor";
-import { useConvex } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
+
 import Canvas from "../_components/Canvas";
-import dynamic from 'next/dynamic';
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import Loader from "@/components/shared/Loader";
-import { FILE } from "@/app/teams/settings/_components/FileList";
 import PrivateAlert from "@/components/shared/PrivateAlert";
 import { useSelector } from 'react-redux';
 import { RootState } from '@/config/store';
 import { useSession } from "next-auth/react";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import { getFileByIdUrl } from "@/lib/API-URLs";
+import { FILE } from "@/app/dashboard/_components/FileList";
 
 // Dynamic imports for server-side libraries
 const jsPDFPromise = import('jspdf');
@@ -20,14 +20,14 @@ const excalidrawPromise = import('@excalidraw/excalidraw');
 
 function Workspace({ params }: any) {
   const [triggerSave, setTriggerSave] = useState(false);
-  const convex = useConvex();
   const [fileData, setFileData] = useState<FILE | null>(null);
   const [fullScreen, setFullScreen] = useState(false);
   const editorRef = useRef<EditorJS | null>(null);
   const canvasRef = useRef<any>(null);
   const {data:session,status} = useSession();
   const isAuth = useSelector((state:RootState)=>state.auth.user.isAuth)
-
+  const user = useSelector((state:RootState)=>state.auth.user)
+  const axiosInstance = createAxiosInstance(user.accessToken)
   const [isError,setError] = useState(false);
   const [errorMsg,setErrorMsg] = useState("");
 
@@ -38,9 +38,9 @@ function Workspace({ params }: any) {
   }, [params.fileId]);
 
   useEffect(()=>{
-    if(fileData && session && fileData.private){
+    if(fileData && session && fileData.filePrivate){
       if(isAuth){
-        if((fileData.readBy && !fileData.readBy.includes(session.user.email)) || fileData.createdBy !== session.user.email){
+        if((fileData.readBy && !fileData.readBy.includes(session.user.id)) || fileData.createdBy.email !== session.user.email){
           setError(true);
           setErrorMsg("Invalid Access! Request owner to give read or write access!")
         }
@@ -52,10 +52,8 @@ function Workspace({ params }: any) {
   },[fileData])
 
   const getFileData = async () => {
-    const result = await convex.query(api.files.getFileById, {
-      _id: params.fileId,
-    });
-    setFileData(result);
+    const result = await axiosInstance.get(`${getFileByIdUrl}/${params.fileId}`);
+    setFileData(result.data);
   };
 
   const saveAsPdf = async () => {

@@ -34,14 +34,20 @@ import FileStatusModal from "@/components/shared/FileStatusModal";
 
 export interface FILE {
   archive: boolean;
-  createdBy: string;
+  createdBy: {
+    email: string;
+    firstName: string;
+    lastName: string;
+  };
   document: string;
   fileName: string;
   teamId: string;
   whiteboard: string;
   _id: string;
   _creationTime: number;
-  private: boolean;
+  filePrivate: boolean;
+  readBy:any[];
+  writtenBy:any[];
 }
 
 const ActionDialog = ({
@@ -119,7 +125,6 @@ const FileRow = ({
   router,
   index,
   isSubmitted,
-  authorData,
   user,
 }: {
   file: FILE;
@@ -131,7 +136,6 @@ const FileRow = ({
   router: ReturnType<typeof useRouter>;
   index: number;
   isSubmitted: boolean;
-  authorData: any[];
   user: any;
 }) => (
   <tr key={file._id} className="odd:bg-muted/50 cursor-pointer">
@@ -157,31 +161,27 @@ const FileRow = ({
       className="whitespace-nowrap px-4 py-2 text-muted-foreground"
       onClick={() => router.push("/workspace/" + file._id)}
     >
-      {authorData.map(
-        (author, index) =>
-          author.email === file.createdBy && (
-            <Avatar key={index} className="w-[40px] h-[40px]">
-              <AvatarImage src={""} />
-              <AvatarFallback className=" text-xs">
-                {author.name.charAt(0)}
-              </AvatarFallback>
-            </Avatar>
-          )
-      )}
+      <Avatar key={index} className="w-[40px] h-[40px]">
+        <AvatarImage src={""} />
+        <AvatarFallback className=" text-xs">
+          {file.createdBy.firstName.charAt(0)}
+          {file.createdBy.lastName.charAt(0)}
+        </AvatarFallback>
+      </Avatar>
     </td>
     <td>
       <FileStatusModal
         fileId={file._id}
         email={user.email}
-        privateFIle={file.private}
+        privateFIle={file.filePrivate}
         successTitle={
-          !file.private
+          !file.filePrivate
             ? "File accessible to members only"
             : "File accessible to everyone"
         }
-        dialogTitle={!file.private ? "Private File" : "Public File"}
+        dialogTitle={!file.filePrivate ? "Private File" : "Public File"}
         dialogDescription={
-          !file.private
+          !file.filePrivate
             ? "Make file accessible to members only"
             : "Make file accessible to everyone"
         }
@@ -240,33 +240,8 @@ function FileList({
   } | null>(null);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [authorData, setAuthorData] = useState<any[]>([]);
   const safeFileList = Array.isArray(fileList) ? fileList : [];
   const pathname = usePathname();
-
-  console.log(fileList)
-
-  useEffect(() => {
-    const getData = async () => {
-      let listOfCreators: string[] = [];
-      authorData.forEach((user: any) => {
-        listOfCreators.push(user.email);
-      });
-
-      fileList?.forEach(async (file) => {
-        if (!listOfCreators.includes(file.createdBy)) {
-          listOfCreators.push(file.createdBy);
-          const result = await convex.query(api.user.getUser, {
-            email: file.createdBy,
-          });
-          setAuthorData([...authorData, result[0]]);
-        }
-      });
-    };
-    if (fileList) {
-      getData();
-    }
-  }, [fileList]);
 
   const sortedFiles = [...safeFileList];
   if (sortConfig !== null) {
@@ -383,7 +358,6 @@ function FileList({
                     onDelete={deleteFunc}
                     router={router}
                     index={index}
-                    authorData={authorData}
                   />
                 )
               )}
@@ -459,23 +433,21 @@ function FileList({
                     </div>
                   </div>
                   <FileStatusModal
-                      fileId={file._id}
-                      email={user.email}
-                      privateFIle={file.private}
-                      successTitle={
-                        !file.private
-                          ? "File accessible to members only"
-                          : "File accessible to everyone"
-                      }
-                      dialogTitle={
-                        !file.private ? "Private File" : "Public File"
-                      }
-                      dialogDescription={
-                        !file.private
-                          ? "Make file accessible to members only"
-                          : "Make file accessible to everyone"
-                      }
-                    />
+                    fileId={file._id}
+                    email={user.email}
+                    privateFIle={file.filePrivate}
+                    successTitle={
+                      !file.filePrivate
+                        ? "File accessible to members only"
+                        : "File accessible to everyone"
+                    }
+                    dialogTitle={!file.filePrivate ? "Private File" : "Public File"}
+                    dialogDescription={
+                      !file.filePrivate
+                        ? "Make file accessible to members only"
+                        : "Make file accessible to everyone"
+                    }
+                  />
                 </div>
 
                 <div className="text-muted-foreground flex justify-end">

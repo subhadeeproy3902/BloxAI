@@ -8,3 +8,6 @@ export const registerUserUrl = "/api/auth/register";
 export const checkHealthUrl = "/api/health";
 export const createNewTeamUrl = "/api/teams/create";
 export const getTeamUrl = "/api/teams/get";
+export const createFileUrl = "/api/files/create";
+export const getFileUrl = "/api/files/get";
+export const getFileByIdUrl = "/api/files/getFileById";

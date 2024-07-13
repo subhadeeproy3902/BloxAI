@@ -11,7 +11,11 @@ export const POST = async (req: Request) => {
     if (result instanceof NextResponse) {
         
         try {
-            const { fileName, filePrivate } = await req.json();
+            const { fileName, filePrivate, teamId } = await req.json();
+
+            console.log(fileName, filePrivate, teamId)
+
+            if(!fileName || !teamId) return NextResponse.json({ status: 401 });
 
             await mongoDB();
       
@@ -22,7 +26,8 @@ export const POST = async (req: Request) => {
               filePrivate,
               createdBy:user._id,
               readBy:[user._id],
-              writtenBy:[user._id]
+              writtenBy:[user._id],
+              teamId:teamId
             });
       
             return NextResponse.json({ status: 200 });

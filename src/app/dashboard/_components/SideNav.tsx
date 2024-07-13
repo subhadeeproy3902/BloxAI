@@ -9,6 +9,8 @@ import { setClose, setOpen } from "@/app/Redux/Menu/menuSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "next-themes";
 import { RootState } from "@/config/store";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import { getFileUrl } from "@/lib/API-URLs";
 // import { RootState } from "@/app/store";
 
 function SideNav() {
@@ -22,8 +24,9 @@ function SideNav() {
   const dispatch = useDispatch();
   const { theme } = useTheme();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const email = useSelector((state:RootState)=>state.auth.user.email)
+  const user = useSelector((state:RootState)=>state.auth.user)
   const dispatch_nav = useDispatch();
+  const axiosInstance = createAxiosInstance(user.accessToken)
 
   useEffect(() => {
     const handleResize = () => {
@@ -45,33 +48,11 @@ function SideNav() {
   useEffect(() => {
     activeTeam && getFiles();
   }, [activeTeam]);
-  const onFileCreate = (fileName: string) => {
-    createFile({
-      fileName: fileName,
-      teamId: activeTeam?._id,
-      createdBy: email,
-      archive: false,
-      document: "",
-      whiteboard: "",
-    }).then(
-      (resp) => {
-        if (resp) {
-          getFiles();
-          toast.success("File created successfully!");
-        }
-      },
-      (e) => {
-        toast.error("Error while creating file");
-      }
-    );
-  };
 
   const getFiles = async () => {
-    const result = await convex.query(api.files.getFiles, {
-      teamId: activeTeam?._id,
-    });
-    setFileList_(result);
-    setTotalFiles(result?.length);
+    const result = await axiosInstance.get(`${getFileUrl}/${activeTeam._id}`);
+    setFileList_(result.data);
+    setTotalFiles(result.data?.length);
   };
 
   return (
@@ -109,8 +90,8 @@ function SideNav() {
 
       <div>
         <SideNavBottomSection
+        getFiles={getFiles}
           totalFiles={totalFiles}
-          onFileCreate={onFileCreate}
           activeTeam={activeTeam}
         />
       </div>
