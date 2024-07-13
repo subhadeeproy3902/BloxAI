@@ -245,6 +245,7 @@ function FileList({
   const [isSubmitted, setIsSubmitted] = useState(false);
   const safeFileList = Array.isArray(fileList) ? fileList : [];
   const pathname = usePathname();
+
   const axiosInstance = createAxiosInstance(user.accessToken)
 
   const sortedFiles = [...safeFileList];
