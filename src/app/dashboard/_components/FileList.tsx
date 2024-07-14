@@ -33,7 +33,7 @@ import { Badge } from "@/components/ui/badge";
 import FileStatusModal from "@/components/shared/FileStatusModal";
 import { RootState } from "@/config/store";
 import createAxiosInstance from "@/config/AxiosProtectedRoute";
-import { updateFileUrl } from "@/lib/API-URLs";
+import { deleteFileUrl, updateFileUrl } from "@/lib/API-URLs";
 
 export interface FILE {
   archive: boolean;
@@ -247,8 +247,6 @@ function FileList({
   const pathname = usePathname();
   const axiosInstance = createAxiosInstance(user.accessToken)
 
-  const axiosInstance = createAxiosInstance(user.accessToken)
-
   const sortedFiles = [...safeFileList];
   if (sortConfig !== null) {
     sortedFiles.sort((a, b) => {
@@ -262,11 +260,14 @@ function FileList({
     });
   }
 
-  const deleteFile = useMutation(api.files.deleteFile);
   const deleteFunc = async (e: any, id: string) => {
     e.stopPropagation();
-    await deleteFile({ _id: id as Id<"files"> });
-    setIsSubmitted(true);
+    try {
+      await axiosInstance.delete(`${deleteFileUrl}/${id}`)
+      setIsSubmitted(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
 

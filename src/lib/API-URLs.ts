@@ -12,3 +12,5 @@ export const createFileUrl = "/api/files/create";
 export const getFileUrl = "/api/files/get";
 export const getFileByIdUrl = "/api/files/getFileById";
 export const updateFileUrl = "/api/files/update";
+export const deleteFileUrl = "/api/files/delete";
+export const deleteTeamUrl = "/api/teams/delete";
