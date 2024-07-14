@@ -44,7 +44,7 @@ import {
 import { RootState } from "@/config/store";
 import { useSelector } from "react-redux";
 import createAxiosInstance from "@/config/AxiosProtectedRoute";
-import { createFileUrl } from "@/lib/API-URLs";
+import { createFileUrl, deleteTeamUrl } from "@/lib/API-URLs";
 import { Switch } from "@/components/ui/switch";
 
 interface TEAM {
@@ -97,12 +97,12 @@ function SideNavBottomSection({getFiles, totalFiles, activeTeam }: any) {
 
   const deleteFunc = async (e: any, id: String) => {
     e.stopPropagation();
-    if (activeTeam.teamName === "My Org") {
-      toast.error("My Org can not be deleted");
-      return;
+    try {
+      await axiosInstance.delete(`${deleteTeamUrl}/${id}`)
+      setIsSubmitted(true);
+    } catch (err) {
+      console.log(err);
     }
-    await deleteTeam({ _id: id as Id<"teams"> });
-    setIsSubmitted(true);
   };
 
   const handleFileInput = (val: string) => {
