@@ -247,6 +247,8 @@ function FileList({
   const pathname = usePathname();
   const axiosInstance = createAxiosInstance(user.accessToken)
 
+  const axiosInstance = createAxiosInstance(user.accessToken)
+
   const sortedFiles = [...safeFileList];
   if (sortConfig !== null) {
     sortedFiles.sort((a, b) => {
