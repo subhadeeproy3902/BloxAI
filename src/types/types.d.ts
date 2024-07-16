@@ -38,4 +38,6 @@ export interface FILE {
   readBy:any[];
   teamId:string;
   archive:boolean;
+  whiteboard:string;
+  document:string;
 }
