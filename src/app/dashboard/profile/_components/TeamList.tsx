@@ -5,7 +5,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Team } from "./FileList";
 import {
   Card,
   CardContent,
@@ -13,14 +12,16 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import moment from "moment";
-import { useConvex } from "convex/react";
-import { api } from "../../../../../convex/_generated/api";
+import { TEAM } from "@/types/types";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import { getFileUrl } from "@/lib/API-URLs";
 
 type Props = {
-  teamList: Team[];
+  teamList: TEAM[];
   setFileList: React.Dispatch<any>;
   setfocusedTeam: React.Dispatch<string | null>;
   focusedTeam: string | null;
+  user:any;
 };
 
 export default function TeamList({
@@ -28,15 +29,15 @@ export default function TeamList({
   setFileList,
   setfocusedTeam,
   focusedTeam,
+  user
 }: Props) {
-  const convex = useConvex();
+
+  const axiosInstance = createAxiosInstance(user.accessToken);
 
   const changeFileList = async (teamId: string) => {
     setfocusedTeam(teamId);
-    const result = await convex.query(api.files.getFiles, {
-      teamId: teamId,
-    });
-    setFileList(result);
+    const result = await axiosInstance.get(`${getFileUrl}/${teamId}`);
+    setFileList(result.data);
   };
 
   return (
@@ -46,7 +47,10 @@ export default function TeamList({
         <CarouselContent>
           {teamList.map((team, index) => (
             <CarouselItem
-              onClick={() => changeFileList(team._id)}
+              onClick={() => {
+                changeFileList(team._id)
+              }
+              }
               key={index}
               className="w-full group cursor-pointer sm:basis-1/2 md:basis-1/2"
             >
@@ -58,9 +62,9 @@ export default function TeamList({
                   <CardDescription>
                     <h1>
                       Created At :{" "}
-                      {moment(team._creationTime).format("DD MMM YYYY")}
+                      {moment(team.createdAt).format("DD MMM YYYY")}
                     </h1>
-                    <h1>Files : {team.fileCount}</h1>
+                    <h1>Files : {team.files.length}</h1>
                   </CardDescription>
                 </CardContent>
               </Card>

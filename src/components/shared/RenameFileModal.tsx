@@ -12,7 +12,7 @@ import {
 import { RenameFileForm } from "./RenameFileForm";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { FILE } from "@/app/dashboard/_components/FileList";
+import { FILE } from "@/types/types";
 
 type Props = {
   file: FILE;

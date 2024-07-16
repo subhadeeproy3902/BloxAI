@@ -12,12 +12,10 @@ import {
 } from "../ui/alert-dialog";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { useSelector } from "react-redux";
-import { RootState } from "@/config/store";
 import { changeToPublicUrl, updateFileUrl } from "@/lib/API-URLs";
-import { FILE } from "@/app/dashboard/_components/FileList";
 import createAxiosInstance from "@/config/AxiosProtectedRoute";
 import { CheckCircle2 } from "lucide-react";
+import { FILE } from "@/types/types";
 
 type Props = {
   dialogTitle: string;

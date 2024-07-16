@@ -12,9 +12,6 @@ import {
 import moment from "moment";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useConvex, useMutation } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
-import { Id } from "../../../../convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -29,29 +26,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import RenameFileModal from "@/components/shared/RenameFileModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import FileStatusModal from "@/components/shared/FileStatusModal";
-import { RootState } from "@/config/store";
 import createAxiosInstance from "@/config/AxiosProtectedRoute";
 import { deleteFileUrl, updateFileUrl } from "@/lib/API-URLs";
-
-export interface FILE {
-  archive: boolean;
-  createdBy: {
-    email: string;
-    firstName: string;
-    lastName: string;
-  };
-  document: string;
-  fileName: string;
-  teamId: string;
-  whiteboard: string;
-  _id: string;
-  _creationTime: number;
-  filePrivate: boolean;
-  readBy:any[];
-  writtenBy:any[];
-}
+import { FILE } from "@/types/types";
 
 const ActionDialog = ({
   buttonIcon: ButtonIcon,
@@ -152,13 +130,13 @@ const FileRow = ({
       className="whitespace-nowrap px-4 py-2 text-muted-foreground"
       onClick={() => router.push("/workspace/" + file._id)}
     >
-      {moment(file._creationTime).format("DD MMM YYYY")}
+      {moment(file.createdAt).format("DD MMM YYYY")}
     </td>
     <td
       className="whitespace-nowrap px-4 py-2 text-muted-foreground"
       onClick={() => router.push("/workspace/" + file._id)}
     >
-      {moment(file._creationTime).format("DD MMM YYYY")}
+      {moment(file.createdAt).format("DD MMM YYYY")}
     </td>
     <td
       className="whitespace-nowrap px-4 py-2 text-muted-foreground"
@@ -231,12 +209,11 @@ function FileList({
   picture,
   user,
 }: {
-  fileList?: FILE[];
+  fileList: FILE[];
   picture: string;
   user: any;
 }) {
   const router = useRouter();
-  const convex = useConvex();
   const [sortConfig, setSortConfig] = useState<{
     key: keyof FILE;
     direction: string;
@@ -340,7 +317,7 @@ function FileList({
                 </td>
                 <td
                   className="whitespace-nowrap px-4 py-2 font-medium cursor-pointer"
-                  onClick={() => requestSort("_creationTime")}
+                  onClick={() => requestSort("createdAt")}
                 >
                   Created At <ChevronsUpDown className="inline-block ml-2" />
                 </td>
@@ -398,7 +375,7 @@ function FileList({
               </div>
               <div
                 className="cursor-pointer"
-                onClick={() => requestSort("_creationTime")}
+                onClick={() => requestSort("createdAt")}
               >
                 Created At <ChevronsUpDown className="inline-block ml-2" />
               </div>
@@ -449,11 +426,11 @@ function FileList({
                   <div className="flex flex-col">
                     <div className="mb-2 text-muted-foreground">
                       <Clock className="inline-block mr-2" size={20} />
-                      {moment(file._creationTime).format("YYYY-MM-DD")}
+                      {moment(file.createdAt).format("YYYY-MM-DD")}
                     </div>
                     <div className="mb-2 text-muted-foreground">
                       <Edit className="inline-block mr-2" size={20} />
-                      {moment(file._creationTime).format("YYYY-MM-DD")}
+                      {moment(file.createdAt).format("YYYY-MM-DD")}
                     </div>
                   </div>
                   <FileStatusModal

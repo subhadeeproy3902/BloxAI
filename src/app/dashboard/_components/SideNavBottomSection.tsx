@@ -26,9 +26,6 @@ import { FileListContext } from "@/app/_context/FilesListContext";
 import { ErrorMessage } from "@/components/ui/error";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Id } from "../../../../convex/_generated/dataModel";
-import { useMutation } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -88,7 +85,6 @@ function SideNavBottomSection({getFiles, totalFiles, activeTeam }: any) {
   const [error, setError] = useState<string>("");
   
   const email = ((state:RootState) => state.auth.user.email)
-  const deleteTeam = useMutation(api.teams.deleteTeam);
   const user = useSelector((state:RootState)=>state.auth.user);
   const axiosInstance = createAxiosInstance(user.accessToken);
   const [filePrivate,setFileprivate] = useState(false);

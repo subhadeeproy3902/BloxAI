@@ -18,9 +18,9 @@ import { PencilIcon } from "lucide-react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
 import { SetStateAction } from "react";
-import { FILE } from "@/app/dashboard/_components/FileList";
 import { updateFileUrl } from "@/lib/API-URLs";
 import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import { FILE } from "@/types/types";
 
 const FormSchema = z.object({
   newName: z.string().min(1, {

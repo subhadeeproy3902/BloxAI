@@ -1,6 +1,7 @@
 import { mongoDB } from "@/lib/MongoDB";
 import { AuthMiddleware } from "@/Middleware/AuthMiddleware";
 import FileModel from "@/models/file";
+import TeamModel from "@/models/team";
 import { ApiUser } from "@/types/types";
 import { NextResponse } from "next/server";
 
@@ -29,6 +30,11 @@ export const POST = async (req: Request) => {
               writtenBy:[user._id],
               teamId:teamId
             });
+
+            await TeamModel.updateOne(
+              { _id: teamId },
+              { $push: { files: file._id } }
+            );
       
             return NextResponse.json({ status: 200 });
         } catch (err) {

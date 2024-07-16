@@ -18,8 +18,8 @@ import Table from '@editorjs/table';
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { toast } from "sonner";
-import { FILE } from "../../dashboard/_components/FileList";
 import { useTheme } from "next-themes";
+import { FILE } from "@/types/types";
 
 const rawDocument = {
   time: 1550476186479,
