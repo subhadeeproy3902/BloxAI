@@ -1,5 +1,4 @@
 "use client";
-import { FILE } from "../../page";
 import { useEffect, useState } from "react";
 import {
   Loader2,
@@ -12,7 +11,6 @@ import {
 } from "lucide-react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { useMutation } from "convex/react";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -25,16 +23,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Id } from "../../../../../convex/_generated/dataModel";
-import { api } from "../../../../../convex/_generated/api";
-
-export interface Team {
-  createdBy: string;
-  teamName: string;
-  _creationTime: number;
-  _id: string;
-  fileCount?: number;
-}
+import { FILE, TEAM } from "@/types/types";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import { deleteFileUrl } from "@/lib/API-URLs";
 
 const ActionDialog = ({
   buttonIcon: ButtonIcon,
@@ -125,13 +116,13 @@ const FileRow = ({
       className="whitespace-nowrap px-8 py-2 text-muted-foreground"
       onClick={() => router.push("/workspace/" + file._id)}
     >
-      {moment(file._creationTime).format("DD MMM YYYY")}
+      {moment(file.createdAt).format("DD MMM YYYY")}
     </td>
     <td
       className="whitespace-nowrap px-8 py-2 text-muted-foreground"
       onClick={() => router.push("/workspace/" + file._id)}
     >
-      {moment(file._creationTime).format("DD MMM YYYY")}
+      {moment(file.createdAt).format("DD MMM YYYY")}
     </td>
     <td className="whitespace-nowrap px-8 py-2 text-muted-foreground">
       {teamLookup[file.teamId] || "Unknown Team"}
@@ -153,9 +144,11 @@ const FileRow = ({
 export default function FileList({
   fileList,
   teamList,
+  user
 }: {
+  user:any;
   fileList?: FILE[];
-  teamList: Team[];
+  teamList: TEAM[];
 }) {
   const router = useRouter();
   const [sortConfig, setSortConfig] = useState<{
@@ -166,6 +159,8 @@ export default function FileList({
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const safeFileList = Array.isArray(fileList) ? fileList : [];
+
+  const axiosInstance = createAxiosInstance(user.accessToken)
 
   const sortedFiles = [...safeFileList];
   if (sortConfig !== null) {
@@ -180,11 +175,14 @@ export default function FileList({
     });
   }
 
-  const deleteFile = useMutation(api.files.deleteFile);
   const deleteFunc = async (e: any, id: string) => {
     e.stopPropagation();
-    await deleteFile({ _id: id as Id<"files"> });
-    setIsSubmitted(true);
+    try {
+      await axiosInstance.delete(`${deleteFileUrl}/${id}`)
+      setIsSubmitted(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const requestSort = (key: keyof FILE) => {
@@ -234,7 +232,7 @@ export default function FileList({
               </td>
               <td
                 className="whitespace-nowrap px-8 py-2 font-medium cursor-pointer"
-                onClick={() => requestSort("_creationTime")}
+                onClick={() => requestSort("createdAt")}
               >
                 Created At <ChevronsUpDown className="inline-block ml-2" />
               </td>
@@ -285,7 +283,7 @@ export default function FileList({
             </div>
             <div
               className="cursor-pointer"
-              onClick={() => requestSort("_creationTime")}
+              onClick={() => requestSort("createdAt")}
             >
               Created At <ChevronsUpDown className="inline-block ml-2" />
             </div>
@@ -309,11 +307,11 @@ export default function FileList({
               </div>
               <div className="mb-2 text-muted-foreground">
                 <Clock className="inline-block mr-2" size={20} />
-                {moment(file._creationTime).format("YYYY-MM-DD")}
+                {moment(file.createdAt).format("YYYY-MM-DD")}
               </div>
               <div className="mb-2 text-muted-foreground">
                 <Edit className="inline-block mr-2" size={20} />
-                {moment(file._creationTime).format("YYYY-MM-DD")}
+                {moment(file.createdAt).format("YYYY-MM-DD")}
               </div>
               <div className="mb-2 text-muted-foreground">
                 <Users className="inline-block mr-2" size={20} />

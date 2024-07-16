@@ -1,14 +1,11 @@
 "use client";
 import type { RootState } from "../../config/store";
 import { FileListContext } from "@/app/_context/FilesListContext";
-import { api } from "../../../convex/_generated/api";
-import { useConvex, useMutation } from "convex/react";
 import FileList from "./_components/FileList";
 import { useState, useContext, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import ThemeTogglebutton from "@/components/ui/ThemeToggle";
 import { Search } from "lucide-react";
-import Image from "next/image";
 import { toggleClose } from "../Redux/Menu/menuSlice";
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
@@ -38,8 +35,6 @@ export interface FILE {
 }
 
 function Dashboard() {
-  const convex = useConvex();
-  const createUser = useMutation(api.user.createUser);
   const count = useSelector((state: RootState) => state.counter.value);
   const activeTeamId = useSelector((state: RootState) => state.team.teamId);
   const dispatch = useDispatch();

@@ -1,10 +1,8 @@
 "use client";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import FileList, { Team } from "./_components/FileList";
+import FileList  from "./_components/FileList";
 import React, { useEffect, useState } from "react";
-import { useConvex } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
 import TeamList from "./_components/TeamList";
 import { toggleClose } from "@/app/Redux/Menu/menuSlice";
 import { useDispatch } from "react-redux";
@@ -12,81 +10,40 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useSelector } from 'react-redux';
 import { RootState } from '@/config/store';
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import { getAllFilesUrl, getTeamUrl } from "@/lib/API-URLs";
+import { FILE, TEAM } from "@/types/types";
+
 
 export default function Page() {
   const user = useSelector((state:RootState)=>state.auth.user)
   const dispatch = useDispatch();
-  const convex = useConvex();
 
-  const [fileList, setFileList] = useState<any>();
+  const [fileList, setFileList] = useState<FILE[]>([]);
   const [focusedTeam, setfocusedTeam] = useState<string | null>(null);
-  const [teamList, setTeamList] = useState<Team[]>([]);
-  const [teamListWithCount, setTeamListCount] = useState<Team[]>([]);
-  const [userData, setUserdata] = useState<any>();
+  const [teamList, setTeamList] = useState<TEAM[]>([]);
+
+  const teamId = useSelector((state:RootState)=>state.team.teamId);
+  const axiosInstance = createAxiosInstance(user.accessToken);
 
   useEffect(() => {
     const getTeamData = async () => {
-      const result = await convex.query(api.teams.getTeam, {
-        email: user.email,
-      });
-      setTeamList(result);
+      const result = await axiosInstance.get(getTeamUrl)
+      setTeamList(result.data);
     };
     if (user) {
       getTeamData();
     }
   }, [user, fileList]);
 
+  const getAllFiles = async () => {
+    const result = await axiosInstance.get(`${getAllFilesUrl}/${user.id}`);
+    setFileList(result.data);
+  };
+
   useEffect(() => {
-    const getAllFiles = async () => {
-      const result = await convex.query(api.files.getAllFiles, {});
-      const getFilesUser = result.filter(
-        (file: { createdBy: string }) => file.createdBy === user.email
-      );
-      setFileList(getFilesUser);
-    };
     if (user) getAllFiles();
   }, [user]);
-
-  useEffect(() => {
-    const getData = async () => {
-      const result = await convex.query(api.user.getUser, {
-        email: user?.email!,
-      });
-      setUserdata(result[0]);
-    };
-    if (user) {
-      getData();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (teamList.length > 0 && fileList?.length > 0 && !focusedTeam) {
-      const fileCounts = fileList.reduce(
-        (acc: Record<string, number>, file: any) => {
-          acc[file.teamId] = (acc[file.teamId] || 0) + 1;
-          return acc;
-        },
-        {}
-      );
-
-      const updatedTeams = teamList.map((team) => ({
-        ...team,
-        fileCount: fileCounts[team._id] || 0,
-      }));
-
-      setTeamListCount(updatedTeams);
-    }
-  }, [fileList, teamList]);
-
-  const allFilesHandler = async () => {
-    setfocusedTeam(null);
-    setFileList(null);
-    const result = await convex.query(api.files.getAllFiles, {});
-    const getFilesUser = result.filter(
-      (file: { createdBy: string }) => file.createdBy === user.email
-    );
-    setFileList(getFilesUser);
-  };
 
   return (
     <div className="w-[full] bg-background flex relative flex-col gap-5 px-5 py-10 flex-1 items-start justify-center overflow-y-auto overflow-x-hidden md:px-8">
@@ -115,7 +72,7 @@ export default function Page() {
 
       <div className="flex items-center justify-center w-full">
         <Avatar className="w-[180px] h-[180px]">
-          <AvatarImage src={userData?.image} />
+          <AvatarImage src={user?.image} />
           <AvatarFallback className=" text-2xl">
             {user?.firstName?.charAt(0)}
             {user?.lastName?.charAt(0)}
@@ -135,10 +92,11 @@ export default function Page() {
           Teams{" "}
         </h1>
         <TeamList
+          user={user}
           focusedTeam={focusedTeam}
           setfocusedTeam={setfocusedTeam}
           setFileList={setFileList}
-          teamList={teamListWithCount}
+          teamList={teamList}
         />
       </div>
 
@@ -148,10 +106,10 @@ export default function Page() {
             Files{" "}
           </h1>
           {focusedTeam && (
-            <Button onClick={() => allFilesHandler()}>All Files</Button>
+            <Button onClick={() => getAllFiles()}>All Files</Button>
           )}
         </div>
-        <FileList fileList={fileList || null} teamList={teamList} />
+        {<FileList user={user} fileList={fileList} teamList={teamList} />}
       </div>
     </div>
   );
