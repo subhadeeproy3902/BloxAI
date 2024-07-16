@@ -12,7 +12,7 @@ import { RootState } from '@/config/store';
 import { useSession } from "next-auth/react";
 import createAxiosInstance from "@/config/AxiosProtectedRoute";
 import { getFileByIdUrl } from "@/lib/API-URLs";
-import { FILE } from "@/app/dashboard/_components/FileList";
+import { FILE } from "@/types/types";
 
 // Dynamic imports for server-side libraries
 const jsPDFPromise = import('jspdf');

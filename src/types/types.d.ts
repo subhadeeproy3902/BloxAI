@@ -32,6 +32,7 @@ export interface FILE {
     _id:string;
     firstName:string;
     lastName:string;
+    email:string;
   };
   createdAt:string;
   writtenBy:any[];
