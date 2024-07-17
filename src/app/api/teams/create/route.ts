@@ -20,7 +20,8 @@ export const POST = async (req: Request) => {
             const team = await TeamModel.create({
               teamName,
               createdBy:user._id,
-              teamMembers:[user._id]
+              teamMembers:[user._id],
+              files:[]
             });
 
             return NextResponse.json({teamId:team._id,teamName:team.teamName},{ status: 200 });

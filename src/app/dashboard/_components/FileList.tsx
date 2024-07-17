@@ -12,9 +12,6 @@ import {
 import moment from "moment";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useConvex, useMutation } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
-import { Id } from "../../../../convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -29,20 +26,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import RenameFileModal from "@/components/shared/RenameFileModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import FileStatusModal from "@/components/shared/FileStatusModal";
-
-export interface FILE {
-  archive: boolean;
-  createdBy: string;
-  document: string;
-  fileName: string;
-  teamId: string;
-  whiteboard: string;
-  _id: string;
-  _creationTime: number;
-  private: boolean;
-}
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import { deleteFileUrl, updateFileUrl } from "@/lib/API-URLs";
+import { FILE } from "@/types/types";
 
 const ActionDialog = ({
   buttonIcon: ButtonIcon,
@@ -119,19 +106,17 @@ const FileRow = ({
   router,
   index,
   isSubmitted,
-  authorData,
   user,
 }: {
   file: FILE;
   picture: string;
   pathname: string;
-  onArchive: (e: any, id: string) => void;
-  onUnarchive: (e: any, id: string) => void;
+  onArchive: (e: any, file: FILE) => void;
+  onUnarchive: (e: any, file: FILE) => void;
   onDelete: (e: any, id: string) => void;
   router: ReturnType<typeof useRouter>;
   index: number;
   isSubmitted: boolean;
-  authorData: any[];
   user: any;
 }) => (
   <tr key={file._id} className="odd:bg-muted/50 cursor-pointer">
@@ -145,50 +130,46 @@ const FileRow = ({
       className="whitespace-nowrap px-4 py-2 text-muted-foreground"
       onClick={() => router.push("/workspace/" + file._id)}
     >
-      {moment(file._creationTime).format("DD MMM YYYY")}
+      {moment(file.createdAt).format("DD MMM YYYY")}
     </td>
     <td
       className="whitespace-nowrap px-4 py-2 text-muted-foreground"
       onClick={() => router.push("/workspace/" + file._id)}
     >
-      {moment(file._creationTime).format("DD MMM YYYY")}
+      {moment(file.createdAt).format("DD MMM YYYY")}
     </td>
     <td
       className="whitespace-nowrap px-4 py-2 text-muted-foreground"
       onClick={() => router.push("/workspace/" + file._id)}
     >
-      {authorData.map(
-        (author, index) =>
-          author.email === file.createdBy && (
-            <Avatar key={index} className="w-[40px] h-[40px]">
-              <AvatarImage src={""} />
-              <AvatarFallback className=" text-xs">
-                {author.name.charAt(0)}
-              </AvatarFallback>
-            </Avatar>
-          )
-      )}
+      <Avatar key={index} className="w-[40px] h-[40px]">
+        <AvatarImage src={""} />
+        <AvatarFallback className=" text-xs">
+          {file.createdBy.firstName.charAt(0)}
+          {file.createdBy.lastName.charAt(0)}
+        </AvatarFallback>
+      </Avatar>
     </td>
     <td>
       <FileStatusModal
-        fileId={file._id}
-        email={user.email}
-        privateFIle={file.private}
+        file={file}
+        user={user}
+        privateFIle={file.filePrivate}
         successTitle={
-          !file.private
+          !file.filePrivate
             ? "File accessible to members only"
             : "File accessible to everyone"
         }
-        dialogTitle={!file.private ? "Private File" : "Public File"}
+        dialogTitle={!file.filePrivate ? "Private File" : "Public File"}
         dialogDescription={
-          !file.private
+          !file.filePrivate
             ? "Make file accessible to members only"
             : "Make file accessible to everyone"
         }
       />
     </td>
     <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
-      <RenameFileModal id={file._id} />
+      <RenameFileModal file={file} user={user} />
       {pathname === "/dashboard" && (
         <ActionDialog
           isSubmitted={isSubmitted}
@@ -196,7 +177,7 @@ const FileRow = ({
           buttonIcon={ArchiveIcon}
           dialogTitle="Are you absolutely sure?"
           dialogDescription="This will add your file to the archive section."
-          onAction={(e) => onArchive(e, file._id)}
+          onAction={(e) => onArchive(e, file)}
         />
       )}
       {pathname === "/dashboard/archive" && (
@@ -206,7 +187,7 @@ const FileRow = ({
           buttonIcon={ArchiveRestore}
           dialogTitle="Are you absolutely sure?"
           dialogDescription="This will unarchive your file."
-          onAction={(e) => onUnarchive(e, file._id)}
+          onAction={(e) => onUnarchive(e, file)}
           buttonVariant="destructive"
         />
       )}
@@ -228,45 +209,20 @@ function FileList({
   picture,
   user,
 }: {
-  fileList?: FILE[];
+  fileList: FILE[];
   picture: string;
   user: any;
 }) {
   const router = useRouter();
-  const convex = useConvex();
   const [sortConfig, setSortConfig] = useState<{
     key: keyof FILE;
     direction: string;
   } | null>(null);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [authorData, setAuthorData] = useState<any[]>([]);
   const safeFileList = Array.isArray(fileList) ? fileList : [];
   const pathname = usePathname();
-
-  console.log(fileList)
-
-  useEffect(() => {
-    const getData = async () => {
-      let listOfCreators: string[] = [];
-      authorData.forEach((user: any) => {
-        listOfCreators.push(user.email);
-      });
-
-      fileList?.forEach(async (file) => {
-        if (!listOfCreators.includes(file.createdBy)) {
-          listOfCreators.push(file.createdBy);
-          const result = await convex.query(api.user.getUser, {
-            email: file.createdBy,
-          });
-          setAuthorData([...authorData, result[0]]);
-        }
-      });
-    };
-    if (fileList) {
-      getData();
-    }
-  }, [fileList]);
+  const axiosInstance = createAxiosInstance(user.accessToken)
 
   const sortedFiles = [...safeFileList];
   if (sortConfig !== null) {
@@ -281,25 +237,45 @@ function FileList({
     });
   }
 
-  const deleteFile = useMutation(api.files.deleteFile);
   const deleteFunc = async (e: any, id: string) => {
     e.stopPropagation();
-    await deleteFile({ _id: id as Id<"files"> });
-    setIsSubmitted(true);
+    try {
+      await axiosInstance.delete(`${deleteFileUrl}/${id}`)
+      setIsSubmitted(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const archiveFile = useMutation(api.files.addToArchive);
-  const archiveFunc = async (e: any, id: string) => {
+
+  const archiveFunc = async (e: any, file:FILE) => {
     e.stopPropagation();
-    await archiveFile({ _id: id as Id<"files"> });
-    setIsSubmitted(true);
+    try {
+      await axiosInstance.put(updateFileUrl,{
+        fileName:file.fileName, 
+        filePrivate:file.filePrivate, 
+        fileId:file._id,
+        archive:true
+      })
+      setIsSubmitted(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const unArchiveFile = useMutation(api.files.removeFromArchive);
-  const unarchiveFunc = async (e: any, id: string) => {
+  const unarchiveFunc = async (e: any, file:FILE) => {
     e.stopPropagation();
-    await unArchiveFile({ _id: id as Id<"files"> });
-    setIsSubmitted(true);
+    try {
+      await axiosInstance.put(updateFileUrl,{
+        fileName:file.fileName, 
+        filePrivate:file.filePrivate, 
+        fileId:file._id,
+        archive:false
+      })
+      setIsSubmitted(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const requestSort = (key: keyof FILE) => {
@@ -341,7 +317,7 @@ function FileList({
                 </td>
                 <td
                   className="whitespace-nowrap px-4 py-2 font-medium cursor-pointer"
-                  onClick={() => requestSort("_creationTime")}
+                  onClick={() => requestSort("createdAt")}
                 >
                   Created At <ChevronsUpDown className="inline-block ml-2" />
                 </td>
@@ -383,7 +359,6 @@ function FileList({
                     onDelete={deleteFunc}
                     router={router}
                     index={index}
-                    authorData={authorData}
                   />
                 )
               )}
@@ -400,7 +375,7 @@ function FileList({
               </div>
               <div
                 className="cursor-pointer"
-                onClick={() => requestSort("_creationTime")}
+                onClick={() => requestSort("createdAt")}
               >
                 Created At <ChevronsUpDown className="inline-block ml-2" />
               </div>
@@ -414,7 +389,7 @@ function FileList({
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-bold text-xl">{file.fileName}</span>
                   <div className="flex gap-2">
-                    <RenameFileModal id={file._id} />
+                    <RenameFileModal user={user} file={file} />
                     {pathname === "/dashboard" && (
                       <ActionDialog
                         isSubmitted={isSubmitted}
@@ -422,7 +397,7 @@ function FileList({
                         buttonIcon={ArchiveIcon}
                         dialogTitle="Are you absolutely sure?"
                         dialogDescription="This will add your file to the archive section."
-                        onAction={(e) => archiveFunc(e, file._id)}
+                        onAction={(e) => archiveFunc(e, file)}
                       />
                     )}
                     {pathname === "/dashboard/archive" && (
@@ -432,7 +407,7 @@ function FileList({
                         buttonIcon={ArchiveRestore}
                         dialogTitle="Are you absolutely sure?"
                         dialogDescription="This will unarchive your file."
-                        onAction={(e) => unarchiveFunc(e, file._id)}
+                        onAction={(e) => unarchiveFunc(e, file)}
                         buttonVariant="destructive"
                       />
                     )}
@@ -451,31 +426,29 @@ function FileList({
                   <div className="flex flex-col">
                     <div className="mb-2 text-muted-foreground">
                       <Clock className="inline-block mr-2" size={20} />
-                      {moment(file._creationTime).format("YYYY-MM-DD")}
+                      {moment(file.createdAt).format("YYYY-MM-DD")}
                     </div>
                     <div className="mb-2 text-muted-foreground">
                       <Edit className="inline-block mr-2" size={20} />
-                      {moment(file._creationTime).format("YYYY-MM-DD")}
+                      {moment(file.createdAt).format("YYYY-MM-DD")}
                     </div>
                   </div>
                   <FileStatusModal
-                      fileId={file._id}
-                      email={user.email}
-                      privateFIle={file.private}
-                      successTitle={
-                        !file.private
-                          ? "File accessible to members only"
-                          : "File accessible to everyone"
-                      }
-                      dialogTitle={
-                        !file.private ? "Private File" : "Public File"
-                      }
-                      dialogDescription={
-                        !file.private
-                          ? "Make file accessible to members only"
-                          : "Make file accessible to everyone"
-                      }
-                    />
+                    file={file}
+                    user={user}
+                    privateFIle={file.filePrivate}
+                    successTitle={
+                      !file.filePrivate
+                        ? "File accessible to members only"
+                        : "File accessible to everyone"
+                    }
+                    dialogTitle={!file.filePrivate ? "Private File" : "Public File"}
+                    dialogDescription={
+                      !file.filePrivate
+                        ? "Make file accessible to members only"
+                        : "Make file accessible to everyone"
+                    }
+                  />
                 </div>
 
                 <div className="text-muted-foreground flex justify-end">

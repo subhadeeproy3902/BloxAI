@@ -1,11 +1,11 @@
 import React, { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import { Excalidraw, MainMenu, WelcomeScreen } from "@excalidraw/excalidraw";
-import { FILE } from "../../dashboard/_components/FileList";
 import { parseMermaidToExcalidraw } from "@excalidraw/mermaid-to-excalidraw";
 import { useMutation } from "convex/react";
 import { useTheme } from "next-themes";
 import { api } from "../../../../convex/_generated/api";
 import { toast } from "sonner";
+import { FILE } from "@/types/types";
 
 const Canvas = forwardRef(({
   onSaveTrigger,

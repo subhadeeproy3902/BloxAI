@@ -26,9 +26,6 @@ import { FileListContext } from "@/app/_context/FilesListContext";
 import { ErrorMessage } from "@/components/ui/error";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Id } from "../../../../convex/_generated/dataModel";
-import { useMutation } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -42,6 +39,10 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { RootState } from "@/config/store";
+import { useSelector } from "react-redux";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import { createFileUrl, deleteTeamUrl } from "@/lib/API-URLs";
+import { Switch } from "@/components/ui/switch";
 
 interface TEAM {
   createdBy: String;
@@ -49,7 +50,7 @@ interface TEAM {
   _id: String;
 }
 
-function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
+function SideNavBottomSection({getFiles, totalFiles, activeTeam }: any) {
   const pathname = usePathname();
   const menuList = [
     {
@@ -78,21 +79,26 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
     },
   ];
   const router = useRouter()
-  const { fileList_, setFileList_ } = useContext(FileListContext);
+  const { fileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>([]);
   const [fileInput, setFileInput] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  
   const email = ((state:RootState) => state.auth.user.email)
-  const deleteTeam = useMutation(api.teams.deleteTeam);
+  const user = useSelector((state:RootState)=>state.auth.user);
+  const axiosInstance = createAxiosInstance(user.accessToken);
+  const [filePrivate,setFileprivate] = useState(false);
+  const teamId = useSelector((state:RootState)=>state.team.teamId);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const deleteFunc = async (e: any, id: String) => {
     e.stopPropagation();
-    if (activeTeam.teamName === "My Org") {
-      toast.error("My Org can not be deleted");
-      return;
+    try {
+      await axiosInstance.delete(`${deleteTeamUrl}/${id}`)
+      setIsSubmitted(true);
+    } catch (err) {
+      console.log(err);
     }
-    await deleteTeam({ _id: id as Id<"teams"> });
-    setIsSubmitted(true);
   };
 
   const handleFileInput = (val: string) => {
@@ -108,6 +114,24 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
   useEffect(() => {
     fileList_ && setFileList(fileList_);
   }, [fileList_]);
+
+  const createFileHandler = async() => {
+    try {
+      await axiosInstance.post(createFileUrl,{
+        fileName:fileInput,
+        filePrivate, 
+        teamId
+      })
+      .then((res)=>{
+        if(res.data){
+          getFiles()
+          toast.success("File created Successfully")
+        }
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <div>
@@ -146,12 +170,19 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Create New File</DialogTitle>
-              <DialogDescription>
+              <DialogDescription className="flex flex-col gap-3">
                 <Input
                   placeholder="Enter File Name"
                   className="mt-3"
                   onChange={(e) => handleFileInput(e.target.value)}
                 />
+                <div className="flex gap-2">
+                <Switch
+                      checked={filePrivate}
+                      onCheckedChange={()=>setFileprivate(!filePrivate)}
+                    />
+                    <p>Private</p>
+                </div>
               </DialogDescription>
               <ErrorMessage>{error}</ErrorMessage>
             </DialogHeader>
@@ -159,7 +190,7 @@ function SideNavBottomSection({ onFileCreate, totalFiles, activeTeam }: any) {
               <DialogClose asChild>
                 <Button
                   disabled={!(fileInput && fileInput.length > 3 && !error)}
-                  onClick={() => onFileCreate(fileInput)}
+                  onClick={() => createFileHandler()}
                 >
                   Create
                 </Button>
