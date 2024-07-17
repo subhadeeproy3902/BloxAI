@@ -168,50 +168,53 @@ export default function Contact() {
             </Button>
           </form>
         </Form>
-        <div>
+        <div className="flex flex-col items-center">
           <h3 className="text-2xl font-semibold mb-10 text-foreground/75">
             Connect with Us
           </h3>
-          <div className="flex gap-8 mb-12">
-            <Link
-              className="flex items-center justify-center w-10 h-10 rounded-full border bg-orange-200 dark:bg-transparent border-orange-600 shadow-inner shadow-orange-600 dark:shadow-orange-800 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
-              href="#"
-            >
-              <Mail className="w-5 h-5" />
-            </Link>
-            <div className="text-md text-foreground">
-              <p>Email to us at </p>
-              <p>subha9.5@gmail.com</p>
-            </div>
-          </div>
 
-          <div className="flex gap-8 mb-12">
-            <Link
-              className="flex items-center justify-center w-10 h-10 rounded-full border bg-orange-200 dark:bg-transparent border-orange-600 shadow-inner shadow-orange-600 dark:shadow-orange-800 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
-              href="#"
-            >
-              <Phone className="w-5 h-5" />
-            </Link>
-            <div className="text-md text-foreground">
-              <p>Call us at </p>
-              <p>+91 86373 73116</p>
+          <div>
+            <div className="flex gap-8 mb-12">
+              <Link
+                className="flex items-center justify-center w-10 h-10 rounded-full border bg-orange-200 dark:bg-transparent border-orange-600 shadow-inner shadow-orange-600 dark:shadow-orange-800 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
+                href="#"
+              >
+                <Mail className="w-5 h-5" />
+              </Link>
+              <div className="text-md text-foreground">
+                <p>Email to us at </p>
+                <p>subha9.5@gmail.com</p>
+              </div>
             </div>
-          </div>
 
-          <div className="flex gap-8 mb-12">
-            <Link
-              className="flex items-center justify-center w-10 h-10 rounded-full border bg-orange-200 dark:bg-transparent border-orange-600 shadow-inner shadow-orange-600 dark:shadow-orange-800 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
-              href="https://chat.whatsapp.com/E5oRd1VG1Ov4HoNPq4QcRU"
-            >
-              <MessageCircleMore className="w-5 h-5" />
-            </Link>
-            <div className="text-md text-foreground">
-              <p>Chat with us at </p>
-              <p className="underline">
-                <a href="https://chat.whatsapp.com/E5oRd1VG1Ov4HoNPq4QcRU">
-                  Here
-                </a>
-              </p>
+            <div className="flex gap-8 mb-12">
+              <Link
+                className="flex items-center justify-center w-10 h-10 rounded-full border bg-orange-200 dark:bg-transparent border-orange-600 shadow-inner shadow-orange-600 dark:shadow-orange-800 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
+                href="#"
+              >
+                <Phone className="w-5 h-5" />
+              </Link>
+              <div className="text-md text-foreground">
+                <p>Call us at </p>
+                <p>+91 86373 73116</p>
+              </div>
+            </div>
+
+            <div className="flex gap-8 mb-12">
+              <Link
+                className="flex items-center justify-center w-10 h-10 rounded-full border bg-orange-200 dark:bg-transparent border-orange-600 shadow-inner shadow-orange-600 dark:shadow-orange-800 hover:shadow-md hover:shadow-orange-500 hover:transition hover:duration-300 hover:ease-in-out"
+                href="https://chat.whatsapp.com/E5oRd1VG1Ov4HoNPq4QcRU"
+              >
+                <MessageCircleMore className="w-5 h-5" />
+              </Link>
+              <div className="text-md text-foreground">
+                <p>Chat with us at </p>
+                <p className="underline">
+                  <a href="https://chat.whatsapp.com/E5oRd1VG1Ov4HoNPq4QcRU">
+                    Here
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
 
