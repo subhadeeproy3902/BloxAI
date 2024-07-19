@@ -15,3 +15,6 @@ export const updateFileUrl = "/api/files/update";
 export const deleteFileUrl = "/api/files/delete";
 export const deleteTeamUrl = "/api/teams/delete";
 export const getAllFilesUrl = "/api/files/getAllFiles";
+export const updateProfileUrl = "/api/user/update";
+export const saveWorkspacePrivateUrl = "/api/dashboard/save";
+export const saveWorkspacePublicUrl = "/api/dashboard/public/save";

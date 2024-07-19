@@ -1,38 +1,26 @@
-import React, { useEffect, useState, forwardRef, useImperativeHandle } from "react";
+"use client"
+import { forwardRef, useImperativeHandle, SetStateAction, Dispatch } from "react";
 import { Excalidraw, MainMenu, WelcomeScreen } from "@excalidraw/excalidraw";
 import { parseMermaidToExcalidraw } from "@excalidraw/mermaid-to-excalidraw";
-import { useMutation } from "convex/react";
 import { useTheme } from "next-themes";
-import { api } from "../../../../convex/_generated/api";
-import { toast } from "sonner";
 import { FILE } from "@/types/types";
 
 const Canvas = forwardRef(({
   onSaveTrigger,
   fileId,
   fileData,
+  whiteBoardData,
+  setWhiteBoardData
 }: {
+  user:any;
   onSaveTrigger: any;
   fileId: any;
   fileData: FILE;
+  whiteBoardData:any;
+  setWhiteBoardData:Dispatch<SetStateAction<any>>;
 }, ref) => {
-  const [whiteBoardData, setWhiteBoardData] = useState<any>();
+  
   const { theme } = useTheme();
-
-  const updateWhiteboard = useMutation(api.files.updateWhiteboard);
-
-  useEffect(() => {
-    onSaveTrigger && saveWhiteboard();
-  }, [onSaveTrigger]);
-
-  const saveWhiteboard = () => {
-    updateWhiteboard({
-      _id: fileId,
-      whiteboard: JSON.stringify(whiteBoardData),
-    }).catch((e) => {
-      toast.error("Failed to save whiteboard!");
-    });
-  };
 
   useImperativeHandle(ref, () => ({
     getSceneElements: () => whiteBoardData,
@@ -74,7 +62,7 @@ const Canvas = forwardRef(({
                 elements:
                   whiteBoardData?.length > 0
                     ? whiteBoardData
-                    : fileData?.whiteboard && JSON.parse(fileData?.whiteboard),
+                    : fileData?.whiteboard && fileData?.whiteboard,
                 appState: {
                   viewBackgroundColor: "#e6e6e6",
                 },

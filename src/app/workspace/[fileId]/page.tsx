@@ -13,6 +13,7 @@ import { useSession } from "next-auth/react";
 import createAxiosInstance from "@/config/AxiosProtectedRoute";
 import { getFileByIdUrl } from "@/lib/API-URLs";
 import { FILE } from "@/types/types";
+import axios from "axios";
 
 // Dynamic imports for server-side libraries
 const jsPDFPromise = import('jspdf');
@@ -30,6 +31,7 @@ function Workspace({ params }: any) {
   const axiosInstance = createAxiosInstance(user.accessToken)
   const [isError,setError] = useState(false);
   const [errorMsg,setErrorMsg] = useState("");
+  const [whiteBoardData, setWhiteBoardData] = useState<any>();
 
   useEffect(() => {
     if (params.fileId) {
@@ -37,23 +39,42 @@ function Workspace({ params }: any) {
     }
   }, [params.fileId]);
 
-  useEffect(()=>{
-    if(fileData && session && fileData.filePrivate){
-      if(isAuth){
-        if((fileData.readBy && !fileData.readBy.includes(session.user.id)) || fileData.createdBy.email !== session.user.email){
-          setError(true);
-          setErrorMsg("Invalid Access! Request owner to give read or write access!")
-        }
-      }else{
-        setError(true);
-        setErrorMsg("Invalid Access! Request owner to make file public!!");
-      }
-    }
-  },[fileData])
-
   const getFileData = async () => {
-    const result = await axiosInstance.get(`${getFileByIdUrl}/${params.fileId}`);
-    setFileData(result.data);
+    try {
+      if(user){
+        const result = await axiosInstance.get(`${getFileByIdUrl}/${params.fileId}`);
+        setFileData(result.data);
+        if(result.data && session && result.data.filePrivate){
+          if(isAuth){
+            if((result.data.readBy && !result.data.readBy.includes(session.user.id)) || result.data.createdBy.email !== session.user.email){
+              setError(true);
+              setErrorMsg("Invalid Access! Request owner to give read or write access!")
+            }
+          }else{
+            setError(true);
+            setErrorMsg("Invalid Access! Request owner to make file public!!");
+          }
+        }
+
+      }else{
+        const result = await axios.get(`${getFileByIdUrl}/${params.fileId}`);
+        setFileData(result.data);
+
+        if(result.data && session && result.data.filePrivate){
+          if(isAuth){
+            if((result.data.readBy && !result.data.readBy.includes(session.user.id)) || result.data.createdBy.email !== session.user.email){
+              setError(true);
+              setErrorMsg("Invalid Access! Request owner to give read or write access!")
+            }
+          }else{
+            setError(true);
+            setErrorMsg("Invalid Access! Request owner to make file public!!");
+          }
+        }
+      }
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   const saveAsPdf = async () => {
@@ -227,24 +248,29 @@ function Workspace({ params }: any) {
         onSaveAsPdf={saveAsPdf}
       />
 
-      <div className={`grid grid-cols-1 ${fullScreen ? "" : "md:grid-cols-2"} overflow-x-none`}>
+{ fileData &&      <div className={`grid grid-cols-1 ${fullScreen ? "" : "md:grid-cols-2"} overflow-x-none`}>
         <div className={`${fullScreen ? "hidden" : "block"}`}>
           <Editor
+            whiteboardData={whiteBoardData}
             ref={editorRef as MutableRefObject<EditorJS | null>}
             onSaveTrigger={triggerSave}
             fileId={params.fileId}
             fileData={fileData!}
+            user={user}
           />
         </div>
         <div className={`h-screen border-l`}>
           <Canvas
+            whiteBoardData={whiteBoardData}
+            setWhiteBoardData={setWhiteBoardData}
             ref={canvasRef as MutableRefObject<any>}
             onSaveTrigger={triggerSave}
             fileId={params.fileId}
+            user={user}
             fileData={fileData!}
           />
         </div>
-      </div>
+      </div>}
     </div>
   ) : (
     <PrivateAlert errorMsg={errorMsg} />
