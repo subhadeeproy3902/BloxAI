@@ -14,16 +14,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { useConvex } from "convex/react";
-import { api } from "../../../../../convex/_generated/api";
-import { Id } from "../../../../../convex/_generated/dataModel";
 
-type USER = {
-  name: string;
-  image: string;
-  email: string;
-  _id:string;
-};
+import { USER } from "@/types/types";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import { updateProfileUrl } from "@/lib/API-URLs";
+import { useDispatch } from "react-redux";
+import { updateUser } from "@/app/Redux/Auth/auth-slice";
 
 type Props = {
   savedData: USER;
@@ -31,29 +27,40 @@ type Props = {
 };
 
 const FormSchema = z.object({
-  newName: z.string().min(1, {
-    message: "Username required!",
+  firstName: z.string().min(1, {
+    message: "Minimum Length should be 3!",
+  }),
+  lastName: z.string().min(3, {
+    message: "Minimum Length should be 3!",
   }),
 });
 
 export function SettingsForm({ savedData,image }: Props) {
-  const convex = useConvex();
- 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      newName: savedData.name,
+      firstName: savedData.firstName,
+      lastName: savedData.lastName,
     },
   });
 
+  const axiosInstance = createAxiosInstance(savedData.accessToken);
+  const dispatch = useDispatch();
+
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const res = await convex.mutation(api.user.updateUser,{
-      _id:savedData._id as Id<"user">,
-      name:data.newName,
-      email:savedData.email,
-      image:image
-    })
-    toast("User updated !!")
+
+    const { firstName, lastName} = data;
+
+    try {
+      const res = await axiosInstance.put(updateProfileUrl,{firstName, lastName});
+      if(res.status === 200) {
+        dispatch(updateUser({firstName,lastName}));
+        toast.success("User updated !!")
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
   }
 
   return (
@@ -76,16 +83,26 @@ export function SettingsForm({ savedData,image }: Props) {
           </FormItem>
           <FormField
             control={form.control}
-            name="newName"
+            name="firstName"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="px-2">Username</FormLabel>
+                <FormLabel className="px-2">First Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Name..." {...field} className="" />
+                  <Input placeholder="First Name..." {...field} className="" />
                 </FormControl>
-                <FormDescription className="px-2">
-                  Enter username here!
-                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="px-2">Last Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Last Name..." {...field} className="" />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

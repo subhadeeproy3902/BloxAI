@@ -1,5 +1,11 @@
 "use client";
-import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import EditorJS, { OutputData, ToolConstructable } from "@editorjs/editorjs";
 // @ts-ignore
 import Header from "@editorjs/header";
@@ -12,13 +18,17 @@ import Paragraph from "@editorjs/paragraph";
 // @ts-ignore
 import Warning from "@editorjs/warning";
 // @ts-ignore
-import InlineImage from 'editorjs-inline-image';
+import InlineImage from "editorjs-inline-image";
 // @ts-ignore
-import Table from '@editorjs/table';
-import { useMutation } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
-import { toast } from "sonner";
+import Table from "@editorjs/table";
 import { useTheme } from "next-themes";
+import axios from "axios";
+import { toast } from "sonner";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import {
+  saveWorkspacePrivateUrl,
+  saveWorkspacePublicUrl,
+} from "@/lib/API-URLs";
 import { FILE } from "@/types/types";
 
 const rawDocument = {
@@ -47,24 +57,29 @@ type EditorProps = {
   onSaveTrigger: boolean;
   fileId: any;
   fileData: FILE;
+  whiteboardData: any;
+  user: any;
 };
 
 const Editor = forwardRef((props: EditorProps, ref) => {
   const editorInstanceRef = useRef<EditorJS | null>(null);
-  const updateDocument = useMutation(api.files.updateDocument);
-  const [document, setDocument] = useState(rawDocument);
   const { theme } = useTheme();
+  const axiosInstance = createAxiosInstance(props.user.accessToken);
 
-  useImperativeHandle(ref, () => ({
-    get instance() {
-      return editorInstanceRef.current;
-    },
-    save: () => {
-      return editorInstanceRef.current
-        ? editorInstanceRef.current.save()
-        : Promise.resolve({ blocks: [] } as OutputData);
-    },
-  }), [editorInstanceRef]);
+  useImperativeHandle(
+    ref,
+    () => ({
+      get instance() {
+        return editorInstanceRef.current;
+      },
+      save: () => {
+        return editorInstanceRef.current
+          ? editorInstanceRef.current.save()
+          : Promise.resolve({ blocks: [] } as OutputData);
+      },
+    }),
+    [editorInstanceRef]
+  );
 
   useEffect(() => {
     if (props.fileData) {
@@ -72,20 +87,35 @@ const Editor = forwardRef((props: EditorProps, ref) => {
     }
 
     return () => {
-      if (editorInstanceRef.current &&  editorInstanceRef.current.destroy) {
-        editorInstanceRef.current.destroy();
-        editorInstanceRef.current = null;
+      if (editorInstanceRef.current) {
+        editorInstanceRef.current.isReady
+          .then(() => {
+            editorInstanceRef.current?.destroy();
+            editorInstanceRef.current = null;
+          })
+          .catch((error) => {
+            console.error("Error while destroying EditorJS instance:", error);
+          });
       }
     };
   }, [props.fileData]);
 
   useEffect(() => {
-    props.onSaveTrigger && onSaveDocument();
+    if (props.onSaveTrigger) {
+      onSaveDocument();
+    }
   }, [props.onSaveTrigger]);
 
   const initEditor = () => {
-    if (editorInstanceRef.current &&  editorInstanceRef.current.destroy) {
-      editorInstanceRef.current.destroy();
+    if (editorInstanceRef.current) {
+      editorInstanceRef.current.isReady
+        .then(() => {
+          editorInstanceRef.current?.destroy();
+          editorInstanceRef.current = null;
+        })
+        .catch((error) => {
+          console.error("Error while destroying EditorJS instance:", error);
+        });
     }
 
     editorInstanceRef.current = new EditorJS({
@@ -123,8 +153,8 @@ const Editor = forwardRef((props: EditorProps, ref) => {
               display: true,
             },
             unsplash: {
-              appName: 'india',
-              apiUrl: 'https://unsplash.com/s/photos/',
+              appName: "india",
+              apiUrl: "https://unsplash.com/s/photos/",
               maxResults: 30,
             },
           },
@@ -139,9 +169,10 @@ const Editor = forwardRef((props: EditorProps, ref) => {
           },
         },
       },
-
       holder: "editorjs",
-      data: props.fileData?.document ? JSON.parse(props.fileData.document) : rawDocument,
+      data: props.fileData?.document
+        ? JSON.parse(props.fileData.document)
+        : rawDocument,
     });
   };
 
@@ -149,18 +180,25 @@ const Editor = forwardRef((props: EditorProps, ref) => {
     if (editorInstanceRef.current) {
       editorInstanceRef.current
         .save()
-        .then((outputData) => {
-          updateDocument({
-            _id: props.fileId,
-            document: JSON.stringify(outputData),
-          }).then(
-            (resp) => {
-              toast.success("Document Saved!");
-            },
-            (e) => {
-              toast.error("Server Error!");
-            }
-          );
+        .then(async (outputData) => {
+          console.log(outputData);
+
+          try {
+            const saveUrl = props.fileData.filePrivate
+              ? saveWorkspacePrivateUrl
+              : saveWorkspacePublicUrl;
+            const payload = {
+              fileId: props.fileId,
+              whiteboard:
+                props.whiteboardData === "" ? [] : props.whiteboardData,
+              document: JSON.stringify(outputData),
+            };
+
+            await axiosInstance.put(saveUrl, payload);
+            toast.success("Progress Saved!!");
+          } catch (err) {
+            console.log(err);
+          }
         })
         .catch((error) => {
           console.log("Saving failed: ", error);
@@ -170,15 +208,17 @@ const Editor = forwardRef((props: EditorProps, ref) => {
 
   return (
     <div>
-      <div
-        id="editorjs"
-        className="h-screen pl-8"
-        style={{ backgroundColor: theme === "dark" ? "#333333" : "#f2f2f2" }} // Change background color based on theme
-      />
+      {props.fileData && (
+        <div
+          id="editorjs"
+          className="h-screen pl-8"
+          style={{ backgroundColor: theme === "dark" ? "#333333" : "#f2f2f2" }}
+        />
+      )}
     </div>
   );
 });
 
-Editor.displayName = 'Editor';
+Editor.displayName = "Editor";
 
 export default Editor;

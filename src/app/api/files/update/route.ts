@@ -16,7 +16,6 @@ export async function PUT(
             await mongoDB();
             
             const {fileName, filePrivate, fileId, archive} = await request.json()
-            console.log(fileName, filePrivate, fileId, archive)
 
             if(!fileName || filePrivate === undefined || archive === undefined || !fileId){
                 return NextResponse.json(`Access Denied!!`, {status:404});
