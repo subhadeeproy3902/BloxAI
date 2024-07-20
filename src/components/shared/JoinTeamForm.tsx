@@ -15,19 +15,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { useConvex } from "convex/react";
-import { api } from "../../../convex/_generated/api";
-import { Id } from "../../../convex/_generated/dataModel";
 import { SetStateAction, useState } from "react";
 import { toast } from "sonner";
+import axios from "axios";
+import { addTeamMemberUrl, getTeamByIdUrl } from "@/lib/API-URLs";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
 
-export type TEAMS = {
-  createdBy:string; 
-  teamMembers?:string[];
-  teamName:string;
-  _creationTime:number; 
-  _id:Id<"teams">;
-}
+
 const FormSchema = z.object({
   code: z.string().min(1, {
     message: "Code is required!",
@@ -40,8 +34,6 @@ type Props = {
 }
 
 export function JoinTeamForm({user,setIsDialogOpen}:Props) {
-
-  const convex = useConvex();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -51,33 +43,24 @@ export function JoinTeamForm({user,setIsDialogOpen}:Props) {
     },
   });
 
+  const axiosInstance = createAxiosInstance(user.accessToken);
+
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const id:Id<"teams"> = data.code as Id<"teams">;
 
-    const teamData:TEAMS = await convex.query(api.teams.getTeamById, {
-      _id: id,
-    });
+    const teamData = await axios.get(`${getTeamByIdUrl}/${data.code}`);
 
-    if (teamData.teamMembers?.includes(user.email) || teamData.createdBy == user.email) {
-      toast.error(`Already member of ${teamData.teamName}`)
+    if (teamData.data.teamMembers.includes(user._id) || teamData.data.createdBy.email == user.email) {
+      toast.error(`Already member of ${teamData.data.teamName}`)
       setIsDialogOpen(false);
       return;
     }
 
-    let memberArray:string[];
-
-    if(teamData.teamMembers){
-      memberArray = teamData.teamMembers;
-    }else{
-      memberArray = [teamData.createdBy];
+    try {
+      axiosInstance.post(addTeamMemberUrl,{teamId:data.code})
+      toast.success(`Welcome to ${teamData.data.teamName}`)
+    } catch (err) {
+      console.log(err);
     }
-
-    memberArray.push(user.email);
-
-    const result = await convex.mutation(api.teams.addMember, {
-      _id: id,
-      memberArray: memberArray,
-    });
 
     router.refresh();
     

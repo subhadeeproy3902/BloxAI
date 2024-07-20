@@ -18,3 +18,5 @@ export const getAllFilesUrl = "/api/files/getAllFiles";
 export const updateProfileUrl = "/api/user/update";
 export const saveWorkspacePrivateUrl = "/api/dashboard/save";
 export const saveWorkspacePublicUrl = "/api/dashboard/public/save";
+export const getTeamByIdUrl = "/api/teams/getTeamById";
+export const addTeamMemberUrl = "/api/teams/member";

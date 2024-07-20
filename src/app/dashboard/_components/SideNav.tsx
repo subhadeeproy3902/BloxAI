@@ -1,28 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import SideNavTopSection, { TEAM } from "./SideNavTopSection";
 import SideNavBottomSection from "./SideNavBottomSection";
-import { useConvex, useMutation } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
-import { toast } from "sonner";
 import { FileListContext } from "@/app/_context/FilesListContext";
 import { setClose, setOpen } from "@/app/Redux/Menu/menuSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useTheme } from "next-themes";
 import { RootState } from "@/config/store";
 import createAxiosInstance from "@/config/AxiosProtectedRoute";
 import { getFileUrl } from "@/lib/API-URLs";
-// import { RootState } from "@/app/store";
 
 function SideNav() {
-  const createFile = useMutation(api.files.createFile);
   const [activeTeam, setActiveTeam] = useState<TEAM | any>();
   // const activeTeamId = useSelector((state: RootState) => state.team.teamId);
   // const activeTeamName = useSelector((state: RootState) => state.team.teamName);
-  const convex = useConvex();
   const [totalFiles, setTotalFiles] = useState<Number>();
   const { setFileList_ } = useContext(FileListContext);
   const dispatch = useDispatch();
-  const { theme } = useTheme();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const user = useSelector((state:RootState)=>state.auth.user)
   const dispatch_nav = useDispatch();
