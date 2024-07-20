@@ -1,11 +1,7 @@
 "use client";
-import { useConvex } from "convex/react";
 import { useEffect, useState } from "react";
-import { api } from "../../../../convex/_generated/api";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -22,9 +18,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/config/store";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import {  addTeamMemberUrl, getTeamByIdUrl } from "@/lib/API-URLs";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import { toast } from "sonner";
 
 export default function Page({ params }: any) {
-  const convex = useConvex();
   const { id } = params;
   const router = useRouter();
   const [teamData, setTeamData] = useState<any>(undefined);
@@ -33,19 +32,17 @@ export default function Page({ params }: any) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isValidLink, setIsValidLink] = useState(true);
   const user = useSelector((state:RootState)=>state.auth.user)
-
+  const axiosInstance = createAxiosInstance(user.accessToken);
   const [firstForm, setFirstForm] = useState(true);
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     const getTeamData = async () => {
-      const result = await convex.query(api.teams.getTeamById, {
-        _id: id,
-      });
+      const result = await axios.get(`${getTeamByIdUrl}/${id}`);
       if (result) {
         setErrorMsg("");
         setIsError(false);
-        setTeamData(result);
+        setTeamData(result.data);
         setIsDialogOpen(true);
       } else {
         setIsDialogOpen(true);
@@ -74,20 +71,14 @@ export default function Page({ params }: any) {
       return;
     }
 
-    let memberArray: string[];
-
-    if (teamData.teamMembers) {
-      memberArray = teamData.teamMembers;
-    } else {
-      memberArray = [teamData.createdBy];
+    // API
+    try {
+      axiosInstance.post(addTeamMemberUrl,{teamId:id})
+      toast.success(`Welcome to ${teamData.teamName}`)
+    } catch (err) {
+      console.log(err);
     }
 
-    memberArray.push(user.email);
-
-    const result = await convex.mutation(api.teams.addMember, {
-      _id: id,
-      memberArray: memberArray,
-    });
 
     router.push("/dashboard");
   };
@@ -116,7 +107,7 @@ export default function Page({ params }: any) {
                       </p>
                       <p>
                         Created By :
-                        <span className="font-bold">{teamData.createdBy}</span>
+                        <span className="font-bold">{teamData.createdBy.firstName}{" "}{teamData.createdBy.lastName}</span>
                       </p>
                       <div className="flex items-center justify-center">
                         <Image

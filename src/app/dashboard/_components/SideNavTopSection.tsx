@@ -44,11 +44,9 @@ function SideNavTopSection({ setActiveTeamInfo }: any) {
     // },
   ];
   const router = useRouter();
-  const convex = useConvex();
   const dispatch = useDispatch();
   const [activeTeam, setActiveTeam] = useState<TEAM>();
   const [teamList, setTeamList] = useState<TEAM[]>();
-  const [userData, setUserdata] = useState<any>();
   const [teamMembersData, setTeamData] = useState<any[]>([]);
   const [ActiveTeamMembers, setActiveTeamMembers] = useState<string[]>([]);
   const user = useSelector((state:RootState) => state.auth.user);
@@ -56,18 +54,6 @@ function SideNavTopSection({ setActiveTeamInfo }: any) {
 
   useEffect(() => {
     user && getTeamList();
-  }, [user]);
-
-  useEffect(() => {
-    const getData = async () => {
-      const result = await convex.query(api.user.getUser, {
-        email: user.email,
-      });
-      setUserdata(result[0]);
-    };
-    if (user) {
-      getData();
-    }
   }, [user]);
 
   useEffect(() => {
@@ -183,7 +169,7 @@ function SideNavTopSection({ setActiveTeamInfo }: any) {
           {user && (
             <div className="mt-2 flex gap-2 items-center">
               <Avatar className="w-[40px] h-[40px]">
-                <AvatarImage src={userData?.image} />
+                <AvatarImage src={user?.image} />
                 <AvatarFallback className=" text-xs">
                   {user.firstName.charAt(0)}
                   {user.lastName.charAt(0)}
