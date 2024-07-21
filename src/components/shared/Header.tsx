@@ -7,12 +7,14 @@ import ThemeTogglebutton from "../ui/ThemeToggle";
 import { useState } from "react";
 import NavLink from "./NavLink";
 import { title } from "process";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const handleMenuOpen = () => {
     setMenuOpen(!menuOpen);
   };
+  const pathname = usePathname();
   const links = [
     {
       title: "Home",
@@ -62,7 +64,9 @@ const Header = () => {
                     {links.map((link, index) => (
                       <Link
                         key={index}
-                        className="transition text-foreground hover:text-foreground/75"
+                        className={`transition ${
+                          pathname === link.path ? 'text-primary font-bold' : 'text-foreground hover:text-foreground/75'
+                        }`}
                         href={link.path}
                       >
                         {link.title}
