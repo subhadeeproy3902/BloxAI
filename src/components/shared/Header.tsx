@@ -20,7 +20,7 @@ const Header = () => {
     },
     {
       title: "About",
-      path: "/aboutus",
+      path: "/#about",
     },
     {
       title: "Contributors",
@@ -28,11 +28,11 @@ const Header = () => {
     },
     {
       title: "Contact",
-      path: "/contact",
+      path: "/#contact",
     },
     {
       title: "Review Us",
-      path: "/review",
+      path: "/#review",
     },{
       title: "What's New",
       path:"/version"
@@ -55,7 +55,7 @@ const Header = () => {
               </Link>
             </div>
 
-            <div className="hidden md:block sm:pl-40 md:pl-10">
+            <div className="hidden md:block sm:pl-10 md:pl-40">
               <nav aria-label="Global">
                 <ul className="flex items-center gap-6 text-sm">
                   <li className=" space-x-6">
@@ -76,24 +76,6 @@ const Header = () => {
             <div className="flex items-center gap-4">
               <div className="flex gap-4">
                 <ThemeTogglebutton />
-                {/* {isAuthenticated ? (
-                  <Button asChild>
-                    <Link href="/dashboard">
-                      Get Started
-                    </Link>
-                  </Button>
-                ) : (
-                  <>
-                    <Button asChild>
-                      <LoginLink>Login</LoginLink>
-                    </Button>
-                    <div className="hidden sm:flex">
-                      <Button variant="secondary" asChild>
-                        <RegisterLink>Sign up</RegisterLink>
-                      </Button>
-                    </div>
-                  </>
-                )} */}
                 <>
                   <Button asChild>
                     <Link href={"/signin"}>Login</Link>

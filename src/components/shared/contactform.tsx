@@ -73,7 +73,7 @@ export default function Contact() {
 
   return (
     <section className="w-full px-2 max-w-screen-md mb-16 mt-6">
-      <h2 className="text-4xl md:text-6xl font-bold mb-5 bg-gradient-to-b from-zinc-100 via-orange-400 to-orange-500 bg-clip-text text-transparent text-center mt-4">
+      <h2 className="text-4xl md:text-6xl font-bold mb-5 bg-clip-text text-transparent bg-gradient-to-b from-zinc-50 to-orange-500 bg-opacity-50 text-center mt-4">
         Let&apos;s Get in Touch
       </h2>
       <p className="text-muted-foreground mb-6 text-center">
@@ -99,7 +99,7 @@ export default function Contact() {
                       <FormControl>
                         <input
                           placeholder="John Doe"
-                          className="flex h-10 w-full rounded-md border border-orange-500 dark:border-orange-900 placeholder:text-muted-foreground bg-background/75 px-3 py-2 text-sm shadow-inner shadow-orange-400 dark:shadow-orange-900 hover:border-orange-600 hover:transition-all focus:border-orange-600 dark:focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500"
+                          className="flex h-10 w-full text-foreground rounded-md border border-orange-500 dark:border-orange-900 placeholder:text-muted-foreground bg-background/75 px-3 py-2 text-sm shadow-inner shadow-orange-400 dark:shadow-orange-900 hover:border-orange-600 hover:transition-all focus:border-orange-600 dark:focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500"
                           type="text"
                           {...field}
                         />
@@ -123,7 +123,7 @@ export default function Contact() {
                       <FormControl>
                         <input
                           placeholder="johndoe@example.com"
-                          className="flex h-10 w-full rounded-md border border-orange-500 dark:border-orange-900 placeholder:text-muted-foreground bg-background/75 px-3 py-2 text-sm shadow-inner shadow-orange-400 dark:shadow-orange-900 hover:border-orange-600 hover:transition-all focus:border-orange-600 dark:focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500"
+                          className="flex h-10 w-full text-foreground rounded-md border border-orange-500 dark:border-orange-900 placeholder:text-muted-foreground bg-background/75 px-3 py-2 text-sm shadow-inner shadow-orange-400 dark:shadow-orange-900 hover:border-orange-600 hover:transition-all focus:border-orange-600 dark:focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500"
                           type="email"
                           {...field}
                         />
@@ -147,7 +147,7 @@ export default function Contact() {
                       <FormControl>
                         <textarea
                           placeholder="Tell us a little bit about your issue in details here"
-                          className="min-h-[110px] mb-5 shadow-inner shadow-orange-400 dark:shadow-orange-900
+                          className="min-h-[110px] mb-5 text-foreground shadow-inner shadow-orange-400 dark:shadow-orange-900
                 flex w-full rounded-md border border-orange-500 dark:border-orange-900 bg-background/75 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 hover:border-orange-600 hover:transition-all focus:border-orange-600 dark:focus:border-orange-900 focus:outline-none focus:ring-1 focus-within:ring-1 focus-within:ring-orange-500"
                           {...field}
                         />
