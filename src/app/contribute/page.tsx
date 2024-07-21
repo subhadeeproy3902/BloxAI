@@ -7,7 +7,7 @@ const Page = () => {
   return (
     <div>
       <Header />
-      < Contributing/>
+      <Contributing />
       <Footer />
     </div>
   );
