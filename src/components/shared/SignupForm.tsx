@@ -165,13 +165,6 @@ export function SignupForm({session}: Props) {
 
           <Separator className="w-full" />
 
-          <div className="flex items-center justify-center">
-            <Button className="flex gap-2" variant={"secondary"}>
-              Sign-in with Google{" "}
-              <Image src={"/google.svg"} alt="google" width={18} height={18} />
-            </Button>
-          </div>
-
           <p className=" text-xs text-center text-gray-400">
             Already have an account?{" "}
             <Link href={`/signin`} className=" underline">

@@ -14,6 +14,8 @@ export default function Page() {
   const { data: session,status } = useSession();
   const dispatch = useDispatch();
 
+  console.log(session)
+
   useEffect(() => {
     if (session) {
       dispatch(

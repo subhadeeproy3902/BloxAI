@@ -82,21 +82,13 @@ const Editor = forwardRef((props: EditorProps, ref) => {
   );
 
   useEffect(() => {
-    if (props.fileData) {
+    if(editorInstanceRef === null){
       initEditor();
     }
 
     return () => {
-      if (editorInstanceRef.current) {
-        editorInstanceRef.current.isReady
-          .then(() => {
-            editorInstanceRef.current?.destroy();
-            editorInstanceRef.current = null;
-          })
-          .catch((error) => {
-            console.error("Error while destroying EditorJS instance:", error);
-          });
-      }
+      editorInstanceRef?.current?.destroy();
+      editorInstanceRef.current = null;
     };
   }, [props.fileData]);
 
@@ -107,17 +99,6 @@ const Editor = forwardRef((props: EditorProps, ref) => {
   }, [props.onSaveTrigger]);
 
   const initEditor = () => {
-    if (editorInstanceRef.current) {
-      editorInstanceRef.current.isReady
-        .then(() => {
-          editorInstanceRef.current?.destroy();
-          editorInstanceRef.current = null;
-        })
-        .catch((error) => {
-          console.error("Error while destroying EditorJS instance:", error);
-        });
-    }
-
     editorInstanceRef.current = new EditorJS({
       tools: {
         header: {
@@ -130,7 +111,7 @@ const Editor = forwardRef((props: EditorProps, ref) => {
           },
         },
         list: {
-          class: List,
+          class: List as unknown as ToolConstructable,
           inlineToolbar: true,
           config: {
             defaultStyle: "unordered",
@@ -181,8 +162,6 @@ const Editor = forwardRef((props: EditorProps, ref) => {
       editorInstanceRef.current
         .save()
         .then(async (outputData) => {
-          console.log(outputData);
-
           try {
             const saveUrl = props.fileData.filePrivate
               ? saveWorkspacePrivateUrl

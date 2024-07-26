@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import UserModel from "@/models/user";
 import bcrypt from "bcryptjs";
 import { mongoDB } from "@/lib/MongoDB";
+import GoogleProvider from "next-auth/providers/google";
 
 export const options: NextAuthOptions = {
   providers: [
@@ -26,7 +27,7 @@ export const options: NextAuthOptions = {
         try {
           await mongoDB();
           const user = await UserModel.findOne({ email });
-          console.log(user)
+
           if (!user) {
             throw new Error("Not Registered!");
           }
@@ -36,19 +37,23 @@ export const options: NextAuthOptions = {
 
           return user;
         } catch (e) {
-          console.log(e)
+          console.log(e);
         }
       },
     }),
+    GoogleProvider({
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_SECRET_ID!,
+    }),
   ],
-  session:{
-    strategy:"jwt",
+  session: {
+    strategy: "jwt",
   },
   pages: {
     signIn: "/signin",
   },
   secret: process.env.NEXTAUTH_SECRET,
-  callbacks:{
+  callbacks: {
     async session({ session, token }) {
       session.user = {
         ...session.user,
@@ -62,27 +67,55 @@ export const options: NextAuthOptions = {
       };
       return session;
     },
-    async jwt({ token, user }:any) {
-      if (user) {
-        // Generate access and refresh tokens when the user is defined
-        const accessToken = user.generateAccessToken();
-        const refreshToken = user.generateRefreshToken();
+    async jwt({ token, user, account }: any) {
+      try {
+        if (user) {
+          // Generate access and refresh tokens when the user is defined
+          const accessToken = user.generateAccessToken();
+          const refreshToken = user.generateRefreshToken();
 
-        // Save the refresh token to the user document
-        user.refreshToken = refreshToken;
-        await user.save({ validateBeforeSave: false });
-        
-        token.id = user._id;
-        token.email = user.email;
-        token.firstName = user.firstName;
-        token.lastName = user.lastName;
-       
-        token.accessToken = accessToken;
-        token.refreshToken = refreshToken;
+          // Save the refresh token to the user document
+          user.refreshToken = refreshToken;
+          await user.save({ validateBeforeSave: false });
 
-        token.image = user.image
+          token.id = user._id;
+          token.email = user.email;
+          token.firstName = user.firstName;
+          token.lastName = user.lastName;
+
+          token.accessToken = accessToken;
+          token.refreshToken = refreshToken;
+
+          token.image = user.image;
+        } else{
+          // User authenticated with Google, generate tokens here
+          const existingUser = await UserModel.findOne({ email: token.email });
+          if (existingUser) {
+            const accessToken = existingUser.generateAccessToken();
+            const refreshToken = existingUser.generateRefreshToken();
+
+            existingUser.refreshToken = refreshToken;
+            await existingUser.save({ validateBeforeSave: false });
+
+            token.id = existingUser._id;
+            token.email = existingUser.email;
+            token.firstName = existingUser.firstName;
+            token.lastName = existingUser.lastName;
+
+            token.accessToken = accessToken;
+            token.refreshToken = refreshToken;
+
+            token.image = existingUser.image;
+          }
+            if (!existingUser) {
+              throw new Error("Not Registered!");
+            }
+
+        }
+      } catch (err) {
+        console.log(err);
       }
       return token;
-    }
+    },
   },
 };
