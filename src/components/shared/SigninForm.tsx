@@ -16,12 +16,13 @@ import { LogInIcon } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
 import Image from "next/image";
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "@/config/store";
 import { toast } from "sonner";
+import { logOut } from "@/app/Redux/Auth/auth-slice";
 
 const FormSchema = z.object({
   email: z.string().email().min(1, {
@@ -42,12 +43,6 @@ export function SigninForm({session}: Props) {
   if(session){
     router.push('/dashboard');
   }
-
-  // const isAuth  = useSelector((state:RootState)=>state.auth.user?.isAuth);
-
-  // if(isAuth){
-  //   router.push('/dashboard');
-  // }
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -132,7 +127,9 @@ export function SigninForm({session}: Props) {
           <Separator className="w-full" />
 
           <div className="flex items-center justify-center">
-            <Button className="flex gap-2" variant={"secondary"}>
+            <Button type="button" onClick={() => {
+               signIn('google')
+            }} className="flex gap-2" variant={"secondary"}>
               Sign-in with Google{" "}
               <Image src={"/google.svg"} alt="google" width={18} height={18} />
             </Button>

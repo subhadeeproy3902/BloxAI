@@ -36,6 +36,8 @@ function DashboardLayout({
   const dispatch = useDispatch();
   const axiosInstance = createAxiosInstance(user.accessToken);
 
+  console.log(session)
+
   useEffect(() => {
     if (session && !hasCheckedTeam) {
       checkTeam();
