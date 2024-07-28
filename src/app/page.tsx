@@ -11,6 +11,7 @@ import About from "@/components/shared/About";
 import Features from "@/components/shared/Features";
 import Review from "@/components/shared/customerreviews";
 import Contact from "@/components/shared/contactform";
+import FAQ from "@/components/shared/FAQ";
 export default function Home() {
   useEffect(() => {
     const lenis = new Lenis();
@@ -35,6 +36,7 @@ export default function Home() {
         <div className="flex w-full flex-col items-center justify-between pt-10" id="contact">
           <Contact />
         </div>
+        <FAQ />
       </div>
       <Footer />
       <ScrollToTopButton />
