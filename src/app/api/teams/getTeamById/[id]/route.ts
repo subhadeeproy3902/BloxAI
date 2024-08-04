@@ -14,8 +14,7 @@ export async function GET(
 
     await mongoDB();
 
-    const teams = await TeamModel.findById({ _id: id }).populate("createdBy");
-
+    const teams = await TeamModel.findById({ _id: id }).populate("createdBy").populate("files");
 
     return NextResponse.json(teams, { status: 200 });
   } catch (err) {

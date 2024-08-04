@@ -16,17 +16,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { SetStateAction } from "react";
 import DeleteTeamMember from "./DeleteTeamMember";
 
- export type USER = {
-  name: string;
-  _id: string;
-  email: string;
-  image: string;
-};
-
 type Props = {
-  teamMembersData: USER[];
-  focusedUser:USER | null;
-  setFocusedUser:React.Dispatch<SetStateAction<USER | null>>;
+  teamMembersData: any[];
+  focusedUser:any;
+  setFocusedUser:React.Dispatch<SetStateAction<any | null>>;
 };
 
 export default function MemberCarousel({ teamMembersData,focusedUser,setFocusedUser }: Props) {
@@ -36,7 +29,7 @@ export default function MemberCarousel({ teamMembersData,focusedUser,setFocusedU
         <CarouselPrevious />
         <CarouselContent>
           {teamMembersData !== null &&
-            teamMembersData.map((user: USER, index) => (
+            teamMembersData.map((user: any, index) => (
               <CarouselItem
                 onClick={() => setFocusedUser(user)}
                 key={index}
@@ -48,12 +41,12 @@ export default function MemberCarousel({ teamMembersData,focusedUser,setFocusedU
                 >
                   <CardHeader className="flex sm:flex-row flex-col gap-3 items-center justify-start">
                     <Avatar className="w-[50px] h-[50px]">
-                      <AvatarImage src={user.image} />
+                      <AvatarImage src={user.image || ""} />
                       <AvatarFallback className=" text-2xl">
-                        {user.name.charAt(0)}
+                        {user.firstName.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
-                    {user.name}
+                    {user.firstName}{" "}{user.lastName}
                   </CardHeader>
                   <CardContent>
                     <CardDescription className="flex sm:flex-row gap-3 sm:gap-0 flex-col items-center justify-between">

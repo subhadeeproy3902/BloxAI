@@ -20,7 +20,7 @@ export async function GET(
   
               await mongoDB();
               
-              const files = await FileModel.find({teamId:id}).populate("createdBy")
+              const files = await FileModel.find({teamId:id}).populate("createdBy");
         
               return NextResponse.json(files,{ status: 200 });
           } catch (err) {

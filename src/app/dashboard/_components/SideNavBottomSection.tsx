@@ -83,8 +83,7 @@ function SideNavBottomSection({getFiles, totalFiles, activeTeam }: any) {
   const [fileList, setFileList] = useState<any>([]);
   const [fileInput, setFileInput] = useState<string>("");
   const [error, setError] = useState<string>("");
-  
-  const email = ((state:RootState) => state.auth.user.email)
+
   const user = useSelector((state:RootState)=>state.auth.user);
   const axiosInstance = createAxiosInstance(user.accessToken);
   const [filePrivate,setFileprivate] = useState(false);
@@ -132,6 +131,7 @@ function SideNavBottomSection({getFiles, totalFiles, activeTeam }: any) {
       console.log(err)
     }
   }
+  console.log(activeTeam)
 
   return (
     <div>
@@ -148,7 +148,7 @@ function SideNavBottomSection({getFiles, totalFiles, activeTeam }: any) {
         </Link>
       ))}
 
-      {email === activeTeam?.createdBy && <Link href={`/teams/settings/${activeTeam?._id}`}>
+      {activeTeam && user.id === activeTeam.createdBy && <Link href={`/teams/settings/${activeTeam?._id}`}>
         <h2
           className={`flex gap-2 p-1 ${
             pathname == `/dashboard/team` ? "bg-muted" : ""
