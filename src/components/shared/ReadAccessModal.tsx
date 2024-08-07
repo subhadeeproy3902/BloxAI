@@ -2,8 +2,6 @@
 import { EyeIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { SetStateAction, useState } from "react";
-import { USER } from "./MemberCarousel";
-import axiosInstance from "@/config/AxiosInstance";
 import { updateReadAccessUrl } from "@/lib/API-URLs";
 import {
   AlertDialog,
@@ -15,54 +13,52 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
-import { FILE } from "@/app/teams/settings/_components/FileList";
 import { RootState } from "@/config/store";
 import { useSelector } from "react-redux";
+import { FILE } from "@/types/types";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import { useRouter } from "next/navigation";
 
 type Props = {
   file: FILE;
   setIsUpdated: React.Dispatch<SetStateAction<boolean>>;
-  focusedUser: USER;
-  teamId: string;
+  focusedUser: any;
 };
 
 export default function ReadAccessModal({
   file,
   focusedUser,
-  teamId,
   setIsUpdated,
 }: Props) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [open, setOpen] = useState(false);
   const user = useSelector((state:RootState) => state.auth.user);
-  
+  const axiosInstance = createAxiosInstance(user.accessToken);
+  const router = useRouter();
+  const [errorMsg,setErrorMsg] = useState("");
 
   const SubmitHandler = async () => {
-    if (file.readBy && file.readBy.includes(focusedUser.email)) {
+    if (file.readBy && file.readBy.includes(focusedUser._id)) {
       try {
         const res = await axiosInstance.put(`${updateReadAccessUrl}`, {
-          teamId,
-          email: user.email,
-          memberEmail: focusedUser.email,
-          readBy: file.readBy !== undefined ? file.readBy : [],
-          fileId: file._id,
+          userId:focusedUser._id,
+          fileId: file._id
         });
         if (res.status === 200) setIsSubmitted(true);
-      } catch (err) {
+      } catch (err:any) {
         console.log(err);
+        setErrorMsg(err.response.data)
       }
     } else {
       try {
         const res = await axiosInstance.post(`${updateReadAccessUrl}`, {
-          teamId,
-          email: user.email,
-          memberEmail: focusedUser.email,
-          readBy: file.readBy !== undefined ? file.readBy : [],
-          fileId: file._id,
+          userId:focusedUser._id,
+          fileId: file._id
         });
         if (res.status === 200) setIsSubmitted(true);
-      } catch (err) {
+      } catch (err:any) {
         console.log(err);
+        setErrorMsg(err.response.data)
       }
     }
   };
@@ -75,7 +71,7 @@ export default function ReadAccessModal({
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
-        {!isSubmitted && (
+        {!isSubmitted && errorMsg === "" && (
           <>
             <AlertDialogHeader>
               <AlertDialogTitle>
@@ -83,10 +79,10 @@ export default function ReadAccessModal({
               </AlertDialogTitle>
             </AlertDialogHeader>
             <AlertDialogDescription>
-              {!file?.readBy?.includes(focusedUser.email) &&
+              {!file?.readBy?.includes(focusedUser._id) &&
                 "This will give the read file access to the member!!"}
               {file.readBy &&
-                file.readBy.includes(focusedUser.email) &&
+                file.readBy.includes(focusedUser._id) &&
                 "This will remove the read file access from the member!!"}
             </AlertDialogDescription>
             <div className=" flex gap-2">
@@ -102,10 +98,10 @@ export default function ReadAccessModal({
           <>
             <AlertDialogHeader>
               <AlertDialogTitle>
-                {!file?.readBy?.includes(focusedUser.email) &&
+                {!file?.readBy?.includes(focusedUser._id) &&
                   "Read File Access Granted!!"}
                 {file.readBy &&
-                  file.readBy.includes(focusedUser.email) &&
+                  file.readBy.includes(focusedUser._id) &&
                   "Read File Access Removed!!"}
               </AlertDialogTitle>
             </AlertDialogHeader>
@@ -113,7 +109,29 @@ export default function ReadAccessModal({
               <AlertDialogCancel
                 onClick={() => {
                   setIsUpdated(true);
-                  setIsSubmitted(false)
+                  setIsSubmitted(false);
+                  router.refresh()
+                }}
+              >
+                Close
+              </AlertDialogCancel>
+            </AlertDialogFooter>
+          </>
+        )}
+
+{!isSubmitted && errorMsg !== "" && (
+          <>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                {errorMsg}
+              </AlertDialogTitle>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel
+                onClick={() => {
+                  setIsUpdated(true);
+                  setIsSubmitted(false);
+                  setErrorMsg("")
                 }}
               >
                 Close

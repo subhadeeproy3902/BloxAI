@@ -52,13 +52,11 @@ const FileRow = ({
     <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
       <ReadAccessModal
         setIsUpdated={setIsUpdated}
-        teamId={teamId}
         focusedUser={user}
         file={file}
       />
       <WriteAccessModal
         setIsUpdated={setIsUpdated}
-        teamId={teamId}
         file={file}
         focusedUser={user}
       />
@@ -199,13 +197,11 @@ function FileList({
                   <div className="flex gap-2">
                     <ReadAccessModal
                       setIsUpdated={setIsUpdated}
-                      teamId={teamId}
                       file={file}
                       focusedUser={user}
                     />
                     <WriteAccessModal
                       setIsUpdated={setIsUpdated}
-                      teamId={teamId}
                       file={file}
                       focusedUser={user}
                     />
