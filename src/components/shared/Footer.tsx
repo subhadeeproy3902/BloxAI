@@ -1,6 +1,29 @@
-import React from 'react';
+"use client";
+import React, {useEffect} from 'react';
 import Image from 'next/image';
 import Script from 'next/script';
+
+const GoogleTranslateComponent = () => {
+  useEffect(() => {
+    // Load the Google Translate script
+    const script = document.createElement('script');
+    script.src = "https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate";
+    script.async = true;
+    document.body.appendChild(script);
+
+    // Define the Google Translate callback function
+    window.loadGoogleTranslate = () => {
+      new window.google.translate.TranslateElement({
+        pageLanguage: 'en'
+      }, 'google_element');
+    };
+
+    return () => {
+      // Clean up by removing the script
+      document.body.removeChild(script);
+    };
+  }, []);
+};
 
 const Footer: React.FC = () => {
   return (
