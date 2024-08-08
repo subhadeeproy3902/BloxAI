@@ -1,73 +1,98 @@
 import { api } from "../../../../../convex/_generated/api";
 import { ConvexHttpClient } from "convex/browser";
 import { Id } from "../../../../../convex/_generated/dataModel";
+import { AuthMiddleware } from "@/Middleware/AuthMiddleware";
+import { NextResponse } from "next/server";
+import FileModel from "@/models/file";
+import { ApiUser } from "@/types/types";
+import { mongoDB } from "@/lib/MongoDB";
 
-// Give write read access
-export const POST = async (req: Request) => {
-  try {
-    const { teamId, email, memberEmail, writtenBy, readBy, fileId } = await req.json();
 
-    if (!teamId || !memberEmail || !email || !fileId || !writtenBy || !readBy)
-      return new Response("Parameters missing!!", { status: 401 });
+// Remove read access from the user
+export async function PUT(
+  request: Request
+) {
 
-    const client = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+  const result = await AuthMiddleware(request);
 
-    const teamInfo = await client.query(api.teams.getTeamById, { _id: teamId as Id<"teams">});
- 
-    if (!teamInfo.teamMembers.includes(memberEmail)) {
-      return new Response("User is not member of the team", { status: 400 });
+  if (result instanceof NextResponse) {
+
+    try {
+      await mongoDB();
+
+      const { userId, fileId } = await request.json();
+
+      if (!userId || !fileId) {
+        return NextResponse.json(`Access Denied!!`, { status: 404 });
+      }
+
+      const user: ApiUser = JSON.parse(request.headers.get("user") || "{}");
+
+      const file = await FileModel.findById({ _id: fileId });
+
+      if(file.createdBy == userId){
+        return NextResponse.json(`Operation not possible!`, { status: 401 });
+      }
+
+      if (file.createdBy != user._id) {
+        return NextResponse.json(`Access Denied!!`, { status: 401 });
+      }
+
+      await FileModel.updateOne(
+        { _id: fileId },
+        { $pull: { writtenBy: userId } }
+      );
+
+      return NextResponse.json('Read access removed!', { status: 200 });
+    } catch (err) {
+      return NextResponse.json(`Err : ${err}`, { status: 500 });
     }
-    
-    if (teamInfo.createdBy !== email) {
-      return new Response("Only owner can make changes!!", { status: 400 });
-    }
-
-    if(!readBy.includes(memberEmail)){
-      readBy.push(memberEmail)
-    }
-    
-    writtenBy.push(memberEmail);
-    
-    await client.mutation(api.files.updateRead, { _id: fileId as Id<"files">, readBy:readBy });
-    await client.mutation(api.files.updateWrite, { _id: fileId as Id<"files">, writtenBy:writtenBy });
-
-    return new Response("Read Access given!!", { status: 200 });
-  } catch (err) {
-
-    return new Response(`Error: ${err}`, {status:500})
-
+  } else {
+    return result;
   }
-};
+}
 
 
-// Remove write access from the user
-export const PUT = async (req: Request) => {
-  try {
-    const { teamId, email, memberEmail, writtenBy, fileId } = await req.json();
+// Give user read access
+export async function POST(
+  request: Request
+) {
 
-    if (!teamId || !memberEmail || !email || !fileId || !writtenBy)
-      return new Response("Parameters missing!!", { status: 401 });
+  const result = await AuthMiddleware(request);
 
-    const client = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+    if (result instanceof NextResponse) {
 
-    const teamInfo = await client.query(api.teams.getTeamById, { _id: teamId });
+        try {
+            await mongoDB();
+            
+            const {userId, fileId} = await request.json()
 
-    if (!teamInfo.teamMembers.includes(memberEmail)) {
-      return new Response("User is not member of the team", { status: 400 });
+            if(!userId || !fileId){
+                return NextResponse.json(`Access Denied!!`, {status:404});
+            }
+
+            const user: ApiUser = JSON.parse(request.headers.get("user") || "{}");
+            
+            const file1 = await FileModel.findById({_id:fileId});
+            
+            if(file1.createdBy == userId){
+              return NextResponse.json(`Operation not possible!`, { status: 401 });
+            }
+
+            if(file1.createdBy != user._id){
+                return NextResponse.json(`Owner can only change team settings!!`, {status:401});
+            }
+
+            await FileModel.updateOne(
+              { _id: fileId },
+              { $push: { writtenBy: userId } }
+            );
+
+            return NextResponse.json('Read access granted!',{status:200});
+        } catch (err) {
+            return NextResponse.json(`Err : ${err}`, {status:500});
+        }
+    } else {
+      return result;
     }
-
-    if (teamInfo.createdBy !== email) {
-      return new Response("Only owner can make changes!!", { status: 400 });
-    }
-
-    const updatedWrittenBy = Array.isArray(writtenBy)
-    ? writtenBy.filter(writer => writer !== memberEmail)
-    : [];
-
-    await client.mutation(api.files.updateWrite, { _id: fileId, writtenBy:updatedWrittenBy });
-
-    return new Response("Read access removed!!", { status: 200 });
-  } catch (err) {
-    console.log(err);
-  }
-};
+}

@@ -1,44 +1,13 @@
 import { useState, useEffect, SetStateAction } from "react";
 import {
   Loader2,
-  ChevronsUpDown,
-  ArchiveIcon,
-  CheckCircle2,
-  Edit3Icon,
+  ChevronsUpDown
 } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
-import { useConvex } from "convex/react";
-import { Button } from "@/components/ui/button";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import ReadAccessModal from "@/components/shared/ReadAccessModal";
 import WriteAccessModal from "@/components/shared/WriteAccessModal";
-
-export interface FILE {
-  archive: boolean;
-  createdBy: string;
-  document: string;
-  fileName: string;
-  teamId: string;
-  whiteboard: string;
-  _id: string;
-  _creationTime: number;
-  private: boolean;
-  read: boolean;
-  write: boolean;
-  readBy: string[];
-  writtenBy: string[];
-}
+import { FILE } from "@/types/types";
 
 const FileRow = ({
   file,
@@ -64,32 +33,30 @@ const FileRow = ({
       className="whitespace-nowrap px-4 py-2 text-muted-foreground"
       onClick={() => router.push("/workspace/" + file._id)}
     >
-      {file.createdBy}
+      {file.createdBy.email}
     </td>
     <td
       className="whitespace-nowrap px-4 py-2 text-muted-foreground"
       onClick={() => router.push("/workspace/" + file._id)}
     >
       {file.readBy
-        ? file.readBy.includes(user.email.toString()) && <Badge>Read</Badge>
+        ? file.readBy.includes(user._id) && <Badge>Read</Badge>
         : ""}
       {file.writtenBy
         ? file.writtenBy &&
-          file.writtenBy.includes(user.email) && <Badge>Write</Badge>
+          file.writtenBy.includes(user._id) && <Badge>Write</Badge>
         : ""}
-      {!file.readBy.includes(user.email) &&
-        !file.writtenBy.includes(user.email) && <Badge>No Access</Badge>}
+      {!file.readBy.includes(user._id) &&
+        !file.writtenBy.includes(user._id) && <Badge>No Access</Badge>}
     </td>
     <td className="flex gap-2 whitespace-nowrap px-4 py-2 text-muted-foreground">
       <ReadAccessModal
         setIsUpdated={setIsUpdated}
-        teamId={teamId}
         focusedUser={user}
         file={file}
       />
       <WriteAccessModal
         setIsUpdated={setIsUpdated}
-        teamId={teamId}
         file={file}
         focusedUser={user}
       />
@@ -109,7 +76,6 @@ function FileList({
   setIsUpdated: React.Dispatch<SetStateAction<boolean>>;
 }) {
   const router = useRouter();
-  const convex = useConvex();
   const [sortConfig, setSortConfig] = useState<{
     key: keyof FILE;
     direction: string;
@@ -231,13 +197,11 @@ function FileList({
                   <div className="flex gap-2">
                     <ReadAccessModal
                       setIsUpdated={setIsUpdated}
-                      teamId={teamId}
                       file={file}
                       focusedUser={user}
                     />
                     <WriteAccessModal
                       setIsUpdated={setIsUpdated}
-                      teamId={teamId}
                       file={file}
                       focusedUser={user}
                     />
@@ -245,14 +209,14 @@ function FileList({
                 </div>
                 <div className="flex justify-between items-center mb-2">
                   <div className="flex flex-col">
-                    {file.readBy && file.readBy.includes(user.email) && (
+                    {file.readBy && file.readBy.includes(user._id) && (
                       <Badge>Read</Badge>
                     )}
-                    {file.writtenBy && file.writtenBy.includes(user.email) && (
+                    {file.writtenBy && file.writtenBy.includes(user._id) && (
                       <Badge>Write</Badge>
                     )}
-                    {!file.readBy.includes(user.email) &&
-                      !file.writtenBy.includes(user.email) && (
+                    {!file.readBy.includes(user._id) &&
+                      !file.writtenBy.includes(user._id) && (
                         <Badge>No Access</Badge>
                       )}
                   </div>

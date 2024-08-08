@@ -12,58 +12,53 @@ import {
 } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
 import { SetStateAction, useState } from "react";
-import { FILE } from "@/app/teams/settings/_components/FileList";
-import { USER } from "./MemberCarousel";
-import axiosInstance from "@/config/AxiosInstance";
 import { updateWriteAccessUrl } from "@/lib/API-URLs";
 import { RootState } from "@/config/store";
 import { useSelector } from "react-redux";
+import { FILE } from "@/types/types";
+import createAxiosInstance from "@/config/AxiosProtectedRoute";
+import { useRouter } from "next/navigation";
 
 type Props = {
   file: FILE;
   setIsUpdated: React.Dispatch<SetStateAction<boolean>>;
-  focusedUser: USER;
-  teamId: string;
+  focusedUser: any;
 };
 
 export default function WriteAccessModal({
   file,
   focusedUser,
-  teamId,
   setIsUpdated,
 }:Props) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [open, setOpen] = useState(false);
   const user = useSelector((state:RootState) => state.auth.user);
-
+  const axiosInstance = createAxiosInstance(user.accessToken);
+  const router = useRouter()
+  const [errorMsg,setErrorMsg] = useState("");
 
   const SubmitHandler = async () => {
-    if (file.writtenBy && file.writtenBy.includes(focusedUser.email)) {
+    if (file.writtenBy && file.writtenBy.includes(focusedUser._id)) {
       try {
         const res = await axiosInstance.put(`${updateWriteAccessUrl}`, {
-          teamId,
-          email: user.email,
-          memberEmail: focusedUser.email,
-          writtenBy: file.writtenBy !== undefined ? file.writtenBy : [],
           fileId: file._id,
+          userId: focusedUser._id
         });
         if (res.status === 200) setIsSubmitted(true);
-      } catch (err) {
+      } catch (err:any) {
         console.log(err);
+        setErrorMsg(err.response.data)
       }
     } else {
       try {
         const res = await axiosInstance.post(`${updateWriteAccessUrl}`, {
-          teamId,
-          email: user.email,
-          memberEmail: focusedUser.email,
-          writtenBy: file.writtenBy !== undefined ? file.writtenBy : [],
           fileId: file._id,
-          readBy:file.readBy
+          userId: focusedUser._id
         });
         if (res.status === 200) setIsSubmitted(true);
-      } catch (err) {
+      } catch (err:any) {
         console.log(err);
+        setErrorMsg(err.response.data)
       }
     }
   };
@@ -76,7 +71,7 @@ export default function WriteAccessModal({
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
-        {!isSubmitted && (
+        {!isSubmitted && errorMsg === "" && (
           <>
             <AlertDialogHeader>
               <AlertDialogTitle>
@@ -84,10 +79,10 @@ export default function WriteAccessModal({
               </AlertDialogTitle>
             </AlertDialogHeader>
             <AlertDialogDescription>
-              {!file?.writtenBy?.includes(focusedUser.email) &&
+              {!file?.writtenBy?.includes(focusedUser._id) &&
                 "This will give the write file access to the member!!"}
               {file.writtenBy &&
-                file.writtenBy.includes(focusedUser.email) &&
+                file.writtenBy.includes(focusedUser._id) &&
                 "This will remove the write file access from the member!!"}
             </AlertDialogDescription>
             <div className=" flex gap-2">
@@ -103,10 +98,10 @@ export default function WriteAccessModal({
           <>
             <AlertDialogHeader>
               <AlertDialogTitle>
-                {!file?.writtenBy?.includes(focusedUser.email) &&
+                {!file?.writtenBy?.includes(focusedUser._id) &&
                   "Write File Access Granted!!"}
                 {file.writtenBy &&
-                  file.writtenBy.includes(focusedUser.email) &&
+                  file.writtenBy.includes(focusedUser._id) &&
                   "Write File Access Removed!!"}
               </AlertDialogTitle>
             </AlertDialogHeader>
@@ -114,7 +109,8 @@ export default function WriteAccessModal({
               <AlertDialogCancel
                 onClick={() => {
                   setIsUpdated(true);
-                  setIsSubmitted(false)
+                  setIsSubmitted(false);
+                  router.refresh();
                 }}
               >
                 Close
@@ -122,6 +118,28 @@ export default function WriteAccessModal({
             </AlertDialogFooter>
           </>
         )}
+
+        {!isSubmitted && errorMsg !== "" && (
+          <>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                {errorMsg}
+              </AlertDialogTitle>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel
+                onClick={() => {
+                  setIsUpdated(true);
+                  setIsSubmitted(false);
+                  setErrorMsg("");
+                }}
+              >
+                Close
+              </AlertDialogCancel>
+            </AlertDialogFooter>
+          </>
+        )}
+
       </AlertDialogContent>
     </AlertDialog>
   );
